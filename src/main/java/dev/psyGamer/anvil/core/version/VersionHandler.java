@@ -1,5 +1,6 @@
-package dev.psyGamer.anvil.core;
+package dev.psyGamer.anvil.core.version;
 
+import dev.psyGamer.anvil.core.AnvilCore;
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
 
 import java.lang.reflect.InvocationTargetException;
