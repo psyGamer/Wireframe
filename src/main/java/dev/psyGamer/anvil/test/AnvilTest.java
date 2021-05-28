@@ -24,6 +24,7 @@ public class AnvilTest {
 	
 	public AnvilTest() {
 		Anvil.Debug.verifyLibrary = true;
+		Anvil.Debug.strictMode = false;
 		
 		Anvil.setup(MOD_ID, this);
 	}
