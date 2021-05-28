@@ -1,5 +1,7 @@
 package dev.psyGamer.anvil.core;
 
+import dev.psyGamer.anvil.core.util.HasStaticMember;
+import dev.psyGamer.anvil.core.util.common.ReflectionUtil;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
