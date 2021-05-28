@@ -1,5 +1,6 @@
 package dev.psyGamer.anvil.core;
 
+import dev.psyGamer.anvil.core.exceptions.StrictModeException;
 import dev.psyGamer.anvil.core.util.HasStaticMember;
 import dev.psyGamer.anvil.core.util.common.ReflectionUtil;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -10,6 +11,39 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Anvil {
+	
+	private static Logger logger = LogManager.getLogger("Anvil");
+	private static ModImplementation modImplementation;
+	
+	/**
+	 * Sets up the Anvil Library.
+	 * <p>
+	 * Should be called before any other library access.
+	 * <p>
+	 * <p>
+	 * <strong>Important:</strong> Only the Debug Flags must be set before!
+	 */
+	public static void setup(final String modID, final Object modInstance) {
+		Anvil.modImplementation = new ModImplementation(modID, modInstance);
+		
+		// Execute Debug Flags //
+		
+		if (Debug.verifyLibrary) {
+			for (final Class<?> libraryClass : ReflectionUtil.getClasses(Constants.LIBRARY_PACKAGE_PATH)) {
+				final boolean hasStaticMethods = ReflectionUtil.hasStaticMethods(libraryClass, false);
+				
+				if (libraryClass.isAnnotationPresent(HasStaticMember.class)) {
+					if (!hasStaticMethods) {
+						StrictModeException.throwException(libraryClass + " is marked for containing at least 1 static method, but didn't contain any");
+					}
+				} else {
+					if (hasStaticMethods) {
+						StrictModeException.throwException(libraryClass + " is not marked for having static methods, but still does");
+					}
+				}
+			}
+		}
+	}
 	
 	/**
 	 * This is the first initialization event. Register tile entities here.
