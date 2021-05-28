@@ -1,0 +1,55 @@
+package dev.psyGamer.anvil.core;
+
+import dev.psyGamer.anvil.core.exceptions.LibraryException;
+import net.minecraftforge.common.MinecraftForge;
+import org.apache.commons.io.input.CloseShieldInputStream;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
+public class VersionHandler {
+	
+	public static Object executeVersionedMethod(final Object... params) {
+		final StackTraceElement caller = Thread.currentThread().getStackTrace()[2];
+		final String implementationClassLocation =
+				Anvil.Constants.getLibraryImplementationPath() + caller.getClassName().replace(
+						Anvil.Constants.LIBRARY_PACKAGE, ""
+				);
+		
+		try {
+			final Class<?>[] parameterTypes = new Class[params.length];
+			
+			for (int i = 0 ; i < params.length ; i++) {
+				parameterTypes[i] = params[i].getClass();
+			}
+			
+			final Class<?> implementationClass = Class.forName(implementationClassLocation);
+			final Method implementationMethod = implementationClass.getMethod(caller.getMethodName(), parameterTypes);
+			
+			if (!Modifier.isStatic(implementationMethod.getModifiers())) {
+				throw new LibraryException("Versioned methods must be static, but is not in: " + caller.getClassName() + "." + caller.getMethodName());
+			}
+			
+			return implementationMethod.invoke(null, params);
+			
+		} catch (final ClassNotFoundException e) {
+			e.printStackTrace();
+			
+			throw new LibraryException("Could not find library implementation for " + caller.getClassName() + " in " + implementationClassLocation);
+		} catch (final NoSuchMethodException e) {
+			e.printStackTrace();
+			
+			throw new LibraryException("Could not find library implementation for " + caller.getClassName() + "." + caller.getMethodName() + " in " + implementationClassLocation);
+		} catch (final IllegalAccessException e) {
+			e.printStackTrace();
+			
+			throw new LibraryException("Could not access " + caller.getClassName() + "." + caller.getMethodName() + " in " + implementationClassLocation);
+		} catch (final InvocationTargetException e) {
+			e.printStackTrace();
+			
+			throw new LibraryException("Could not invoke " + caller.getClassName() + "." + caller.getMethodName() + " in " + implementationClassLocation);
+		}
+	}
+	
+}
