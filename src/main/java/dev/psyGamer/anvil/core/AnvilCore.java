@@ -1,8 +1,5 @@
 package dev.psyGamer.anvil.core;
 
-import dev.psyGamer.anvil.core.exceptions.StrictModeException;
-import dev.psyGamer.anvil.core.util.HasStaticMember;
-import dev.psyGamer.anvil.util.reflection.ReflectionUtil;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -13,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 public class AnvilCore {
 	
-	private static Logger logger = LogManager.getLogger("Anvil");
+	public static final Logger logger = LogManager.getLogger("Anvil");
 	private static ModImplementation modImplementation;
 	
 	/**
@@ -25,25 +22,7 @@ public class AnvilCore {
 	 * <strong>Important:</strong> Only the Debug Flags must be set before!
 	 */
 	public static void setup(final String modID, final Object modInstance) {
-		Anvil.modImplementation = new ModImplementation(modID, modInstance);
-		
-		// Execute Debug Flags //
-		
-		if (Debug.verifyLibrary) {
-			for (final Class<?> libraryClass : ReflectionUtil.getClasses(Constants.LIBRARY_PACKAGE)) {
-				final boolean hasStaticMethods = ReflectionUtil.hasStaticMethods(libraryClass, false);
-				
-				if (libraryClass.isAnnotationPresent(HasStaticMember.class)) {
-					if (!hasStaticMethods) {
-						StrictModeException.throwException(libraryClass + " is marked for containing at least 1 static method, but didn't contain any");
-					}
-				} else {
-					if (hasStaticMethods) {
-						StrictModeException.throwException(libraryClass + " is not marked for having static methods, but still does");
-					}
-				}
-			}
-		}
+		AnvilCore.modImplementation = new ModImplementation(modID, modInstance);
 	}
 	
 	/**
@@ -65,10 +44,6 @@ public class AnvilCore {
 	 * This is the final initialization event. Register actions from other mods here
 	 */
 	public static void postInit(final FMLPostInitializationEvent event) {
-	}
-	
-	public static Logger getLogger() {
-		return logger;
 	}
 	
 	public static ModImplementation getModImplementation() {
