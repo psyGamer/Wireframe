@@ -23,11 +23,13 @@ public class AnvilTest {
 	public static AnvilTest INSTANCE;
 	
 	public AnvilTest() {
-		Anvil.setup();
+		Anvil.Debug.verifyLibrary = true;
+		
+		Anvil.setup(MOD_ID, this);
 	}
 	
 	public static void main(final String[] args) {
-		Anvil.setup();
+		new AnvilTest();
 	}
 	
 	/**
