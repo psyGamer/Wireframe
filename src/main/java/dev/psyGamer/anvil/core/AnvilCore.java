@@ -2,7 +2,7 @@ package dev.psyGamer.anvil.core;
 
 import dev.psyGamer.anvil.core.exceptions.StrictModeException;
 import dev.psyGamer.anvil.core.util.HasStaticMember;
-import dev.psyGamer.anvil.core.util.common.ReflectionUtil;
+import dev.psyGamer.anvil.util.reflection.ReflectionUtil;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class Anvil {
+public class AnvilCore {
 	
 	private static Logger logger = LogManager.getLogger("Anvil");
 	private static ModImplementation modImplementation;
@@ -44,8 +44,6 @@ public class Anvil {
 				}
 			}
 		}
-		
-		VersionHandler.executeVersionedMethod();
 	}
 	
 	/**

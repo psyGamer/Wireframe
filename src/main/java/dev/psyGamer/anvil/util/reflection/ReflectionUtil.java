@@ -1,4 +1,4 @@
-package dev.psyGamer.anvil.core.util.common;
+package dev.psyGamer.anvil.util.reflection;
 
 import javax.tools.*;
 import java.lang.annotation.Annotation;

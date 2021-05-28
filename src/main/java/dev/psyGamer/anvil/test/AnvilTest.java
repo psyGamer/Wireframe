@@ -1,6 +1,6 @@
 package dev.psyGamer.anvil.test;
 
-import dev.psyGamer.anvil.core.Anvil;
+import dev.psyGamer.anvil.core.AnvilCore;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -23,10 +23,10 @@ public class AnvilTest {
 	public static AnvilTest INSTANCE;
 	
 	public AnvilTest() {
-		Anvil.Debug.verifyLibrary = true;
-		Anvil.Debug.strictMode = false;
+		AnvilCore.Debug.verifyLibrary = true;
+		AnvilCore.Debug.strictMode = false;
 		
-		Anvil.setup(MOD_ID, this);
+		AnvilCore.setup(MOD_ID, this);
 	}
 	
 	public static void main(final String[] args) {
@@ -39,7 +39,7 @@ public class AnvilTest {
 	 */
 	@Mod.EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
-		Anvil.preInit(event);
+		AnvilCore.preInit(event);
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class AnvilTest {
 	 */
 	@Mod.EventHandler
 	public void init(final FMLInitializationEvent event) {
-		Anvil.init(event);
+		AnvilCore.init(event);
 	}
 	
 	/**
@@ -55,6 +55,6 @@ public class AnvilTest {
 	 */
 	@Mod.EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
-		Anvil.postInit(event);
+		AnvilCore.postInit(event);
 	}
 }

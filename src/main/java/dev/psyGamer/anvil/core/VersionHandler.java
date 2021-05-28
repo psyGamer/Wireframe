@@ -1,8 +1,6 @@
 package dev.psyGamer.anvil.core;
 
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
-import net.minecraftforge.common.MinecraftForge;
-import org.apache.commons.io.input.CloseShieldInputStream;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,8 +11,8 @@ public class VersionHandler {
 	public static Object executeVersionedMethod(final Object... params) {
 		final StackTraceElement caller = Thread.currentThread().getStackTrace()[2];
 		final String implementationClassLocation =
-				Anvil.Constants.getLibraryImplementationPath() + caller.getClassName().replace(
-						Anvil.Constants.LIBRARY_PACKAGE, ""
+				AnvilCore.Constants.getLibraryImplementationPath() + caller.getClassName().replace(
+						AnvilCore.Constants.LIBRARY_PACKAGE, ""
 				);
 		
 		try {
