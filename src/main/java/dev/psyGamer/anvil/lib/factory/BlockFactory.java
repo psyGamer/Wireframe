@@ -1,16 +1,14 @@
 package dev.psyGamer.anvil.lib.factory;
 
 import dev.psyGamer.anvil.core.util.HasStaticMember;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 
-public class BlockFactory {
+@HasStaticMember
+public abstract class BlockFactory implements IFactory<Block> {
 	
-	public BlockFactory(final String name, final Material material, final CreativeTabs creativeTab) {
-	
-	}
-	
-	public static BlockFactory create() {
+	public static BlockFactory create(final String blockName, final Material material, final CreativeTabs creativeTab) {
 		return null;
 	}
 	

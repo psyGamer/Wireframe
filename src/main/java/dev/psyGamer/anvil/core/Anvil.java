@@ -3,6 +3,7 @@ package dev.psyGamer.anvil.core;
 import dev.psyGamer.anvil.core.exceptions.StrictModeException;
 import dev.psyGamer.anvil.core.util.HasStaticMember;
 import dev.psyGamer.anvil.core.util.common.ReflectionUtil;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -29,7 +30,7 @@ public class Anvil {
 		// Execute Debug Flags //
 		
 		if (Debug.verifyLibrary) {
-			for (final Class<?> libraryClass : ReflectionUtil.getClasses(Constants.LIBRARY_PACKAGE_PATH)) {
+			for (final Class<?> libraryClass : ReflectionUtil.getClasses(Constants.LIBRARY_PACKAGE)) {
 				final boolean hasStaticMethods = ReflectionUtil.hasStaticMethods(libraryClass, false);
 				
 				if (libraryClass.isAnnotationPresent(HasStaticMember.class)) {
@@ -43,6 +44,8 @@ public class Anvil {
 				}
 			}
 		}
+		
+		VersionHandler.executeVersionedMethod();
 	}
 	
 	/**
@@ -82,6 +85,11 @@ public class Anvil {
 	}
 	
 	public static final class Constants {
-		public static final String LIBRARY_PACKAGE_PATH = "dev.psyGamer.anvil.lib";
+		public static final String ANVIL_PACKAGE = "dev.psyGamer.anvil";
+		public static final String LIBRARY_PACKAGE = ANVIL_PACKAGE + ".lib";
+		
+		public static String getLibraryImplementationPath() {
+			return ANVIL_PACKAGE + ".core.impl.v" + MinecraftForge.MC_VERSION.split("\\.")[1];
+		}
 	}
 }
