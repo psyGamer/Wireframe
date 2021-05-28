@@ -1,4 +1,6 @@
-package dev.psygamer.anvil.core;
+package dev.psyGamer.anvil.test;
+
+import dev.psyGamer.anvil.core.Anvil;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -6,12 +8,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(
-		modid = Anvil.MOD_ID,
-		name = Anvil.MOD_NAME,
-		version = Anvil.VERSION
+		modid = AnvilTest.MOD_ID,
+		name = AnvilTest.MOD_NAME,
+		version = AnvilTest.VERSION
 )
-public class Anvil {
-	
+public class AnvilTest {
 	public static final String MOD_ID = "anvil";
 	public static final String MOD_NAME = "Anvil";
 	public static final String VERSION = "0.1";
@@ -20,7 +21,8 @@ public class Anvil {
 	 * This is the instance of your mod as created by Forge. It will never be null.
 	 */
 	@Mod.Instance(MOD_ID)
-	public static Anvil INSTANCE;
+	public static AnvilTest INSTANCE;
+	
 	
 	/**
 	 * This is the first initialization event. Register tile entities here.
@@ -28,7 +30,7 @@ public class Anvil {
 	 */
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-	
+		Anvil.preInit(event);
 	}
 	
 	/**
@@ -36,7 +38,7 @@ public class Anvil {
 	 */
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-	
+		Anvil.init(event);
 	}
 	
 	/**
@@ -44,6 +46,6 @@ public class Anvil {
 	 */
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-	
+		Anvil.postInit(event);
 	}
 }
