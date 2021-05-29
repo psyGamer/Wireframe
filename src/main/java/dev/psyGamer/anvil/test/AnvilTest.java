@@ -33,8 +33,6 @@ public class AnvilTest {
 		AnvilCore.Debug.strictMode = false;
 		
 		AnvilCore.setup(MOD_ID, this);
-		
-		System.out.println(ItemRegistry.registerItems((Item) null));
 	}
 	
 	public static void main(final String[] args) {
