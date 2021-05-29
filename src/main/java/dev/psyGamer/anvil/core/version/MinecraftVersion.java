@@ -1,9 +1,17 @@
 package dev.psyGamer.anvil.core.version;
 
+import lombok.Getter;
 import net.minecraftforge.common.MinecraftForge;
 
 public enum MinecraftVersion {
-	v12;
+	v12("1.12");
+	
+	@Getter
+	private String versionString;
+	
+	MinecraftVersion(final String versionString) {
+		this.versionString = versionString;
+	}
 	
 	static MinecraftVersion getCurrentMinecraftVersion() {
 		switch (MinecraftForge.MC_VERSION) {
