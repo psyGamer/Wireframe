@@ -7,9 +7,8 @@ import dev.psyGamer.anvil.util.reflection.ReflectionUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
+import java.util.List;
 
 public class VersionHandler {
 	
@@ -27,6 +26,10 @@ public class VersionHandler {
 		try {
 			final Class<?> libraryClass = Class.forName(caller.getClassName());
 			final Class<?> implementationClass = Class.forName(implementationClassLocation);
+			
+			if (!VersionUtil.getSupportedVersions(libraryClass).contains(MinecraftVersion.getCurrentMinecraftVersion())) {
+				throw new VersionNotSupportedException(MinecraftVersion.getCurrentMinecraftVersion(), VersionUtil.getSupportedVersions(libraryClass));
+			}
 			
 			final Method implementationMethod;
 			
