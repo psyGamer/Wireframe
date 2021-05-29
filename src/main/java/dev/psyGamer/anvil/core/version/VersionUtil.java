@@ -1,31 +1,33 @@
 package dev.psyGamer.anvil.core.version;
 
+import lombok.NonNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class VersionUtil {
 	
-	public static MinecraftVersion[] getSupportedVersions(final Class<?> libraryClass) {
+	@NonNull
+	public static List<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
 		if (libraryClass.isAnnotationPresent(SupportedVersion.class)) {
-			return new MinecraftVersion[] {
-					libraryClass.getAnnotation(SupportedVersion.class).value()
-			};
+			return new ArrayList<MinecraftVersion>() {{
+				add(libraryClass.getAnnotation(SupportedVersion.class).value());
+			}};
 		}
 		
 		if (libraryClass.isAnnotationPresent(SupportedVersionsList.class)) {
-			return libraryClass.getAnnotation(SupportedVersionsList.class).value();
+			return Arrays.stream(libraryClass.getAnnotation(SupportedVersionsList.class).value()).collect(Collectors.toList());
 		}
 		
 		if (libraryClass.isAnnotationPresent(SupportedVersionsRange.class)) {
 			final int startingIndex = libraryClass.getAnnotation(SupportedVersionsRange.class).from().ordinal();
 			final int endingIndex = libraryClass.getAnnotation(SupportedVersionsRange.class).to().ordinal();
 			
-			final MinecraftVersion[] versions = new MinecraftVersion[endingIndex - startingIndex + 1];
-			
-			for (int i = startingIndex ; i <= endingIndex ; i++) {
-				versions[i - startingIndex] = MinecraftVersion.values()[i];
-			}
-			
-			return versions;
+			return new ArrayList<>(Arrays.asList(MinecraftVersion.values()).subList(startingIndex, endingIndex + 1));
 		}
 		
-		return null;
+		return new ArrayList<>();
 	}
 }
