@@ -5,10 +5,13 @@ import dev.psyGamer.anvil.core.AnvilCore;
 import lombok.*;
 
 import dev.psyGamer.anvil.lib.registry.ItemRegistry;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import java.util.List;
 
 @Mod(
 		modid = AnvilTest.MOD_ID,
@@ -31,7 +34,7 @@ public class AnvilTest {
 		
 		AnvilCore.setup(MOD_ID, this);
 		
-		System.out.println(ItemRegistry.registerItems(null));
+		System.out.println(ItemRegistry.registerItems((Item) null));
 	}
 	
 	public static void main(final String[] args) {

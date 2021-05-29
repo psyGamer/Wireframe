@@ -13,7 +13,10 @@ import java.util.List;
 public abstract class ItemRegistry {
 	
 	public static String registerItems(final List<Item> items) {
-		
-		return (String) VersionHandler.executeVersionedMethod(items);
+		return (String) VersionHandler.executeOverloadedVersionedMethod(new Class[] { List.class }, items);
+	}
+	
+	public static String registerItems(final Item items) {
+		return (String) VersionHandler.executeOverloadedVersionedMethod(new Class[] { Item.class }, items);
 	}
 }
