@@ -1,4 +1,4 @@
-package dev.psyGamer.anvil.lib.factory;
+package dev.psyGamer.anvil.lib.util;
 
 import dev.psyGamer.anvil.core.version.LibraryOnly;
 
