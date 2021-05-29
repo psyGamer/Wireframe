@@ -63,7 +63,7 @@ public class AnvilCore {
 		public static final String LIBRARY_PACKAGE = ANVIL_PACKAGE + ".lib";
 		
 		public static String getLibraryImplementationPath() {
-			return ANVIL_PACKAGE + ".core.impl.v" + MinecraftForge.MC_VERSION.split("\\.")[1];
+			return ANVIL_PACKAGE + ".impl.v" + MinecraftForge.MC_VERSION.split("\\.")[1];
 		}
 	}
 }

@@ -61,11 +61,11 @@ public class ReflectionUtil {
 		}
 	}
 	
-	public static boolean hasStaticMethods(final Class clazz, final boolean includeSuperMethods) {
+	public static boolean hasStaticMethods(final Class<?> clazz, final boolean includeSuperMethods) {
 		return !getStaticMethods(clazz, includeSuperMethods).isEmpty();
 	}
 	
-	public static List<Method> getStaticMethods(final Class clazz, final boolean includeSuperMethods) {
+	public static List<Method> getStaticMethods(final Class<?> clazz, final boolean includeSuperMethods) {
 		final List<Method> staticMethods = new ArrayList<>();
 		
 		if (includeSuperMethods) {
@@ -83,5 +83,17 @@ public class ReflectionUtil {
 		}
 		
 		return staticMethods;
+	}
+	
+	public static List<Method> getMethodsByName(final Class<?> clazz, final String methodName) {
+		final List<Method> methods = new ArrayList<>();
+		
+		for (final Method clazzMethod : clazz.getMethods()) {
+			if (clazzMethod.getName().equalsIgnoreCase(methodName)) {
+				methods.add(clazzMethod);
+			}
+		}
+		
+		return methods;
 	}
 }
