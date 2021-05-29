@@ -2,6 +2,9 @@ package dev.psyGamer.anvil.test;
 
 import dev.psyGamer.anvil.core.AnvilCore;
 
+import lombok.*;
+
+import dev.psyGamer.anvil.lib.registry.ItemRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -27,6 +30,8 @@ public class AnvilTest {
 		AnvilCore.Debug.strictMode = false;
 		
 		AnvilCore.setup(MOD_ID, this);
+		
+		System.out.println(ItemRegistry.registerItems(null));
 	}
 	
 	public static void main(final String[] args) {

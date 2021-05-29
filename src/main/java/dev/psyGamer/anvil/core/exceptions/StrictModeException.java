@@ -15,7 +15,7 @@ public class StrictModeException extends RuntimeException {
 		if (AnvilCore.Debug.strictMode) {
 			throw new StrictModeException(errorMessage);
 		} else {
-			AnvilCore.getLogger().warn(errorMessage + ERROR_MESSAGE_SUFFIX);
+			AnvilCore.LOGGER.warn(errorMessage + ERROR_MESSAGE_SUFFIX);
 		}
 	}
 }
