@@ -10,7 +10,8 @@ import org.apache.logging.log4j.Logger;
 
 public class AnvilCore {
 	
-	public static final Logger logger = LogManager.getLogger("Anvil");
+	public static final Logger LOGGER = LogManager.getLogger("Anvil");
+	
 	private static ModImplementation modImplementation;
 	
 	/**

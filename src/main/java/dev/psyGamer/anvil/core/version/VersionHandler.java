@@ -3,9 +3,11 @@ package dev.psyGamer.anvil.core.version;
 import dev.psyGamer.anvil.core.AnvilCore;
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 public class VersionHandler {
 	
@@ -18,8 +20,9 @@ public class VersionHandler {
 		
 		try {
 			final Class<?>[] parameterTypes = new Class[params.length];
-			
+			System.out.println(Arrays.toString(params));
 			for (int i = 0 ; i < params.length ; i++) {
+				System.out.println(params[i]);
 				parameterTypes[i] = params[i].getClass();
 			}
 			
