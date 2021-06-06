@@ -5,7 +5,7 @@ import dev.psyGamer.anvil.core.version.RequireImplementation;
 import dev.psyGamer.anvil.core.version.SupportedVersion;
 
 @RequireImplementation
-@SupportedVersion(MinecraftVersion.v12)
+@SupportedVersion(MinecraftVersion.v16)
 public abstract class ItemRegistry {
 
 }

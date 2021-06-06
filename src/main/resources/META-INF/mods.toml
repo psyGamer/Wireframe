@@ -1,0 +1,40 @@
+modLoader="javafml"
+
+loaderVersion="[36,)"
+
+license="LGPL-2.1 License"
+
+issueTrackerURL="https://github.com/psyGamer/Anvil/issues/"
+
+[[mods]]
+modId="anvil"
+version="${file.jarVersion}"
+displayName="Anvil"
+
+description='''
+A library for simplifying common tasks in Minecraft Forge
+'''
+
+#updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/temple-tribes"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/anvil"
+
+#logoFile="templetribes.png"
+
+#credits="Thanks for this example mod goes to Java" #optional
+authors="psyGamer"
+
+[[dependencies.anvil]]
+   modId="forge" #mandatory
+   versionRange="[36,)" #mandatory
+   mandatory=true #mandatory
+
+   ordering="NONE"
+   side="BOTH"
+# Here's another dependency
+[[dependencies.anvil]]
+   modId="minecraft"
+   versionRange="[1.16.5,1.17)"
+   mandatory=true
+
+   ordering="NONE"
+   side="BOTH"

@@ -1,4 +1,4 @@
-package dev.psyGamer.anvil.util.lambda;
+package dev.psyGamer.anvil.util.function;
 
 @FunctionalInterface
 public interface TriConsumer <T, U, V> {

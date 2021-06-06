@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.List;
 
 @RequireImplementation
-@SupportedVersion(MinecraftVersion.v12)
+@SupportedVersion(MinecraftVersion.v16)
 public interface BlockRegistry {
 	
 	void registerBlocks(List<Block> blocks);
