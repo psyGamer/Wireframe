@@ -4,7 +4,7 @@ import dev.psyGamer.anvil.core.version.MinecraftVersion;
 import dev.psyGamer.anvil.core.version.SupportedVersion;
 import dev.psyGamer.anvil.core.version.VersionHandler;
 import dev.psyGamer.anvil.lib.util.IFactory;
-import dev.psyGamer.anvil.util.lambda.QuadConsumer;
+import dev.psyGamer.anvil.util.function.QuadConsumer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyHelper;
@@ -19,9 +19,30 @@ import net.minecraft.world.World;
 import java.util.Random;
 import java.util.function.Function;
 
-@SupportedVersion(MinecraftVersion.v12)
+
+/**
+ * A factory class for easily creating {@link Block Blocks} and registering automatically.
+ * <p>
+ *
+ * @author psyGamer
+ * @version 1.0
+ * @see Block
+ * @since 1.0
+ */
+@SupportedVersion(MinecraftVersion.v16)
 public abstract class BlockFactory implements IFactory<Block> {
 	
+	/**
+	 * @param blockName   Used for registering and localize it.
+	 *                    <p> -> Registered under: modid:blockname</p>
+	 *                    <p> -> Localized under: tile.modid.blockname</p>
+	 * @param material    For sound, hardness, etc.
+	 * @param creativeTab Creative Tab for the Block
+	 * @return A new instance of a {@link BlockFactory}
+	 * @author psyGamer
+	 * @version 1.0
+	 * @since 1.0
+	 */
 	public static BlockFactory create(final String blockName, final Material material, final CreativeTabs creativeTab) {
 		return (BlockFactory) VersionHandler.executeVersionedMethod(blockName, material, creativeTab);
 	}
