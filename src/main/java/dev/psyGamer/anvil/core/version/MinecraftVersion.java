@@ -2,6 +2,7 @@ package dev.psyGamer.anvil.core.version;
 
 import lombok.Getter;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.versions.forge.ForgeVersion;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public enum MinecraftVersion {
 	static MinecraftVersion getCurrentMinecraftVersion() {
 		try {
 			return MinecraftVersion.valueOf(
-					"v" + MinecraftForge.MC_VERSION
+					"v" + ForgeVersion.getVersion()
 							.replace("1.", "")
 							.replace(".", "_")
 			);
