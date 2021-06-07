@@ -1,13 +1,15 @@
 package dev.psyGamer.anvil.core.version;
 
 import com.google.common.collect.ImmutableList;
+import dev.psyGamer.anvil.core.AnvilCore;
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class VersionUtil {
 	
-	public static ImmutableList<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
+	public static List<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
 		if (libraryClass.isAnnotationPresent(SupportedOnlyIn.class)) {
 			return ImmutableList.of(libraryClass.getAnnotation(SupportedOnlyIn.class).value());
 		}
@@ -16,29 +18,19 @@ public class VersionUtil {
 			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
 			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
 			
-			return ImmutableList.<MinecraftVersion>builder()
-					.addAll(Arrays.asList(MinecraftVersion.getVersionBetween(supportedSince.value(), supportedUntil.value())))
-					.add(supportedSince.value())
-					.add(supportedUntil.value())
-					.build();
+			return Arrays.asList(MinecraftVersion.getVersionBetween(supportedSince.value(), supportedUntil.value()));
 		}
 		
 		if (libraryClass.isAnnotationPresent(SupportedSince.class)) {
 			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
 			
-			return ImmutableList.<MinecraftVersion>builder()
-					.addAll(Arrays.asList(MinecraftVersion.getVersionAbove(supportedSince.value())))
-					.add(supportedSince.value())
-					.build();
+			return Arrays.asList(MinecraftVersion.getVersionAbove(supportedSince.value()));
 		}
 		
 		if (libraryClass.isAnnotationPresent(SupportedUntil.class)) {
 			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
 			
-			return ImmutableList.<MinecraftVersion>builder()
-					.addAll(Arrays.asList(MinecraftVersion.getVersionBelow(supportedUntil.value())))
-					.add(supportedUntil.value())
-					.build();
+			return Arrays.asList(MinecraftVersion.getVersionBelow(supportedUntil.value()));
 		}
 		
 		if (libraryClass.isAnnotationPresent(LibraryOnly.class)) {
@@ -57,6 +49,18 @@ public class VersionUtil {
 			return getSupportedVersions(libraryClass).contains(version);
 		} catch (final LibraryException ex) {
 			return false;
+		}
+	}
+	
+	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
+		final String implementationClassLocation =
+				AnvilCore.Constants.getLibraryImplementationPath(version) + libraryClass.getName().replace(
+						AnvilCore.Constants.LIBRARY_PACKAGE, "");
+		
+		try {
+			return Class.forName(implementationClassLocation);
+		} catch (final ClassNotFoundException e) {
+			return null;
 		}
 	}
 }
