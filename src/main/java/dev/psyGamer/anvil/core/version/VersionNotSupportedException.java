@@ -1,6 +1,5 @@
 package dev.psyGamer.anvil.core.version;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class VersionNotSupportedException extends RuntimeException {
