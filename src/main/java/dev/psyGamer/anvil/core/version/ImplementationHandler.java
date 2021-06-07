@@ -1,8 +1,8 @@
 package dev.psyGamer.anvil.core.version;
 
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
-import dev.psyGamer.anvil.util.reflection.ReflectionUtil;
-import lombok.NonNull;
+import dev.psyGamer.anvil.util.reflection.ClassUtil;
+import dev.psyGamer.anvil.util.reflection.MethodUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
