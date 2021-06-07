@@ -53,11 +53,13 @@ public class VersionHandler {
 	}
 	
 	private static Class<?> getImplementationClass(final StackTraceElement caller) throws ClassNotFoundException {
-		final String implementationClassLocation =
-				AnvilCore.Constants.getLibraryImplementationPath() + caller.getClassName().replace(
-						AnvilCore.Constants.LIBRARY_PACKAGE, "");
+		final Class<?> libraryClass = Class.forName(caller.getClassName());
+		final MinecraftVersion newestVersion = Arrays.stream(MinecraftVersion.getVersionBelow(MinecraftVersion.getCurrentMinecraftVersion()))
+				.filter(version -> VersionUtil.getImplementationClass(libraryClass, version) != null)
+				.findFirst()
+				.orElseThrow(() -> new LibraryException("No implementation found for " + libraryClass));
 		
-		return Class.forName(implementationClassLocation);
+		return VersionUtil.getImplementationClass(libraryClass, newestVersion);
 	}
 	
 	private static Method getImplementationMethod(final Class<?>[] paramTypes, final StackTraceElement caller, final Class<?> implementationClass, final Object[] params) throws NoSuchMethodException {

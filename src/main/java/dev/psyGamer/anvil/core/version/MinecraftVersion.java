@@ -35,11 +35,11 @@ public enum MinecraftVersion {
 	}
 	
 	static MinecraftVersion[] getVersionAbove(final MinecraftVersion version) {
-		return Arrays.stream(values()).filter(mcVersion -> mcVersion.ordinal() > version.ordinal()).toArray(MinecraftVersion[]::new);
+		return Arrays.stream(values()).filter(mcVersion -> mcVersion.ordinal() >= version.ordinal()).toArray(MinecraftVersion[]::new);
 	}
 	
 	static MinecraftVersion[] getVersionBelow(final MinecraftVersion version) {
-		return Arrays.stream(values()).filter(mcVersion -> mcVersion.ordinal() < version.ordinal()).toArray(MinecraftVersion[]::new);
+		return Arrays.stream(values()).filter(mcVersion -> mcVersion.ordinal() <= version.ordinal()).toArray(MinecraftVersion[]::new);
 	}
 	
 	static MinecraftVersion[] getVersionBetween(final MinecraftVersion olderVersion, final MinecraftVersion newerVersion) {

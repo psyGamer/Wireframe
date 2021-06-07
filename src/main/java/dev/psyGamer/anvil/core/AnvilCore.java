@@ -1,5 +1,6 @@
 package dev.psyGamer.anvil.core;
 
+import dev.psyGamer.anvil.core.version.MinecraftVersion;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -62,8 +63,8 @@ public class AnvilCore {
 		public static final String ANVIL_PACKAGE = "dev.psyGamer.anvil";
 		public static final String LIBRARY_PACKAGE = ANVIL_PACKAGE + ".lib";
 		
-		public static String getLibraryImplementationPath() {
-			return ANVIL_PACKAGE + ".impl.v" + MinecraftForge.MC_VERSION.split("\\.")[1];
+		public static String getLibraryImplementationPath(final MinecraftVersion version) {
+			return ANVIL_PACKAGE + ".impl.v" + version.getVersionString().split("\\.")[1];
 		}
 	}
 }
