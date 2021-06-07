@@ -7,7 +7,7 @@ import dev.psyGamer.anvil.core.exceptions.LibraryException;
 import java.util.Arrays;
 import java.util.List;
 
-public class VersionUtil {
+public class ImplementationUtil {
 	
 	public static List<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
 		if (libraryClass.isAnnotationPresent(SupportedOnlyIn.class)) {
