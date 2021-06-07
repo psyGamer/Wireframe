@@ -16,8 +16,6 @@ group = 'dev.psygamer.anvil'
 version = '0.1'
 archivesBaseName = 'anvil'
 
-mainClassName = "dev.psyGamer.anvil.test.AnvilTest"
-
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 minecraft {
