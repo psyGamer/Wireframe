@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SupportedVersionsList {
-	MinecraftVersion[] value();
+public @interface SupportedUntil {
+	MinecraftVersion value();
 }

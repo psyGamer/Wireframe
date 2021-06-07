@@ -1,33 +1,62 @@
 package dev.psyGamer.anvil.core.version;
 
-import lombok.NonNull;
+import com.google.common.collect.ImmutableList;
+import dev.psyGamer.anvil.core.exceptions.LibraryException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class VersionUtil {
 	
-	@NonNull
-	public static List<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
-		if (libraryClass.isAnnotationPresent(SupportedVersion.class)) {
-			return new ArrayList<MinecraftVersion>() {{
-				add(libraryClass.getAnnotation(SupportedVersion.class).value());
-			}};
+	public static ImmutableList<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
+		if (libraryClass.isAnnotationPresent(SupportedOnlyIn.class)) {
+			return ImmutableList.of(libraryClass.getAnnotation(SupportedOnlyIn.class).value());
 		}
 		
-		if (libraryClass.isAnnotationPresent(SupportedVersionsList.class)) {
-			return Arrays.stream(libraryClass.getAnnotation(SupportedVersionsList.class).value()).collect(Collectors.toList());
-		}
-		
-		if (libraryClass.isAnnotationPresent(SupportedVersionsRange.class)) {
-			final int startingIndex = libraryClass.getAnnotation(SupportedVersionsRange.class).from().ordinal();
-			final int endingIndex = libraryClass.getAnnotation(SupportedVersionsRange.class).to().ordinal();
+		if (libraryClass.isAnnotationPresent(SupportedSince.class) && libraryClass.isAnnotationPresent(SupportedUntil.class)) {
+			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
+			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
 			
-			return new ArrayList<>(Arrays.asList(MinecraftVersion.values()).subList(startingIndex, endingIndex + 1));
+			return ImmutableList.<MinecraftVersion>builder()
+					.addAll(Arrays.asList(MinecraftVersion.getVersionBetween(supportedSince.value(), supportedUntil.value())))
+					.add(supportedSince.value())
+					.add(supportedUntil.value())
+					.build();
 		}
 		
-		return new ArrayList<>();
+		if (libraryClass.isAnnotationPresent(SupportedSince.class)) {
+			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
+			
+			return ImmutableList.<MinecraftVersion>builder()
+					.addAll(Arrays.asList(MinecraftVersion.getVersionAbove(supportedSince.value())))
+					.add(supportedSince.value())
+					.build();
+		}
+		
+		if (libraryClass.isAnnotationPresent(SupportedUntil.class)) {
+			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
+			
+			return ImmutableList.<MinecraftVersion>builder()
+					.addAll(Arrays.asList(MinecraftVersion.getVersionBelow(supportedUntil.value())))
+					.add(supportedUntil.value())
+					.build();
+		}
+		
+		if (libraryClass.isAnnotationPresent(LibraryOnly.class)) {
+			throw new LibraryException(libraryClass + " is annotated with LibraryOnly yet it calls an implementation method");
+		}
+		
+		throw new LibraryException(libraryClass + " has no supported versions defined");
+	}
+	
+	public static boolean isCurrentVersionSupported(final Class<?> libraryClass) {
+		return isVersionSupported(libraryClass, MinecraftVersion.getCurrentMinecraftVersion());
+	}
+	
+	public static boolean isVersionSupported(final Class<?> libraryClass, final MinecraftVersion version) {
+		try {
+			return getSupportedVersions(libraryClass).contains(version);
+		} catch (final LibraryException ex) {
+			return false;
+		}
 	}
 }
