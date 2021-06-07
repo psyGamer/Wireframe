@@ -1,8 +1,9 @@
 package dev.psyGamer.anvil.lib.block;
 
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
-import dev.psyGamer.anvil.core.version.SupportedVersion;
+import dev.psyGamer.anvil.core.version.SupportedOnlyIn;
 import dev.psyGamer.anvil.core.version.VersionHandler;
+import dev.psyGamer.anvil.core.version.VersionUtil;
 import dev.psyGamer.anvil.lib.util.IFactory;
 import dev.psyGamer.anvil.util.function.QuadConsumer;
 import net.minecraft.block.Block;
@@ -29,7 +30,7 @@ import java.util.function.Function;
  * @see Block
  * @since 1.0
  */
-@SupportedVersion(MinecraftVersion.v16)
+@SupportedOnlyIn(MinecraftVersion.v16)
 public abstract class BlockFactory implements IFactory<Block> {
 	
 	/**
@@ -44,7 +45,7 @@ public abstract class BlockFactory implements IFactory<Block> {
 	 * @since 1.0
 	 */
 	public static BlockFactory create(final String blockName, final Material material, final CreativeTabs creativeTab) {
-		return (BlockFactory) VersionHandler.executeVersionedMethod(blockName, material, creativeTab);
+		return (BlockFactory) VersionHandler.executeImplementation(blockName, material, creativeTab);
 	}
 	
 	public abstract BlockFactory setBoundingBox(int bottomX, int bottomY, int bottomZ, int topX, int topY, int topZ);

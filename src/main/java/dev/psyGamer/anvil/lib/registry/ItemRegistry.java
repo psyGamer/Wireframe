@@ -1,11 +1,9 @@
 package dev.psyGamer.anvil.lib.registry;
 
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
-import dev.psyGamer.anvil.core.version.RequireImplementation;
-import dev.psyGamer.anvil.core.version.SupportedVersion;
+import dev.psyGamer.anvil.core.version.SupportedOnlyIn;
 
-@RequireImplementation
-@SupportedVersion(MinecraftVersion.v16)
+@SupportedOnlyIn(MinecraftVersion.v16)
 public abstract class ItemRegistry {
 
 }

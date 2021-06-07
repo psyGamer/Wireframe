@@ -3,49 +3,29 @@ package dev.psyGamer.anvil.core.version;
 import dev.psyGamer.anvil.core.AnvilCore;
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
 import dev.psyGamer.anvil.util.reflection.ReflectionUtil;
+import lombok.NonNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VersionHandler {
 	
-	public static Object executeOverloadedVersionedMethod(final Class<?>[] paramTypes, final Object... params) {
-		StackTraceElement caller = Thread.currentThread().getStackTrace()[2];
-		
-		if (caller.getClassName().equalsIgnoreCase(VersionHandler.class.getName())) {
-			caller = Thread.currentThread().getStackTrace()[3];
-		}
-		
-		final String implementationClassLocation =
-				AnvilCore.Constants.getLibraryImplementationPath() + caller.getClassName().replace(
-						AnvilCore.Constants.LIBRARY_PACKAGE, "");
+	public static Object executeOverloadedImplementationMethod(final Class<?>[] paramTypes, final Object... params) {
+		final StackTraceElement caller = getCaller();
 		
 		try {
 			final Class<?> libraryClass = Class.forName(caller.getClassName());
-			final Class<?> implementationClass = Class.forName(implementationClassLocation);
+			final Class<?> implementationClass = getImplementationClass(caller);
 			
 			if (!VersionUtil.getSupportedVersions(libraryClass).contains(MinecraftVersion.getCurrentMinecraftVersion())) {
 				throw new VersionNotSupportedException(MinecraftVersion.getCurrentMinecraftVersion(), VersionUtil.getSupportedVersions(libraryClass));
 			}
 			
-			final Method implementationMethod;
-			
-			if (paramTypes.length > 0) {
-				implementationMethod = implementationClass.getMethod(caller.getMethodName(), paramTypes);
-			} else {
-				final List<Method> possibleImplementationMethods = ReflectionUtil.getMethodsByName(implementationClass, caller.getMethodName())
-						.stream().filter(method -> method.getParameterCount() == params.length).collect(Collectors.toList());
-				
-				if (possibleImplementationMethods.size() == 1) {
-					implementationMethod = possibleImplementationMethods.get(0);
-				} else {
-					throw new LibraryException("Static method overloading with same parameter count and no parameter type definitions.\n" +
-							libraryClass + "#" + caller.getMethodName());
-				}
-			}
+			final Method implementationMethod = getImplementationMethod(paramTypes, caller, implementationClass, params);
 			
 			if (!Modifier.isStatic(implementationMethod.getModifiers())) {
 				throw new LibraryException("Versioned methods must be static, but is not in: " + caller.getClassName() + "." + caller.getMethodName());
@@ -56,34 +36,64 @@ public class VersionHandler {
 		} catch (final ClassNotFoundException e) {
 			e.printStackTrace();
 			
-			throw new LibraryException("Could not find library implementation for " + caller.getClassName() + " in " + implementationClassLocation);
+			throw new LibraryException("Could not find library implementation for " + caller.getClassName());
 		} catch (final NoSuchMethodException e) {
 			e.printStackTrace();
 			
-			throw new LibraryException("Could not find library implementation for " + caller.getClassName() + "." + caller.getMethodName() + " in " + implementationClassLocation);
+			throw new LibraryException("Could not find library implementation for " + caller.getClassName() + "." + caller.getMethodName());
 		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 			
-			throw new LibraryException("Could not access " + caller.getClassName() + "." + caller.getMethodName() + " in " + implementationClassLocation);
+			throw new LibraryException("Could not access " + caller.getClassName() + "." + caller.getMethodName());
 		} catch (final InvocationTargetException e) {
 			e.printStackTrace();
 			
-			throw new LibraryException("Could not invoke " + caller.getClassName() + "." + caller.getMethodName() + " in " + implementationClassLocation);
+			throw new LibraryException("Could not invoke " + caller.getClassName() + "." + caller.getMethodName());
 		}
 	}
 	
-	public static Object executeVersionedMethod(final Object... params) {
-		final Class<?>[] parameterTypes = new Class[params.length];
+	private static Class<?> getImplementationClass(final StackTraceElement caller) throws ClassNotFoundException {
+		final String implementationClassLocation =
+				AnvilCore.Constants.getLibraryImplementationPath() + caller.getClassName().replace(
+						AnvilCore.Constants.LIBRARY_PACKAGE, "");
 		
-		for (int i = 0 ; i < params.length ; i++) {
-			if (params[i] == null) {
-				return executeOverloadedVersionedMethod(new Class[0], params);
-			}
+		return Class.forName(implementationClassLocation);
+	}
+	
+	private static Method getImplementationMethod(final Class<?>[] paramTypes, final StackTraceElement caller, final Class<?> implementationClass, final Object[] params) throws NoSuchMethodException {
+		if (paramTypes.length > 0) {
+			return implementationClass.getMethod(caller.getMethodName(), paramTypes);
+		} else {
+			final List<Method> possibleImplementationMethods = ReflectionUtil.getMethodsByName(implementationClass, caller.getMethodName())
+					.stream().filter(method -> method.getParameterCount() == params.length).collect(Collectors.toList());
 			
-			parameterTypes[i] = params[i].getClass();
+			if (possibleImplementationMethods.size() == 1) {
+				return possibleImplementationMethods.get(0);
+			} else {
+				throw new LibraryException("Static method overloading with same parameter count and no parameter type definitions.\n" +
+						caller.getMethodName() + "#" + caller.getMethodName());
+			}
 		}
-		
-		return executeOverloadedVersionedMethod(parameterTypes, params);
 	}
 	
+	public static StackTraceElement getCaller() {
+		return Arrays.stream(Thread.currentThread().getStackTrace())
+				.filter(element -> !element.getClassName().equalsIgnoreCase(VersionHandler.class.getName()))
+				.findFirst()
+				.orElseThrow(() -> new LibraryException("Could not find invocation off VersionHandler.runImplementation"));
+	}
+	
+	public static Object executeImplementation(final Object... params) {
+		return executeOverloadedImplementationMethod(getParameterTypes(params), params);
+	}
+	
+	public static Class<?>[] getParameterTypes(final @NonNull Object[] parameters) {
+		try {
+			return Arrays.stream(parameters)
+					.map(Object::getClass)
+					.toArray(Class[]::new);
+		} catch (final NullPointerException ex) {
+			return null;
+		}
+	}
 }
