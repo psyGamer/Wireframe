@@ -1,12 +1,15 @@
 package dev.psyGamer.anvil.util.reflection;
 
+import lombok.NonNull;
+
 import javax.tools.*;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
-public class ReflectionUtil {
+public final class ClassUtil {
 	
 	public static List<Class<?>> getClasses(final String packageName) {
 		return getClassesWithAnnotation(packageName, null);
@@ -61,39 +64,13 @@ public class ReflectionUtil {
 		}
 	}
 	
-	public static boolean hasStaticMethods(final Class<?> clazz, final boolean includeSuperMethods) {
-		return !getStaticMethods(clazz, includeSuperMethods).isEmpty();
-	}
-	
-	public static List<Method> getStaticMethods(final Class<?> clazz, final boolean includeSuperMethods) {
-		final List<Method> staticMethods = new ArrayList<>();
-		
-		if (includeSuperMethods) {
-			for (final Method method : clazz.getMethods()) {
-				if (Modifier.isStatic(method.getModifiers())) {
-					staticMethods.add(method);
-				}
-			}
-		} else {
-			for (final Method declaredMethod : clazz.getDeclaredMethods()) {
-				if (Modifier.isStatic(declaredMethod.getModifiers())) {
-					staticMethods.add(declaredMethod);
-				}
-			}
+	public static Class<?>[] getParameterTypes(final @NonNull Object[] parameters) {
+		try {
+			return Arrays.stream(parameters)
+					.map(Object::getClass)
+					.toArray(Class[]::new);
+		} catch (final NullPointerException ex) {
+			return null;
 		}
-		
-		return staticMethods;
-	}
-	
-	public static List<Method> getMethodsByName(final Class<?> clazz, final String methodName) {
-		final List<Method> methods = new ArrayList<>();
-		
-		for (final Method clazzMethod : clazz.getMethods()) {
-			if (clazzMethod.getName().equalsIgnoreCase(methodName)) {
-				methods.add(clazzMethod);
-			}
-		}
-		
-		return methods;
 	}
 }
