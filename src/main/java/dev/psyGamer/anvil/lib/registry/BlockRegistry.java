@@ -16,19 +16,19 @@ public abstract class BlockRegistry {
 	
 	@Getter
 	protected static final List<Block> blocks = new ArrayList<>();
-	protected static final List<BlockWrapper> block_wrappers = new ArrayList<>();
+	protected static final List<BlockWrapper> blockWrappers = new ArrayList<>();
 	
 	public abstract void registerBlocksToForge(RegistryEvent.Register<Block> event);
 	
 	public void registerBlock(final BlockWrapper block) {
-		block_wrappers.add(block);
+		blockWrappers.add(block);
 	}
 	
 	public void registerBlocks(final BlockWrapper... blocks) {
-		block_wrappers.addAll(Arrays.asList(blocks));
+		blockWrappers.addAll(Arrays.asList(blocks));
 	}
 	
 	public void registerBlocks(final List<BlockWrapper> blocks) {
-		block_wrappers.addAll(blocks);
+		blockWrappers.addAll(blocks);
 	}
 }
