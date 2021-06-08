@@ -2,15 +2,28 @@ package dev.psyGamer.anvil.lib.registry;
 
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
 import dev.psyGamer.anvil.core.version.SupportedOnlyIn;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
+import dev.psyGamer.anvil.lib.block.BlockWrapper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SupportedOnlyIn(MinecraftVersion.v16)
-public interface BlockRegistry {
+public abstract class BlockRegistry {
 	
-	void registerBlocks(List<Block> blocks);
+	protected static final List<BlockWrapper> BLOCKS = new ArrayList<>();
 	
-	void registerTileEntities(List<TileEntity> tileEntities);
+	public abstract void registerBlocksToForge();
+	
+	public void registerBlock(final BlockWrapper block) {
+		BLOCKS.add(block);
+	}
+	
+	public void registerBlocks(final BlockWrapper... blocks) {
+		BLOCKS.addAll(Arrays.asList(blocks));
+	}
+	
+	public void registerBlocks(final List<BlockWrapper> blocks) {
+		BLOCKS.addAll(blocks);
+	}
 }

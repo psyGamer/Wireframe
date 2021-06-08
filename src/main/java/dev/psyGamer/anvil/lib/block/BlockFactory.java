@@ -7,11 +7,18 @@ import dev.psyGamer.anvil.lib.block.properties.HarvestLevel;
 import dev.psyGamer.anvil.lib.util.ICloneable;
 import dev.psyGamer.anvil.lib.util.IFactory;
 
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.Property;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.ToolType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -23,6 +30,7 @@ import net.minecraftforge.common.ToolType;
  * @see Block
  * @since 1.0
  */
+@Getter
 @SupportedSince(MinecraftVersion.v16)
 public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockFactory> {
 	
@@ -37,6 +45,7 @@ public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockF
 	protected boolean requiresToolForDrop = true;
 	protected boolean fullBlock;
 	protected boolean opaque;
+	protected List<Property<?>> blockStateProperties = new ArrayList<>();
 	
 	/**
 	 * @param blockName Used to register and localize it.
@@ -237,32 +246,13 @@ public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockF
 		return this;
 	}
 	
-	public BlockFactory asSlab() {
+	public BlockFactory addBlockStateProperty(final Property<?> property) {
+		this.blockStateProperties.add(property);
+		
 		return this;
 	}
 	
-	public BlockFactory asStair() {
-		return clone().inheritFromBlock(Presets.SLAB);
-	}
-	
-	public BlockFactory asWall() {
-		return this;
-	}
-	
-	public BlockFactory asFence() {
-		return this;
-	}
-	
-	public BlockFactory asButton() {
-		return this;
-	}
+	//	TODO BOUNDING BOX
 	
 	public abstract BlockFactory inheritFromBlock(final Block block);
-	
-	public static final class Presets {
-		public static final Block SLAB = BlockFactory.create("")
-				.isNotFullBlock()
-				.isNotOpaque()
-				.build();
-	}
 }
