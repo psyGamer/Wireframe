@@ -1,33 +1,34 @@
 package dev.psyGamer.anvil.lib.block;
 
 import dev.psyGamer.anvil.core.version.ImplementationHandler;
+import lombok.Getter;
 import net.minecraft.block.Block;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public abstract class BlockWrapper {
 	
+	@Getter
+	protected String registryName;
+	
+	@Getter
 	protected Block block;
 	protected BlockFactory factory;
 	
-	public static BlockWrapper create(final Block block) {
-		return (BlockWrapper) ImplementationHandler.executeImplementation(block);
+	@Getter
+	protected List<BlockWrapper> blockVariants;
+	@Getter
+	protected List<BlockProperty<?>> blockProperties;
+	
+	public static BlockWrapper create(final Block block, final BlockFactory factory) {
+		return (BlockWrapper) ImplementationHandler.executeImplementation(block, factory);
 	}
 	
-	public String getRegistryName() {
-		return this.factory.getRegistryName();
-	}
-	
-	public Supplier<Block> getBlockSupplier() {
-		return () -> this.block;
+	public BlockFactory getFactory() {
+		return this.factory.clone();
 	}
 	
 	public boolean hasBlockVariants() {
-		return false;
-	}
-	
-	public List<BlockWrapper> getBlockVariants() {
-		return null;
+		return this.blockVariants.size() > 0;
 	}
 }
