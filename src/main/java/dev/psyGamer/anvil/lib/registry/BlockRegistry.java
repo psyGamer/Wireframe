@@ -16,6 +16,7 @@ public abstract class BlockRegistry {
 	
 	@Getter
 	protected static final List<Block> blocks = new ArrayList<>();
+	@Getter
 	protected static final List<BlockWrapper> blockWrappers = new ArrayList<>();
 	
 	public abstract void registerBlocksToForge(RegistryEvent.Register<Block> event);
