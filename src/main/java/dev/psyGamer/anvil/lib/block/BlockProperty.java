@@ -11,11 +11,7 @@ public abstract class BlockProperty <T extends Comparable<T>> extends Property<T
 		super(name, valueClass);
 	}
 	
-<<<<<<< HEAD
-	public abstract <U> ConfiguredModel.Builder<U> applyBlockModelModification(T value, ConfiguredModel.Builder<U> modelBuilder);
-=======
 	public abstract ConfiguredModel.Builder<?> applyBlockModelModification(Comparable<? extends Comparable<?>> value, ConfiguredModel.Builder<?> modelBuilder);
->>>>>>> development/library
 	
 	@Override
 	public abstract String getName(final T value);
