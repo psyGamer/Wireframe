@@ -16,14 +16,13 @@ public enum MinecraftVersion {
 	v16_4("1.16.4"),
 	v16_5("1.16.5");
 	
-	@Getter
 	private String versionString;
 	
 	MinecraftVersion(final String versionString) {
 		this.versionString = versionString;
 	}
 	
-	static MinecraftVersion getCurrentMinecraftVersion() {
+	public static MinecraftVersion getCurrentMinecraftVersion() {
 		try {
 			return MinecraftVersion.valueOf(
 					"v" + ForgeVersion.getVersion()
@@ -35,15 +34,19 @@ public enum MinecraftVersion {
 		}
 	}
 	
-	static MinecraftVersion[] getVersionAbove(final MinecraftVersion version) {
+	public static MinecraftVersion[] getVersionAbove(final MinecraftVersion version) {
 		return Arrays.stream(values()).filter(mcVersion -> mcVersion.ordinal() >= version.ordinal()).toArray(MinecraftVersion[]::new);
 	}
 	
-	static MinecraftVersion[] getVersionBelow(final MinecraftVersion version) {
+	public static MinecraftVersion[] getVersionBelow(final MinecraftVersion version) {
 		return Arrays.stream(values()).filter(mcVersion -> mcVersion.ordinal() <= version.ordinal()).toArray(MinecraftVersion[]::new);
 	}
 	
-	static MinecraftVersion[] getVersionBetween(final MinecraftVersion olderVersion, final MinecraftVersion newerVersion) {
+	public static MinecraftVersion[] getVersionBetween(final MinecraftVersion olderVersion, final MinecraftVersion newerVersion) {
 		return Arrays.stream(getVersionAbove(olderVersion)).filter(version -> version.ordinal() < newerVersion.ordinal()).toArray(MinecraftVersion[]::new);
+	}
+	
+	public String getVersionString() {
+		return this.versionString;
 	}
 }
