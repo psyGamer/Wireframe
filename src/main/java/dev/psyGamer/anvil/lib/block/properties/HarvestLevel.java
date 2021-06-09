@@ -1,7 +1,5 @@
 package dev.psyGamer.anvil.lib.block.properties;
 
-import lombok.Getter;
-
 public enum HarvestLevel {
 	HAND(-1),
 	WOOD(0),
@@ -10,10 +8,13 @@ public enum HarvestLevel {
 	DIAMOND(3),
 	NETHERITE(4);
 	
-	@Getter
 	private int level;
 	
 	HarvestLevel(final int level) {
 		this.level = level;
+	}
+	
+	public int getLevel() {
+		return this.level;
 	}
 }
