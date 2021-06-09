@@ -4,8 +4,11 @@ import lombok.SneakyThrows;
 
 public class FieldUtil {
 	
-	@SneakyThrows
 	public static Object getField(final Object obj, final String fieldName) {
-		return obj.getClass().getField(fieldName).getType();
+		try {
+			return obj.getClass().getField(fieldName).getType();
+		} catch (final NoSuchFieldException ex) {
+			throw new IllegalArgumentException("Field " + fieldName + " was not found on " + obj);
+		}
 	}
 }
