@@ -23,19 +23,20 @@ public class BlockFactoryImpl16 extends BlockFactory {
 	
 	@Override
 	public BlockFactory inheritFromBlock(final Block block) {
-		final AbstractBlock.Properties properties = (AbstractBlock.Properties) FieldUtil.getField(block, "properties");
+		final AbstractBlock.Properties properties = block.properties;
 		
-		setMaterial((Material) FieldUtil.getField(properties, "material"));
-		setSound((SoundType) FieldUtil.getField(properties, "soundType"));
+		
+		setMaterial(properties.material);
+		setSound(properties.soundType);
 		setGroup(block.asItem().getItemCategory());
 		
-		setHardness((Float) FieldUtil.getField(properties, "destroyTime"));
-		setBlastResistance((Float) FieldUtil.getField(properties, "explosionResistance"));
+		setHardness(properties.destroyTime);
+		setBlastResistance(properties.explosionResistance);
 		
 		setRequiredTool(properties.getHarvestTool());
 		setHarvestLevel(properties.getHarvestLevel());
 		
-		isBreakableByHand((Boolean) FieldUtil.getField(properties, "requiresCorrectToolForDrops"));
+		isBreakableByHand(!properties.requiresCorrectToolForDrops);
 		
 		return this;
 	}
