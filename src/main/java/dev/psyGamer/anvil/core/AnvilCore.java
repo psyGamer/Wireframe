@@ -3,7 +3,6 @@ package dev.psyGamer.anvil.core;
 import dev.psyGamer.anvil.core.exceptions.LibraryException;
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,14 +15,14 @@ public class AnvilCore {
 	public static final Logger LOGGER = LogManager.getLogger("Anvil");
 	
 	@Getter
-	private static List<ModImplementation<?>> modImplementations;
+	private static List<ModDefinition<?>> dependants;
 	
 	public static <T> void registerMod(final Class<T> modClass) throws InstantiationException, IllegalAccessException {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
 			throw new LibraryException("Mod class is not annotated with @Mod");
 		}
 		
-		modImplementations.add(new ModImplementation<>(
+		dependants.add(new ModDefinition<>(
 				modClass.getAnnotation(Mod.class).value(),
 				modClass.newInstance(),
 				modClass
@@ -32,26 +31,26 @@ public class AnvilCore {
 	
 	public static final class Util {
 		/**
-		 * <p>Searches the StackTrace of the current Thread for the first non internal class.</p>
+		 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
 		 * <p>
 		 *
-		 * @return The mod implementation of the current mod.
-		 * @apiNote Should only be used in methods that should be directly call by the dependant.
+		 * @return The mod definition of the current mod.
+		 * @apiNote Should only be used in methods that are directly call by the dependant.
 		 */
-		public static ModImplementation<?> getModImplementation() {
+		public static ModDefinition<?> getCurrentDependant() {
 			final String callingClassName = Arrays.stream(Thread.currentThread().getStackTrace())
 					.filter(element -> !element.getClassName().startsWith(Constants.ANVIL_PACKAGE))
 					.findFirst()
 					.orElseThrow(() -> new LibraryException("Could not find external class in stack trace"))
 					.getClassName();
 			
-			for (final ModImplementation<?> modImplementation : modImplementations) {
-				if (callingClassName.startsWith(modImplementation.rootPackage)) {
-					return modImplementation;
+			for (final ModDefinition<?> dependant : dependants) {
+				if (callingClassName.startsWith(dependant.rootPackage)) {
+					return dependant;
 				}
 			}
 			
-			throw new LibraryException("Couldn't find mod implementation for class " + callingClassName);
+			throw new LibraryException("Couldn't find dependant for class " + callingClassName);
 		}
 	}
 	
