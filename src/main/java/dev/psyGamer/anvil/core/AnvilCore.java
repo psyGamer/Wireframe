@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AnvilCore {
@@ -30,7 +31,28 @@ public class AnvilCore {
 	}
 	
 	public static final class Util {
-	
+		/**
+		 * <p>Searches the StackTrace of the current Thread for the first non internal class.</p>
+		 * <p>
+		 *
+		 * @return The mod implementation of the current mod.
+		 * @apiNote Should only be used in methods that should be directly call by the dependant.
+		 */
+		public static ModImplementation<?> getModImplementation() {
+			final String callingClassName = Arrays.stream(Thread.currentThread().getStackTrace())
+					.filter(element -> !element.getClassName().startsWith(Constants.ANVIL_PACKAGE))
+					.findFirst()
+					.orElseThrow(() -> new LibraryException("Could not find external class in stack trace"))
+					.getClassName();
+			
+			for (final ModImplementation<?> modImplementation : modImplementations) {
+				if (callingClassName.startsWith(modImplementation.rootPackage)) {
+					return modImplementation;
+				}
+			}
+			
+			throw new LibraryException("Couldn't find mod implementation for class " + callingClassName);
+		}
 	}
 	
 	public static final class Debug {
