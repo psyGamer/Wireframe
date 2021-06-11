@@ -1,29 +1,36 @@
 package dev.psyGamer.anvil.core;
 
+import dev.psyGamer.anvil.core.exceptions.LibraryException;
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
+import lombok.Getter;
+import lombok.SneakyThrows;
+import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public class AnvilCore {
 	
 	public static final Logger LOGGER = LogManager.getLogger("Anvil");
 	
-	private static ModImplementation modImplementation;
+	@Getter
+	private static List<ModImplementation<?>> modImplementations;
 	
-	/**
-	 * Sets up the Anvil Library.
-	 * <p>
-	 * Should be called before any other library access.
-	 * <p>
-	 * <p>
-	 * <strong>Important:</strong> Only the Debug Flags must be set before!
-	 */
-	public static void setup(final String modID, final Object modInstance) {
-		AnvilCore.modImplementation = new ModImplementation(modID, modInstance);
+	public static <T> void registerMod(final Class<T> modClass) throws InstantiationException, IllegalAccessException {
+		if (!modClass.isAnnotationPresent(Mod.class)) {
+			throw new LibraryException("Mod class is not annotated with @Mod");
+		}
+		
+		modImplementations.add(new ModImplementation<>(
+				modClass.getAnnotation(Mod.class).value(),
+				modClass.newInstance(),
+				modClass
+		));
 	}
 	
-	public static ModImplementation getModImplementation() {
-		return modImplementation;
+	public static final class Util {
+	
 	}
 	
 	public static final class Debug {
