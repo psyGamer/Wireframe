@@ -34,17 +34,23 @@ import java.util.List;
 @SupportedSince(MinecraftVersion.v16)
 public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockFactory> {
 	
+	protected String namespace;
 	protected String registryName;
+	
 	protected Material material;
 	protected SoundType sound;
 	protected ItemGroup group;
+	
 	protected float blastResistance;
 	protected float hardness;
+	
 	protected ToolType tool;
 	protected HarvestLevel harvestLevel;
+	
 	protected boolean requiresToolForDrop = true;
 	protected boolean fullBlock;
 	protected boolean opaque;
+	
 	protected List<Property<?>> blockStateProperties = new ArrayList<>();
 	
 	/**
@@ -90,21 +96,21 @@ public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockF
 	}
 	
 	@Override
-	public BlockFactory clone() {
-		final BlockFactory clone = BlockFactory.create(this.registryName);
+	public BlockFactory copy() {
+		final BlockFactory copy = BlockFactory.create(this.registryName);
 		
-		clone.material = this.material;
-		clone.sound = this.sound;
-		clone.group = this.group;
-		clone.blastResistance = this.blastResistance;
-		clone.hardness = this.hardness;
-		clone.tool = this.tool;
-		clone.harvestLevel = this.harvestLevel;
-		clone.requiresToolForDrop = this.requiresToolForDrop;
-		clone.fullBlock = this.fullBlock;
-		clone.opaque = this.opaque;
+		copy.material = this.material;
+		copy.sound = this.sound;
+		copy.group = this.group;
+		copy.blastResistance = this.blastResistance;
+		copy.hardness = this.hardness;
+		copy.tool = this.tool;
+		copy.harvestLevel = this.harvestLevel;
+		copy.requiresToolForDrop = this.requiresToolForDrop;
+		copy.fullBlock = this.fullBlock;
+		copy.opaque = this.opaque;
 		
-		return clone;
+		return copy;
 	}
 	
 	public BlockFactory setMaterial(final Material material) {
