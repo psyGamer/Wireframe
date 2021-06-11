@@ -1,29 +1,57 @@
 package dev.psyGamer.anvil.core;
 
+import dev.psyGamer.anvil.core.exceptions.LibraryException;
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
+import lombok.Getter;
+import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AnvilCore {
 	
 	public static final Logger LOGGER = LogManager.getLogger("Anvil");
 	
-	private static ModImplementation modImplementation;
+	@Getter
+	private static List<ModDefinition<?>> dependants;
 	
-	/**
-	 * Sets up the Anvil Library.
-	 * <p>
-	 * Should be called before any other library access.
-	 * <p>
-	 * <p>
-	 * <strong>Important:</strong> Only the Debug Flags must be set before!
-	 */
-	public static void setup(final String modID, final Object modInstance) {
-		AnvilCore.modImplementation = new ModImplementation(modID, modInstance);
+	public static <T> void registerMod(final Class<T> modClass) throws InstantiationException, IllegalAccessException {
+		if (!modClass.isAnnotationPresent(Mod.class)) {
+			throw new LibraryException("Mod class is not annotated with @Mod");
+		}
+		
+		dependants.add(new ModDefinition<>(
+				modClass.getAnnotation(Mod.class).value(),
+				modClass.newInstance(),
+				modClass
+		));
 	}
 	
-	public static ModImplementation getModImplementation() {
-		return modImplementation;
+	public static final class Util {
+		/**
+		 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
+		 * <p>
+		 *
+		 * @return The mod definition of the current mod.
+		 * @apiNote Should only be used in methods that are directly call by the dependant.
+		 */
+		public static ModDefinition<?> getCurrentDependant() {
+			final String callingClassName = Arrays.stream(Thread.currentThread().getStackTrace())
+					.filter(element -> !element.getClassName().startsWith(Constants.ANVIL_PACKAGE))
+					.findFirst()
+					.orElseThrow(() -> new LibraryException("Could not find external class in stack trace"))
+					.getClassName();
+			
+			for (final ModDefinition<?> dependant : dependants) {
+				if (callingClassName.startsWith(dependant.rootPackage)) {
+					return dependant;
+				}
+			}
+			
+			throw new LibraryException("Couldn't find dependant for class " + callingClassName);
+		}
 	}
 	
 	public static final class Debug {
