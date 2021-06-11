@@ -9,6 +9,8 @@ import java.util.List;
 public abstract class BlockWrapper {
 	
 	@Getter
+	protected String namespace;
+	@Getter
 	protected String registryName;
 	
 	@Getter
@@ -25,7 +27,7 @@ public abstract class BlockWrapper {
 	}
 	
 	public BlockFactory getFactory() {
-		return this.factory.clone();
+		return this.factory.copy();
 	}
 	
 	public boolean hasBlockVariants() {
