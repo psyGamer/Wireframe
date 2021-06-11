@@ -55,7 +55,7 @@ public class ImplementationUtil {
 	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		final String implementationClassLocation =
 				AnvilCore.Constants.getLibraryImplementationPath(version) + libraryClass.getName().replace(
-						AnvilCore.Constants.LIBRARY_PACKAGE, "");
+						AnvilCore.Constants.LIBRARY_PACKAGE, "") + "Impl16";
 		
 		try {
 			return Class.forName(implementationClassLocation);

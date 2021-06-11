@@ -15,7 +15,9 @@ public class ImplementationHandler {
 	
 	public static Object executeOverloadedImplementationMethod(final Class<?>[] paramTypes, final Object... params) {
 		final StackTraceElement caller = Arrays.stream(Thread.currentThread().getStackTrace())
-				.filter(element -> !element.getClassName().equalsIgnoreCase(ImplementationHandler.class.getName()))
+				.filter(element ->
+						!element.getClassName().equalsIgnoreCase(ImplementationHandler.class.getName()) &&
+								!element.getClassName().equalsIgnoreCase(Thread.class.getName()))
 				.findFirst()
 				.orElseThrow(() -> new LibraryException("Could not find invocation off VersionHandler.runImplementation"));
 		
