@@ -29,29 +29,8 @@ public class AnvilCore {
 		));
 	}
 	
-	public static final class Util {
-		/**
-		 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
-		 * <p>
-		 *
-		 * @return The mod definition of the current mod.
-		 * @apiNote Should only be used in methods that are directly call by the dependant.
-		 */
-		public static ModDefinition<?> getCurrentDependant() {
-			final String callingClassName = Arrays.stream(Thread.currentThread().getStackTrace())
-					.filter(element -> !element.getClassName().startsWith(Constants.ANVIL_PACKAGE))
-					.findFirst()
-					.orElseThrow(() -> new LibraryException("Could not find external class in stack trace"))
-					.getClassName();
-			
-			for (final ModDefinition<?> dependant : dependants) {
-				if (callingClassName.startsWith(dependant.rootPackage)) {
-					return dependant;
-				}
-			}
-			
-			throw new LibraryException("Couldn't find dependant for class " + callingClassName);
-		}
+	public static final class Util extends AnvilUtil {
+		// Alias for AnvilUtil
 	}
 	
 	public static final class Debug {
