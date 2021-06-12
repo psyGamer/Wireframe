@@ -17,14 +17,14 @@ public class AnvilCore {
 	@Getter
 	private static List<ModDefinition<?>> dependants;
 	
-	public static <T> void registerMod(final Class<T> modClass) throws InstantiationException, IllegalAccessException {
+	public static <T> void registerMod(final T modInstance, final Class<T> modClass) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
 			throw new LibraryException("Mod class is not annotated with @Mod");
 		}
 		
 		dependants.add(new ModDefinition<>(
 				modClass.getAnnotation(Mod.class).value(),
-				modClass.newInstance(),
+				modInstance,
 				modClass
 		));
 	}
