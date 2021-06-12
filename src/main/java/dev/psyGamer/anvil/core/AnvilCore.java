@@ -17,41 +17,20 @@ public class AnvilCore {
 	@Getter
 	private static List<ModDefinition<?>> dependants;
 	
-	public static <T> void registerMod(final Class<T> modClass) throws InstantiationException, IllegalAccessException {
+	public static <T> void registerMod(final T modInstance, final Class<T> modClass) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
 			throw new LibraryException("Mod class is not annotated with @Mod");
 		}
 		
 		dependants.add(new ModDefinition<>(
 				modClass.getAnnotation(Mod.class).value(),
-				modClass.newInstance(),
+				modInstance,
 				modClass
 		));
 	}
 	
-	public static final class Util {
-		/**
-		 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
-		 * <p>
-		 *
-		 * @return The mod definition of the current mod.
-		 * @apiNote Should only be used in methods that are directly call by the dependant.
-		 */
-		public static ModDefinition<?> getCurrentDependant() {
-			final String callingClassName = Arrays.stream(Thread.currentThread().getStackTrace())
-					.filter(element -> !element.getClassName().startsWith(Constants.ANVIL_PACKAGE))
-					.findFirst()
-					.orElseThrow(() -> new LibraryException("Could not find external class in stack trace"))
-					.getClassName();
-			
-			for (final ModDefinition<?> dependant : dependants) {
-				if (callingClassName.startsWith(dependant.rootPackage)) {
-					return dependant;
-				}
-			}
-			
-			throw new LibraryException("Couldn't find dependant for class " + callingClassName);
-		}
+	public static final class Util extends AnvilUtil {
+		// Alias for AnvilUtil
 	}
 	
 	public static final class Debug {
