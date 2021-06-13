@@ -10,24 +10,57 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BlockRegistryImpl16 extends BlockRegistry {
 	
-	public static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, AnvilCore.getModImplementation().MODID);
+	public static final Map<String, DeferredRegister<Block>> BLOCK_REGISTRIES = new HashMap<>();
 	
 	@Override
 	@SubscribeEvent
 	public void registerBlocksToForge(final RegistryEvent.Register<Block> event) {
-		BLOCK_REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
+		setupRegistries();
 		
-		for (final BlockWrapper blockWrapper : blockWrappers) {
-			BLOCK_REGISTRY.register(blockWrapper.getRegistryName(), blockWrapper::getBlock);
-			blocks.add(blockWrapper.getBlock());
+		BLOCK_REGISTRIES.forEach((namespace, registry) -> blockWrappers.forEach(blockWrapper -> {
+			registerBlockWrapper(blockWrapper, registry, false);
 			
-			if (blockWrapper.hasBlockVariants()) {
-				for (final BlockWrapper blockVariantWrapper : blockWrapper.getBlockVariants()) {
-					BLOCK_REGISTRY.register(blockVariantWrapper.getRegistryName(), blockVariantWrapper::getBlock);
-					blocks.add(blockVariantWrapper.getBlock());
-				}
+			blockWrapper.getBlockVariants().forEach(wrapper -> registerBlockWrapper(wrapper, registry, true));
+		}));
+	}
+	
+	private void registerBlockWrapper(final BlockWrapper blockWrapper, final DeferredRegister<Block> registry, final boolean isVariant) {
+		registry.register(
+				blockWrapper.getRegistryName(),
+				blockWrapper::getBlock
+		);
+		
+		blocks.add(blockWrapper.getBlock());
+		
+		if (isVariant) {
+			AnvilCore.LOGGER.info(
+					String.format("   |=> Successfully registered block variant -> %s:%s",
+							blockWrapper.getNamespace(),
+							blockWrapper.getRegistryName()
+					)
+			);
+		} else {
+			AnvilCore.LOGGER.info(
+					String.format("Successfully registered block -> %s:%s",
+							blockWrapper.getNamespace(),
+							blockWrapper.getRegistryName()
+					)
+			);
+		}
+	}
+	
+	private void setupRegistries() {
+		for (final BlockWrapper blockWrapper : blockWrappers) {
+			final String namespace = blockWrapper.getNamespace().get();
+			
+			if (!BLOCK_REGISTRIES.containsKey(namespace)) {
+				BLOCK_REGISTRIES.put(namespace, DeferredRegister.create(ForgeRegistries.BLOCKS, namespace));
+				BLOCK_REGISTRIES.get(namespace).register(FMLJavaModLoadingContext.get().getModEventBus());
 			}
 		}
 	}
