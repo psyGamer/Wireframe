@@ -1,13 +1,12 @@
 package dev.psyGamer.anvil.impl.v16.block;
 
 import dev.psyGamer.anvil.lib.block.BlockFactory;
+import dev.psyGamer.anvil.lib.block.BlockWrapper;
 import dev.psyGamer.anvil.lib.block.properties.HarvestLevel;
 import lombok.Getter;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-
-import java.lang.reflect.Field;
 
 @Getter
 public class BlockFactoryImpl16 extends BlockFactory {
@@ -45,6 +44,8 @@ public class BlockFactoryImpl16 extends BlockFactory {
 	
 	@Override
 	public Block build() {
+		final BlockWrapper wrapper = BlockWrapper.create(this);
+		
 		return new Block(createProperties());
 	}
 	
