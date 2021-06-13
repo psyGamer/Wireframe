@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SupportedOnlyIn(MinecraftVersion.v16)
@@ -19,17 +18,9 @@ public abstract class BlockRegistry {
 	@Getter
 	protected static final List<BlockWrapper> blockWrappers = new ArrayList<>();
 	
-	public abstract void registerBlocksToForge(RegistryEvent.Register<Block> event);
-	
-	public void registerBlock(final BlockWrapper block) {
+	public static void registerBlockWrapper(final BlockWrapper block) {
 		blockWrappers.add(block);
 	}
 	
-	public void registerBlocks(final BlockWrapper... blocks) {
-		blockWrappers.addAll(Arrays.asList(blocks));
-	}
-	
-	public void registerBlocks(final List<BlockWrapper> blocks) {
-		blockWrappers.addAll(blocks);
-	}
+	public abstract void registerBlocksToForge(RegistryEvent.Register<Block> event);
 }
