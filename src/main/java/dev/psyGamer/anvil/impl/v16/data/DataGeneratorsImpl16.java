@@ -16,6 +16,6 @@ public class DataGeneratorsImpl16 extends DataGenerators {
 		final DataGenerator generator = event.getGenerator();
 		final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		
-		generator.addProvider(new BlockStateDataProviderImpl16(generator, AnvilCore.getModImplementation().MODID, existingFileHelper));
+		generator.addProvider(new BlockStateDataProviderImpl16(generator, AnvilCore.Util.getCurrentNamespace().get(), existingFileHelper));
 	}
 }
