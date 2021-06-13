@@ -34,7 +34,6 @@ import java.util.List;
 @SupportedSince(MinecraftVersion.v16)
 public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockFactory> {
 	
-	protected String namespace;
 	protected String registryName;
 	
 	protected Material material;
