@@ -2,13 +2,12 @@ package dev.psyGamer.anvil.impl.v16.block;
 
 import dev.psyGamer.anvil.lib.block.BlockFactory;
 import dev.psyGamer.anvil.lib.block.properties.HarvestLevel;
-import dev.psyGamer.anvil.util.reflection.FieldUtil;
 import lombok.Getter;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+
+import java.lang.reflect.Field;
 
 @Getter
 public class BlockFactoryImpl16 extends BlockFactory {
@@ -22,21 +21,24 @@ public class BlockFactoryImpl16 extends BlockFactory {
 	}
 	
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	public BlockFactory inheritFromBlock(final Block block) {
-		final AbstractBlock.Properties properties = block.properties;
+		final AbstractBlock.Properties properties = ObfuscationReflectionHelper.getPrivateValue(AbstractBlock.class, block, "field_235684_aB_");
+		final Class<AbstractBlock.Properties> propertiesClass = AbstractBlock.Properties.class;
 		
+		assert properties != null;
 		
-		setMaterial(properties.material);
-		setSound(properties.soundType);
+		setMaterial(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200953_a"));
+		setSound(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200956_d"));
 		setGroup(block.asItem().getItemCategory());
 		
-		setHardness(properties.destroyTime);
-		setBlastResistance(properties.explosionResistance);
+		setHardness(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200959_g"));
+		setBlastResistance(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200958_f"));
 		
 		setRequiredTool(properties.getHarvestTool());
 		setHarvestLevel(properties.getHarvestLevel());
 		
-		isBreakableByHand(!properties.requiresCorrectToolForDrops);
+		isBreakableByHand(!(Boolean) ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_235806_h_"));
 		
 		return this;
 	}
