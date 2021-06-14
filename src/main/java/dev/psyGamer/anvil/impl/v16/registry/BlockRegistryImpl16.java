@@ -1,8 +1,8 @@
 package dev.psyGamer.anvil.impl.v16.registry;
 
 import dev.psyGamer.anvil.core.AnvilCore;
+import dev.psyGamer.anvil.impl.common.registry.CommonBlockRegistry;
 import dev.psyGamer.anvil.lib.block.BlockWrapper;
-import dev.psyGamer.anvil.lib.registry.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,7 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BlockRegistryImpl16 extends BlockRegistry {
+public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	
 	public static final Map<String, DeferredRegister<Block>> BLOCK_REGISTRIES = new HashMap<>();
 	

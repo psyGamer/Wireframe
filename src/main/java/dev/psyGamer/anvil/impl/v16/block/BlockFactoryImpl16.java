@@ -1,5 +1,6 @@
 package dev.psyGamer.anvil.impl.v16.block;
 
+import dev.psyGamer.anvil.impl.common.block.CommonBlockFactory;
 import dev.psyGamer.anvil.lib.block.BlockFactory;
 import dev.psyGamer.anvil.lib.block.BlockWrapper;
 import dev.psyGamer.anvil.lib.block.properties.HarvestLevel;
@@ -8,8 +9,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-@Getter
-public class BlockFactoryImpl16 extends BlockFactory {
+public class BlockFactoryImpl16 extends CommonBlockFactory {
 	
 	public BlockFactoryImpl16(final String registryName) {
 		super();
