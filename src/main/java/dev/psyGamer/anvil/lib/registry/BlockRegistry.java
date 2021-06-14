@@ -1,26 +1,30 @@
 package dev.psyGamer.anvil.lib.registry;
 
+import dev.psyGamer.anvil.core.version.ImplementationHandler;
 import dev.psyGamer.anvil.core.version.MinecraftVersion;
-import dev.psyGamer.anvil.core.version.SupportedOnlyIn;
+import dev.psyGamer.anvil.core.version.SupportedSince;
 import dev.psyGamer.anvil.lib.block.BlockWrapper;
-import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@SupportedOnlyIn(MinecraftVersion.v16)
-public abstract class BlockRegistry {
+
+@SuppressWarnings("unchecked")
+@SupportedSince(MinecraftVersion.v16)
+public interface BlockRegistry {
 	
-	@Getter
-	protected static final List<Block> blocks = new ArrayList<>();
-	@Getter
-	protected static final List<BlockWrapper> blockWrappers = new ArrayList<>();
-	
-	public static void registerBlockWrapper(final BlockWrapper block) {
-		blockWrappers.add(block);
+	static void addBlockWrapper(final BlockWrapper block) {
+		ImplementationHandler.executeImplementation(block);
 	}
 	
-	public abstract void registerBlocksToForge(RegistryEvent.Register<Block> event);
+	static List<Block> getBlocks() {
+		return (List<Block>) ImplementationHandler.executeImplementation();
+	}
+	
+	static List<BlockWrapper> getBlockWrappers() {
+		return (List<BlockWrapper>) ImplementationHandler.executeImplementation();
+	}
+	
+	void registerBlocksToForge(RegistryEvent.Register<Block> event);
 }
