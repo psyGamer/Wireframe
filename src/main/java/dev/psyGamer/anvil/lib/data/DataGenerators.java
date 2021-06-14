@@ -1,18 +1,14 @@
 package dev.psyGamer.anvil.lib.data;
 
+import dev.psyGamer.anvil.core.version.ImplementationHandler;
 import net.minecraft.data.IDataProvider;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class DataGenerators {
+public interface DataGenerators {
 	
-	protected static List<IDataProvider> dataProviders = new ArrayList<>();
-	
-	public static void addDataProvider(final IDataProvider provider) {
-		dataProviders.add(provider);
+	static void addDataProvider(final IDataProvider provider) {
+		ImplementationHandler.executeImplementation(provider);
 	}
 	
-	public abstract void gatherData(GatherDataEvent event);
+	void gatherData(GatherDataEvent event);
 }
