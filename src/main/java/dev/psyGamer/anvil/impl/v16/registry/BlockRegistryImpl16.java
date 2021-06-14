@@ -29,7 +29,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 		}));
 	}
 	
-	private void registerBlockWrapper(final BlockWrapper blockWrapper, final DeferredRegister<Block> registry, final boolean isVariant) {
+	protected void registerBlockWrapper(final BlockWrapper blockWrapper, final DeferredRegister<Block> registry, final boolean isVariant) {
 		registry.register(
 				blockWrapper.getRegistryName(),
 				blockWrapper::getBlock
@@ -54,7 +54,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 		}
 	}
 	
-	private void setupRegistries() {
+	protected void setupRegistries() {
 		for (final BlockWrapper blockWrapper : blockWrappers) {
 			final String namespace = blockWrapper.getNamespace().get();
 			

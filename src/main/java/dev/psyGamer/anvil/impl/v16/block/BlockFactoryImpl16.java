@@ -4,7 +4,6 @@ import dev.psyGamer.anvil.impl.common.block.CommonBlockFactory;
 import dev.psyGamer.anvil.lib.block.BlockFactory;
 import dev.psyGamer.anvil.lib.block.BlockWrapper;
 import dev.psyGamer.anvil.lib.block.properties.HarvestLevel;
-import lombok.Getter;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -37,7 +36,7 @@ public class BlockFactoryImpl16 extends CommonBlockFactory {
 		setRequiredTool(properties.getHarvestTool());
 		setHarvestLevel(properties.getHarvestLevel());
 		
-		isBreakableByHand(!(Boolean) ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_235806_h_"));
+		setBreakableByHand(!(Boolean) ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_235806_h_"));
 		
 		return this;
 	}
@@ -58,16 +57,16 @@ public class BlockFactoryImpl16 extends CommonBlockFactory {
 			properties.strength(this.hardness);
 		}
 		
-		if (this.tool == null) {
+		if (this.requiredTool == null) {
 			properties.instabreak();
 		} else {
-			properties.harvestTool(this.tool);
+			properties.harvestTool(this.requiredTool);
 		}
 		
 		if (this.harvestLevel != HarvestLevel.HAND) {
 			properties.harvestLevel(this.harvestLevel.getLevel());
 			
-			if (this.requiresToolForDrop) {
+			if (this.breakableByHand) {
 				properties.requiresCorrectToolForDrops();
 			}
 		}
