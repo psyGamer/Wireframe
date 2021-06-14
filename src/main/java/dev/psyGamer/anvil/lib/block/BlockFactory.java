@@ -30,27 +30,8 @@ import java.util.List;
  * @see Block
  * @since 1.0
  */
-@Getter
 @SupportedSince(MinecraftVersion.v16)
-public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockFactory> {
-	
-	protected String registryName;
-	
-	protected Material material;
-	protected SoundType sound;
-	protected ItemGroup group;
-	
-	protected float blastResistance;
-	protected float hardness;
-	
-	protected ToolType tool;
-	protected HarvestLevel harvestLevel;
-	
-	protected boolean requiresToolForDrop = true;
-	protected boolean fullBlock;
-	protected boolean opaque;
-	
-	protected List<Property<?>> blockStateProperties = new ArrayList<>();
+public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> {
 	
 	/**
 	 * @param blockName Used to register and localize it.
@@ -61,7 +42,7 @@ public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockF
 	 * @version 1.0
 	 * @since 1.0
 	 */
-	public static BlockFactory create(final String blockName) {
+	static BlockFactory create(final String blockName) {
 		return (BlockFactory) ImplementationHandler.executeImplementation(blockName);
 	}
 	
@@ -75,7 +56,7 @@ public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockF
 	 * @version 1.0
 	 * @since 1.0
 	 */
-	public static BlockFactory create(final String blockName, final Material material) {
+	static BlockFactory create(final String blockName, final Material material) {
 		return (BlockFactory) ImplementationHandler.executeImplementation(blockName, material);
 	}
 	
@@ -90,174 +71,69 @@ public abstract class BlockFactory implements IFactory<Block>, ICloneable<BlockF
 	 * @version 1.0
 	 * @since 1.0
 	 */
-	public static BlockFactory create(final String blockName, final Material material, final ItemGroup group) {
+	static BlockFactory create(final String blockName, final Material material, final ItemGroup group) {
 		return (BlockFactory) ImplementationHandler.executeImplementation(blockName, material, group);
 	}
 	
-	@Override
-	public BlockFactory copy() {
-		final BlockFactory copy = BlockFactory.create(this.registryName);
-		
-		copy.material = this.material;
-		copy.sound = this.sound;
-		copy.group = this.group;
-		copy.blastResistance = this.blastResistance;
-		copy.hardness = this.hardness;
-		copy.tool = this.tool;
-		copy.harvestLevel = this.harvestLevel;
-		copy.requiresToolForDrop = this.requiresToolForDrop;
-		copy.fullBlock = this.fullBlock;
-		copy.opaque = this.opaque;
-		
-		return copy;
-	}
+	BlockFactory multiplyHardness(final float factor);
 	
-	public BlockFactory setMaterial(final Material material) {
-		this.material = material;
-		return this;
-	}
+	BlockFactory multiplyBlastResistance(final float factor);
 	
-	public BlockFactory setGroup(final ItemGroup group) {
-		this.group = group;
-		
-		return this;
-	}
+	BlockFactory multiplyStrength(final float factor);
 	
-	public BlockFactory setHardness(final float hardness) {
-		this.hardness = hardness;
-		
-		return this;
-	}
+	String getRegistryName();
 	
-	public BlockFactory multiplyHardness(final float factor) {
-		this.hardness *= factor;
-		
-		return this;
-	}
+	Material getMaterial();
 	
-	public BlockFactory setBlastResistance(final float blastResistance) {
-		this.blastResistance = blastResistance;
-		
-		return this;
-	}
+	BlockFactory setMaterial(final Material material);
 	
-	public BlockFactory multiplyBlastResistance(final float factor) {
-		this.blastResistance *= factor;
-		
-		return this;
-	}
+	ItemGroup getGroup();
 	
-	public BlockFactory setStrength(final float strength) {
-		this.hardness = strength;
-		this.blastResistance = strength;
-		
-		return this;
-	}
+	BlockFactory setGroup(final ItemGroup group);
 	
-	public BlockFactory multiplyStrength(final float factor) {
-		this.hardness *= factor;
-		this.blastResistance *= factor;
-		
-		return this;
-	}
+	float getHardness();
 	
-	public BlockFactory setSound(final SoundType sound) {
-		this.sound = sound;
-		
-		return this;
-	}
+	BlockFactory setHardness(final float hardness);
 	
-	public BlockFactory setRequiredTool(final ToolType tool) {
-		this.tool = tool;
-		
-		return this;
-	}
+	float getBlastResistance();
 	
-	public BlockFactory setHarvestLevel(final int level) {
-		this.harvestLevel = HarvestLevel.values()[Math.max(0, Math.min(level - 1, HarvestLevel.values().length))];
-		
-		return this;
-	}
+	BlockFactory setBlastResistance(final float blastResistance);
 	
-	public BlockFactory setHarvestLevel(final HarvestLevel harvestLevel) {
-		this.harvestLevel = harvestLevel;
-		
-		return this;
-	}
+	BlockFactory setStrength(final float strength);
 	
-	public BlockFactory increaseHarvestLevel() {
-		this.harvestLevel = HarvestLevel.values()[Math.max(HarvestLevel.values().length, this.harvestLevel.getLevel() + 1)];
-		
-		return this;
-	}
+	SoundType getSound();
 	
-	public BlockFactory decreaseHarvestLevel() {
-		this.harvestLevel = HarvestLevel.values()[Math.max(0, this.harvestLevel.getLevel() - 1)];
-		
-		return this;
-	}
+	BlockFactory setSound(final SoundType sound);
 	
-	public BlockFactory isBreakableByHand(final boolean breakableByHand) {
-		this.requiresToolForDrop = !breakableByHand;
-		
-		return this;
-	}
+	ToolType getRequiredTool();
 	
-	public BlockFactory isBreakableByHand() {
-		this.requiresToolForDrop = false;
-		
-		return this;
-	}
+	BlockFactory setRequiredTool(final ToolType tool);
 	
-	public BlockFactory isNotBreakableByHand() {
-		this.requiresToolForDrop = true;
-		
-		return this;
-	}
+	HarvestLevel getHarvestLevel();
 	
-	public BlockFactory isFullBlock(final boolean fullBlock) {
-		this.fullBlock = fullBlock;
-		
-		return this;
-	}
+	BlockFactory setHarvestLevel(final int level);
 	
-	public BlockFactory isFullBlock() {
-		this.fullBlock = true;
-		
-		return this;
-	}
+	BlockFactory setHarvestLevel(final HarvestLevel harvestLevel);
 	
-	public BlockFactory isNotFullBlock() {
-		this.fullBlock = false;
-		
-		return this;
-	}
+	BlockFactory increaseHarvestLevel();
 	
-	public BlockFactory isOpaque(final boolean opaque) {
-		this.opaque = opaque;
-		
-		return this;
-	}
+	BlockFactory decreaseHarvestLevel();
 	
-	public BlockFactory isOpaque() {
-		this.opaque = true;
-		
-		return this;
-	}
+	boolean isBreakableByHand();
 	
-	public BlockFactory isNotOpaque() {
-		this.opaque = false;
-		
-		return this;
-	}
+	BlockFactory setBreakableByHand(final boolean breakableByHand);
 	
-	public BlockFactory addBlockStateProperty(final Property<?> property) {
-		this.blockStateProperties.add(property);
-		
-		return this;
-	}
+	boolean isFullBlock();
+	
+	BlockFactory setFullBlock(final boolean fullBlock);
+	
+	boolean isOpaque();
+	
+	BlockFactory setOpaque(final boolean opaque);
+	
+	BlockFactory addBlockStateProperty(final Property<?> property);
 	
 	//	TODO BOUNDING BOX
 	
-	public abstract BlockFactory inheritFromBlock(final Block block);
+	BlockFactory inheritFromBlock(final Block block);
 }
