@@ -11,8 +11,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 group = 'dev.psygamer'
+archivesBaseName = 'ferrus'
 version = '0.1'
-archivesBaseName = 'anvil'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
@@ -30,9 +30,6 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'official', version: '1.16.5'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-
-    
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -159,7 +156,7 @@ jar {
 
     manifest {
         attributes([
-                "Specification-Title"     : "anvil",
+                "Specification-Title"     : "ferrus",
                 //"Specification-Vendor": "anvil authors",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,

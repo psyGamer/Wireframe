@@ -4,26 +4,26 @@ loaderVersion="[36,)"
 
 license="LGPL-2.1 License"
 
-issueTrackerURL="https://github.com/psyGamer/Anvil/issues/"
+issueTrackerURL="https://github.com/psyGamer/Ferrus/issues/"
 
 [[mods]]
-modId="anvil"
+modId="ferrus"
 version="${file.jarVersion}"
-displayName="Anvil"
+displayName="Ferrus"
 
 description='''
 A library for simplifying common tasks in Minecraft Forge
 '''
 
 #updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/temple-tribes"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/anvil"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/ferrus"
 
 #logoFile="templetribes.png"
 
 #credits="Thanks for this example mod goes to Java" #optional
 authors="psyGamer"
 
-[[dependencies.anvil]]
+[[dependencies.ferrus]]
    modId="forge" #mandatory
    versionRange="[36,)" #mandatory
    mandatory=true #mandatory
@@ -31,7 +31,7 @@ authors="psyGamer"
    ordering="NONE"
    side="BOTH"
 # Here's another dependency
-[[dependencies.anvil]]
+[[dependencies.ferrus]]
    modId="minecraft"
    versionRange="[1.16.5,1.17)"
    mandatory=true
