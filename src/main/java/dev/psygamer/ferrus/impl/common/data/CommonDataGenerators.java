@@ -1,6 +1,6 @@
-package dev.psyGamer.anvil.impl.common.data;
+package dev.psygamer.ferrus.impl.common.data;
 
-import dev.psyGamer.anvil.lib.data.DataGenerators;
+import dev.psygamer.ferrus.lib.data.DataGenerators;
 import net.minecraft.data.IDataProvider;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package dev.psyGamer.anvil.impl.common.block;
+package dev.psygamer.ferrus.impl.common.block;
 
-import dev.psyGamer.anvil.lib.block.BlockFactory;
-import dev.psyGamer.anvil.lib.block.properties.HarvestLevel;
+import dev.psygamer.ferrus.lib.block.BlockFactory;
+import dev.psygamer.ferrus.lib.block.properties.HarvestLevel;
 import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

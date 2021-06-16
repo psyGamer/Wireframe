@@ -12,6 +12,7 @@ import java.util.List;
 public class FerrusCore {
 	
 	public static final Logger LOGGER = LogManager.getLogger("Ferrus");
+	public static final String MODID = "ferrus";
 	
 	@Getter
 	private static List<ModDefinition<?>> dependants;

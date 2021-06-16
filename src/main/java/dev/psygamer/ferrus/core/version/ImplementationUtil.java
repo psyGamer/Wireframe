@@ -1,8 +1,8 @@
-package dev.psyGamer.anvil.core.version;
+package dev.psygamer.ferrus.core.version;
 
 import com.google.common.collect.ImmutableList;
-import dev.psyGamer.anvil.core.AnvilCore;
-import dev.psyGamer.anvil.core.exceptions.LibraryException;
+import dev.psygamer.ferrus.core.FerrusCore;
+import dev.psygamer.ferrus.core.exceptions.LibraryException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,8 +54,8 @@ public class ImplementationUtil {
 	
 	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		final String implementationClassLocation =
-				AnvilCore.Constants.getLibraryImplementationPath(version) + libraryClass.getName().replace(
-						AnvilCore.Constants.LIBRARY_PACKAGE, "") + "Impl16";
+				FerrusCore.Constants.getLibraryImplementationPath(version) + libraryClass.getName().replace(
+						FerrusCore.Constants.LIBRARY_PACKAGE, "") + "Impl16";
 		
 		try {
 			return Class.forName(implementationClassLocation);

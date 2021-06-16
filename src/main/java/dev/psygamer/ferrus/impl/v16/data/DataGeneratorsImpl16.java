@@ -1,8 +1,8 @@
-package dev.psyGamer.anvil.impl.v16.data;
+package dev.psygamer.ferrus.impl.v16.data;
 
-import dev.psyGamer.anvil.core.AnvilCore;
-import dev.psyGamer.anvil.impl.common.data.CommonDataGenerators;
-import dev.psyGamer.anvil.impl.v16.data.client.BlockStateDataProviderImpl16;
+import dev.psygamer.ferrus.core.FerrusCore;
+import dev.psygamer.ferrus.impl.common.data.CommonDataGenerators;
+import dev.psygamer.ferrus.impl.v16.data.client.BlockStateDataProviderImpl16;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +16,6 @@ public class DataGeneratorsImpl16 extends CommonDataGenerators {
 		final DataGenerator generator = event.getGenerator();
 		final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		
-		generator.addProvider(new BlockStateDataProviderImpl16(generator, AnvilCore.Util.getCurrentNamespace().get(), existingFileHelper));
+		generator.addProvider(new BlockStateDataProviderImpl16(generator, FerrusCore.Util.getCurrentNamespace().get(), existingFileHelper));
 	}
 }

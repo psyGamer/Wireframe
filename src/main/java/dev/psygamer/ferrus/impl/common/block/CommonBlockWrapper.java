@@ -1,11 +1,11 @@
-package dev.psyGamer.anvil.impl.common.block;
+package dev.psygamer.ferrus.impl.common.block;
 
-import dev.psyGamer.anvil.core.AnvilCore;
-import dev.psyGamer.anvil.core.Namespace;
-import dev.psyGamer.anvil.lib.block.BlockFactory;
-import dev.psyGamer.anvil.lib.block.BlockProperty;
-import dev.psyGamer.anvil.lib.block.BlockWrapper;
-import dev.psyGamer.anvil.lib.registry.BlockRegistry;
+import dev.psygamer.ferrus.core.FerrusCore;
+import dev.psygamer.ferrus.core.Namespace;
+import dev.psygamer.ferrus.lib.block.BlockFactory;
+import dev.psygamer.ferrus.lib.block.BlockProperty;
+import dev.psygamer.ferrus.lib.block.BlockWrapper;
+import dev.psygamer.ferrus.lib.registry.BlockRegistry;
 import lombok.Getter;
 import net.minecraft.block.Block;
 
@@ -28,7 +28,7 @@ public class CommonBlockWrapper implements BlockWrapper {
 	protected List<BlockProperty<?>> blockProperties;
 	
 	protected CommonBlockWrapper(final BlockFactory blockFactory) {
-		this.namespace = AnvilCore.Util.getCurrentNamespace();
+		this.namespace = FerrusCore.Util.getCurrentNamespace();
 		this.registryName = blockFactory.getRegistryName();
 		
 		this.block = blockFactory.build();
