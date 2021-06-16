@@ -1,15 +1,15 @@
-package dev.psyGamer.anvil.impl.v16;
+package dev.psygamer.ferrus.impl.v16;
 
-import dev.psyGamer.anvil.core.AnvilCore;
-import dev.psyGamer.anvil.impl.v16.registry.BlockRegistryImpl16;
+import dev.psygamer.ferrus.core.FerrusCore;
+import dev.psygamer.ferrus.impl.v16.registry.BlockRegistryImpl16;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod("anvil")
-public class Anvil {
+@Mod(FerrusCore.MODID)
+public class Ferrus {
 	
-	public Anvil() {
+	public Ferrus() {
 		final IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 		
 		forgeEventBus.register(new BlockRegistryImpl16());

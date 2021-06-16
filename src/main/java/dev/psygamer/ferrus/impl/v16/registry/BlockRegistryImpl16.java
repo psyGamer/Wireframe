@@ -1,8 +1,8 @@
-package dev.psyGamer.anvil.impl.v16.registry;
+package dev.psygamer.ferrus.impl.v16.registry;
 
-import dev.psyGamer.anvil.core.AnvilCore;
-import dev.psyGamer.anvil.impl.common.registry.CommonBlockRegistry;
-import dev.psyGamer.anvil.lib.block.BlockWrapper;
+import dev.psygamer.ferrus.core.FerrusCore;
+import dev.psygamer.ferrus.impl.common.registry.CommonBlockRegistry;
+import dev.psygamer.ferrus.lib.block.BlockWrapper;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,14 +38,14 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 		blocks.add(blockWrapper.getBlock());
 		
 		if (isVariant) {
-			AnvilCore.LOGGER.info(
+			FerrusCore.LOGGER.info(
 					String.format("   |=> Successfully registered block variant -> %s:%s",
 							blockWrapper.getNamespace(),
 							blockWrapper.getRegistryName()
 					)
 			);
 		} else {
-			AnvilCore.LOGGER.info(
+			FerrusCore.LOGGER.info(
 					String.format("Successfully registered block -> %s:%s",
 							blockWrapper.getNamespace(),
 							blockWrapper.getRegistryName()

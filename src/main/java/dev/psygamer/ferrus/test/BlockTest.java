@@ -1,7 +1,7 @@
-package dev.psyGamer.anvil.test;
+package dev.psygamer.ferrus.test;
 
-import dev.psyGamer.anvil.lib.block.BlockFactory;
-//import dev.psyGamer.anvil.lib.block.variants.BlockVariants;
+import dev.psygamer.ferrus.lib.block.BlockFactory;
+//import dev.psygamer.ferrus.lib.block.variants.BlockVariants;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
