@@ -55,7 +55,7 @@ public class ImplementationUtil {
 	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		final String implementationClassLocation =
 				FerrusCore.Constants.getLibraryImplementationPath(version) + libraryClass.getName().replace(
-						FerrusCore.Constants.LIBRARY_PACKAGE, "") + "Impl16";
+						FerrusCore.Constants.LIBRARY_PACKAGE, "");
 		
 		try {
 			return Class.forName(implementationClassLocation);
