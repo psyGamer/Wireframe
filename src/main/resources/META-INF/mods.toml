@@ -4,26 +4,26 @@ loaderVersion="[36,)"
 
 license="LGPL-2.1 License"
 
-issueTrackerURL="https://github.com/psyGamer/Ferrus/issues/"
+issueTrackerURL="https://github.com/psyGamer/Construct/issues/"
 
 [[mods]]
-modId="ferrus"
+modId="construct"
 version="${file.jarVersion}"
-displayName="Ferrus"
+displayName="Construct"
 
 description='''
 A library for simplifying common tasks in Minecraft Forge
 '''
 
 #updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/temple-tribes"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/ferrus"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/construct"
 
 #logoFile="templetribes.png"
 
 #credits="Thanks for this example mod goes to Java" #optional
 authors="psyGamer"
 
-[[dependencies.ferrus]]
+[[dependencies.construct]]
    modId="forge" #mandatory
    versionRange="[36,)" #mandatory
    mandatory=true #mandatory
@@ -31,7 +31,7 @@ authors="psyGamer"
    ordering="NONE"
    side="BOTH"
 # Here's another dependency
-[[dependencies.ferrus]]
+[[dependencies.construct]]
    modId="minecraft"
    versionRange="[1.16.5,1.17)"
    mandatory=true
