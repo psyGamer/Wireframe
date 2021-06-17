@@ -1,11 +1,11 @@
-package dev.psygamer.ferrus.impl.common.block;
+package dev.psygamer.construct.impl.common.block;
 
-import dev.psygamer.ferrus.core.FerrusCore;
-import dev.psygamer.ferrus.core.Namespace;
-import dev.psygamer.ferrus.lib.block.BlockFactory;
-import dev.psygamer.ferrus.lib.block.BlockProperty;
-import dev.psygamer.ferrus.lib.block.BlockWrapper;
-import dev.psygamer.ferrus.lib.registry.BlockRegistry;
+import dev.psygamer.construct.core.ConstructCore;
+import dev.psygamer.construct.core.Namespace;
+import dev.psygamer.construct.lib.block.BlockFactory;
+import dev.psygamer.construct.lib.block.BlockProperty;
+import dev.psygamer.construct.lib.block.BlockWrapper;
+import dev.psygamer.construct.lib.registry.BlockRegistry;
 import lombok.Getter;
 import net.minecraft.block.Block;
 
@@ -28,7 +28,7 @@ public class CommonBlockWrapper implements BlockWrapper {
 	protected List<BlockProperty<?>> blockProperties;
 	
 	protected CommonBlockWrapper(final BlockFactory blockFactory) {
-		this.namespace = FerrusCore.Util.getCurrentNamespace();
+		this.namespace = ConstructCore.Util.getCurrentNamespace();
 		this.registryName = blockFactory.getRegistryName();
 		
 		this.block = blockFactory.build();

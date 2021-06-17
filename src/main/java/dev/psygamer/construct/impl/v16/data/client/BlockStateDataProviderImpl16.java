@@ -1,9 +1,9 @@
-package dev.psygamer.ferrus.impl.v16.data.client;
+package dev.psygamer.construct.impl.v16.data.client;
 
-import dev.psygamer.ferrus.lib.block.BlockProperty;
-import dev.psygamer.ferrus.lib.block.BlockWrapper;
-import dev.psygamer.ferrus.lib.data.client.BlockStateDataProvider;
-import dev.psygamer.ferrus.lib.registry.BlockRegistry;
+import dev.psygamer.construct.lib.block.BlockProperty;
+import dev.psygamer.construct.lib.block.BlockWrapper;
+import dev.psygamer.construct.lib.data.client.BlockStateDataProvider;
+import dev.psygamer.construct.lib.registry.BlockRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

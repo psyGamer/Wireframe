@@ -1,9 +1,9 @@
-package dev.psygamer.ferrus.impl.v16.block;
+package dev.psygamer.construct.impl.v16.block;
 
-import dev.psygamer.ferrus.impl.common.block.CommonBlockFactory;
-import dev.psygamer.ferrus.lib.block.BlockFactory;
-import dev.psygamer.ferrus.lib.block.BlockWrapper;
-import dev.psygamer.ferrus.lib.block.properties.HarvestLevel;
+import dev.psygamer.construct.impl.common.block.CommonBlockFactory;
+import dev.psygamer.construct.lib.block.BlockFactory;
+import dev.psygamer.construct.lib.block.BlockWrapper;
+import dev.psygamer.construct.lib.block.properties.HarvestLevel;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
