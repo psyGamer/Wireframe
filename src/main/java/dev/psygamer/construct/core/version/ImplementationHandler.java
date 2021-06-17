@@ -84,8 +84,5 @@ public class ImplementationHandler {
 						caller.getMethodName() + "#" + caller.getMethodName());
 			}
 		}
-		
-		Arrays.stream(MinecraftVersion.values())
-				.ba
 	}
 }
