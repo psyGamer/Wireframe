@@ -1,7 +1,7 @@
-package dev.psygamer.ferrus.impl.common.registry;
+package dev.psygamer.construct.impl.common.registry;
 
-import dev.psygamer.ferrus.lib.block.BlockWrapper;
-import dev.psygamer.ferrus.lib.registry.BlockRegistry;
+import dev.psygamer.construct.lib.block.BlockWrapper;
+import dev.psygamer.construct.lib.registry.BlockRegistry;
 import lombok.Getter;
 import net.minecraft.block.Block;
 

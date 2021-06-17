@@ -1,6 +1,6 @@
-package dev.psygamer.ferrus.impl.common.data;
+package dev.psygamer.construct.impl.common.data;
 
-import dev.psygamer.ferrus.lib.data.DataGenerators;
+import dev.psygamer.construct.lib.data.DataGenerators;
 import net.minecraft.data.IDataProvider;
 
 import java.util.ArrayList;
