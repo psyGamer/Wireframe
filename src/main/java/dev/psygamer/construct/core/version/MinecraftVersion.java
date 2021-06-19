@@ -30,6 +30,7 @@ public enum MinecraftVersion {
 	
 	@Getter
 	enum Major {
+		COMMON,
 		v16;
 		
 		private final Major previousMajorVersion;
