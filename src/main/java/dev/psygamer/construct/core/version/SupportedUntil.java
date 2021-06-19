@@ -8,5 +8,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SupportedUntil {
-	MinecraftVersion value();
+	MinecraftVersion value() default MinecraftVersion.COMMON;
+	
+	MinecraftVersion.Major major() default MinecraftVersion.Major.COMMON;
+	
+	MinecraftVersion.Minor minor() default MinecraftVersion.Minor.v0;
 }

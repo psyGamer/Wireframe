@@ -50,7 +50,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                anvil {
+                construct {
                     source sourceSets.main
                 }
             }
@@ -72,7 +72,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                anvil {
+                construct {
                     source sourceSets.main
                 }
             }
@@ -100,7 +100,7 @@ minecraft {
                     '--output', file('src/generated/resources/')
 
             mods {
-                anvil {
+                construct {
                     source sourceSets.main
                 }
             }
@@ -152,7 +152,7 @@ dependencies {
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     from(configurations.lombok) {
-        into 'MEtA-INF/libraries'
+        into 'META-INF/libraries'
     }
 
     manifest {

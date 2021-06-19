@@ -10,10 +10,6 @@ import java.util.List;
 public class ImplementationUtil {
 	
 	public static List<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
-		if (libraryClass.isAnnotationPresent(SupportedOnlyIn.class)) {
-			return ImmutableList.of(libraryClass.getAnnotation(SupportedOnlyIn.class).value());
-		}
-		
 		if (libraryClass.isAnnotationPresent(SupportedSince.class) && libraryClass.isAnnotationPresent(SupportedUntil.class)) {
 			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
 			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
