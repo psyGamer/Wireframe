@@ -1,6 +1,5 @@
 package dev.psygamer.construct.core.version;
 
-import com.google.common.collect.ImmutableList;
 import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.exceptions.LibraryException;
 
@@ -50,7 +49,7 @@ public class ImplementationUtil {
 	
 	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		final String implementationClassLocation =
-				ConstructCore.Constants.getLibraryImplementationPath(version) +
+				ConstructCore.Constants.getLibraryImplementationPackage(version) +
 						libraryClass.getName().replace(ConstructCore.Constants.LIBRARY_PACKAGE, "");
 		
 		try {

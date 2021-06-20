@@ -51,7 +51,7 @@ public class ConstructUtil {
 	}
 	
 	public static boolean isPartOfLibrary(final String className) {
-		return !className.startsWith(ConstructCore.Constants.FERRUS_PACKAGE) &&
+		return !className.startsWith(ConstructCore.Constants.CONSTRUCT_PACKAGE) &&
 				!className.startsWith("net.minecraft") &&
 				!className.startsWith("net.minecraftforge");
 	}
