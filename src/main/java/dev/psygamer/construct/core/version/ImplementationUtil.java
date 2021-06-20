@@ -5,6 +5,7 @@ import dev.psygamer.construct.core.exceptions.LibraryException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ImplementationUtil {
 	
@@ -48,14 +49,35 @@ public class ImplementationUtil {
 	}
 	
 	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
-		final String implementationClassLocation =
-				ConstructCore.Constants.getLibraryImplementationPackage(version) +
-						libraryClass.getName().replace(ConstructCore.Constants.LIBRARY_PACKAGE, "");
+		final String implementationClassLocation = getLibraryImplementationPackage(version) +
+				libraryClass.getName().replace(ConstructCore.Constants.LIBRARY_PACKAGE, "");
 		
 		try {
 			return Class.forName(implementationClassLocation);
 		} catch (final ClassNotFoundException e) {
 			return null;
 		}
+	}
+	
+	public static String getLibraryImplementationPackage(final MinecraftVersion version) {
+		return version == MinecraftVersion.COMMON
+				? ConstructCore.Constants.COMMON_IMPLEMENTATION_PACKAGE
+				: ConstructCore.Constants.CONSTRUCT_PACKAGE + ".impl.v" + version.getVersionString().split("\\.")[1];
+	}
+	
+	public static String getInternalPackage(final Class<?> internalClass) {
+		return Arrays.stream(internalClass.getName()
+				.replace(ConstructCore.Constants.LIBRARY_PACKAGE, "")
+				.replace(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT, "")
+				.split("\\."))
+				.skip(1)
+				.collect(Collectors.joining("."));
+		
+	}
+	
+	public static String getImplementationClassPath(final Class<?> implementationClass, final MinecraftVersion version) {
+		return version == MinecraftVersion.COMMON
+				? getInternalPackage(implementationClass) + ".Common" + implementationClass.getSimpleName()
+				: getInternalPackage(implementationClass) + implementationClass.getSimpleName() + "Impl" + version.name().replace("v", "");
 	}
 }
