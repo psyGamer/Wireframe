@@ -17,10 +17,10 @@ public class ConstructUtil {
 	
 	/**
 	 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
+	 * <p><strong>Note: </strong>Should only be used in methods that are directly call by the dependant.</p>
 	 * <p>
 	 *
 	 * @return The mod definition of the current mod.
-	 * @apiNote Should only be used in methods that are directly call by the dependant.
 	 */
 	public static ModDefinition<?> getCurrentDependant() {
 		return getDependant(getFirstExternalClass());
@@ -51,7 +51,7 @@ public class ConstructUtil {
 	}
 	
 	public static boolean isPartOfLibrary(final String className) {
-		return !className.startsWith(ConstructCore.Constants.FERRUS_PACKAGE) &&
+		return !className.startsWith(ConstructCore.Constants.CONSTRUCT_PACKAGE) &&
 				!className.startsWith("net.minecraft") &&
 				!className.startsWith("net.minecraftforge");
 	}

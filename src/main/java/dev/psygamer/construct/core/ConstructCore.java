@@ -7,7 +7,10 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConstructCore {
 	
@@ -41,15 +44,9 @@ public class ConstructCore {
 	}
 	
 	public static final class Constants {
-		public static final String FERRUS_PACKAGE = "dev.psygamer.construct";
-		public static final String LIBRARY_PACKAGE = FERRUS_PACKAGE + ".lib";
-		public static final String IMPLEMENTATION_PACKAGE = FERRUS_PACKAGE + ".impl";
-		public static final String COMMON_IMPLEMENTATION_PACKAGE = FERRUS_PACKAGE + ".impl.common";
-		
-		public static String getLibraryImplementationPath(final MinecraftVersion version) {
-			return version == MinecraftVersion.COMMON
-					? COMMON_IMPLEMENTATION_PACKAGE
-					: FERRUS_PACKAGE + ".impl.v" + version.getVersionString().split("\\.")[1];
-		}
+		public static final String CONSTRUCT_PACKAGE = "dev.psygamer.construct";
+		public static final String LIBRARY_PACKAGE = CONSTRUCT_PACKAGE + ".lib";
+		public static final String IMPLEMENTATION_PACKAGE_ROOT = CONSTRUCT_PACKAGE + ".impl";
+		public static final String COMMON_IMPLEMENTATION_PACKAGE = CONSTRUCT_PACKAGE + ".impl.common";
 	}
 }

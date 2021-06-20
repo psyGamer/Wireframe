@@ -14,7 +14,11 @@ group = 'dev.psygamer'
 archivesBaseName = 'construct'
 version = '0.1'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java {
+    withSourcesJar()
+    withJavadocJar()
+    toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+}
 
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
@@ -154,6 +158,8 @@ jar {
     from(configurations.lombok) {
         into 'META-INF/libraries'
     }
+
+    from sourceSets.main.allSource
 
     manifest {
         attributes([
