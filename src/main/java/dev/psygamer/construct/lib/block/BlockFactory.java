@@ -28,8 +28,8 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	
 	/**
 	 * @param blockName Used to register and localize it.
-	 *                  <p> -> Registered under: modid:blockname</p>
-	 *                  <p> -> Localized under: block.modid.blockname</p>
+	 *                  <p> - Registered under: modid:blockname</p>
+	 *                  <p> - Localized under: block.modid.blockname</p>
 	 * @return A new instance of a {@link BlockFactory}
 	 * @author psyGamer
 	 * @version 1.0
@@ -41,8 +41,8 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	
 	/**
 	 * @param blockName Used to register and localize it.
-	 *                  <p> -> Registered under: modid:blockname</p>
-	 *                  <p> -> Localized under: block.modid.blockname</p>
+	 *                  <p> - Registered under: modid:blockname</p>
+	 *                  <p> - Localized under: block.modid.blockname</p>
 	 * @param material  For sound, hardness, etc.
 	 * @return A new instance of a {@link BlockFactory}
 	 * @author psyGamer
@@ -55,8 +55,8 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	
 	/**
 	 * @param blockName Used to register and localize it.
-	 *                  <p> -> Registered under: modid:blockname</p>
-	 *                  <p> -> Localized under: block.modid.blockname</p>
+	 *                  <p> - Registered under: modid:blockname</p>
+	 *                  <p> - Localized under: block.modid.blockname</p>
 	 * @param material  For sound, hardness, etc.
 	 * @param group     Creative Tab for the Block
 	 * @return A new instance of a {@link BlockFactory}

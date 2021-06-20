@@ -44,13 +44,10 @@ public enum MinecraftVersion {
 		}
 		
 		public Major getNextMinorVersion() {
-			for (final Major majorVersion : values()) {
-				if (majorVersion.getPreviousMajorVersion() == this) {
-					return majorVersion;
-				}
-			}
-			
-			return null;
+			return Arrays.stream(Major.values())
+					.filter(version -> version.getPreviousMajorVersion() == this)
+					.findFirst()
+					.orElse(null);
 		}
 		
 		@Override
@@ -79,13 +76,10 @@ public enum MinecraftVersion {
 		}
 		
 		public Minor getNextMinorVersion() {
-			for (final Minor minorVersion : values()) {
-				if (minorVersion.getPreviousMinorVersion() == this) {
-					return minorVersion;
-				}
-			}
-			
-			return null;
+			return Arrays.stream(Minor.values())
+					.filter(version -> version.getPreviousMinorVersion() == this)
+					.findFirst()
+					.orElse(null);
 		}
 		
 		@Override
@@ -95,7 +89,7 @@ public enum MinecraftVersion {
 	}
 	
 	public static MinecraftVersion getCurrentVersion() {
-		return getVersionFromString(ForgeVersion.getVersion());
+		return getVersionFromString(net.minecraft.util.MinecraftVersion.tryDetectVersion().getReleaseTarget());
 	}
 	
 	public static MinecraftVersion getVersionFromString(final String versionString) {
@@ -136,14 +130,34 @@ public enum MinecraftVersion {
 				.toArray(MinecraftVersion[]::new);
 	}
 	
-	public MinecraftVersion nextVersion() {
-		final Minor nextMinorVersion = this.minorVersion.getNextMinorVersion();
-		
-		if (nextMinorVersion != null) {
-			return getVersion(this.majorVersion, nextMinorVersion);
+	public MinecraftVersion getNextVersion() {
+		if (this.minorVersion != null) {
+			final Minor nextMinorVersion = this.minorVersion.getNextMinorVersion();
+			
+			if (nextMinorVersion != null) {
+				return getVersion(this.majorVersion, nextMinorVersion);
+			}
 		}
 		
 		final Major nextMajorVersion = this.majorVersion.getNextMinorVersion();
+		
+		if (nextMajorVersion != null) {
+			return getVersion(nextMajorVersion, Minor.v0);
+		}
+		
+		return null;
+	}
+	
+	public MinecraftVersion getPreviousVersion() {
+		if (this.minorVersion != null) {
+			final Minor nextMinorVersion = this.minorVersion.getPreviousMinorVersion();
+			
+			if (nextMinorVersion != null) {
+				return getVersion(this.majorVersion, nextMinorVersion);
+			}
+		}
+		
+		final Major nextMajorVersion = this.majorVersion.getPreviousMajorVersion();
 		
 		if (nextMajorVersion != null) {
 			return getVersion(nextMajorVersion, Minor.v0);
