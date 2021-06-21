@@ -64,7 +64,7 @@ public class ImplementationHandler {
 		final Class<?> libraryClass = Class.forName(caller.getClassName());
 		final MinecraftVersion newestVersion = Arrays.stream(MinecraftVersion.getVersionBelow(MinecraftVersion.getCurrentVersion()))
 				.filter(version -> ImplementationUtil.getImplementationClass(libraryClass, version) != null)
-				.findFirst()
+				.max(MinecraftVersion::compareTo)
 				.orElse(MinecraftVersion.COMMON);
 		
 		return ImplementationUtil.getImplementationClass(libraryClass, newestVersion);
@@ -72,7 +72,11 @@ public class ImplementationHandler {
 	
 	private static Method getImplementationMethod(final Class<?>[] paramTypes, final StackTraceElement caller, final Class<?> implementationClass, final Object[] params) throws NoSuchMethodException {
 		if (paramTypes.length > 0) {
-			return implementationClass.getMethod(caller.getMethodName(), paramTypes);
+			return implementationClass.getMethod(caller.getMethodName(),
+					Arrays.stream(paramTypes)
+							.map(ImplementationUtil::getLibraryClass)
+							.toArray(Class[]::new)
+			);
 		} else {
 			final List<Method> possibleImplementationMethods = MethodUtil.getMethodsByName(implementationClass, caller.getMethodName())
 					.stream().filter(method -> method.getParameterCount() == params.length).collect(Collectors.toList());
