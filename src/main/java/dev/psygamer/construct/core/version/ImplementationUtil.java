@@ -2,57 +2,59 @@ package dev.psygamer.construct.core.version;
 
 import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.exceptions.LibraryException;
+import dev.psygamer.construct.util.reflection.MethodUtil;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ImplementationUtil {
+public final class ImplementationUtil {
 	
-	public static List<MinecraftVersion> getSupportedVersions(final Class<?> libraryClass) {
-		if (libraryClass.isAnnotationPresent(SupportedSince.class) && libraryClass.isAnnotationPresent(SupportedUntil.class)) {
-			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
-			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
-			
-			return Arrays.asList(MinecraftVersion.getVersionBetween(supportedSince.value(), supportedUntil.value()));
+	public static Method getLibraryMethod(final MethodCaller caller) {
+		if (ImplementationCache.libraryMethodCache.containsKey(caller)) {
+			return ImplementationCache.libraryMethodCache.get(caller);
 		}
 		
-		if (libraryClass.isAnnotationPresent(SupportedSince.class)) {
-			final SupportedSince supportedSince = libraryClass.getAnnotation(SupportedSince.class);
-			
-			return Arrays.asList(MinecraftVersion.getVersionAbove(supportedSince.value()));
-		}
-		
-		if (libraryClass.isAnnotationPresent(SupportedUntil.class)) {
-			final SupportedUntil supportedUntil = libraryClass.getAnnotation(SupportedUntil.class);
-			
-			return Arrays.asList(MinecraftVersion.getVersionBelow(supportedUntil.value()));
-		}
-		
-		if (libraryClass.isAnnotationPresent(LibraryOnly.class)) {
-			throw new LibraryException(libraryClass + " is annotated with LibraryOnly yet it calls an implementation method");
-		}
-		
-		throw new LibraryException(libraryClass + " has no supported versions defined");
-	}
-	
-	public static boolean isCurrentVersionSupported(final Class<?> libraryClass) {
-		return isVersionSupported(libraryClass, MinecraftVersion.getCurrentVersion());
-	}
-	
-	public static boolean isVersionSupported(final Class<?> libraryClass, final MinecraftVersion version) {
 		try {
-			return getSupportedVersions(libraryClass).contains(version);
-		} catch (final LibraryException ex) {
-			return false;
+			final Class<?> libraryClass = Class.forName(caller.className);
+			
+			List<Method> possibleMethods = MethodUtil.getStaticMethodsByName(
+					libraryClass,
+					caller.methodName
+			);
+			
+			if (possibleMethods.size() == 1) {
+				ImplementationCache.libraryMethodCache.put(caller, possibleMethods.get(0));
+				
+				return possibleMethods.get(0);
+			}
+			
+			possibleMethods = possibleMethods.stream()
+					.filter(method -> method.getParameterCount() == caller.parameterTypes.length)
+					.collect(Collectors.toList());
+			
+			if (possibleMethods.size() == 1) {
+				ImplementationCache.libraryMethodCache.put(caller, possibleMethods.get(0));
+				
+				return possibleMethods.get(0);
+			}
+			
+			for (final Method possibleMethod : possibleMethods) {
+				if (Arrays.equals(possibleMethod.getParameterTypes(), caller.parameterTypes)) {
+					return possibleMethod;
+				}
+			}
+		} catch (final ClassNotFoundException ignored) {
 		}
+		
+		throw new LibraryException("oh no");
 	}
 	
-	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
+	private static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		try {
 			return Class.forName(
-					getLibraryImplementationPackage(version) + "." +
+					getLibraryImplementationPackagePath(version) + "." +
 							getImplementationClassPath(libraryClass, version)
 			);
 		} catch (final ClassNotFoundException e) {
@@ -60,13 +62,41 @@ public class ImplementationUtil {
 		}
 	}
 	
-	public static String getLibraryImplementationPackage(final MinecraftVersion version) {
+	public static Class<?> getImplementationClass(final Class<?> libraryClass) {
+		final MinecraftVersion newestVersion = Arrays.stream(MinecraftVersion.getVersionBelow(MinecraftVersion.getCurrentVersion()))
+				.filter(version -> ImplementationUtil.getImplementationClass(libraryClass, version) != null)
+				.max(MinecraftVersion::compareTo)
+				.orElse(MinecraftVersion.COMMON);
+		
+		return ImplementationUtil.getImplementationClass(libraryClass, newestVersion);
+	}
+	
+	public static Method getImplementationMethod(final Method libraryMethod) {
+		MinecraftVersion version = MinecraftVersion.getCurrentVersion();
+		
+		while (true) {
+			final Class<?> implementationClass = getImplementationClass(libraryMethod.getDeclaringClass(), version);
+			
+			version = version.getPreviousVersion();
+			
+			if (implementationClass == null) {
+				continue;
+			}
+			
+			try {
+				return implementationClass.getDeclaredMethod(libraryMethod.getName(), libraryMethod.getParameterTypes());
+			} catch (final NoSuchMethodException ignored) {
+			}
+		}
+	}
+	
+	private static String getLibraryImplementationPackagePath(final MinecraftVersion version) {
 		return version == MinecraftVersion.COMMON
 				? ConstructCore.Constants.COMMON_IMPLEMENTATION_PACKAGE
 				: ConstructCore.Constants.CONSTRUCT_PACKAGE + ".impl.v" + version.getVersionString().substring(2).replace(".", "_");
 	}
 	
-	public static String getInternalPackage(final Class<?> internalClass) {
+	private static String getInternalPackagePath(final Class<?> internalClass) {
 		return Arrays.stream(internalClass.getName()
 				.split("\\."))
 				.skip(isLibraryClass(internalClass) ? 4 : 5)
@@ -74,50 +104,21 @@ public class ImplementationUtil {
 				.collect(Collectors.joining("."));
 	}
 	
-	public static String getImplementationClassPath(final Class<?> libraryClass, final MinecraftVersion version) {
+	private static String getImplementationClassPath(final Class<?> libraryClass, final MinecraftVersion version) {
 		return version == MinecraftVersion.COMMON
-				? getInternalPackage(libraryClass) + ".Common" + libraryClass.getSimpleName()
-				: getInternalPackage(libraryClass) + "." + libraryClass.getSimpleName() + "Impl" + version.name().replace("v", "");
+				? getInternalPackagePath(libraryClass) + ".Common" + libraryClass.getSimpleName()
+				: getInternalPackagePath(libraryClass) + "." + libraryClass.getSimpleName() + "Impl" + version.name().replace("v", "");
 	}
 	
-	public static String getLibraryClassName(final Class<?> implementationClass) {
-		final String className = implementationClass.getSimpleName();
-		
-		if (className.startsWith("Common")) {
-			return className.substring(6);
-		}
-		
-		if (isImplementationClass(implementationClass)) {
-			return Pattern
-					.compile("Impl\\d+(_\\d+)?")
-					.matcher(className)
-					.replaceFirst("");
-		}
-		
-		return className;
+	private static boolean isImplementationClass(final Class<?> internalClass) {
+		return internalClass.getName().startsWith(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT);
 	}
 	
-	public static Class<?> getLibraryClass(final Class<?> implementationClass) {
-		if (!isLibraryClass(implementationClass) && !isImplementationClass(implementationClass)) {
-			return implementationClass;
-		}
-		
-		try {
-			return Class.forName(
-					ConstructCore.Constants.LIBRARY_PACKAGE + "." +
-							getInternalPackage(implementationClass) + "." +
-							getLibraryClassName(implementationClass)
-			);
-		} catch (final ClassNotFoundException | IllegalArgumentException e) {
-			return null;
-		}
+	private static boolean isLibraryClass(final Class<?> internalClass) {
+		return internalClass.getName().startsWith(ConstructCore.Constants.LIBRARY_PACKAGE);
 	}
 	
-	public static boolean isImplementationClass(final Class<?> implementationClass) {
-		return implementationClass.getName().startsWith(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT);
-	}
-	
-	public static boolean isLibraryClass(final Class<?> implementationClass) {
-		return implementationClass.getName().startsWith(ConstructCore.Constants.LIBRARY_PACKAGE);
+	private static boolean isInternalClass(final Class<?> internalClass) {
+		return isLibraryClass(internalClass) || isImplementationClass(internalClass);
 	}
 }

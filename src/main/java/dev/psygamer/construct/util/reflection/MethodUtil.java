@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MethodUtil {
 	
@@ -29,6 +30,12 @@ public class MethodUtil {
 		}
 		
 		return staticMethods;
+	}
+	
+	public static List<Method> getStaticMethodsByName(final Class<?> clazz, final String methodName) {
+		return getMethodsByName(clazz, methodName).stream()
+				.filter(method -> Modifier.isStatic(method.getModifiers()))
+				.collect(Collectors.toList());
 	}
 	
 	public static List<Method> getMethodsByName(final Class<?> clazz, final String methodName) {
