@@ -16,7 +16,7 @@ public class Namespace {
 	public String get() {
 		if (this.namespace.isEmpty()) {
 			try {
-				return ConstructCore.Util.getDependant(this.classPath).namespace;
+				return ConstructCore.Util.getDependant(this.classPath).getNamespace();
 			} catch (final LibraryException ex) {
 				throw new ConstructSetupException(this.classPath);
 			}
