@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class CommonBlockFactory implements BlockFactory {
+public abstract class CommonBlockFactory implements BlockFactory {
 	
 	protected String registryName;
 	
@@ -33,6 +33,10 @@ public class CommonBlockFactory implements BlockFactory {
 	protected boolean opaque;
 	
 	protected List<Property<?>> blockStateProperties = new ArrayList<>();
+	
+	public CommonBlockFactory(final String registryName) {
+		this.registryName = registryName;
+	}
 	
 	@Override
 	public BlockFactory inheritFromBlock(final Block block) {
@@ -181,10 +185,5 @@ public class CommonBlockFactory implements BlockFactory {
 		this.blockStateProperties.add(property);
 		
 		return this;
-	}
-	
-	@Override
-	public Block build() {
-		return null;
 	}
 }
