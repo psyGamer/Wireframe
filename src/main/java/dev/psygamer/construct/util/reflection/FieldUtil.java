@@ -4,17 +4,18 @@ import java.lang.reflect.Field;
 
 public class FieldUtil {
 	
-	public static Object getField(final Object obj, final String fieldName) {
+	@SuppressWarnings("unchecked")
+	public static <T, U> U getField(final Class<? super T> classToAccess, final T instance, final String fieldName) {
 		try {
-			final Field field = obj.getClass().getField(fieldName);
+			final Field field = classToAccess.getDeclaredField(fieldName);
 			
 			field.setAccessible(true);
 			
-			return field.get(obj);
+			return (U) field.get(instance);
 		} catch (final NoSuchFieldException ex) {
-			throw new IllegalArgumentException("Field " + fieldName + " was not found on " + obj);
+			throw new IllegalArgumentException("Field " + fieldName + " was not found on " + classToAccess);
 		} catch (final IllegalAccessException ex) {
-			throw new IllegalArgumentException("Field " + fieldName + " could not be accessed in " + obj);
+			throw new IllegalArgumentException("Field " + fieldName + " could not be accessed in " + classToAccess);
 		}
 	}
 }

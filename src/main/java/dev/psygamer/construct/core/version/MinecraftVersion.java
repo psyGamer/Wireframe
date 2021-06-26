@@ -1,7 +1,6 @@
 package dev.psygamer.construct.core.version;
 
 import lombok.Getter;
-import net.minecraftforge.versions.forge.ForgeVersion;
 
 import java.util.Arrays;
 

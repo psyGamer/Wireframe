@@ -1,16 +1,14 @@
 package dev.psygamer.construct.core;
 
 import dev.psygamer.construct.core.exceptions.LibraryException;
-import dev.psygamer.construct.core.version.MinecraftVersion;
 import lombok.Getter;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ConstructCore {
 	
@@ -18,17 +16,16 @@ public class ConstructCore {
 	public static final String MODID = "construct";
 	
 	@Getter
-	private static List<ModDefinition<?>> dependants;
+	private static final List<ModDefinition<?>> dependants = new ArrayList<>();
 	
-	public static <T> void registerMod(final T modInstance, final Class<T> modClass) {
+	public static <T> void registerMod(final Class<T> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
 			throw new LibraryException("Mod class is not annotated with @Mod");
 		}
 		
 		dependants.add(new ModDefinition<>(
-				modClass.getAnnotation(Mod.class).value(),
-				modInstance,
-				modClass
+				modClass,
+				modLoadingContext
 		));
 	}
 	
