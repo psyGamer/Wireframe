@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 public class BlockFactoryImpl16 extends CommonBlockFactory {
 	
 	public BlockFactoryImpl16(final String registryName) {
-		super();
+		super(registryName);
 	}
 	
 	public static BlockFactory create(final String registryName) {
@@ -45,7 +45,14 @@ public class BlockFactoryImpl16 extends CommonBlockFactory {
 	public Block build() {
 		final BlockWrapper wrapper = BlockWrapper.create(this);
 		
-		return new Block(createProperties());
+		return wrapper.getBlock();
+	}
+	
+	@Override
+	public Block createBlock() {
+		return new Block(createProperties()) {
+		
+		};
 	}
 	
 	private AbstractBlock.Properties createProperties() {
