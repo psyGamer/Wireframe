@@ -5,6 +5,7 @@ import dev.psygamer.construct.lib.block.BlockFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
+
 public class BlockTest {
 	
 	//	@BlockVariants

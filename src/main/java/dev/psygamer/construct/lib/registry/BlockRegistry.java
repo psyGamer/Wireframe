@@ -14,8 +14,8 @@ import java.util.List;
 @SupportedSince(MinecraftVersion.v16)
 public interface BlockRegistry {
 	
-	static void addBlockWrapper(final BlockWrapper block) {
-		ImplementationHandler.executeImplementation(block);
+	static void register(final BlockWrapper blockWrapper) {
+		ImplementationHandler.executeImplementation(blockWrapper);
 	}
 	
 	static List<Block> getBlocks() {
