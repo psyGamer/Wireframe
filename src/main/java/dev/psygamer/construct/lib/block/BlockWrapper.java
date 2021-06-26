@@ -2,14 +2,11 @@ package dev.psygamer.construct.lib.block;
 
 import dev.psygamer.construct.core.dependant.namespace.Namespace;
 import dev.psygamer.construct.core.version.ImplementationHandler;
-import dev.psygamer.construct.core.version.MinecraftVersion;
-import dev.psygamer.construct.core.version.SupportedSince;
 import net.minecraft.block.Block;
 
 import java.util.List;
 
 
-@SupportedSince(MinecraftVersion.v16)
 public interface BlockWrapper {
 	
 	static BlockWrapper create(final BlockFactory factory) {

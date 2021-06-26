@@ -3,8 +3,6 @@ package dev.psygamer.construct.lib.block;
 import dev.psygamer.construct.core.version.ImplementationHandler;
 import dev.psygamer.construct.lib.block.properties.HarvestLevel;
 import dev.psygamer.construct.lib.util.ICloneable;
-import dev.psygamer.construct.core.version.MinecraftVersion;
-import dev.psygamer.construct.core.version.SupportedSince;
 import dev.psygamer.construct.lib.util.IFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -23,7 +21,6 @@ import net.minecraftforge.common.ToolType;
  * @see Block
  * @since 1.0
  */
-@SupportedSince(MinecraftVersion.v16)
 public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> {
 	
 	/**
