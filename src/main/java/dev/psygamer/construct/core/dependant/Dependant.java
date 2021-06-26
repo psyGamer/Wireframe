@@ -1,11 +1,14 @@
-package dev.psygamer.construct.core;
+package dev.psygamer.construct.core.dependant;
 
+import dev.psygamer.construct.core.ConstructUtil;
 import dev.psygamer.construct.util.reflection.FieldUtil;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 
-public class ModDefinition <T> {
+import java.util.Objects;
+
+public final class Dependant <T> {
 	private final String namespace;
 	private final String rootPackage;
 	
@@ -16,12 +19,12 @@ public class ModDefinition <T> {
 	private final T modInstance;
 	
 	@SuppressWarnings("unchecked")
-	public ModDefinition(final Class<T> modClass, final FMLJavaModLoadingContext modLoadingContext) {
+	public Dependant(final Class<T> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		this.modLoadingContext = modLoadingContext;
 		this.modContainer = FieldUtil.getField(FMLJavaModLoadingContext.class, modLoadingContext, "container");
 		
 		this.namespace = this.modContainer.getModId();
-		this.rootPackage = ConstructUtil.getFirstExternalClass();
+		this.rootPackage = Objects.requireNonNull(ConstructUtil.getFirstExternalClass()).getName();
 		
 		this.modClass = modClass;
 		this.modInstance = (T) this.modContainer.getMod();
@@ -49,5 +52,11 @@ public class ModDefinition <T> {
 	
 	public T getModInstance() {
 		return this.modInstance;
+	}
+	
+	public static final class NotFoundException extends RuntimeException {
+		public NotFoundException(final String dependantName) {
+			super("Could not find dependant: " + dependantName);
+		}
 	}
 }
