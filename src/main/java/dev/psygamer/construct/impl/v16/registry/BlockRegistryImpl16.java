@@ -1,6 +1,7 @@
 package dev.psygamer.construct.impl.v16.registry;
 
 import dev.psygamer.construct.core.ConstructCore;
+import dev.psygamer.construct.core.dependant.DependantsUtil;
 import dev.psygamer.construct.impl.common.registry.CommonBlockRegistry;
 import dev.psygamer.construct.lib.block.BlockWrapper;
 import net.minecraft.block.Block;
@@ -68,7 +69,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 			
 			if (!BLOCK_REGISTRIES.containsKey(namespace)) {
 				BLOCK_REGISTRIES.put(namespace, DeferredRegister.create(ForgeRegistries.BLOCKS, namespace));
-				BLOCK_REGISTRIES.get(namespace).register(ConstructCore.Util.getCurrentDependant().getModLoadingContext().getModEventBus());
+				BLOCK_REGISTRIES.get(namespace).register(DependantsUtil.getCurrentDependant().getModLoadingContext().getModEventBus());
 			}
 		}
 	}

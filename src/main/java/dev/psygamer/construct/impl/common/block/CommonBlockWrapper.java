@@ -1,7 +1,7 @@
 package dev.psygamer.construct.impl.common.block;
 
-import dev.psygamer.construct.core.ConstructCore;
-import dev.psygamer.construct.core.Namespace;
+import dev.psygamer.construct.core.dependant.namespace.Namespace;
+import dev.psygamer.construct.core.dependant.namespace.NamespaceUtil;
 import dev.psygamer.construct.lib.block.BlockFactory;
 import dev.psygamer.construct.lib.block.BlockProperty;
 import dev.psygamer.construct.lib.block.BlockWrapper;
@@ -29,7 +29,7 @@ public class CommonBlockWrapper implements BlockWrapper {
 	protected List<BlockProperty<?>> blockProperties = new ArrayList<>();
 	
 	protected CommonBlockWrapper(final BlockFactory blockFactory) {
-		this.namespace = ConstructCore.Util.getCurrentNamespace();
+		this.namespace = NamespaceUtil.getCurrentNamespace();
 		this.registryName = blockFactory.getRegistryName();
 		
 		this.block = blockFactory.createBlock();
