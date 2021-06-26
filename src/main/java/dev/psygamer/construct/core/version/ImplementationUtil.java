@@ -51,7 +51,7 @@ public final class ImplementationUtil {
 		throw new LibraryException("oh no");
 	}
 	
-	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
+	private static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		try {
 			return Class.forName(
 					getLibraryImplementationPackagePath(version) + "." +
@@ -62,7 +62,7 @@ public final class ImplementationUtil {
 		}
 	}
 	
-	public static Class<?> getNewestImplementationClass(final Class<?> libraryClass) {
+	public static Class<?> getImplementationClass(final Class<?> libraryClass) {
 		final MinecraftVersion newestVersion = Arrays.stream(MinecraftVersion.getVersionBelow(MinecraftVersion.getCurrentVersion()))
 				.filter(version -> ImplementationUtil.getImplementationClass(libraryClass, version) != null)
 				.max(MinecraftVersion::compareTo)
