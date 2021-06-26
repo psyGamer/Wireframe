@@ -129,4 +129,6 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	//	TODO BOUNDING BOX
 	
 	BlockFactory inheritFromBlock(final Block block);
+	
+	Block createBlock();
 }
