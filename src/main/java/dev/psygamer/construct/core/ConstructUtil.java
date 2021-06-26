@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class ConstructUtil {
 	public static ModDefinition<?> getDependant(final String classPath) {
 		for (final ModDefinition<?> dependant : ConstructCore.getDependants()) {
-			if (classPath.startsWith(dependant.rootPackage)) {
+			if (classPath.startsWith(dependant.getRootPackage())) {
 				return dependant;
 			}
 		}
@@ -28,14 +28,18 @@ public class ConstructUtil {
 	
 	public static Namespace getNamespace(final String classPath) {
 		try {
-			return new Namespace(getDependant(classPath).namespace, "");
+			return new Namespace(getDependant(classPath).getNamespace(), "");
 		} catch (final LibraryException ex) {
 			return new Namespace("", classPath);
 		}
 	}
 	
 	public static Namespace getCurrentNamespace() {
-		return getNamespace(getFirstExternalClass());
+		try {
+			return getNamespace(getFirstExternalClass());
+		} catch (final LibraryException ex) {
+			return new Namespace("", getFirstExternalClass());
+		}
 	}
 	
 	public static String getFirstExternalClass() {
@@ -52,7 +56,10 @@ public class ConstructUtil {
 	
 	public static boolean isPartOfLibrary(final String className) {
 		return !className.startsWith(ConstructCore.Constants.CONSTRUCT_PACKAGE) &&
-				!className.startsWith("net.minecraft") &&
-				!className.startsWith("net.minecraftforge");
+				!className.startsWith("cpw") &&
+				!className.startsWith("java") &&
+				!className.startsWith("sun.reflect") &&
+				!className.startsWith("com.mojang") &&
+				!className.startsWith("net.minecraft");
 	}
 }
