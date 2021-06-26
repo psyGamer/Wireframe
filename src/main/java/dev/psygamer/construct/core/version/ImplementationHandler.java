@@ -1,92 +1,63 @@
 package dev.psygamer.construct.core.version;
 
+import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.exceptions.LibraryException;
-import dev.psygamer.construct.util.reflection.ClassUtil;
-import dev.psygamer.construct.util.reflection.MethodUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ImplementationHandler {
 	
-	public static Object executeOverloadedImplementationMethod(final Class<?>[] paramTypes, final Object... params) {
-		final StackTraceElement caller = Arrays.stream(Thread.currentThread().getStackTrace())
+	public static <T> T executeSpecificImplementation(final Class<?>[] parameterTypes, final Object... parameters) {
+		final MethodCaller caller = new MethodCaller(Arrays.stream(Thread.currentThread().getStackTrace())
 				.filter(element ->
-						!element.getClassName().equalsIgnoreCase(ImplementationHandler.class.getName()) &&
-								!element.getClassName().equalsIgnoreCase(Thread.class.getName()))
+						!element.getClassName().startsWith(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT) &&
+								!element.getClassName().startsWith("cpw") &&
+								!element.getClassName().startsWith("java") &&
+								!element.getClassName().startsWith("sun.reflect") &&
+								!element.getClassName().startsWith("com.mojang") &&
+								!element.getClassName().startsWith("net.minecraft"))
 				.findFirst()
-				.orElseThrow(() -> new LibraryException("Could not find invocation off VersionHandler.runImplementation"));
+				.orElseThrow(() -> new LibraryException("Could not find invocation off VersionHandler.runImplementation")), parameterTypes);
 		
-		try {
-			final Class<?> libraryClass = Class.forName(caller.getClassName());
-			final Class<?> implementationClass = getImplementationClass(caller);
-			
-			if (!ImplementationUtil.getSupportedVersions(libraryClass).contains(MinecraftVersion.getCurrentVersion())) {
-				throw new VersionNotSupportedException(MinecraftVersion.getCurrentVersion(), ImplementationUtil.getSupportedVersions(libraryClass));
-			}
-			
-			final Method implementationMethod = getImplementationMethod(paramTypes, caller, implementationClass, params);
-			
-			if (!Modifier.isStatic(implementationMethod.getModifiers())) {
-				throw new LibraryException("Versioned methods must be static, but is not in: " + caller.getClassName() + "." + caller.getMethodName());
-			}
-			
-			return implementationMethod.invoke(null, params);
-			
-		} catch (final ClassNotFoundException e) {
-			e.printStackTrace();
-			
-			throw new LibraryException("Could not find library implementation for " + caller.getClassName());
-		} catch (final NoSuchMethodException e) {
-			e.printStackTrace();
-			
-			throw new LibraryException("Could not find library implementation for " + caller.getClassName() + "." + caller.getMethodName());
-		} catch (final IllegalAccessException e) {
-			e.printStackTrace();
-			
-			throw new LibraryException("Could not access " + caller.getClassName() + "." + caller.getMethodName());
-		} catch (final InvocationTargetException e) {
-			e.printStackTrace();
-			
-			throw new LibraryException("Could not invoke " + caller.getClassName() + "." + caller.getMethodName());
+		if (ImplementationCache.directImplementationMethodCache.containsKey(caller)) {
+			return invokeImplementationMethod(ImplementationCache.directImplementationMethodCache.get(caller), parameters, caller);
 		}
-	}
-	
-	public static Object executeImplementation(final Object... params) {
-		return executeOverloadedImplementationMethod(ClassUtil.getParameterTypes(params), params);
-	}
-	
-	private static Class<?> getImplementationClass(final StackTraceElement caller) throws ClassNotFoundException {
-		final Class<?> libraryClass = Class.forName(caller.getClassName());
-		final MinecraftVersion newestVersion = Arrays.stream(MinecraftVersion.getVersionBelow(MinecraftVersion.getCurrentVersion()))
-				.filter(version -> ImplementationUtil.getImplementationClass(libraryClass, version) != null)
-				.max(MinecraftVersion::compareTo)
-				.orElse(MinecraftVersion.COMMON);
 		
-		return ImplementationUtil.getImplementationClass(libraryClass, newestVersion);
+		final Method libraryMethod = ImplementationUtil.getLibraryMethod(caller);
+		final Method implementationMethod = ImplementationUtil.getImplementationMethod(libraryMethod);
+		
+		return invokeImplementationMethod(implementationMethod, parameters, caller);
 	}
 	
-	private static Method getImplementationMethod(final Class<?>[] paramTypes, final StackTraceElement caller, final Class<?> implementationClass, final Object[] params) throws NoSuchMethodException {
-		if (paramTypes.length > 0) {
-			return implementationClass.getMethod(caller.getMethodName(),
-					Arrays.stream(paramTypes)
-							.map(ImplementationUtil::getLibraryClass)
-							.toArray(Class[]::new)
-			);
-		} else {
-			final List<Method> possibleImplementationMethods = MethodUtil.getMethodsByName(implementationClass, caller.getMethodName())
-					.stream().filter(method -> method.getParameterCount() == params.length).collect(Collectors.toList());
+	public static <T> T executeImplementation(final Object... parameters) {
+		return executeSpecificImplementation(
+				Arrays.stream(parameters)
+						.map(parameter -> {
+							if (parameter == null) {
+								return null;
+							}
+							
+							return parameter.getClass();
+						}).toArray(Class[]::new),
+				
+				parameters
+		);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static <T> T invokeImplementationMethod(final Method implementationMethod, final Object[] parameters, final MethodCaller caller) {
+		try {
+			return (T) implementationMethod.invoke(null, parameters);
+		} catch (final IllegalAccessException ex) {
+			ex.printStackTrace();
 			
-			if (possibleImplementationMethods.size() == 1) {
-				return possibleImplementationMethods.get(0);
-			} else {
-				throw new LibraryException("Static method overloading with same parameter count and no parameter type definitions.\n" +
-						caller.getMethodName() + "#" + caller.getMethodName());
-			}
+			throw new LibraryException("Could not access " + caller.className + "." + caller.methodName);
+		} catch (final InvocationTargetException ex) {
+			ex.printStackTrace();
+			
+			throw new LibraryException("Could not invoke " + caller.className + "." + caller.methodName);
 		}
 	}
 }

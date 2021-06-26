@@ -162,7 +162,7 @@ public enum MinecraftVersion {
 			return getVersion(nextMajorVersion, Minor.v0);
 		}
 		
-		return null;
+		return COMMON;
 	}
 	
 	public String getVersionString() {
@@ -171,7 +171,9 @@ public enum MinecraftVersion {
 	
 	@Override
 	public String toString() {
-		return this.minorVersion == Minor.v0
+		return this.majorVersion == null
+				? "Common"
+				: this.minorVersion == Minor.v0
 				? "1." + this.majorVersion
 				: "1." + this.majorVersion + "." + this.minorVersion;
 	}
