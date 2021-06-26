@@ -18,7 +18,7 @@ public class ConstructCore {
 	public static final String MODID = "construct";
 	
 	@Getter
-	private static List<ModDefinition<?>> dependants;
+	private static final List<ModDefinition<?>> dependants = new ArrayList<>();
 	
 	public static <T> void registerMod(final T modInstance, final Class<T> modClass) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
