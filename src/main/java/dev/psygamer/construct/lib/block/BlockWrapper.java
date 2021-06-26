@@ -8,11 +8,12 @@ import net.minecraft.block.Block;
 
 import java.util.List;
 
+
 @SupportedSince(MinecraftVersion.v16)
 public interface BlockWrapper {
 	
 	static BlockWrapper create(final BlockFactory factory) {
-		return (BlockWrapper) ImplementationHandler.executeImplementation(factory);
+		return ImplementationHandler.executeImplementation(factory);
 	}
 	
 	Namespace getNamespace();
