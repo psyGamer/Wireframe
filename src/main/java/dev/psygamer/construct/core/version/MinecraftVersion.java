@@ -138,28 +138,32 @@ public enum MinecraftVersion {
 			}
 		}
 		
-		final Major nextMajorVersion = this.majorVersion.getNextMinorVersion();
-		
-		if (nextMajorVersion != null) {
-			return getVersion(nextMajorVersion, Minor.v0);
+		if (this.majorVersion != null) {
+			final Major nextMajorVersion = this.majorVersion.getNextMinorVersion();
+			
+			if (nextMajorVersion != null) {
+				return getVersion(nextMajorVersion, Minor.v0);
+			}
 		}
 		
-		return null;
+		return this;
 	}
 	
 	public MinecraftVersion getPreviousVersion() {
 		if (this.minorVersion != null) {
-			final Minor nextMinorVersion = this.minorVersion.getPreviousMinorVersion();
+			final Minor previousMinorVersion = this.minorVersion.getPreviousMinorVersion();
 			
-			if (nextMinorVersion != null) {
-				return getVersion(this.majorVersion, nextMinorVersion);
+			if (previousMinorVersion != null) {
+				return getVersion(this.majorVersion, previousMinorVersion);
 			}
 		}
 		
-		final Major nextMajorVersion = this.majorVersion.getPreviousMajorVersion();
-		
-		if (nextMajorVersion != null) {
-			return getVersion(nextMajorVersion, Minor.v0);
+		if (this.majorVersion != null) {
+			final Major nextMajorVersion = this.majorVersion.getPreviousMajorVersion();
+			
+			if (nextMajorVersion != null) {
+				return getVersion(nextMajorVersion, Minor.v0);
+			}
 		}
 		
 		return COMMON;
