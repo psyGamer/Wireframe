@@ -1,53 +1,29 @@
 package dev.psygamer.construct.core;
 
-import dev.psygamer.construct.core.exceptions.LibraryException;
-
 import java.util.Arrays;
+import java.util.Objects;
 
-public class ConstructUtil {
-	public static ModDefinition<?> getDependant(final String classPath) {
-		for (final ModDefinition<?> dependant : ConstructCore.getDependants()) {
-			if (classPath.startsWith(dependant.getRootPackage())) {
-				return dependant;
-			}
-		}
-		
-		throw new LibraryException("Couldn't find dependant for class " + classPath);
-	}
+public final class ConstructUtil {
 	
-	/**
-	 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
-	 * <p><strong>Note: </strong>Should only be used in methods that are directly call by the dependant.</p>
-	 * <p>
-	 *
-	 * @return The mod definition of the current mod.
-	 */
-	public static ModDefinition<?> getCurrentDependant() {
-		return getDependant(getFirstExternalClass());
-	}
-	
-	public static Namespace getNamespace(final String classPath) {
+	public static Class<?> getFirstExternalClass() {
 		try {
-			return new Namespace(getDependant(classPath).getNamespace(), "");
-		} catch (final LibraryException ex) {
-			return new Namespace("", classPath);
+			return Class.forName(
+					Objects.requireNonNull(
+							Arrays.stream(Thread.currentThread().getStackTrace())
+									.filter(ConstructUtil::isPartOfLibrary)
+									.findFirst()
+									.orElse(null)
+					).getClassName()
+			);
+			
+			
+		} catch (final NullPointerException | ClassNotFoundException ex) {
+			return null;
 		}
 	}
 	
-	public static Namespace getCurrentNamespace() {
-		try {
-			return getNamespace(getFirstExternalClass());
-		} catch (final LibraryException ex) {
-			return new Namespace("", getFirstExternalClass());
-		}
-	}
-	
-	public static String getFirstExternalClass() {
-		return Arrays.stream(Thread.currentThread().getStackTrace())
-				.filter(ConstructUtil::isPartOfLibrary)
-				.findFirst()
-				.orElseThrow(() -> new LibraryException("Could not find external class in stack trace"))
-				.getClassName();
+	public static boolean isPartOfLibrary(final Class<?> clazz) {
+		return isPartOfLibrary(clazz.getName());
 	}
 	
 	public static boolean isPartOfLibrary(final StackTraceElement element) {
