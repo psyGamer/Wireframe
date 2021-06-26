@@ -1,6 +1,6 @@
 package dev.psygamer.construct.lib.block;
 
-import dev.psygamer.construct.core.Namespace;
+import dev.psygamer.construct.core.dependant.namespace.Namespace;
 import dev.psygamer.construct.core.version.ImplementationHandler;
 import dev.psygamer.construct.core.version.MinecraftVersion;
 import dev.psygamer.construct.core.version.SupportedSince;
