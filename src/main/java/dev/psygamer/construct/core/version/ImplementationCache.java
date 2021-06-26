@@ -1,16 +1,11 @@
 package dev.psygamer.construct.core.version;
 
 import dev.psygamer.construct.core.ConstructCore;
-import dev.psygamer.construct.core.exceptions.LibraryException;
 import dev.psygamer.construct.util.reflection.ClassUtil;
-import dev.psygamer.construct.util.reflection.MethodUtil;
 
-import java.util.stream.Collectors;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Arrays;
 
 public final class ImplementationCache {
 	
@@ -22,8 +17,11 @@ public final class ImplementationCache {
 		for (final Class<?> libraryClass : ClassUtil.getClasses(ConstructCore.Constants.LIBRARY_PACKAGE)) {
 			for (final Method libraryMethod : libraryClass.getDeclaredMethods()) {
 				final MethodCaller caller = getMethodCallerObject(libraryMethod);
+				final Method implementationMethod = ImplementationUtil.getImplementationMethod(libraryMethod);
 				
-				libraryMethodCache.put(caller, ImplementationUtil.getLibraryMethod(caller));
+				libraryMethodCache.put(caller, libraryMethod);
+				directImplementationMethodCache.put(caller, implementationMethod);
+				implementationMethodCache.put(libraryMethod, implementationMethod);
 			}
 		}
 	}
