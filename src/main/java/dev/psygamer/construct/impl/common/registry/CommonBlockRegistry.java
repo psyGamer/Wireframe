@@ -15,7 +15,7 @@ public abstract class CommonBlockRegistry implements BlockRegistry {
 	@Getter
 	protected static List<BlockWrapper> blockWrappers = new ArrayList<>();
 	
-	public static void addBlockWrapper(final BlockWrapper blockWrapper) {
+	public static void register(final BlockWrapper blockWrapper) {
 		blockWrappers.add(blockWrapper);
 	}
 }

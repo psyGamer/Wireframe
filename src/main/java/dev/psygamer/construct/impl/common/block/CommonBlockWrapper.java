@@ -9,6 +9,7 @@ import dev.psygamer.construct.lib.registry.BlockRegistry;
 import lombok.Getter;
 import net.minecraft.block.Block;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommonBlockWrapper implements BlockWrapper {
@@ -23,18 +24,18 @@ public class CommonBlockWrapper implements BlockWrapper {
 	protected final BlockFactory factory;
 	
 	@Getter
-	protected List<BlockWrapper> blockVariants;
+	protected List<BlockWrapper> blockVariants = new ArrayList<>();
 	@Getter
-	protected List<BlockProperty<?>> blockProperties;
+	protected List<BlockProperty<?>> blockProperties = new ArrayList<>();
 	
 	protected CommonBlockWrapper(final BlockFactory blockFactory) {
 		this.namespace = ConstructCore.Util.getCurrentNamespace();
 		this.registryName = blockFactory.getRegistryName();
 		
-		this.block = blockFactory.build();
+		this.block = blockFactory.createBlock();
 		this.factory = blockFactory;
 		
-		BlockRegistry.addBlockWrapper(this);
+		BlockRegistry.register(this);
 	}
 	
 	public static BlockWrapper create(final BlockFactory factory) {
