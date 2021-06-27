@@ -77,19 +77,24 @@ public final class ImplementationUtil {
 		while (true) {
 			final Class<?> implementationClass = getImplementationClass(libraryMethod.getDeclaringClass(), version);
 			
-			version = version.getPreviousVersion();
-			
 			if (implementationClass == null) {
+				if (version == MinecraftVersion.COMMON) {
+					break;
+				}
+				
+				version = version.getPreviousVersion();
+				
 				continue;
 			}
 			
 			try {
 				return implementationClass.getDeclaredMethod(libraryMethod.getName(), libraryMethod.getParameterTypes());
 			} catch (final NoSuchMethodException ignored) {
-			}
-			
-			if (version == MinecraftVersion.COMMON) {
-				break;
+				if (version == MinecraftVersion.COMMON) {
+					break;
+				}
+				
+				version = version.getPreviousVersion();
 			}
 		}
 		
