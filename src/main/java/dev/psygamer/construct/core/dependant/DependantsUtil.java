@@ -1,14 +1,16 @@
 package dev.psygamer.construct.core.dependant;
 
-import dev.psygamer.construct.core.ConstructUtil;
+import dev.psygamer.construct.core.dependant.namespace.Namespace;
+import dev.psygamer.construct.core.dependant.namespace.NamespaceUtil;
 
-import java.util.Objects;
 
 public final class DependantsUtil {
 	
-	public static Dependant<?> getDependant(final String namespace) {
+	public static Dependant<?> getDependant(final Namespace namespace) {
 		for (final Dependant<?> dependant : DependantsHandler.getDependants()) {
-			if (dependant.getNamespace().equalsIgnoreCase(namespace)) {
+			if (dependant.getRootPackage().startsWith(namespace.getPackagePath()) ||
+					dependant.getNamespace().equalsIgnoreCase(namespace.getNamespace())
+			) {
 				return dependant;
 			}
 		}
@@ -24,6 +26,6 @@ public final class DependantsUtil {
 	 * @return The mod definition of the current mod.
 	 */
 	public static Dependant<?> getCurrentDependant() {
-		return getDependant(Objects.requireNonNull(ConstructUtil.getFirstExternalClass()).getName());
+		return getDependant(NamespaceUtil.getCurrentNamespace());
 	}
 }
