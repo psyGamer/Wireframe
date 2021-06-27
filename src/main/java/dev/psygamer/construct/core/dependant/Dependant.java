@@ -1,6 +1,7 @@
 package dev.psygamer.construct.core.dependant;
 
 import dev.psygamer.construct.core.ConstructUtil;
+import dev.psygamer.construct.core.dependant.namespace.Namespace;
 import dev.psygamer.construct.util.reflection.FieldUtil;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -55,8 +56,8 @@ public final class Dependant <T> {
 	}
 	
 	public static final class NotFoundException extends RuntimeException {
-		public NotFoundException(final String dependantName) {
-			super("Could not find dependant: " + dependantName);
+		public NotFoundException(final Namespace namespace) {
+			super("Could not find dependant with namespace: " + namespace.getNamespace() + " or root package: " + namespace.getPackagePath());
 		}
 	}
 }
