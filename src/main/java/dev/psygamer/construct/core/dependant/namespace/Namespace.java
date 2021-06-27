@@ -18,16 +18,24 @@ public final class Namespace {
 		this.packagePath = packagePath;
 	}
 	
-	public String get() {
+	public String evaluate() {
 		if (this.namespace.isEmpty()) {
 			try {
-				return DependantsUtil.getDependant(this.packagePath).getNamespace();
+				return DependantsUtil.getDependant(this).getNamespace();
 			} catch (final Dependant.NotFoundException ex) {
 				throw new ConstructSetupException(this.packagePath);
 			}
 		}
 		
 		return this.namespace;
+	}
+	
+	public String getNamespace() {
+		return this.namespace;
+	}
+	
+	public String getPackagePath() {
+		return this.packagePath;
 	}
 	
 	public static final class NotFoundException extends RuntimeException {

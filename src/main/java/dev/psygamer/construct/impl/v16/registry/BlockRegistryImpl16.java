@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -29,7 +28,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 			
 			ConstructCore.LOGGER.info(
 					String.format("Successfully registered block %s:%s",
-							blockWrapper.getNamespace().get(),
+							blockWrapper.getNamespace().evaluate(),
 							blockWrapper.getRegistryName()
 					)
 			);
@@ -40,7 +39,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 					
 					ConstructCore.LOGGER.info(
 							String.format("   |=> Successfully registered block variant%s:%s",
-									blockWrapper.getNamespace().get(),
+									blockWrapper.getNamespace().evaluate(),
 									blockWrapper.getRegistryName()
 							)
 					);
@@ -51,7 +50,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	
 	protected void registerBlockWrapper(final BlockWrapper blockWrapper, final DeferredRegister<Block> registry) {
 		blockWrapper.getBlock().setRegistryName(
-				blockWrapper.getNamespace().get(),
+				blockWrapper.getNamespace().evaluate(),
 				blockWrapper.getRegistryName()
 		);
 		
@@ -65,7 +64,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	
 	protected void setupRegistries() {
 		for (final BlockWrapper blockWrapper : blockWrappers) {
-			final String namespace = blockWrapper.getNamespace().get();
+			final String namespace = blockWrapper.getNamespace().evaluate();
 			
 			if (!BLOCK_REGISTRIES.containsKey(namespace)) {
 				BLOCK_REGISTRIES.put(namespace, DeferredRegister.create(ForgeRegistries.BLOCKS, namespace));
