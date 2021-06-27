@@ -17,6 +17,7 @@ public final class ConstructCore {
 	
 	public static final class Constants {
 		public static final String CONSTRUCT_PACKAGE = "dev.psygamer.construct";
+		public static final String CORE_PACKAGE = "dev.psygamer.construct.core";
 		public static final String LIBRARY_PACKAGE = CONSTRUCT_PACKAGE + ".lib";
 		public static final String IMPLEMENTATION_PACKAGE_ROOT = CONSTRUCT_PACKAGE + ".impl";
 		public static final String COMMON_IMPLEMENTATION_PACKAGE = CONSTRUCT_PACKAGE + ".impl.common";

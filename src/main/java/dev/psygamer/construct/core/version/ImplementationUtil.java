@@ -87,7 +87,13 @@ public final class ImplementationUtil {
 				return implementationClass.getDeclaredMethod(libraryMethod.getName(), libraryMethod.getParameterTypes());
 			} catch (final NoSuchMethodException ignored) {
 			}
+			
+			if (version == MinecraftVersion.COMMON) {
+				break;
+			}
 		}
+		
+		throw new LibraryException("Could not find impl for + " + libraryMethod);
 	}
 	
 	private static String getLibraryImplementationPackagePath(final MinecraftVersion version) {
