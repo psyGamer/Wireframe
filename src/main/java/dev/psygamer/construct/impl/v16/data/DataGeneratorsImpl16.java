@@ -1,6 +1,5 @@
 package dev.psygamer.construct.impl.v16.data;
 
-import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.dependant.namespace.NamespaceUtil;
 import dev.psygamer.construct.impl.common.data.CommonDataGenerators;
 import dev.psygamer.construct.impl.v16.data.client.BlockStateDataProviderImpl16;
@@ -17,6 +16,6 @@ public class DataGeneratorsImpl16 extends CommonDataGenerators {
 		final DataGenerator generator = event.getGenerator();
 		final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		
-		generator.addProvider(new BlockStateDataProviderImpl16(generator, NamespaceUtil.getCurrentNamespace().get(), existingFileHelper));
+		generator.addProvider(new BlockStateDataProviderImpl16(generator, NamespaceUtil.getCurrentNamespace().evaluate(), existingFileHelper));
 	}
 }

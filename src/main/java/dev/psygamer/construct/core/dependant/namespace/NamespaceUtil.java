@@ -17,6 +17,6 @@ public final class NamespaceUtil {
 	}
 	
 	public static Namespace getCurrentNamespace() {
-		return getNamespace(Objects.requireNonNull(ConstructUtil.getFirstExternalClass()).getName());
+		return getNamespace(Objects.requireNonNull(ConstructUtil.getFirstExternalClass()).getPackage().getName());
 	}
 }
