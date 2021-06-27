@@ -1,8 +1,5 @@
 package dev.psygamer.construct.core.dependant;
 
-import dev.psygamer.construct.core.exceptions.LibraryException;
-
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.ArrayList;
@@ -16,11 +13,7 @@ public final class DependantsHandler {
 		return new ArrayList<>(dependants);
 	}
 	
-	public static <T> void registerMod(final Class<T> modClass, final FMLJavaModLoadingContext modLoadingContext) {
-		if (!modClass.isAnnotationPresent(Mod.class)) {
-			throw new LibraryException("Mod class is not annotated with @Mod");
-		}
-		
+	public static <T> void registerDependant(final Class<T> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		dependants.add(new Dependant<>(
 				modClass,
 				modLoadingContext
