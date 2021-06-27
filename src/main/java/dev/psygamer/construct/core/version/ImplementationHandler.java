@@ -13,6 +13,7 @@ public class ImplementationHandler {
 		final MethodCaller caller = new MethodCaller(Arrays.stream(Thread.currentThread().getStackTrace())
 				.filter(element ->
 						!element.getClassName().startsWith(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT) &&
+								!element.getClassName().startsWith(ConstructCore.Constants.CORE_PACKAGE) &&
 								!element.getClassName().startsWith("cpw") &&
 								!element.getClassName().startsWith("java") &&
 								!element.getClassName().startsWith("sun.reflect") &&
@@ -54,8 +55,12 @@ public class ImplementationHandler {
 			ex.printStackTrace();
 			
 			throw new LibraryException("Could not access " + caller.className + "." + caller.methodName);
-		} catch (final InvocationTargetException ex) {
-			ex.printStackTrace();
+		} catch (final InvocationTargetException e) {
+			Throwable ex = e;
+			
+			do { // This is literally the FIRST TIME i used a do-while statement ever.. over 2 years..
+				ConstructCore.LOGGER.error("Caused by:", ex);
+			} while ((ex = ex.getCause()) != null);
 			
 			throw new LibraryException("Could not invoke " + caller.className + "." + caller.methodName);
 		}
