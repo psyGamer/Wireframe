@@ -1,5 +1,7 @@
 package dev.psygamer.construct.impl.v16.data.client;
 
+import dev.psygamer.construct.core.implementation.ImplementationVersion;
+import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.lib.block.BlockProperty;
 import dev.psygamer.construct.lib.block.BlockWrapper;
 import dev.psygamer.construct.lib.data.client.BlockStateDataProvider;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@ImplementationVersion(MinecraftVersion.v16)
 public class BlockStateDataProviderImpl16 extends BlockStateDataProvider {
 	
 	public BlockStateDataProviderImpl16(final DataGenerator gen, final String modid, final ExistingFileHelper exFileHelper) {

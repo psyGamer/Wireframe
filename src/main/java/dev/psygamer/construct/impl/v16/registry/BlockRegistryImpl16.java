@@ -2,6 +2,8 @@ package dev.psygamer.construct.impl.v16.registry;
 
 import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.dependant.DependantsUtil;
+import dev.psygamer.construct.core.implementation.ImplementationVersion;
+import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.impl.common.registry.CommonBlockRegistry;
 import dev.psygamer.construct.lib.block.BlockWrapper;
 import net.minecraft.block.Block;
@@ -14,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.HashMap;
 import java.util.Map;
 
+@ImplementationVersion(MinecraftVersion.v16)
 public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	
 	public static final Map<String, DeferredRegister<Block>> BLOCK_REGISTRIES = new HashMap<>();

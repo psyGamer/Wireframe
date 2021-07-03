@@ -2,6 +2,8 @@ package dev.psygamer.construct.impl.common.block;
 
 import dev.psygamer.construct.core.dependant.namespace.Namespace;
 import dev.psygamer.construct.core.dependant.namespace.NamespaceUtil;
+import dev.psygamer.construct.core.implementation.ImplementationVersion;
+import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.lib.block.BlockFactory;
 import dev.psygamer.construct.lib.block.BlockProperty;
 import dev.psygamer.construct.lib.block.BlockWrapper;
@@ -12,6 +14,7 @@ import net.minecraft.block.Block;
 import java.util.ArrayList;
 import java.util.List;
 
+@ImplementationVersion(MinecraftVersion.COMMON)
 public class CommonBlockWrapper implements BlockWrapper {
 	
 	@Getter
