@@ -6,10 +6,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 public abstract class BlockStateDataProvider extends BlockStateProvider {
 	
-	/**
-	 * Only call as super constructor
-	 */
-	public BlockStateDataProvider(final DataGenerator gen, final String modid, final ExistingFileHelper exFileHelper) {
+	protected BlockStateDataProvider(final DataGenerator gen, final String modid, final ExistingFileHelper exFileHelper) {
 		super(gen, modid, exFileHelper);
 	}
 }

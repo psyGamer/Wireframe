@@ -2,6 +2,7 @@ package dev.psygamer.construct.lib.block;
 
 import dev.psygamer.construct.core.dependant.namespace.Namespace;
 import dev.psygamer.construct.core.implementation.ImplementationHandler;
+import dev.psygamer.construct.lib.Construct;
 import net.minecraft.block.Block;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface BlockWrapper {
 	
 	static BlockWrapper create(final BlockFactory factory) {
-		return ImplementationHandler.executeImplementation(factory);
+		return Construct.Core.executeImplementation(factory);
 	}
 	
 	Namespace getNamespace();

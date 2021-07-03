@@ -1,6 +1,7 @@
 package dev.psygamer.construct.lib.registry;
 
 import dev.psygamer.construct.core.implementation.ImplementationHandler;
+import dev.psygamer.construct.lib.Construct;
 import dev.psygamer.construct.lib.block.BlockWrapper;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
@@ -15,7 +16,7 @@ public interface BlockRegistry {
 	}
 	
 	static List<Block> getBlocks() {
-		return ImplementationHandler.executeImplementation();
+		return Construct.Core.executeImplementation();
 	}
 	
 	static List<BlockWrapper> getBlockWrappers() {
