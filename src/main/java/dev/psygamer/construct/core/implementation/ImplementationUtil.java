@@ -52,7 +52,7 @@ public final class ImplementationUtil {
 		throw new LibraryException("oh no");
 	}
 	
-	private static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
+	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
 		try {
 			return Class.forName(
 					getLibraryImplementationPackagePath(version) + "." +
@@ -100,6 +100,22 @@ public final class ImplementationUtil {
 		}
 		
 		throw new LibraryException("Could not find impl for + " + libraryMethod);
+	}
+	
+	//
+	
+	public static Method getImplementationMethod(final MinecraftVersion version, final Method libraryMethod) {
+		final Class<?> implementationClass = ImplementationUtil.getImplementationClass(libraryMethod.getDeclaringClass(), version);
+		
+		if (implementationClass == null) {
+			return null;
+		}
+		
+		try {
+			return implementationClass.getDeclaredMethod(libraryMethod.getName(), libraryMethod.getParameterTypes());
+		} catch (final NoSuchMethodException ignored) {
+			return null;
+		}
 	}
 	
 	private static String getLibraryImplementationPackagePath(final MinecraftVersion version) {
