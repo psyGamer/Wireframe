@@ -1,4 +1,4 @@
-package dev.psygamer.construct.core.dependant.namespace;
+package dev.psygamer.construct.core.namespace;
 
 import java.util.ArrayList;
 import java.util.List;

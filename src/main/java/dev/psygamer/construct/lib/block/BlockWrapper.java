@@ -1,7 +1,6 @@
 package dev.psygamer.construct.lib.block;
 
-import dev.psygamer.construct.core.dependant.namespace.Namespace;
-import dev.psygamer.construct.core.implementation.ImplementationHandler;
+import dev.psygamer.construct.core.namespace.Namespace;
 import dev.psygamer.construct.lib.Construct;
 import net.minecraft.block.Block;
 

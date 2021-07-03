@@ -1,4 +1,4 @@
-package dev.psygamer.construct.core.dependant.namespace;
+package dev.psygamer.construct.core.namespace;
 
 import dev.psygamer.construct.core.dependant.Dependant;
 import dev.psygamer.construct.core.dependant.DependantsUtil;

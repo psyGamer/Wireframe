@@ -1,6 +1,6 @@
 package dev.psygamer.construct.impl.v16.data;
 
-import dev.psygamer.construct.core.dependant.namespace.NamespaceUtil;
+import dev.psygamer.construct.core.namespace.NamespaceUtil;
 import dev.psygamer.construct.core.implementation.ImplementationVersion;
 import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.impl.common.data.CommonDataGenerators;
