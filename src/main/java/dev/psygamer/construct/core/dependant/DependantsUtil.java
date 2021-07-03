@@ -1,7 +1,7 @@
 package dev.psygamer.construct.core.dependant;
 
-import dev.psygamer.construct.core.dependant.namespace.Namespace;
-import dev.psygamer.construct.core.dependant.namespace.NamespaceUtil;
+import dev.psygamer.construct.core.namespace.Namespace;
+import dev.psygamer.construct.core.namespace.NamespaceUtil;
 
 
 public final class DependantsUtil {

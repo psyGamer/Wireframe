@@ -59,15 +59,6 @@ public final class ImplementationUtil {
 		}
 	}
 	
-	public static Class<?> getImplementationClass(final Class<?> libraryClass) {
-		final MinecraftVersion newestVersion = Arrays.stream(MinecraftVersion.getVersionBelow(MinecraftVersion.getCurrentVersion()))
-				.filter(version -> ImplementationUtil.getImplementationClass(libraryClass, version) != null)
-				.max(MinecraftVersion::compareTo)
-				.orElse(MinecraftVersion.COMMON);
-		
-		return ImplementationUtil.getImplementationClass(libraryClass, newestVersion);
-	}
-	
 	public static Method getImplementationMethod(final Method libraryMethod) {
 		MinecraftVersion version = MinecraftVersion.getCurrentVersion();
 		

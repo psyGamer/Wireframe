@@ -1,7 +1,7 @@
 package dev.psygamer.construct.core;
 
 import dev.psygamer.construct.core.dependant.DependantsHandler;
-import dev.psygamer.construct.core.dependant.namespace.NamespaceHandler;
+import dev.psygamer.construct.core.namespace.NamespaceHandler;
 import dev.psygamer.construct.core.exceptions.LibraryException;
 
 import net.minecraftforge.fml.common.Mod;
