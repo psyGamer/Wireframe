@@ -1,10 +1,7 @@
 package dev.psygamer.construct.core.implementation;
 
-import lombok.Getter;
-
 import java.util.Arrays;
 
-@Getter
 public enum MinecraftVersion {
 	COMMON(null),
 	
@@ -27,7 +24,6 @@ public enum MinecraftVersion {
 		this.minorVersion = minorVersion;
 	}
 	
-	@Getter
 	enum Major {
 		COMMON,
 		v16;
@@ -40,6 +36,10 @@ public enum MinecraftVersion {
 		
 		Major(final Major previousVersion) {
 			this.previousMajorVersion = previousVersion;
+		}
+		
+		public Major getPreviousMajorVersion() {
+			return this.previousMajorVersion;
 		}
 		
 		public Major getNextMinorVersion() {
@@ -55,7 +55,6 @@ public enum MinecraftVersion {
 		}
 	}
 	
-	@Getter
 	enum Minor {
 		v0,
 		v1(v0),
@@ -72,6 +71,10 @@ public enum MinecraftVersion {
 		
 		Minor(final Minor previousVersion) {
 			this.previousMinorVersion = previousVersion;
+		}
+		
+		public Minor getPreviousMinorVersion() {
+			return this.previousMinorVersion;
 		}
 		
 		public Minor getNextMinorVersion() {
@@ -127,6 +130,14 @@ public enum MinecraftVersion {
 		return Arrays.stream(getVersionAbove(olderVersion))
 				.filter(version -> version.ordinal() < newerVersion.ordinal())
 				.toArray(MinecraftVersion[]::new);
+	}
+	
+	public Major getMajorVersion() {
+		return this.majorVersion;
+	}
+	
+	public Minor getMinorVersion() {
+		return this.minorVersion;
 	}
 	
 	public MinecraftVersion getNextVersion() {

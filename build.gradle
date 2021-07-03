@@ -116,10 +116,10 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 configurations {
-    lombok
+//    lombok
 }
 
-configurations.compile.extendsFrom(configurations.lombok)
+//configurations.compile.extendsFrom(configurations.lombok)
 
 repositories {
     mavenCentral()
@@ -129,8 +129,8 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    lombok 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+//    lombok 'org.projectlombok:lombok:1.18.20'
+//    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
 
@@ -155,9 +155,9 @@ dependencies {
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
-    from(configurations.lombok) {
-        into 'META-INF/libraries'
-    }
+//    from(configurations.lombok) {
+//        into 'META-INF/libraries'
+//    }
 
     from sourceSets.main.allSource
 
