@@ -1,6 +1,7 @@
 package dev.psygamer.construct.core.implementation;
 
 import dev.psygamer.construct.core.ConstructCore;
+import dev.psygamer.construct.core.ConstructUtil;
 import dev.psygamer.construct.core.exceptions.LibraryException;
 import dev.psygamer.construct.util.reflection.MethodUtil;
 
@@ -110,8 +111,8 @@ public final class ImplementationUtil {
 	private static String getInternalPackagePath(final Class<?> internalClass) {
 		return Arrays.stream(internalClass.getName()
 				.split("\\."))
-				.skip(isLibraryClass(internalClass) ? 4 : 5)
-				.limit(internalClass.getName().split("\\.").length - (isLibraryClass(internalClass) ? 5 : 6))
+				.skip(ConstructUtil.isLibraryClass(internalClass) ? 4 : 5)
+				.limit(internalClass.getName().split("\\.").length - (ConstructUtil.isLibraryClass(internalClass) ? 5 : 6))
 				.collect(Collectors.joining("."));
 	}
 	
@@ -119,17 +120,5 @@ public final class ImplementationUtil {
 		return version == MinecraftVersion.COMMON
 				? getInternalPackagePath(libraryClass) + ".Common" + libraryClass.getSimpleName()
 				: getInternalPackagePath(libraryClass) + "." + libraryClass.getSimpleName() + "Impl" + version.name().replace("v", "");
-	}
-	
-	private static boolean isImplementationClass(final Class<?> internalClass) {
-		return internalClass.getName().startsWith(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT);
-	}
-	
-	private static boolean isLibraryClass(final Class<?> internalClass) {
-		return internalClass.getName().startsWith(ConstructCore.Constants.LIBRARY_PACKAGE);
-	}
-	
-	private static boolean isInternalClass(final Class<?> internalClass) {
-		return isLibraryClass(internalClass) || isImplementationClass(internalClass);
 	}
 }
