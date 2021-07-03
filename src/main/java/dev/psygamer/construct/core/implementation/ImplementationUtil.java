@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 public final class ImplementationUtil {
 	
 	public static Method getLibraryMethod(final MethodCaller caller) {
-		if (ImplementationCache.libraryMethodCache.containsKey(caller)) {
-			return ImplementationCache.libraryMethodCache.get(caller);
+		if (ImplementationCache.getLibraryMethodCache().containsKey(caller)) {
+			return ImplementationCache.getLibraryMethod(caller);
 		}
 		
 		try {
@@ -26,8 +26,6 @@ public final class ImplementationUtil {
 			);
 			
 			if (possibleMethods.size() == 1) {
-				ImplementationCache.libraryMethodCache.put(caller, possibleMethods.get(0));
-				
 				return possibleMethods.get(0);
 			}
 			
@@ -36,8 +34,6 @@ public final class ImplementationUtil {
 					.collect(Collectors.toList());
 			
 			if (possibleMethods.size() == 1) {
-				ImplementationCache.libraryMethodCache.put(caller, possibleMethods.get(0));
-				
 				return possibleMethods.get(0);
 			}
 			

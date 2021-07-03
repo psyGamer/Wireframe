@@ -11,14 +11,28 @@ import java.util.*;
 
 public final class ImplementationCache {
 	
+	private static ImmutableMap<MethodCaller, Method> libraryMethodCache;
 	private static ImmutableMap<MethodCaller, Method> implementationMethodCache;
+	
+	public static ImmutableMap<MethodCaller, Method> getLibraryMethodCache() {
+		return implementationMethodCache;
+	}
+	
+	public static Method getLibraryMethod(final MethodCaller caller) {
+		return implementationMethodCache.get(caller);
+	}
 	
 	public static ImmutableMap<MethodCaller, Method> getImplementationMethodCache() {
 		return implementationMethodCache;
 	}
 	
+	public static Method getImplementationMethod(final MethodCaller caller) {
+		return implementationMethodCache.get(caller);
+	}
+	
 	protected static void generateCache() {
 		final Map<MinecraftVersion, List<Class<?>>> internalClassCache = new HashMap<>();
+		final Map<MethodCaller, Method> libraryMethodCache = new HashMap<>();
 		final Map<MethodCaller, Method> implementationMethodCache = new HashMap<>();
 		
 		for (final MinecraftVersion version : MinecraftVersion.values()) {
@@ -47,10 +61,12 @@ public final class ImplementationCache {
 						
 						final Method implementationMethod = ImplementationUtil.getImplementationMethod(implementationMethodVersion, libraryMethod);
 						
+						libraryMethodCache.put(MethodCaller.ofMethod(libraryMethod), libraryMethod);
 						implementationMethodCache.put(MethodCaller.ofMethod(libraryMethod), implementationMethod);
 					});
 		}
 		
+		ImplementationCache.libraryMethodCache = ImmutableMap.copyOf(libraryMethodCache);
 		ImplementationCache.implementationMethodCache = ImmutableMap.copyOf(implementationMethodCache);
 	}
 }
