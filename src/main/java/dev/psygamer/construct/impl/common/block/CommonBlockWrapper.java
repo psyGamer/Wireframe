@@ -4,11 +4,12 @@ import dev.psygamer.construct.core.namespace.Namespace;
 import dev.psygamer.construct.core.namespace.NamespaceUtil;
 import dev.psygamer.construct.core.implementation.ImplementationVersion;
 import dev.psygamer.construct.core.implementation.MinecraftVersion;
+
 import dev.psygamer.construct.lib.block.BlockFactory;
 import dev.psygamer.construct.lib.block.BlockProperty;
 import dev.psygamer.construct.lib.block.BlockWrapper;
 import dev.psygamer.construct.lib.registry.BlockRegistry;
-import lombok.Getter;
+
 import net.minecraft.block.Block;
 
 import java.util.ArrayList;
@@ -17,18 +18,11 @@ import java.util.List;
 @ImplementationVersion(MinecraftVersion.COMMON)
 public class CommonBlockWrapper implements BlockWrapper {
 	
-	@Getter
 	protected final Namespace namespace;
-	@Getter
 	protected final String registryName;
-	
-	@Getter
 	protected final Block block;
 	protected final BlockFactory factory;
-	
-	@Getter
 	protected List<BlockWrapper> blockVariants = new ArrayList<>();
-	@Getter
 	protected List<BlockProperty<?>> blockProperties = new ArrayList<>();
 	
 	protected CommonBlockWrapper(final BlockFactory blockFactory) {
@@ -43,6 +37,31 @@ public class CommonBlockWrapper implements BlockWrapper {
 	
 	public static BlockWrapper create(final BlockFactory factory) {
 		return new CommonBlockWrapper(factory);
+	}
+	
+	@Override
+	public Namespace getNamespace() {
+		return this.namespace;
+	}
+	
+	@Override
+	public String getRegistryName() {
+		return this.registryName;
+	}
+	
+	@Override
+	public Block getBlock() {
+		return this.block;
+	}
+	
+	@Override
+	public List<BlockWrapper> getBlockVariants() {
+		return this.blockVariants;
+	}
+	
+	@Override
+	public List<BlockProperty<?>> getBlockProperties() {
+		return this.blockProperties;
 	}
 	
 	@Override

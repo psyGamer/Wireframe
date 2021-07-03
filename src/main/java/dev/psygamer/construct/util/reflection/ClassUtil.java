@@ -1,7 +1,5 @@
 package dev.psygamer.construct.util.reflection;
 
-import lombok.NonNull;
-
 import javax.tools.*;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -64,7 +62,7 @@ public final class ClassUtil {
 		}
 	}
 	
-	public static Class<?>[] getParameterTypes(final @NonNull Object[] parameters) {
+	public static Class<?>[] getParameterTypes(final Object[] parameters) {
 		try {
 			return Arrays.stream(parameters)
 					.map(Object::getClass)
