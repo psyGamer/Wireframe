@@ -1,6 +1,7 @@
 package dev.psygamer.construct.lib.block;
 
 import dev.psygamer.construct.core.implementation.ImplementationHandler;
+import dev.psygamer.construct.lib.Construct;
 import dev.psygamer.construct.lib.block.properties.HarvestLevel;
 import dev.psygamer.construct.lib.util.ICloneable;
 import dev.psygamer.construct.lib.util.IFactory;
@@ -33,7 +34,7 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	 * @since 1.0
 	 */
 	static BlockFactory create(final String blockName) {
-		return ImplementationHandler.executeImplementation(blockName);
+		return Construct.Core.executeImplementation(blockName);
 	}
 	
 	/**
@@ -47,7 +48,7 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	 * @since 1.0
 	 */
 	static BlockFactory create(final String blockName, final Material material) {
-		return ImplementationHandler.executeImplementation(blockName, material);
+		return Construct.Core.executeImplementation(blockName, material);
 	}
 	
 	/**
@@ -62,7 +63,7 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	 * @since 1.0
 	 */
 	static BlockFactory create(final String blockName, final Material material, final ItemGroup group) {
-		return ImplementationHandler.executeImplementation(blockName, material, group);
+		return Construct.Core.executeImplementation(blockName, material, group);
 	}
 	
 	BlockFactory multiplyHardness(final float factor);
