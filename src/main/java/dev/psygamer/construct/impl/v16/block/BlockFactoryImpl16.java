@@ -1,5 +1,7 @@
 package dev.psygamer.construct.impl.v16.block;
 
+import dev.psygamer.construct.core.implementation.ImplementationVersion;
+import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.impl.common.block.CommonBlockFactory;
 import dev.psygamer.construct.lib.block.BlockFactory;
 import dev.psygamer.construct.lib.block.BlockWrapper;
@@ -8,6 +10,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
+@ImplementationVersion(MinecraftVersion.v16)
 public class BlockFactoryImpl16 extends CommonBlockFactory {
 	
 	public BlockFactoryImpl16(final String registryName) {

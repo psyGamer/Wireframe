@@ -1,5 +1,7 @@
 package dev.psygamer.construct.impl.common.block;
 
+import dev.psygamer.construct.core.implementation.ImplementationVersion;
+import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.lib.block.BlockFactory;
 import dev.psygamer.construct.lib.block.properties.HarvestLevel;
 import lombok.Getter;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@ImplementationVersion(MinecraftVersion.COMMON)
 public abstract class CommonBlockFactory implements BlockFactory {
 	
 	protected String registryName;
