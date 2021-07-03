@@ -1,5 +1,6 @@
 package dev.psygamer.construct.core.implementation;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -23,6 +24,14 @@ public class MethodCaller {
 		this.methodName = methodName;
 		
 		this.parameterTypes = parameterTypes;
+	}
+	
+	public static MethodCaller ofMethod(final Method method) {
+		return new MethodCaller(
+				method.getDeclaringClass().getSimpleName(),
+				method.getName(),
+				method.getParameterTypes()
+		);
 	}
 	
 	@Override
