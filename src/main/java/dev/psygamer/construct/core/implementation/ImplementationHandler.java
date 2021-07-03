@@ -22,8 +22,8 @@ public class ImplementationHandler {
 				.findFirst()
 				.orElseThrow(() -> new LibraryException("Could not find invocation off VersionHandler.runImplementation")), parameterTypes);
 		
-		if (ImplementationCache.directImplementationMethodCache.containsKey(caller)) {
-			return invokeImplementationMethod(ImplementationCache.directImplementationMethodCache.get(caller), parameters, caller);
+		if (ImplementationCache.getImplementationMethodCache().containsKey(caller)) {
+			return invokeImplementationMethod(ImplementationCache.getImplementationMethodCache().get(caller), parameters, caller);
 		}
 		
 		final Method libraryMethod = ImplementationUtil.getLibraryMethod(caller);

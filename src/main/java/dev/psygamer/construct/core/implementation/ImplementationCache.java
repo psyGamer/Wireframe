@@ -1,9 +1,8 @@
 package dev.psygamer.construct.core.implementation;
 
-import com.mojang.datafixers.util.Pair;
+import com.google.common.collect.ImmutableMap;
 import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.ConstructUtil;
-import dev.psygamer.construct.core.exceptions.LibraryException;
 import dev.psygamer.construct.util.reflection.ClassUtil;
 
 import java.lang.reflect.Method;
@@ -12,16 +11,16 @@ import java.util.*;
 
 public final class ImplementationCache {
 	
-	public static final Map<MethodCaller, Method> libraryMethodCache = new HashMap<>();
-	public static final Map<MethodCaller, Method> directImplementationMethodCache = new HashMap<>();
-	public static final Map<Method, Method> LEGACYimplementationMethodCache = new HashMap<>();
+	private static ImmutableMap<MethodCaller, Method> implementationMethodCache;
 	
-	public static final Map<MinecraftVersion, List<Class<?>>> internalClassCache = new HashMap<>();
-	public static final Map<Method, Map<MinecraftVersion, Method>> implementationMethodCache = new HashMap<>();
+	public static ImmutableMap<MethodCaller, Method> getImplementationMethodCache() {
+		return implementationMethodCache;
+	}
 	
-	private static final CacheState cacheState = new CacheState();
-	
-	public static void prepareCache() {
+	protected static void generateCache() {
+		final Map<MinecraftVersion, List<Class<?>>> internalClassCache = new HashMap<>();
+		final Map<MethodCaller, Method> implementationMethodCache = new HashMap<>();
+		
 		for (final MinecraftVersion version : MinecraftVersion.values()) {
 			internalClassCache.put(version, new ArrayList<>());
 		}
@@ -37,27 +36,21 @@ public final class ImplementationCache {
 			}
 		}
 		
-		cacheState.markPrepared();
-	}
-	
-	public static void generateCache() {
-		if (cacheState.isPrepared()) {
-			prepareCache();
-		}
-		
 		for (final Class<?> libraryClass : ClassUtil.getClasses(ConstructCore.Constants.LIBRARY_PACKAGE)) {
 			Arrays.stream(libraryClass.getDeclaredMethods())
 					.filter(libraryMethod -> Modifier.isStatic(libraryMethod.getModifiers()))
 					.forEach(libraryMethod -> {
-						implementationMethodCache.put(libraryMethod, new HashMap<>());
-						
-						Arrays.stream(MinecraftVersion.values())
+						final MinecraftVersion implementationMethodVersion = Arrays.stream(MinecraftVersion.values())
 								.filter(version -> ImplementationUtil.getImplementationMethod(version, libraryMethod) != null)
-								.map(version -> Pair.of(version, ImplementationUtil.getImplementationMethod(version, libraryMethod)))
-								.forEach(versionPair -> implementationMethodCache.get(libraryMethod).put(versionPair.getFirst(), versionPair.getSecond()));
+								.max(MinecraftVersion::compareTo)
+								.orElse(MinecraftVersion.COMMON);
+						
+						final Method implementationMethod = ImplementationUtil.getImplementationMethod(implementationMethodVersion, libraryMethod);
+						
+						implementationMethodCache.put(MethodCaller.ofMethod(libraryMethod), implementationMethod);
 					});
 		}
 		
-		cacheState.markGenerated();
+		ImplementationCache.implementationMethodCache = ImmutableMap.copyOf(implementationMethodCache);
 	}
 }
