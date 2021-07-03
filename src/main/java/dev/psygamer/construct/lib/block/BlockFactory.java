@@ -1,6 +1,6 @@
 package dev.psygamer.construct.lib.block;
 
-import dev.psygamer.construct.core.version.ImplementationHandler;
+import dev.psygamer.construct.core.implementation.ImplementationHandler;
 import dev.psygamer.construct.lib.block.properties.HarvestLevel;
 import dev.psygamer.construct.lib.util.ICloneable;
 import dev.psygamer.construct.lib.util.IFactory;
