@@ -1,6 +1,6 @@
 package dev.psygamer.construct.lib.data;
 
-import dev.psygamer.construct.core.version.ImplementationHandler;
+import dev.psygamer.construct.core.implementation.ImplementationHandler;
 import net.minecraft.data.IDataProvider;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 

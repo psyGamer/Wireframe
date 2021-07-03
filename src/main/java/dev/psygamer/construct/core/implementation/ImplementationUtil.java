@@ -1,4 +1,4 @@
-package dev.psygamer.construct.core.version;
+package dev.psygamer.construct.core.implementation;
 
 import dev.psygamer.construct.core.ConstructCore;
 import dev.psygamer.construct.core.exceptions.LibraryException;

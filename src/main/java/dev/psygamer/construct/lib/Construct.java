@@ -1,6 +1,6 @@
 package dev.psygamer.construct.lib;
 
-import dev.psygamer.construct.core.version.ImplementationHandler;
+import dev.psygamer.construct.core.implementation.ImplementationHandler;
 
 public interface Construct {
 	

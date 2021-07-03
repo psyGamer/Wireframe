@@ -1,6 +1,6 @@
 package dev.psygamer.construct.lib.registry;
 
-import dev.psygamer.construct.core.version.ImplementationHandler;
+import dev.psygamer.construct.core.implementation.ImplementationHandler;
 import dev.psygamer.construct.lib.block.BlockWrapper;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
