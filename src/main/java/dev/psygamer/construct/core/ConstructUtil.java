@@ -38,4 +38,16 @@ public final class ConstructUtil {
 				!className.startsWith("com.mojang") &&
 				!className.startsWith("net.minecraft");
 	}
+	
+	public static boolean isImplementationClass(final Class<?> internalClass) {
+		return internalClass.getName().startsWith(ConstructCore.Constants.IMPLEMENTATION_PACKAGE_ROOT);
+	}
+	
+	public static boolean isLibraryClass(final Class<?> internalClass) {
+		return internalClass.getName().startsWith(ConstructCore.Constants.LIBRARY_PACKAGE);
+	}
+	
+	public static boolean isInternalClass(final Class<?> internalClass) {
+		return isLibraryClass(internalClass) || isImplementationClass(internalClass);
+	}
 }
