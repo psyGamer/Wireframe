@@ -4,7 +4,7 @@ import dev.psygamer.construct.core.implementation.ImplementationVersion;
 import dev.psygamer.construct.core.implementation.MinecraftVersion;
 import dev.psygamer.construct.lib.block.BlockFactory;
 import dev.psygamer.construct.lib.block.properties.HarvestLevel;
-import lombok.Getter;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -15,7 +15,6 @@ import net.minecraftforge.common.ToolType;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @ImplementationVersion(MinecraftVersion.COMMON)
 public abstract class CommonBlockFactory implements BlockFactory {
 	
@@ -61,6 +60,11 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
+	public String getRegistryName() {
+		return this.registryName;
+	}
+	
+	@Override
 	public BlockFactory setMaterial(final Material material) {
 		this.material = material;
 		
@@ -68,10 +72,20 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
+	public Material getMaterial() {
+		return this.material;
+	}
+	
+	@Override
 	public BlockFactory setGroup(final ItemGroup group) {
 		this.group = group;
 		
 		return this;
+	}
+	
+	@Override
+	public ItemGroup getGroup() {
+		return this.group;
 	}
 	
 	@Override
@@ -89,6 +103,11 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
+	public float getHardness() {
+		return this.hardness;
+	}
+	
+	@Override
 	public BlockFactory setBlastResistance(final float blastResistance) {
 		this.blastResistance = blastResistance;
 		
@@ -100,6 +119,11 @@ public abstract class CommonBlockFactory implements BlockFactory {
 		this.blastResistance *= factor;
 		
 		return this;
+	}
+	
+	@Override
+	public float getBlastResistance() {
+		return this.blastResistance;
 	}
 	
 	@Override
@@ -126,10 +150,20 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
+	public SoundType getSound() {
+		return this.sound;
+	}
+	
+	@Override
 	public BlockFactory setRequiredTool(final ToolType tool) {
 		this.requiredTool = tool;
 		
 		return this;
+	}
+	
+	@Override
+	public ToolType getRequiredTool() {
+		return this.requiredTool;
 	}
 	
 	@Override
@@ -161,10 +195,20 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
+	public HarvestLevel getHarvestLevel() {
+		return this.harvestLevel;
+	}
+	
+	@Override
 	public BlockFactory setBreakableByHand(final boolean breakableByHand) {
 		this.breakableByHand = !breakableByHand;
 		
 		return this;
+	}
+	
+	@Override
+	public boolean isBreakableByHand() {
+		return this.breakableByHand;
 	}
 	
 	@Override
@@ -174,6 +218,10 @@ public abstract class CommonBlockFactory implements BlockFactory {
 		return this;
 	}
 	
+	@Override
+	public boolean isFullBlock() {
+		return this.fullBlock;
+	}
 	
 	@Override
 	public BlockFactory setOpaque(final boolean opaque) {
@@ -182,6 +230,10 @@ public abstract class CommonBlockFactory implements BlockFactory {
 		return this;
 	}
 	
+	@Override
+	public boolean isOpaque() {
+		return this.opaque;
+	}
 	
 	@Override
 	public BlockFactory addBlockStateProperty(final Property<?> property) {
