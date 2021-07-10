@@ -10,6 +10,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.state.Property;
+
 import net.minecraftforge.common.ToolType;
 
 import java.util.ArrayList;

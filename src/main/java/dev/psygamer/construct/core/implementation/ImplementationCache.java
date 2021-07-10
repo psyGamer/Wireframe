@@ -15,19 +15,35 @@ public final class ImplementationCache {
 	private static ImmutableMap<MethodCaller, Method> implementationMethodCache;
 	
 	public static ImmutableMap<MethodCaller, Method> getLibraryMethodCache() {
-		return implementationMethodCache;
+		if (libraryMethodCache == null) {
+			generateCache();
+		}
+		
+		return libraryMethodCache;
 	}
 	
 	public static Method getLibraryMethod(final MethodCaller caller) {
-		return implementationMethodCache.get(caller);
+		if (getLibraryMethodCache().containsKey(caller)) {
+			return libraryMethodCache.get(caller);
+		} else {
+			return null;
+		}
 	}
 	
 	public static ImmutableMap<MethodCaller, Method> getImplementationMethodCache() {
+		if (implementationMethodCache == null) {
+			generateCache();
+		}
+		
 		return implementationMethodCache;
 	}
 	
 	public static Method getImplementationMethod(final MethodCaller caller) {
-		return implementationMethodCache.get(caller);
+		if (getImplementationMethodCache().containsKey(caller)) {
+			return implementationMethodCache.get(caller);
+		} else {
+			return null;
+		}
 	}
 	
 	protected static void generateCache() {
