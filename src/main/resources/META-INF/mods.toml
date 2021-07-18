@@ -1,40 +1,40 @@
-modLoader="javafml"
+modLoader = "javafml"
 
-loaderVersion="[36,)"
+loaderVersion = "[36,)"
 
-license="LGPL-2.1 License"
+license = "LGPL-2.1 License"
 
-issueTrackerURL="https://github.com/psyGamer/Construct/issues/"
+issueTrackerURL = "https://github.com/psyGamer/Construct/issues/"
 
 [[mods]]
-modId="construct"
-version="${file.jarVersion}"
-displayName="Construct"
+modId = "construct"
+version = "${file.jarVersion}"
+displayName = "Construct"
 
-description='''
+description = '''
 A library for simplifying common tasks in Minecraft Forge
 '''
 
-#updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/temple-tribes"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/construct-library"
+#updateJSONURL = "https://www.curseforge.com/minecraft/mc-mods/construct-library"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/construct-library"
 
-#logoFile="templetribes.png"
+#logoFile = "logo.png"
 
-#credits="Thanks for this example mod goes to Java" #optional
-authors="psyGamer"
+#credits = "Thanks for this example mod goes to Java"
+authors = "psyGamer"
 
 [[dependencies.construct]]
-   modId="forge" #mandatory
-   versionRange="[36,)" #mandatory
-   mandatory=true #mandatory
+modId = "forge"
+versionRange = "[36,)"
+mandatory = true
 
-   ordering="NONE"
-   side="BOTH"
-# Here's another dependency
+ordering = "NONE"
+side = "BOTH"
+
 [[dependencies.construct]]
-   modId="minecraft"
-   versionRange="[1.16.5,1.17)"
-   mandatory=true
+modId = "minecraft"
+versionRange = "[1.16.5,1.17)"
+mandatory = true
 
-   ordering="NONE"
-   side="BOTH"
+ordering = "NONE"
+side = "BOTH"
