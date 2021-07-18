@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 group = 'dev.psygamer'
-archivesBaseName = 'construct'
+archivesBaseName = 'wireframe'
 version = '0.1'
 
 java {
@@ -32,7 +32,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                construct {
+                wireframe {
                     source sourceSets.main
                 }
             }
@@ -45,7 +45,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                construct {
+                wireframe {
                     source sourceSets.main
                 }
             }
@@ -63,7 +63,7 @@ minecraft {
                     '--output', file('src/generated/resources/')
 
             mods {
-                construct {
+                wireframe {
                     source sourceSets.main
                 }
             }
@@ -83,7 +83,7 @@ jar {
 
     manifest {
         attributes([
-                "Specification-Title"     : "construct",
+                "Specification-Title"     : "wireframe",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.version,
