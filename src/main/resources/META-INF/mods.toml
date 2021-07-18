@@ -2,28 +2,28 @@ modLoader = "javafml"
 
 loaderVersion = "[36,)"
 
-license = "LGPL-2.1 License"
+license = "MIT License"
 
-issueTrackerURL = "https://github.com/psyGamer/Construct/issues/"
+issueTrackerURL = "https://github.com/psyGamer/Wireframe/issues/"
 
 [[mods]]
-modId = "construct"
+modId = "wireframe"
 version = "${file.jarVersion}"
-displayName = "Construct"
+displayName = "Wireframe"
 
 description = '''
 A library for simplifying common tasks in Minecraft Forge
 '''
 
-#updateJSONURL = "https://www.curseforge.com/minecraft/mc-mods/construct-library"
-displayURL = "https://www.curseforge.com/minecraft/mc-mods/construct-library"
+#updateJSONURL = "https://www.curseforge.com/minecraft/mc-mods/wireframe"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/wireframe
 
-#logoFile = "logo.png"
+logoFile = "logo.png"
 
 #credits = "Thanks for this example mod goes to Java"
 authors = "psyGamer"
 
-[[dependencies.construct]]
+[[dependencies.wireframe]]
 modId = "forge"
 versionRange = "[36,)"
 mandatory = true
@@ -31,7 +31,7 @@ mandatory = true
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.construct]]
+[[dependencies.wireframe]]
 modId = "minecraft"
 versionRange = "[1.16.5,1.17)"
 mandatory = true
