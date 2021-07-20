@@ -45,7 +45,7 @@ public class MethodUtil {
 	}
 	
 	public static Method getStaticMethod(final Class<?> libraryClass, final String methodName, final Class<?>[] parameterTypes) {
-		return getStaticMethodsByName(libraryClass, methodName).stream()
+		final Stream<Method> possibleMethods = getStaticMethodsByName(libraryClass, methodName).stream()
 				.filter(method -> {
 					final Class<?>[] methodParameterTypes = method.getParameterTypes();
 					
@@ -67,8 +67,12 @@ public class MethodUtil {
 					}
 					
 					return true;
-				})
-				.findFirst()
-				.orElse(null);
+				});
+		
+		if (possibleMethods.count() > 1) {
+			return null;
+		}
+		
+		return possibleMethods.findFirst().orElse(null);
 	}
 }
