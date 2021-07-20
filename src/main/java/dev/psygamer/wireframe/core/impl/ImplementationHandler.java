@@ -1,7 +1,8 @@
 package dev.psygamer.wireframe.core.impl;
 
 import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.core.exceptions.LibraryException;
+import dev.psygamer.wireframe.core.exceptions.FrameworkException;
+import dev.psygamer.wireframe.util.reflection.MethodUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,7 +21,7 @@ public class ImplementationHandler {
 								!element.getClassName().startsWith("com.mojang") &&
 								!element.getClassName().startsWith("net.minecraft"))
 				.findFirst()
-				.orElseThrow(() -> new LibraryException("Could not find invocation off VersionHandler.runImplementation")), parameterTypes);
+				.orElseThrow(() -> new FrameworkException("Could not find invocation off ImplementationHandler.executeImplementation")), parameterTypes);
 		
 		if (ImplementationCache.getImplementationMethodCache().containsKey(caller)) {
 			return invokeImplementationMethod(ImplementationCache.getImplementationMethodCache().get(caller), parameters, caller);
@@ -54,7 +55,7 @@ public class ImplementationHandler {
 		} catch (final IllegalAccessException ex) {
 			ex.printStackTrace();
 			
-			throw new LibraryException("Could not access " + caller.className + "." + caller.methodName);
+			throw new FrameworkException("Could not access " + caller.className + "." + caller.methodName);
 		} catch (final InvocationTargetException e) {
 			Throwable ex = e;
 			
@@ -62,7 +63,7 @@ public class ImplementationHandler {
 				WireframeCore.LOGGER.error("Caused by:", ex);
 			} while ((ex = ex.getCause()) != null);
 			
-			throw new LibraryException("Could not invoke " + caller.className + "." + caller.methodName);
+			throw new FrameworkException("Could not invoke " + caller.className + "." + caller.methodName);
 		}
 	}
 }
