@@ -62,12 +62,10 @@ public final class ClassUtil {
 		}
 	}
 	
-	public static Class<?>[] getParameterTypes(final Object[] parameters) {
+	public static Class<?> getClassFromStackTraceElement(final StackTraceElement element) {
 		try {
-			return Arrays.stream(parameters)
-					.map(Object::getClass)
-					.toArray(Class[]::new);
-		} catch (final NullPointerException ex) {
+			return Class.forName(element.getClassName());
+		} catch (final ClassNotFoundException e) {
 			return null;
 		}
 	}
