@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.core;
 
 import dev.psygamer.wireframe.core.dependant.DependantsHandler;
+import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 import dev.psygamer.wireframe.core.namespace.NamespaceHandler;
-import dev.psygamer.wireframe.core.exceptions.LibraryException;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -17,7 +17,7 @@ public final class WireframeCore {
 	
 	public static void register(final Class<?> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
-			throw new LibraryException("Mod class is not annotated with @Mod");
+			throw new FrameworkException("Mod class is not annotated with @Mod");
 		}
 		
 		DependantsHandler.registerDependant(

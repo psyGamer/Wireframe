@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.core.impl;
 
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.WireframeUtil;
-import dev.psygamer.wireframe.core.exceptions.LibraryException;
+import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 import dev.psygamer.wireframe.util.reflection.MethodUtil;
 
 import java.lang.reflect.Method;
@@ -45,7 +45,7 @@ public final class ImplementationUtil {
 		} catch (final ClassNotFoundException ignored) {
 		}
 		
-		throw new LibraryException("oh no");
+		throw new FrameworkException("oh no");
 	}
 	
 	public static Class<?> getImplementationClass(final Class<?> libraryClass, final MinecraftVersion version) {
@@ -86,7 +86,7 @@ public final class ImplementationUtil {
 			}
 		}
 		
-		throw new LibraryException("Could not find impl for + " + libraryMethod);
+		throw new FrameworkException("Could not find impl for + " + libraryMethod);
 	}
 	
 	//

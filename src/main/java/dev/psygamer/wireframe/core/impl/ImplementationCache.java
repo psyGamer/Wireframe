@@ -52,7 +52,7 @@ public final class ImplementationCache {
 		final Map<MethodCaller, Method> libraryMethodCache = new HashMap<>();
 		final Map<MethodCaller, Method> implementationMethodCache = new HashMap<>();
 		
-		WireframeCore.LOGGER.debug("\n<== Generating cache for the Construct Library ==> \n");
+		WireframeCore.LOGGER.debug("\n<== Generating cache for Wireframe ==> \n");
 		WireframeCore.LOGGER.debug("Initializing cache:");
 		
 		for (final MinecraftVersion version : MinecraftVersion.values()) {
@@ -65,7 +65,7 @@ public final class ImplementationCache {
 		
 		WireframeCore.LOGGER.debug("Defining class version:");
 		
-		for (final Class<?> internalClass : ClassUtil.getClasses(WireframeCore.Constants.WIREFRAME_PACKAGE)) {
+		for (final Class<?> internalClass : ClassUtil.getClasses(WireframeCore.Packages.ROOT_PACKAGE)) {
 			if (WireframeUtil.isLibraryClass(internalClass) || WireframeUtil.isImplementationClass(internalClass)) {
 				final ImplementationVersion versionAnnotation = internalClass.getAnnotation(ImplementationVersion.class);
 				final MinecraftVersion version = versionAnnotation != null ? versionAnnotation.value() : null;
@@ -99,7 +99,7 @@ public final class ImplementationCache {
 					});
 		}
 		
-		WireframeCore.LOGGER.debug("\n==> Successfully generated cache for the Construct Library <==\n");
+		WireframeCore.LOGGER.debug("\n==> Successfully generated cache for Wireframe <==\n");
 		
 		ImplementationCache.libraryMethodCache = ImmutableMap.copyOf(libraryMethodCache);
 		ImplementationCache.implementationMethodCache = ImmutableMap.copyOf(implementationMethodCache);
