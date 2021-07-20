@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MethodUtil {
 	
@@ -45,7 +46,28 @@ public class MethodUtil {
 	
 	public static Method getStaticMethod(final Class<?> libraryClass, final String methodName, final Class<?>[] parameterTypes) {
 		return getStaticMethodsByName(libraryClass, methodName).stream()
-				.filter(method -> Arrays.equals(method.getParameterTypes(), parameterTypes))
+				.filter(method -> {
+					final Class<?>[] methodParameterTypes = method.getParameterTypes();
+					
+					if (parameterTypes.length != methodParameterTypes.length) {
+						return false;
+					}
+					
+					for (int i = 0 ; i < parameterTypes.length ; i++) {
+						final Class<?> parameterType = parameterTypes[i];
+						final Class<?> methodParameterType = methodParameterTypes[i];
+						
+						if (parameterType == null) {
+							continue;
+						}
+						
+						if (parameterType != methodParameterType) {
+							return false;
+						}
+					}
+					
+					return true;
+				})
 				.findFirst()
 				.orElse(null);
 	}
