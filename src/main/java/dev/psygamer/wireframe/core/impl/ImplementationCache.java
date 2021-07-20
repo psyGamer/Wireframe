@@ -80,7 +80,7 @@ public final class ImplementationCache {
 		
 		WireframeCore.LOGGER.debug("Mapping library methods to implementation:");
 		
-		for (final Class<?> libraryClass : ClassUtil.getClasses(WireframeCore.Constants.LIBRARY_PACKAGE)) {
+		for (final Class<?> libraryClass : ClassUtil.getClasses(WireframeCore.Packages.LIBRARY_PACKAGE)) {
 			WireframeCore.LOGGER.debug("  Methods of " + libraryClass.getName() + ":");
 			Arrays.stream(libraryClass.getDeclaredMethods())
 					.filter(libraryMethod -> Modifier.isStatic(libraryMethod.getModifiers()))

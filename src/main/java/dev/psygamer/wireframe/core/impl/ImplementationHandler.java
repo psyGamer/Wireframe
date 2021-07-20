@@ -7,14 +7,16 @@ import dev.psygamer.wireframe.util.reflection.MethodUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ImplementationHandler {
 	
 	public static <T> T executeSpecificImplementation(final Class<?>[] parameterTypes, final Object... parameters) {
 		final MethodCaller caller = new MethodCaller(Arrays.stream(Thread.currentThread().getStackTrace())
 				.filter(element ->
-						!element.getClassName().startsWith(WireframeCore.Constants.IMPLEMENTATION_PACKAGE_ROOT) &&
-								!element.getClassName().startsWith(WireframeCore.Constants.CORE_PACKAGE) &&
+						!element.getClassName().startsWith(WireframeCore.Packages.IMPLEMENTATION_PACKAGE_ROOT) &&
+								!element.getClassName().startsWith(WireframeCore.Packages.CORE_PACKAGE) &&
 								!element.getClassName().startsWith("cpw") &&
 								!element.getClassName().startsWith("java") &&
 								!element.getClassName().startsWith("sun.reflect") &&
