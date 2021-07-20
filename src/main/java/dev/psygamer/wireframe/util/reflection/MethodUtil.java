@@ -3,29 +3,22 @@ package dev.psygamer.wireframe.util.reflection;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MethodUtil {
 	
-	public static boolean hasStaticMethods(final Class<?> clazz, final boolean includeSuperMethods) {
-		return !getStaticMethods(clazz, includeSuperMethods).isEmpty();
+	public static boolean hasStaticMethods(final Class<?> clazz) {
+		return !getStaticMethods(clazz).isEmpty();
 	}
 	
-	public static List<Method> getStaticMethods(final Class<?> clazz, final boolean includeSuperMethods) {
+	public static List<Method> getStaticMethods(final Class<?> clazz) {
 		final List<Method> staticMethods = new ArrayList<>();
 		
-		if (includeSuperMethods) {
-			for (final Method method : clazz.getMethods()) {
-				if (Modifier.isStatic(method.getModifiers())) {
-					staticMethods.add(method);
-				}
-			}
-		} else {
-			for (final Method declaredMethod : clazz.getDeclaredMethods()) {
-				if (Modifier.isStatic(declaredMethod.getModifiers())) {
-					staticMethods.add(declaredMethod);
-				}
+		for (final Method declaredMethod : clazz.getDeclaredMethods()) {
+			if (Modifier.isStatic(declaredMethod.getModifiers())) {
+				staticMethods.add(declaredMethod);
 			}
 		}
 		
@@ -48,5 +41,12 @@ public class MethodUtil {
 		}
 		
 		return methods;
+	}
+	
+	public static Method getStaticMethod(final Class<?> libraryClass, final String methodName, final Class<?>[] parameterTypes) {
+		return getStaticMethodsByName(libraryClass, methodName).stream()
+				.filter(method -> Arrays.equals(method.getParameterTypes(), parameterTypes))
+				.findFirst()
+				.orElse(null);
 	}
 }
