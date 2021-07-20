@@ -107,8 +107,8 @@ public final class ImplementationUtil {
 	
 	private static String getLibraryImplementationPackagePath(final MinecraftVersion version) {
 		return version == MinecraftVersion.COMMON
-				? WireframeCore.Constants.COMMON_IMPLEMENTATION_PACKAGE
-				: WireframeCore.Constants.WIREFRAME_PACKAGE + ".impl.v" + version.getVersionString().substring(2).replace(".", "_");
+				? WireframeCore.Packages.COMMON_IMPLEMENTATION_PACKAGE
+				: WireframeCore.Packages.ROOT_PACKAGE + ".impl.v" + version.getVersionString().substring(2).replace(".", "_");
 	}
 	
 	private static String getInternalPackagePath(final Class<?> internalClass) {

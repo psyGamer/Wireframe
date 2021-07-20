@@ -32,17 +32,41 @@ public final class WireframeCore {
 	}
 	
 	public static final class Debug {
-		public static final String ISSUE_TRACKER_URL = "https://github.com/psyGamer/Wireframe/issues";
-		
 		public static boolean verifyLibrary = false;
 		public static boolean strictMode = true;
 	}
 	
-	public static final class Constants {
-		public static final String WIREFRAME_PACKAGE = "dev.psygamer.wireframe";
-		public static final String CORE_PACKAGE = WIREFRAME_PACKAGE + ".core";
-		public static final String LIBRARY_PACKAGE = WIREFRAME_PACKAGE + ".lib";
-		public static final String IMPLEMENTATION_PACKAGE_ROOT = WIREFRAME_PACKAGE + ".impl";
-		public static final String COMMON_IMPLEMENTATION_PACKAGE = WIREFRAME_PACKAGE + ".impl.common";
+	public static final class Packages {
+		public static final String ROOT_PACKAGE = "dev.psygamer.wireframe";
+		public static final String CORE_PACKAGE = ROOT_PACKAGE + ".core";
+		public static final String UTIL_PACKAGE = ROOT_PACKAGE + ".util";
+		
+		public static final String LIBRARY_PACKAGE = ROOT_PACKAGE + ".lib";
+		public static final String IMPLEMENTATION_PACKAGE_ROOT = ROOT_PACKAGE + ".impl";
+		public static final String COMMON_IMPLEMENTATION_PACKAGE = ROOT_PACKAGE + ".impl.common";
+		
+		public static boolean isLibraryClass(final StackTraceElement element) {
+			return isLibraryClass(element.getClassName());
+		}
+		
+		public static boolean isLibraryClass(final String className) {
+			return className.startsWith(ROOT_PACKAGE) && !(isCoreClass(className) || isUtilClass(className));
+		}
+		
+		public static boolean isCoreClass(final StackTraceElement element) {
+			return isCoreClass(element.getClassName());
+		}
+		
+		public static boolean isCoreClass(final String className) {
+			return className.startsWith(CORE_PACKAGE);
+		}
+		
+		public static boolean isUtilClass(final StackTraceElement element) {
+			return isUtilClass(element.getClassName());
+		}
+		
+		public static boolean isUtilClass(final String className) {
+			return className.startsWith(UTIL_PACKAGE);
+		}
 	}
 }
