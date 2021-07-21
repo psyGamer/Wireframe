@@ -4,11 +4,18 @@ import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.util.reflection.MethodUtil;
 import dev.psygamer.wireframe.util.reflection.ObjectUtil;
+import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Weigher;
+
+import java.util.concurrent.ExecutionException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.Arrays;
 
 public final class Implementor {
 	
@@ -73,6 +80,43 @@ public final class Implementor {
 			return (R) implementedMethod.invoke(null, parameters);
 		} catch (IllegalAccessException | InvocationTargetException ex) {
 			throw new NoMethodImplementorFoundException(this.apiMethod, ex);
+		}
+	}
+	
+	private static final class Cache {
+		private static final LoadingCache<Method, Method> methodCache = CacheBuilder.newBuilder()
+				.maximumSize(300)
+				.weigher((Weigher<Method, Method>) (key, value) -> {
+					if (key.isAnnotationPresent(MethodCache.StartupOnly.class) && WireframeCore.isStartupComplete()) {
+						return Integer.MIN_VALUE;
+					}
+					
+					if (key.isAnnotationPresent(MethodCache.FrequentlyUsed.class)) {
+						return 1;
+					}
+					
+					return 0;
+				})
+				.build(
+						new CacheLoader<Method, Method>() {
+							
+							@Override
+							public Method load(final Method key) {
+								return Implementor.evaluateImplementationMethod(key);
+							}
+						}
+				);
+		
+		private static LoadingCache<Method, Method> getMethodCache() {
+			return methodCache;
+		}
+		
+		private static Method getCachedMethod(final Method apiMethod) {
+			try {
+				return methodCache.get(apiMethod);
+			} catch (final ExecutionException ex) {
+				throw new FrameworkException("Could not get implementation method for " + methodCache, ex);
+			}
 		}
 	}
 }
