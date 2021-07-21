@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.block;
 
-import dev.psygamer.wireframe.Wireframe;
-import dev.psygamer.wireframe.core.impl.handle.Implementor;
+import dev.psygamer.wireframecore.impl.handle.Implementor;
 import dev.psygamer.wireframe.util.ICloneable;
 import dev.psygamer.wireframe.util.IFactory;
 import dev.psygamer.wireframe.block.properties.HarvestLevel;

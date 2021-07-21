@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.registry;
 
 import dev.psygamer.wireframe.block.BlockWrapper;
 
-import dev.psygamer.wireframe.core.impl.handle.Implementor;
+import dev.psygamer.wireframecore.impl.handle.Implementor;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 

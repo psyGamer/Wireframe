@@ -1,8 +1,7 @@
 package dev.psygamer.wireframe.block;
 
-import dev.psygamer.wireframe.core.impl.handle.Implementor;
-import dev.psygamer.wireframe.core.namespace.Namespace;
-import dev.psygamer.wireframe.Wireframe;
+import dev.psygamer.wireframecore.impl.handle.Implementor;
+import dev.psygamer.wireframecore.namespace.Namespace;
 import net.minecraft.block.Block;
 
 import java.util.List;
