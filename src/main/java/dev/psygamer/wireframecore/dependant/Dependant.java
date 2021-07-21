@@ -1,6 +1,6 @@
 package dev.psygamer.wireframecore.dependant;
 
-import dev.psygamer.wireframecore.WireframeUtil;
+import dev.psygamer.wireframecore.WireframePackages;
 import dev.psygamer.wireframecore.namespace.Namespace;
 import dev.psygamer.wireframe.util.reflection.FieldUtil;
 
@@ -25,7 +25,7 @@ public final class Dependant <T> {
 		this.modContainer = FieldUtil.getField(FMLJavaModLoadingContext.class, modLoadingContext, "container");
 		
 		this.namespace = this.modContainer.getModId();
-		this.rootPackage = Objects.requireNonNull(WireframeUtil.getFirstExternalClass()).getName();
+		this.rootPackage = Objects.requireNonNull(WireframePackages.getFirstExternalClass()).getName();
 		
 		this.modClass = modClass;
 		this.modInstance = (T) this.modContainer.getMod();

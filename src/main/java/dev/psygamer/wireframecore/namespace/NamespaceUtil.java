@@ -1,6 +1,6 @@
 package dev.psygamer.wireframecore.namespace;
 
-import dev.psygamer.wireframecore.WireframeUtil;
+import dev.psygamer.wireframecore.WireframePackages;
 
 import java.util.Objects;
 
@@ -17,6 +17,6 @@ public final class NamespaceUtil {
 	}
 	
 	public static Namespace getCurrentNamespace() {
-		return getNamespace(Objects.requireNonNull(WireframeUtil.getFirstExternalClass()).getPackage().getName());
+		return getNamespace(Objects.requireNonNull(WireframePackages.getFirstExternalClass()).getPackage().getName());
 	}
 }

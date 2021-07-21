@@ -1,6 +1,6 @@
 package dev.psygamer.wireframecore.impl.handle;
 
-import dev.psygamer.wireframecore.PackageUtil;
+import dev.psygamer.wireframecore.WireframePackages;
 import dev.psygamer.wireframecore.WireframeCore;
 import dev.psygamer.wireframecore.impl.ImplementationVersion;
 import dev.psygamer.wireframecore.impl.MinecraftVersion;
@@ -31,7 +31,7 @@ public final class Implementor {
 		if (apiMethod == null) {
 			throw new IllegalArgumentException("The API Method method may not be null");
 		}
-		if (!PackageUtil.isAPIClass(apiMethod.getDeclaringClass())) {
+		if (!WireframePackages.isAPIClass(apiMethod.getDeclaringClass())) {
 			throw new IllegalArgumentException("The unimplemented method must be in an API class");
 		}
 		
@@ -44,7 +44,7 @@ public final class Implementor {
 	
 	public static Implementor find(final Class<?>... parameterTypes) {
 		final StackTraceElement invoker = Arrays.stream(Thread.currentThread().getStackTrace())
-				.filter(PackageUtil::isAPIClass)
+				.filter(WireframePackages::isAPIClass)
 				.findFirst()
 				.orElseThrow(() -> new NoInvokerFoundException("Class part of the Wireframe library classes"));
 		
@@ -57,7 +57,7 @@ public final class Implementor {
 	protected static Method evaluateImplementationMethod(final Method apiMethod) {
 		final Class<?> apiClass = apiMethod.getDeclaringClass();
 		
-		return ClassUtil.getClasses(PackageUtil.IMPL_PACKAGE).stream()
+		return ClassUtil.getClasses(WireframePackages.IMPL_PACKAGE).stream()
 				.filter(clazz -> clazz.isAssignableFrom(apiClass))
 				.filter(clazz -> clazz.isAnnotationPresent(ImplementationVersion.class))
 				.filter(clazz -> MinecraftVersion.getCurrentVersion().compareTo( // Check if the impl version is <= the current version
