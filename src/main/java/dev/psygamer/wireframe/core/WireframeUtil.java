@@ -44,7 +44,7 @@ public final class WireframeUtil {
 	}
 	
 	public static boolean isLibraryClass(final Class<?> internalClass) {
-		return internalClass.getName().startsWith(WireframeCore.Packages.LIBRARY_PACKAGE);
+		return internalClass.getName().startsWith(WireframeCore.Packages.API_PACKAGE);
 	}
 	
 	public static boolean isInternalClass(final Class<?> internalClass) {
