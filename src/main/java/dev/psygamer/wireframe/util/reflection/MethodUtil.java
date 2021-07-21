@@ -2,9 +2,10 @@ package dev.psygamer.wireframe.util.reflection;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
+import java.util.ArrayList;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,7 +46,7 @@ public class MethodUtil {
 	}
 	
 	public static Method getStaticMethod(final Class<?> clazz, final String methodName, final Class<?>[] parameterTypes) {
-		final Stream<Method> possibleMethods = getStaticMethodsByName(clazz, methodName).stream()
+		final Supplier<Stream<Method>> possibleMethodsSupplier = () -> getStaticMethodsByName(clazz, methodName).stream()
 				.filter(method -> {
 					final Class<?>[] methodParameterTypes = method.getParameterTypes();
 					
@@ -69,10 +70,10 @@ public class MethodUtil {
 					return true;
 				});
 		
-		if (possibleMethods.count() > 1) {
+		if (possibleMethodsSupplier.get().count() > 1) {
 			return null;
 		}
 		
-		return possibleMethods.findFirst().orElse(null);
+		return possibleMethodsSupplier.get().findFirst().orElse(null);
 	}
 }
