@@ -1,9 +1,8 @@
 package dev.psygamer.wireframe.registry;
 
-import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.block.BlockWrapper;
-import dev.psygamer.wireframe.core.impl.ImplementationHandler;
 
+import dev.psygamer.wireframe.core.impl.handle.Implementor;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 
@@ -13,15 +12,15 @@ import java.util.List;
 public interface BlockRegistry {
 	
 	static void register(final BlockWrapper blockWrapper) {
-		ImplementationHandler.executeImplementation(blockWrapper);
+		Implementor.execute(blockWrapper);
 	}
 	
 	static List<Block> getBlocks() {
-		return Wireframe.Core.executeImplementation();
+		return Implementor.execute();
 	}
 	
 	static List<BlockWrapper> getBlockWrappers() {
-		return ImplementationHandler.executeImplementation();
+		return Implementor.execute();
 	}
 	
 	void registerBlocksToForge(RegistryEvent.Register<Block> event);
