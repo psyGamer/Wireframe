@@ -31,7 +31,7 @@ public final class WireframeUtil {
 	}
 	
 	public static boolean isPartOfLibrary(final String className) {
-		return !className.startsWith(WireframeCore.Packages.ROOT_PACKAGE) &&
+		return !className.startsWith(PackageUtil.ROOT_PACKAGE) &&
 				!className.startsWith("cpw") &&
 				!className.startsWith("java") &&
 				!className.startsWith("sun.reflect") &&
@@ -40,11 +40,11 @@ public final class WireframeUtil {
 	}
 	
 	public static boolean isImplementationClass(final Class<?> internalClass) {
-		return internalClass.getName().startsWith(WireframeCore.Packages.IMPLEMENTATION_PACKAGE_ROOT);
+		return internalClass.getName().startsWith(PackageUtil.IMPLEMENTATION_PACKAGE_ROOT);
 	}
 	
 	public static boolean isLibraryClass(final Class<?> internalClass) {
-		return internalClass.getName().startsWith(WireframeCore.Packages.API_PACKAGE);
+		return internalClass.getName().startsWith(PackageUtil.API_PACKAGE);
 	}
 	
 	public static boolean isInternalClass(final Class<?> internalClass) {
