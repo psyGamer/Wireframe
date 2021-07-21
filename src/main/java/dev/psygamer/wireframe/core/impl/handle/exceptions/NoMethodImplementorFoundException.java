@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.core.impl;
+package dev.psygamer.wireframe.core.impl.handle.exceptions;
 
 import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 
