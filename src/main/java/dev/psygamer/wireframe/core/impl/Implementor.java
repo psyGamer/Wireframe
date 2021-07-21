@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Implementor {
+public final class Implementor {
 	
 	private final Method apiMethod;
 	
@@ -41,20 +41,8 @@ public class Implementor {
 		return new Implementor(libraryMethod);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <R> R run(final Object... parameters) {
-		final Method implementedMethod = evaluateImplementationMethod();
-		
-		try {
-			return (R) implementedMethod.invoke(null, parameters);
-		} catch (IllegalAccessException | InvocationTargetException ex) {
-			throw new NoMethodImplementorFoundException(this.apiMethod, ex);
-		}
-	}
-	
-	/* TODO Add caching system */
-	private Method evaluateImplementationMethod() {
-		final Class<?> apiClass = this.apiMethod.getDeclaringClass();
+	protected static Method evaluateImplementationMethod(final Method apiMethod) {
+		final Class<?> apiClass = apiMethod.getDeclaringClass();
 		
 		return ClassUtil.getClasses(WireframeCore.Packages.IMPL_PACKAGE).stream()
 				.filter(clazz -> clazz.isAssignableFrom(apiClass))
@@ -69,11 +57,22 @@ public class Implementor {
 				})
 				.map(clazz -> MethodUtil.getStaticMethod( // Map to implementation method
 						clazz,
-						this.apiMethod.getName(),
-						this.apiMethod.getParameterTypes()))
+						apiMethod.getName(),
+						apiMethod.getParameterTypes()))
 				.filter(Objects::nonNull)
 				.findFirst()
-				.orElseThrow(() -> new NoMethodImplementorFoundException(this.apiMethod));
+				.orElseThrow(() -> new NoMethodImplementorFoundException(apiMethod));
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <R> R run(final Object... parameters) {
+		final Method implementedMethod = Cache.getCachedMethod(this.apiMethod);
+		
+		try {
+			return (R) implementedMethod.invoke(null, parameters);
+		} catch (IllegalAccessException | InvocationTargetException ex) {
+			throw new NoMethodImplementorFoundException(this.apiMethod, ex);
+		}
 	}
 }

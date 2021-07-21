@@ -15,6 +15,11 @@ public final class WireframeCore {
 	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
 	public static final String MODID = "wireframe";
 	
+	public static boolean isStartupComplete() {
+//		return FMLJavaModLoadingContext.get().getModEventBus().
+		return true;
+	}
+	
 	public static void register(final Class<?> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {
 			throw new FrameworkException("Mod class is not annotated with @Mod");
