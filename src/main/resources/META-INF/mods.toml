@@ -15,12 +15,12 @@ description = '''
 A library for simplifying common tasks in Minecraft Forge
 '''
 
-#updateJSONURL = "https://www.curseforge.com/minecraft/mc-mods/wireframe"
-displayURL = "https://www.curseforge.com/minecraft/mc-mods/wireframe
+#updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/wireframe"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/wireframe"
 
 logoFile = "logo.png"
 
-#credits = "Thanks for this example mod goes to Java"
+#credits="Thanks for this example mod goes to Java"
 authors = "psyGamer"
 
 [[dependencies.wireframe]]
