@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.block;
 
 import dev.psygamer.wireframe.Wireframe;
+import dev.psygamer.wireframe.core.impl.handle.Implementor;
 import dev.psygamer.wireframe.util.ICloneable;
 import dev.psygamer.wireframe.util.IFactory;
 import dev.psygamer.wireframe.block.properties.HarvestLevel;
@@ -34,7 +35,7 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	 * @since 1.0
 	 */
 	static BlockFactory create(final String blockName) {
-		return Wireframe.Core.executeImplementation(blockName);
+		return Implementor.execute(blockName);
 	}
 	
 	/**
@@ -48,7 +49,7 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	 * @since 1.0
 	 */
 	static BlockFactory create(final String blockName, final Material material) {
-		return Wireframe.Core.executeImplementation(blockName, material);
+		return Implementor.execute(blockName, material);
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> 
 	 * @since 1.0
 	 */
 	static BlockFactory create(final String blockName, final Material material, final ItemGroup group) {
-		return Wireframe.Core.executeImplementation(blockName, material, group);
+		return Implementor.execute(blockName, material, group);
 	}
 	
 	BlockFactory multiplyHardness(final float factor);
