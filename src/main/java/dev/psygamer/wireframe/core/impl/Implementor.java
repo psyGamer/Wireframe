@@ -8,13 +8,21 @@ import dev.psygamer.wireframe.util.reflection.ObjectUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Implementor {
 	
-	private final Method unimplementedMethod;
+	private final Method apiMethod;
 	
-	protected Implementor(final Method unimplementedMethod) {
-		this.unimplementedMethod = unimplementedMethod;
+	protected Implementor(final Method apiMethod) {
+		if (apiMethod == null) {
+			throw new IllegalArgumentException("The API Method method may not be null");
+		}
+		if (!WireframeCore.Packages.isAPIClass(apiMethod.getDeclaringClass())) {
+			throw new IllegalArgumentException("The unimplemented method must be in an API class");
+		}
+		
+		this.apiMethod = apiMethod;
 	}
 	
 	public static <R> R execute(final Object... parameters) {
@@ -23,7 +31,7 @@ public class Implementor {
 	
 	public static Implementor find(final Class<?>... parameterTypes) {
 		final StackTraceElement invoker = Arrays.stream(Thread.currentThread().getStackTrace())
-				.filter(WireframeCore.Packages::isLibraryClass)
+				.filter(WireframeCore.Packages::isAPIClass)
 				.findFirst()
 				.orElseThrow(() -> new NoInvokerFoundException("Class part of the Wireframe library classes"));
 		
@@ -35,10 +43,37 @@ public class Implementor {
 	
 	@SuppressWarnings("unchecked")
 	public <R> R run(final Object... parameters) {
+		final Method implementedMethod = evaluateImplementationMethod();
+		
 		try {
-			return (R) this.unimplementedMethod.invoke(null, parameters);
+			return (R) implementedMethod.invoke(null, parameters);
 		} catch (IllegalAccessException | InvocationTargetException ex) {
-			throw new NoImplementorFoundException(this.unimplementedMethod.getName(), ex);
+			throw new NoMethodImplementorFoundException(this.apiMethod, ex);
 		}
+	}
+	
+	/* TODO Add caching system */
+	private Method evaluateImplementationMethod() {
+		final Class<?> apiClass = this.apiMethod.getDeclaringClass();
+		
+		return ClassUtil.getClasses(WireframeCore.Packages.IMPL_PACKAGE).stream()
+				.filter(clazz -> clazz.isAssignableFrom(apiClass))
+				.filter(clazz -> clazz.isAnnotationPresent(ImplementationVersion.class))
+				.filter(clazz -> MinecraftVersion.getCurrentVersion().compareTo( // Check if the impl version is <= the current version
+						clazz.getAnnotation(ImplementationVersion.class).value()) <= 0)
+				.sorted((classA, classB) -> { // Sort from newest to newest to oldest
+					final MinecraftVersion versionA = classA.getAnnotation(ImplementationVersion.class).value();
+					final MinecraftVersion versionB = classB.getAnnotation(ImplementationVersion.class).value();
+					
+					return versionA.compareTo(versionB);
+				})
+				.map(clazz -> MethodUtil.getStaticMethod( // Map to implementation method
+						clazz,
+						this.apiMethod.getName(),
+						this.apiMethod.getParameterTypes()))
+				.filter(Objects::nonNull)
+				.findFirst()
+				.orElseThrow(() -> new NoMethodImplementorFoundException(this.apiMethod));
+		
 	}
 }

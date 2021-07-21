@@ -40,6 +40,7 @@ public final class WireframeCore {
 		public static final String ROOT_PACKAGE = "dev.psygamer.wireframe";
 		public static final String CORE_PACKAGE = ROOT_PACKAGE + ".core";
 		public static final String UTIL_PACKAGE = ROOT_PACKAGE + ".util";
+		public static final String IMPL_PACKAGE = CORE_PACKAGE + ".impl";
 		
 		public static final String API_PACKAGE = ROOT_PACKAGE + ".lib";
 		public static final String IMPLEMENTATION_PACKAGE_ROOT = ROOT_PACKAGE + ".impl";

@@ -44,8 +44,8 @@ public class MethodUtil {
 		return methods;
 	}
 	
-	public static Method getStaticMethod(final Class<?> libraryClass, final String methodName, final Class<?>[] parameterTypes) {
-		final Stream<Method> possibleMethods = getStaticMethodsByName(libraryClass, methodName).stream()
+	public static Method getStaticMethod(final Class<?> clazz, final String methodName, final Class<?>[] parameterTypes) {
+		final Stream<Method> possibleMethods = getStaticMethodsByName(clazz, methodName).stream()
 				.filter(method -> {
 					final Class<?>[] methodParameterTypes = method.getParameterTypes();
 					
