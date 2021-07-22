@@ -1,21 +1,19 @@
 package dev.psygamer.wireframecore.impl.handle;
 
 import dev.psygamer.wireframecore.WireframePackages;
-import dev.psygamer.wireframecore.WireframeCore;
+import dev.psygamer.wireframecore.exceptions.FrameworkException;
 import dev.psygamer.wireframecore.impl.ImplementationVersion;
 import dev.psygamer.wireframecore.impl.MinecraftVersion;
 import dev.psygamer.wireframecore.impl.handle.exceptions.NoInvokerFoundException;
 import dev.psygamer.wireframecore.impl.handle.exceptions.NoMethodImplementorFoundException;
-import dev.psygamer.wireframecore.impl.MethodCache;
+
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.util.reflection.MethodUtil;
 import dev.psygamer.wireframe.util.reflection.ObjectUtil;
-import dev.psygamer.wireframecore.exceptions.FrameworkException;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.cache.Weigher;
 
 import java.util.concurrent.ExecutionException;
 import java.lang.reflect.InvocationTargetException;
@@ -92,17 +90,6 @@ public final class Implementor {
 	private static final class Cache {
 		private static final LoadingCache<Method, Method> methodCache = CacheBuilder.newBuilder()
 				.maximumSize(300)
-				.weigher((Weigher<Method, Method>) (key, value) -> {
-					if (key.isAnnotationPresent(MethodCache.StartupOnly.class) && WireframeCore.isStartupComplete()) {
-						return Integer.MIN_VALUE;
-					}
-					
-					if (key.isAnnotationPresent(MethodCache.FrequentlyUsed.class)) {
-						return 1;
-					}
-					
-					return 0;
-				})
 				.build(
 						new CacheLoader<Method, Method>() {
 							
