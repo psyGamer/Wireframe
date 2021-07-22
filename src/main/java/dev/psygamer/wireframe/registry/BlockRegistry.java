@@ -23,5 +23,5 @@ public interface BlockRegistry {
 		return Implementor.execute();
 	}
 	
-	void registerBlocksToForge(RegistryEvent.Register<Block> event);
+	void onBlockRegistry(RegistryEvent.Register<Block> event);
 }
