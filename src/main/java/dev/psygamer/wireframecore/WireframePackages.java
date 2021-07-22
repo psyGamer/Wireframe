@@ -56,7 +56,7 @@ public final class WireframePackages {
 	}
 	
 	public static boolean isImplClass(final String className) {
-		return className.startsWith(UTIL_PACKAGE);
+		return className.startsWith(IMPL_PACKAGE);
 	}
 	
 	public static boolean isInternalClass(final StackTraceElement element) {
