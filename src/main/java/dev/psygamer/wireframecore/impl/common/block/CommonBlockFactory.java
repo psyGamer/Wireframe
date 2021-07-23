@@ -1,5 +1,6 @@
 package dev.psygamer.wireframecore.impl.common.block;
 
+import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframecore.impl.ImplementationVersion;
 import dev.psygamer.wireframecore.impl.MinecraftVersion;
 import dev.psygamer.wireframe.block.BlockFactory;

@@ -1,5 +1,6 @@
 package dev.psygamer.wireframecore.impl.v16.registry;
 
+import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframecore.WireframeCore;
 import dev.psygamer.wireframecore.impl.MinecraftVersion;
 import dev.psygamer.wireframecore.impl.ImplementationVersion;
@@ -17,10 +18,14 @@ import java.util.Objects;
 @ImplementationVersion(MinecraftVersion.v16)
 public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	
-	private final String modid;
+	private final String modID;
 	
-	public BlockRegistryImpl16(final String modid) {
-		this.modid = modid;
+	public BlockRegistryImpl16(final String modID) {
+		this.modID = modID;
+	}
+	
+	public static BlockRegistry create(final String modID) {
+		return new BlockRegistryImpl16(modID);
 	}
 	
 	@Override
@@ -28,7 +33,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	public void onBlockRegistry(final RegistryEvent.Register<Block> event) {
 		blockWrappers.stream()
 				.filter(blockWrapper -> Objects.equals(
-						blockWrapper.getNamespace().evaluate(), this.modid))
+						blockWrapper.getNamespace().evaluate(), this.modID))
 				.forEach(blockWrapper -> {
 					registerBlockWrapper(blockWrapper, event);
 					
