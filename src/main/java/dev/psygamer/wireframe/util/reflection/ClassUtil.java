@@ -1,9 +1,10 @@
 package dev.psygamer.wireframe.util.reflection;
 
 import javax.tools.*;
+
 import java.lang.annotation.Annotation;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -14,10 +15,6 @@ public final class ClassUtil {
 	}
 	
 	public static List<Class<?>> getClassesWithAnnotation(final String packageName, final Class<? extends Annotation> annotationClass) {
-		return getClassesWithAnnotation(packageName, annotationClass, true);
-	}
-	
-	public static List<Class<?>> getClassesWithAnnotation(final String packageName, final Class<? extends Annotation> annotationClass, final boolean includeSuperClass) {
 		try {
 			final List<Class<?>> classes = new ArrayList<>();
 			final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -35,20 +32,15 @@ public final class ClassUtil {
 				final int index = raw.lastIndexOf(packageName.replace('.', '/'));
 				
 				if (index > 0) {
-					String fullName = packageName.replace('.', '/') + raw.split(packageName.replace('.', '/'))[1];
+					final String[] pathSpliced = raw.split(packageName.replace('.', '/'));
+					String fullName = packageName.replace('.', '/') + pathSpliced[pathSpliced.length - 1];
 					
 					fullName = fullName.replaceAll("/", ".");
 					fullName = fullName.substring(0, fullName.length() - ".class".length());
 					
-					Class<?> clazz = Class.forName(fullName);
+					final Class<?> clazz = Class.forName(fullName);
 					
 					if (annotationClass == null || clazz.isAnnotationPresent(annotationClass)) {
-						classes.add(clazz);
-					} else if (includeSuperClass) {
-						while (!clazz.isAnnotationPresent(annotationClass)) {
-							clazz = clazz.getSuperclass();
-						}
-						
 						classes.add(clazz);
 					}
 				}
