@@ -17,13 +17,18 @@ import java.util.Objects;
 @ImplementationVersion(MinecraftVersion.v16)
 public class BlockRegistryImpl16 extends CommonBlockRegistry {
 	
+	private final String modid;
+	
+	public BlockRegistryImpl16(final String modid) {
+		this.modid = modid;
+	}
+	
 	@Override
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBlockRegistry(final RegistryEvent.Register<Block> event) {
 		blockWrappers.stream()
 				.filter(blockWrapper -> Objects.equals(
-						blockWrapper.getNamespace().evaluate(),
-						event.getRegistry().getRegistryName().getNamespace()))
+						blockWrapper.getNamespace().evaluate(), this.modid))
 				.forEach(blockWrapper -> {
 					registerBlockWrapper(blockWrapper, event);
 					
