@@ -19,9 +19,10 @@ public final class WireframeCore {
 	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
 	public static final String MODID = "wireframe";
 	
-	public static boolean isStartupComplete() {
-//		return FMLJavaModLoadingContext.get().getModEventBus().
-		return true;
+	public WireframeCore() {
+		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		modEventBus.addListener(this::onModConstruct);
 	}
 	
 	public static void register(final Class<?> modClass, final FMLJavaModLoadingContext modLoadingContext) {
@@ -38,5 +39,11 @@ public final class WireframeCore {
 				modClass.getAnnotation(Mod.class).value(),
 				modClass.getPackage().getName()
 		);
+		
+		EventRegistrator.addModLoadingContext(modLoadingContext);
+	}
+	
+	private void onModConstruct(final FMLConstructModEvent event) {
+		EventRegistrator.registerModLoadingEventBuses();
 	}
 }
