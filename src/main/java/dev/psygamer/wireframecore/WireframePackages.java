@@ -76,7 +76,14 @@ public final class WireframePackages {
 			return Class.forName(
 					Objects.requireNonNull(
 							Arrays.stream(Thread.currentThread().getStackTrace())
-									.filter(WireframePackages::isInternalClass)
+									.filter(element -> !(isInternalClass(element)
+											|| element.getClassName().startsWith("cpw.")
+											|| element.getClassName().startsWith("java.")
+											|| element.getClassName().startsWith("sun.reflect.")
+											|| element.getClassName().startsWith("com.mojang.")
+											|| element.getClassName().startsWith("net.minecraft.")
+											|| element.getClassName().startsWith("net.minecraftforge.")
+									))
 									.findFirst()
 									.orElse(null)
 					).getClassName()
