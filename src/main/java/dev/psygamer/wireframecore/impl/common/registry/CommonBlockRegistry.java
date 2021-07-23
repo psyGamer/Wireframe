@@ -7,6 +7,7 @@ import dev.psygamer.wireframe.block.BlockWrapper;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 
 import net.minecraft.block.Block;
+import net.minecraftforge.event.RegistryEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,11 @@ public abstract class CommonBlockRegistry implements BlockRegistry {
 	protected static List<Block> blocks = new ArrayList<>();
 	protected static List<BlockWrapper> blockWrappers = new ArrayList<>();
 	
-	static List<Block> getBlocks() {
+	public static List<Block> getBlocks() {
 		return blocks;
 	}
 	
-	static List<BlockWrapper> getBlockWrappers() {
+	public static List<BlockWrapper> getBlockWrappers() {
 		return blockWrappers;
 	}
 	
