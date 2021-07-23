@@ -11,7 +11,7 @@ public class Wireframe {
 	
 	public Wireframe() {
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		
-		modEventBus.register(new BlockRegistryImpl16());
+
+//		modEventBus.register(new BlockRegistryImpl16());
 	}
 }
