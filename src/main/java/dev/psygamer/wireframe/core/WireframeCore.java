@@ -1,23 +1,25 @@
 package dev.psygamer.wireframe.core;
 
-import dev.psygamer.wireframe.core.dependant.DependantsHandler;
-import dev.psygamer.wireframe.core.event.EventRegistrator;
-import dev.psygamer.wireframe.core.exceptions.FrameworkException;
+import dev.psygamer.wireframe.core.event.WireframeEventRegistrator;
+import dev.psygamer.wireframe.core.event.WireframeEventBus;
 import dev.psygamer.wireframe.core.namespace.NamespaceHandler;
+import dev.psygamer.wireframe.core.dependant.DependantsHandler;
+import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(WireframeCore.MODID)
 public final class WireframeCore {
-	
 	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
 	public static final String MODID = "wireframe";
+	
+	public static final IEventBus EVENT_BUS = WireframeEventBus.create();
 	
 	public WireframeCore() {
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -39,11 +41,12 @@ public final class WireframeCore {
 				modClass.getAnnotation(Mod.class).value(),
 				modClass.getPackage().getName()
 		);
-		
-		EventRegistrator.addModLoadingContext(modLoadingContext);
 	}
 	
 	private void onModConstruct(final FMLConstructModEvent event) {
-		EventRegistrator.registerModLoadingEventBuses();
+		WireframeEventRegistrator.registerModLoadingEventBuses();
+		WireframeEventRegistrator.registerWireframeEventBuses();
 	}
+	
+	
 }
