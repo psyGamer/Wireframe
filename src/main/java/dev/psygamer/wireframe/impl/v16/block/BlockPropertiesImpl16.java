@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
+import dev.psygamer.wireframe.api.block.BlockAttributes;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.api.block.BlockProperties;
 
 import dev.psygamer.wireframe.impl.common.block.CommonBlockProperties;
 
@@ -33,23 +33,23 @@ public class BlockPropertiesImpl16 extends CommonBlockProperties {
 	}
 	
 	@Override
-	protected BlockProperties createInstance() {
+	protected BlockAttributes createInstance() {
 		return new BlockPropertiesImpl16();
 	}
 	
 	@Override
-	protected BlockProperties createInstance(final Material material) {
+	protected BlockAttributes createInstance(final Material material) {
 		return new BlockPropertiesImpl16(material);
 	}
 	
 	@Override
-	protected BlockProperties createInstance(final Material material, final ItemGroup group) {
+	protected BlockAttributes createInstance(final Material material, final ItemGroup group) {
 		return new BlockPropertiesImpl16(material, group);
 	}
 	
 	@Override
 	@SuppressWarnings("ConstantConditions")
-	public BlockProperties inheritFromBlock(final Block block) {
+	public BlockAttributes inheritFromBlock(final Block block) {
 		final AbstractBlock.Properties properties = ObfuscationReflectionHelper.getPrivateValue(AbstractBlock.class, block, "field_235684_aB_");
 		final Class<AbstractBlock.Properties> propertiesClass = AbstractBlock.Properties.class;
 		
