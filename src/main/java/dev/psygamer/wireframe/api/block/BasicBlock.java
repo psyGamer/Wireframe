@@ -1,23 +1,28 @@
 package dev.psygamer.wireframe.api.block;
 
-import dev.psygamer.wireframe.api.block.property.BlockProperty;
+import dev.psygamer.wireframe.api.block.state.BlockPropertySet;
+import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
+
+import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.core.impl.Instancer;
+import dev.psygamer.wireframe.util.IFreezable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class BasicBlock {
+public class BasicBlock extends BlockEvents implements IFreezable {
 	
 	private static final BasicBlock INSTANCE = Instancer.createInstance();
 	
 	protected final String registryName;
 	protected final BlockAttributes attributes;
 	
-	protected final List<BlockProperty<?>> blockStateProperties = new ArrayList<>();
+	protected final BlockPropertySet propertySet;
 	
-	public BasicBlock(final String blockName, final BlockAttributes attributes) {
-		this.registryName = blockName;
+	protected BlockPropertyContainer defaultPropertyContainer;
+	
+	public BasicBlock(final String registryName, final BlockAttributes attributes) {
+		this.registryName = registryName;
 		this.attributes = attributes;
+		
+		this.propertySet = new BlockPropertySet();
 	}
 	
 	public String getRegistryName() {
@@ -28,7 +33,24 @@ public abstract class BasicBlock {
 		return this.attributes;
 	}
 	
-	protected void registerBlockStateProperty(final BlockProperty<?> property) {
-		this.blockStateProperties.add(property);
+	public BlockPropertyContainer getDefaultBlockPropertyContainer() {
+		return this.defaultPropertyContainer.copy();
+	}
+	
+	protected <T> void registerBlockStateProperty(final BlockProperty<T> property) {
+		if (this.defaultPropertyContainer.containsProperty(property))
+			return;
+		
+		this.defaultPropertyContainer.setProperty(property, property.getDefaultValue());
+	}
+	
+	@Override
+	public void freeze() {
+		this.defaultPropertyContainer.freeze();
+	}
+	
+	@Override
+	public boolean isFrozen() {
+		return this.defaultPropertyContainer.isFrozen();
 	}
 }
