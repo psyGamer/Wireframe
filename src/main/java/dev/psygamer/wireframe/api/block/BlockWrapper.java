@@ -2,10 +2,10 @@ package dev.psygamer.wireframe.api.block;
 
 import dev.psygamer.wireframe.core.impl.Implementor;
 import dev.psygamer.wireframe.core.namespace.Namespace;
+
 import net.minecraft.block.Block;
 
 import java.util.List;
-
 
 public interface BlockWrapper {
 	
@@ -21,10 +21,5 @@ public interface BlockWrapper {
 	
 	BlockProperties getFactory();
 	
-	boolean hasBlockVariants();
-	
 	List<BlockWrapper> getBlockVariants();
-	
-	List<BlockProperty<?>> getBlockProperties();
-	
 }

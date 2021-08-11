@@ -1,14 +1,13 @@
 package dev.psygamer.wireframe.impl.common.block;
 
 import dev.psygamer.wireframe.api.block.BlockProperties;
+import dev.psygamer.wireframe.api.block.BlockWrapper;
+import dev.psygamer.wireframe.api.registry.BlockRegistry;
+
 import dev.psygamer.wireframe.core.namespace.Namespace;
 import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-
-import dev.psygamer.wireframe.api.block.BlockProperty;
-import dev.psygamer.wireframe.api.block.BlockWrapper;
-import dev.psygamer.wireframe.api.registry.BlockRegistry;
 
 import net.minecraft.block.Block;
 
@@ -23,7 +22,6 @@ public class CommonBlockWrapper implements BlockWrapper {
 	protected final Block block;
 	protected final BlockProperties factory;
 	protected List<BlockWrapper> blockVariants = new ArrayList<>();
-	protected List<BlockProperty<?>> blockProperties = new ArrayList<>();
 	
 	protected CommonBlockWrapper(final BlockProperties blockFactory) {
 		this.namespace = NamespaceUtil.getCurrentNamespace();
@@ -60,17 +58,7 @@ public class CommonBlockWrapper implements BlockWrapper {
 	}
 	
 	@Override
-	public List<BlockProperty<?>> getBlockProperties() {
-		return this.blockProperties;
-	}
-	
-	@Override
 	public BlockProperties getFactory() {
 		return this.factory.copy();
-	}
-	
-	@Override
-	public boolean hasBlockVariants() {
-		return !this.blockProperties.isEmpty();
 	}
 }
