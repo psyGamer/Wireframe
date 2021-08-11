@@ -12,6 +12,8 @@ public class IntegerRangeBlockProperty extends BlockProperty<Integer> {
 		for (int i = min ; i <= max ; i++)
 			addEntry(String.valueOf(i), i);
 		
+		setDefaultValue(min);
+		
 		freeze();
 	}
 }
