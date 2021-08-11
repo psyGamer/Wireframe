@@ -18,9 +18,9 @@ import net.minecraftforge.common.ToolType;
  * <p>
  *
  * @author psyGamer
- * @version 1.0 | 1.16 +
+ * @version 1.0 | Minecraft 1.16 +
  * @see Block
- * @since 1.0
+ * @since 1.0 | Minecraft 1.16
  */
 public interface BlockFactory extends IFactory<Block>, ICloneable<BlockFactory> {
 	
