@@ -1,5 +1,7 @@
 package dev.psygamer.wireframe.api.block;
 
+import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.entity.Entity;
