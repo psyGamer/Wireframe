@@ -4,7 +4,7 @@ import dev.psygamer.wireframe.api.block.BlockAttributes;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 
-import dev.psygamer.wireframe.impl.common.block.CommonBlockProperties;
+import dev.psygamer.wireframe.impl.common.block.CommonBlockAttributes;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.block.Block;
@@ -14,19 +14,19 @@ import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @ImplementationVersion(MinecraftVersion.v16)
-public class BlockPropertiesImpl16 extends CommonBlockProperties {
+public class BlockAttributesImpl16 extends CommonBlockAttributes {
 	
-	protected BlockPropertiesImpl16() {
+	protected BlockAttributesImpl16() {
 		super();
 	}
 	
-	protected BlockPropertiesImpl16(final Material material) {
+	protected BlockAttributesImpl16(final Material material) {
 		this();
 		
 		setMaterial(material);
 	}
 	
-	protected BlockPropertiesImpl16(final Material material, final ItemGroup group) {
+	protected BlockAttributesImpl16(final Material material, final ItemGroup group) {
 		this(material);
 		
 		setGroup(group);
@@ -34,17 +34,17 @@ public class BlockPropertiesImpl16 extends CommonBlockProperties {
 	
 	@Override
 	protected BlockAttributes createInstance() {
-		return new BlockPropertiesImpl16();
+		return new BlockAttributesImpl16();
 	}
 	
 	@Override
 	protected BlockAttributes createInstance(final Material material) {
-		return new BlockPropertiesImpl16(material);
+		return new BlockAttributesImpl16(material);
 	}
 	
 	@Override
 	protected BlockAttributes createInstance(final Material material, final ItemGroup group) {
-		return new BlockPropertiesImpl16(material, group);
+		return new BlockAttributesImpl16(material, group);
 	}
 	
 	@Override
