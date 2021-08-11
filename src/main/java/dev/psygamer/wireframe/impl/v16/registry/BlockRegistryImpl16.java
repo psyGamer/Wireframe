@@ -43,30 +43,17 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 									blockWrapper.getRegistryName()
 							)
 					);
-					
-					if (blockWrapper.hasBlockVariants()) {
-						blockWrapper.getBlockVariants().forEach(blockVariant -> {
-							registerBlockWrapper(blockVariant, event);
-							
-							WireframeCore.LOGGER.info(
-									String.format("   |=> Successfully registered block variant%s:%s",
-											blockWrapper.getNamespace().evaluate(),
-											blockWrapper.getRegistryName()
-									)
-							);
-						});
-					}
 				});
 	}
 	
 	protected void registerBlockWrapper(final BlockWrapper blockWrapper, final RegistryEvent.Register<Block> registryEvent) {
-		blockWrapper.getBlock().setRegistryName(
-				blockWrapper.getNamespace().evaluate(),
-				blockWrapper.getRegistryName()
-		);
-		
-		registryEvent.getRegistry().register(blockWrapper.getBlock());
-		
-		blocks.add(blockWrapper.getBlock());
+//		blockWrapper.getBlock().setRegistryName(
+//				blockWrapper.getNamespace().evaluate(),
+//				blockWrapper.getRegistryName()
+//		);
+//
+//		registryEvent.getRegistry().register(blockWrapper.getBlock());
+//
+//		blocks.add(blockWrapper.getBlock());
 	}
 }
