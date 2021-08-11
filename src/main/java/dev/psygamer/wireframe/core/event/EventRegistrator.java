@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.core.event;
 
-import dev.psygamer.wireframe.api.util.reflection.ClassUtil;
+import dev.psygamer.wireframe.core.util.reflection.ClassUtil;
 
-import dev.psygamer.wireframe.api.util.reflection.FieldUtil;
+import dev.psygamer.wireframe.core.util.reflection.FieldUtil;
 import dev.psygamer.wireframe.core.WireframePackages;
 
 import dev.psygamer.wireframe.core.impl.Implementor;

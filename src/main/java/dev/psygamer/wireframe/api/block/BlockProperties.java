@@ -1,16 +1,16 @@
 package dev.psygamer.wireframe.api.block;
 
-import dev.psygamer.wireframe.api.util.ICloneable;
+import dev.psygamer.wireframe.core.util.ICloneable;
 import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
 
 import dev.psygamer.wireframe.core.impl.Instancer;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.state.Property;
 import net.minecraftforge.common.ToolType;
-
 
 /**
  * A factory class for easily creating {@link Block Blocks} and registering automatically.

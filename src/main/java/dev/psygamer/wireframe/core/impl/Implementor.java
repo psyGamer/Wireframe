@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.core.impl;
 
-import dev.psygamer.wireframe.api.util.reflection.ClassUtil;
-import dev.psygamer.wireframe.api.util.reflection.MethodUtil;
-import dev.psygamer.wireframe.api.util.reflection.ObjectUtil;
+import dev.psygamer.wireframe.core.util.reflection.ClassUtil;
+import dev.psygamer.wireframe.core.util.reflection.MethodUtil;
+import dev.psygamer.wireframe.core.util.reflection.ObjectUtil;
 
 import dev.psygamer.wireframe.core.WireframePackages;
 import dev.psygamer.wireframe.core.impl.exceptions.NoInvokerFoundException;

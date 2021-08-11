@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.util;
+package dev.psygamer.wireframe.core.util;
 
 public interface IFactory <T> {
 	
