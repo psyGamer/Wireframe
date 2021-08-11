@@ -11,7 +11,7 @@ public abstract class BasicBlock {
 	private static final BasicBlock INSTANCE = Instancer.createInstance();
 	
 	protected final String registryName;
-	protected final BlockProperties blockProperties;
+	protected final BlockAttributes blockProperties;
 	
 	protected final List<BlockProperty<?>> blockStateProperties = new ArrayList<>();
 	
