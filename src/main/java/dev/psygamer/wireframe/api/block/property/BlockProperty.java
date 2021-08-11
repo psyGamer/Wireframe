@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.block.state;
+package dev.psygamer.wireframe.api.block.property;
 
 import dev.psygamer.wireframe.api.util.collection.FreezableHashMap;
 
