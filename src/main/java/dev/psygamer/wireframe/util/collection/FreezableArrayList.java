@@ -1,6 +1,6 @@
-package dev.psygamer.wireframe.api.util.collection;
+package dev.psygamer.wireframe.util.collection;
 
-import dev.psygamer.wireframe.api.util.IFreezable;
+import dev.psygamer.wireframe.util.IFreezable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +11,18 @@ import java.util.function.UnaryOperator;
 public class FreezableArrayList <E> extends ArrayList<E> implements IFreezable {
 	
 	private boolean frozen = false;
+	
+	public FreezableArrayList() {
+		super();
+	}
+	
+	public FreezableArrayList(final int initialCapacity) {
+		super(initialCapacity);
+	}
+	
+	public FreezableArrayList(final Collection<? extends E> c) {
+		super(c);
+	}
 	
 	@Override
 	public E set(final int index, final E element) {

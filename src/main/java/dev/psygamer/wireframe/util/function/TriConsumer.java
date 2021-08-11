@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.util.function;
+package dev.psygamer.wireframe.util.function;
 
 @FunctionalInterface
 public interface TriConsumer <T, U, V> {

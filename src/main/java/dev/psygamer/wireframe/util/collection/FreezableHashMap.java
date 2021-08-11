@@ -1,6 +1,6 @@
-package dev.psygamer.wireframe.api.util.collection;
+package dev.psygamer.wireframe.util.collection;
 
-import dev.psygamer.wireframe.api.util.IFreezable;
+import dev.psygamer.wireframe.util.IFreezable;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.core.util.reflection;
+package dev.psygamer.wireframe.util.reflection;
 
 import javax.tools.*;
 

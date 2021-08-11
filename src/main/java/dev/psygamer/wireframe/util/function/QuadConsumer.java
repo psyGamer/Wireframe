@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.util.function;
+package dev.psygamer.wireframe.util.function;
 
 @FunctionalInterface
 public interface QuadConsumer <T, U, V, W> {
