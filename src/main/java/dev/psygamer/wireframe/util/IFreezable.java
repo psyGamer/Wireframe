@@ -2,6 +2,11 @@ package dev.psygamer.wireframe.util;
 
 public interface IFreezable {
 	
+	static void throwIfFrozen(final IFreezable freezable) {
+		if (freezable.isFrozen())
+			throw new IFreezable.ObjectFrozenException(freezable);
+	}
+	
 	/**
 	 * Freezes the object.
 	 *
@@ -19,7 +24,7 @@ public interface IFreezable {
 	
 	final class ObjectFrozenException extends RuntimeException {
 		
-		public ObjectFrozenException(final Object frozenObject) {
+		public ObjectFrozenException(final IFreezable frozenObject) {
 			super("Unable to modify frozen object:" + frozenObject);
 		}
 		

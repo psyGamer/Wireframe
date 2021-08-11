@@ -22,7 +22,7 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	
 	@Override
 	public E set(final int index, final E element) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.set(index, element);
 	}
 	
@@ -73,31 +73,31 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	
 	@Override
 	public boolean add(final E e) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.add(e);
 	}
 	
 	@Override
 	public void add(final int index, final E element) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		this.list.add(index, element);
 	}
 	
 	@Override
 	public boolean addAll(final Collection<? extends E> c) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.addAll(c);
 	}
 	
 	@Override
 	public boolean addAll(final int index, final Collection<? extends E> c) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.addAll(index, c);
 	}
 	
 	@Override
 	public boolean remove(final Object o) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.remove(o);
 	}
 	
@@ -108,7 +108,7 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	
 	@Override
 	public E remove(final int index) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.remove(index);
 	}
 	
@@ -139,7 +139,7 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	
 	@Override
 	public boolean removeAll(final Collection<?> c) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.list.removeAll(c);
 	}
 	
@@ -150,23 +150,18 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	
 	@Override
 	public void replaceAll(final UnaryOperator<E> operator) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		this.list.replaceAll(operator);
 	}
 	
 	@Override
 	public void clear() {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		this.list.clear();
 	}
 	
 	@Override
 	public E get(final int index) {
 		return this.list.get(index);
-	}
-	
-	private void throwIfFrozen() {
-		if (this.frozen)
-			throw new IFreezable.ObjectFrozenException(this);
 	}
 }
