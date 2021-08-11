@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.api.block;
 
-import dev.psygamer.wireframe.core.util.ICloneable;
+import dev.psygamer.wireframe.util.ICloneable;
 
 import dev.psygamer.wireframe.core.impl.Instancer;
 

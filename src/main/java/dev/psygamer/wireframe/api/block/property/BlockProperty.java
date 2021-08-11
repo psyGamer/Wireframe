@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.api.block.property;
 
-import dev.psygamer.wireframe.api.util.collection.FreezableHashMap;
+import com.google.common.collect.ImmutableList;
+import dev.psygamer.wireframe.util.collection.FreezableHashMap;
 
 import java.util.Objects;
 

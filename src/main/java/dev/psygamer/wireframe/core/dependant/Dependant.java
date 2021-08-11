@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.core.dependant;
 
 import dev.psygamer.wireframe.core.WireframePackages;
 import dev.psygamer.wireframe.core.namespace.Namespace;
-import dev.psygamer.wireframe.core.util.reflection.FieldUtil;
+import dev.psygamer.wireframe.util.reflection.FieldUtil;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;

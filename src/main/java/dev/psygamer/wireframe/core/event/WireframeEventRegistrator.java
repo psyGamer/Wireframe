@@ -3,9 +3,9 @@ package dev.psygamer.wireframe.core.event;
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.dependant.Dependant;
 import dev.psygamer.wireframe.core.dependant.DependantsHandler;
-import dev.psygamer.wireframe.core.util.reflection.ClassUtil;
+import dev.psygamer.wireframe.util.reflection.ClassUtil;
 
-import dev.psygamer.wireframe.core.util.reflection.FieldUtil;
+import dev.psygamer.wireframe.util.reflection.FieldUtil;
 import dev.psygamer.wireframe.core.WireframePackages;
 
 import dev.psygamer.wireframe.core.impl.Implementor;
