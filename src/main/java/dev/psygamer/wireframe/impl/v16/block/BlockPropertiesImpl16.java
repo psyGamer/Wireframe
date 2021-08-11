@@ -2,13 +2,15 @@ package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.impl.common.block.CommonBlockProperties;
 import dev.psygamer.wireframe.api.block.BlockProperties;
-import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+
+import dev.psygamer.wireframe.impl.common.block.CommonBlockProperties;
+
 import net.minecraft.item.ItemGroup;
+import net.minecraft.block.Block;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.material.Material;
+
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @ImplementationVersion(MinecraftVersion.v16)
