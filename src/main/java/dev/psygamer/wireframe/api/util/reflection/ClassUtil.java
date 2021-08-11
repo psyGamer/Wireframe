@@ -54,9 +54,10 @@ public final class ClassUtil {
 		}
 	}
 	
-	public static Class<?> getClassFromStackTraceElement(final StackTraceElement element) {
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> getClassFromStackTraceElement(final StackTraceElement element) {
 		try {
-			return Class.forName(element.getClassName());
+			return (Class<T>) Class.forName(element.getClassName());
 		} catch (final ClassNotFoundException e) {
 			return null;
 		}
