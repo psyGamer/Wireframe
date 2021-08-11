@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ImplementationVersion(MinecraftVersion.COMMON)
-public abstract class CommonBlockFactory extends BlockProperties {
-	
-	protected String registryName;
+public abstract class CommonBlockProperties extends BlockProperties {
 	
 	protected Material material;
 	protected SoundType sound;
@@ -37,8 +35,7 @@ public abstract class CommonBlockFactory extends BlockProperties {
 	
 	protected List<Property<?>> blockStateProperties = new ArrayList<>();
 	
-	public CommonBlockFactory(final String registryName) {
-		this.registryName = registryName;
+	protected CommonBlockProperties() {
 	}
 	
 	@Override
@@ -48,7 +45,7 @@ public abstract class CommonBlockFactory extends BlockProperties {
 	
 	@Override
 	public BlockProperties copy() {
-		return BlockProperties.create(this.registryName)
+		return BlockProperties.create()
 				.setMaterial(this.material)
 				.setGroup(this.group)
 				.setHardness(this.hardness)
@@ -58,11 +55,6 @@ public abstract class CommonBlockFactory extends BlockProperties {
 				.setBreakableByHand(!this.breakableByHand)
 				.setFullBlock(this.fullBlock)
 				.setOpaque(this.opaque);
-	}
-	
-	@Override
-	public String getRegistryName() {
-		return this.registryName;
 	}
 	
 	@Override
