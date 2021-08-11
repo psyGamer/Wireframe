@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe.impl.common.block;
 
 import dev.psygamer.wireframe.api.block.BlockProperties;
-import dev.psygamer.wireframe.core.impl.ImplementationVersion;
+
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
+import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

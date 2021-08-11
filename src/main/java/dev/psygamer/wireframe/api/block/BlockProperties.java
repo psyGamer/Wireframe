@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.api.block;
 
 import dev.psygamer.wireframe.core.util.ICloneable;
-import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
 
 import dev.psygamer.wireframe.core.impl.Instancer;
 
@@ -24,6 +23,25 @@ import net.minecraftforge.common.ToolType;
 public abstract class BlockProperties implements ICloneable<BlockProperties> {
 	
 	private static final BlockProperties INSTANCE = Instancer.createInstance();
+	
+	public enum HarvestLevel {
+		HAND(-1),
+		WOOD(0),
+		STONE(1),
+		IRON(2),
+		DIAMOND(3),
+		NETHERITE(4);
+		
+		private int level;
+		
+		HarvestLevel(final int level) {
+			this.level = level;
+		}
+		
+		public int getLevel() {
+			return this.level;
+		}
+	}
 	
 	public static BlockProperties create() {
 		return INSTANCE.createInstance();
@@ -53,7 +71,6 @@ public abstract class BlockProperties implements ICloneable<BlockProperties> {
 	}
 	
 	protected abstract BlockProperties createInstance();
-	
 	
 	protected abstract BlockProperties createInstance(final Material material);
 	
@@ -113,11 +130,12 @@ public abstract class BlockProperties implements ICloneable<BlockProperties> {
 	
 	public abstract BlockProperties setOpaque(final boolean opaque);
 	
-	public abstract BlockProperties addBlockStateProperty(final Property<?> property);
-	
 	//	TODO BOUNDING BOX
+	
+	public abstract BlockProperties addBlockStateProperty(final Property<?> property);
 	
 	public abstract BlockProperties inheritFromBlock(final Block block);
 	
 	public abstract Block createBlock();
+	
 }
