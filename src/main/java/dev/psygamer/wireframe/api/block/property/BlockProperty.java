@@ -9,7 +9,11 @@ public class BlockProperty <T> {
 	protected final String propertyName;
 	protected final FreezableHashMap<String, T> entries;
 	
+	protected T defaultValue;
+	
 	public BlockProperty(final String propertyName) {
+		Objects.requireNonNull(propertyName, "The property name may not be null");
+		
 		this.propertyName = propertyName;
 		this.entries = new FreezableHashMap<>();
 	}
@@ -40,6 +44,14 @@ public class BlockProperty <T> {
 			throw new ValueAlreadyDefinedException(value.toString());
 		
 		this.entries.put(valueName, value);
+	}
+	
+	public T getDefaultValue() {
+		return this.defaultValue;
+	}
+	
+	protected void setDefaultValue(final T defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 	
 	protected void freeze() {

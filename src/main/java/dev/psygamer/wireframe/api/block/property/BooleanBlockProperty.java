@@ -8,6 +8,8 @@ public class BooleanBlockProperty extends BlockProperty<Boolean> {
 		addEntry("true", true);
 		addEntry("false", false);
 		
+		setDefaultValue(false);
+		
 		freeze();
 	}
 }
