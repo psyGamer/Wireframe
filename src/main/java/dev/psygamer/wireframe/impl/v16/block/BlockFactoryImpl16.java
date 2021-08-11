@@ -1,29 +1,48 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
+import dev.psygamer.wireframe.core.impl.InstanceConstructor;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.impl.common.block.CommonBlockFactory;
-import dev.psygamer.wireframe.api.block.BlockFactory;
+import dev.psygamer.wireframe.api.block.BlockProperties;
 import dev.psygamer.wireframe.api.block.BlockWrapper;
 import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @ImplementationVersion(MinecraftVersion.v16)
 public class BlockFactoryImpl16 extends CommonBlockFactory {
 	
-	public BlockFactoryImpl16(final String registryName) {
+	@InstanceConstructor
+	private BlockFactoryImpl16() {
+		super("");
+	}
+	
+	private BlockFactoryImpl16(final String registryName) {
 		super(registryName);
 	}
 	
-	public static BlockFactory create(final String registryName) {
-		return new BlockFactoryImpl16(registryName);
+	@Override
+	protected BlockProperties createInstance(final String blockName) {
+		return new BlockFactoryImpl16(blockName);
+	}
+	
+	@Override
+	protected BlockProperties createInstance(final String blockName, final Material material) {
+		return new BlockFactoryImpl16(blockName);
+	}
+	
+	@Override
+	protected BlockProperties createInstance(final String blockName, final Material material, final ItemGroup group) {
+		return new BlockFactoryImpl16(blockName);
 	}
 	
 	@Override
 	@SuppressWarnings("ConstantConditions")
-	public BlockFactory inheritFromBlock(final Block block) {
+	public BlockProperties inheritFromBlock(final Block block) {
 		final AbstractBlock.Properties properties = ObfuscationReflectionHelper.getPrivateValue(AbstractBlock.class, block, "field_235684_aB_");
 		final Class<AbstractBlock.Properties> propertiesClass = AbstractBlock.Properties.class;
 		
@@ -42,13 +61,6 @@ public class BlockFactoryImpl16 extends CommonBlockFactory {
 		setBreakableByHand(!(Boolean) ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_235806_h_"));
 		
 		return this;
-	}
-	
-	@Override
-	public Block build() {
-		final BlockWrapper wrapper = BlockWrapper.create(this);
-		
-		return wrapper.getBlock();
 	}
 	
 	@Override

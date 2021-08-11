@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BlockWrapper {
 	
-	static BlockWrapper create(final BlockFactory factory) {
+	static BlockWrapper create(final BlockProperties factory) {
 		return Implementor.execute(factory);
 	}
 	
@@ -19,7 +19,7 @@ public interface BlockWrapper {
 	
 	Block getBlock();
 	
-	BlockFactory getFactory();
+	BlockProperties getFactory();
 	
 	boolean hasBlockVariants();
 	
