@@ -1,13 +1,14 @@
 package dev.psygamer.wireframe.util.collection;
 
 import com.google.common.collect.ImmutableMap;
+import dev.psygamer.wireframe.util.ICloneable;
 import dev.psygamer.wireframe.util.IFreezable;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class FreezableMap <K, V> implements Map<K, V>, IFreezable<FreezableMap<K, V>> {
+public abstract class FreezableMap <K, V> implements Map<K, V>, IFreezable, ICloneable<FreezableMap<K, V>> {
 	
 	private final Map<K, V> map;
 	private volatile boolean frozen = false;

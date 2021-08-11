@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.util.collection;
 
+import dev.psygamer.wireframe.util.ICloneable;
 import dev.psygamer.wireframe.util.IFreezable;
 
 import com.google.common.collect.ImmutableList;
@@ -10,7 +11,7 @@ import java.util.Collection;
 import java.util.ListIterator;
 import java.util.function.UnaryOperator;
 
-public abstract class FreezableList <E> implements List<E>, IFreezable<FreezableList<E>> {
+public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneable<FreezableList<E>> {
 	
 	private final List<E> list;
 	private volatile boolean frozen = false;

@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.util;
 
-public interface IFreezable <T> {
+public interface IFreezable {
 	
 	/**
 	 * Freezes the object.
@@ -10,20 +10,12 @@ public interface IFreezable <T> {
 	 */
 	void freeze();
 	
-	
 	/**
 	 * @return Whether the object has been frozen or not.
 	 * @version 1.0
 	 * @since 1.0
 	 */
 	boolean isFrozen();
-	
-	/**
-	 * @return A copy of the object. Frozen state should be copied too.
-	 * @version 1.0
-	 * @since 1.0
-	 */
-	T copy();
 	
 	final class ObjectFrozenException extends RuntimeException {
 		
