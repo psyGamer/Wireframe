@@ -23,9 +23,9 @@ public class Instancer {
 	
 	private static <T> Class<T> findCallingClass() {
 		final StackTraceElement caller = Arrays.stream(Thread.currentThread().getStackTrace())
-				.filter(element -> !WireframePackages.isCoreClass(element.getClass()))
+				.filter(WireframePackages::isAPIClass)
 				.findFirst()
-				.orElseThrow(() -> new NoInvokerFoundException("Non core class"));
+				.orElseThrow(() -> new NoInvokerFoundException("Class part of the Wireframe API classes"));
 		
 		return ClassUtil.getClassFromStackTraceElement(caller);
 	}
