@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.util.reflection;
+package dev.psygamer.wireframe.core.util.reflection;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
