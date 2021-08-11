@@ -1,11 +1,14 @@
-package dev.psygamer.wireframe.api.block.property;
+package dev.psygamer.wireframe.api.block.state.property;
 
 import com.google.common.collect.ImmutableList;
+import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.util.ICloneable;
+import dev.psygamer.wireframe.util.IFreezable;
 import dev.psygamer.wireframe.util.collection.FreezableHashMap;
 
 import java.util.Objects;
 
-public class BlockProperty <T> {
+public class BlockProperty <T> implements IFreezable {
 	
 	protected final String propertyName;
 	protected final FreezableHashMap<String, T> entries;
@@ -19,6 +22,10 @@ public class BlockProperty <T> {
 		this.entries = new FreezableHashMap<>();
 	}
 	
+	public String getPropertyName() {
+		return this.propertyName;
+	}
+	
 	public T getValue(final String valueName) {
 		if (this.entries.containsValue(valueName))
 			return this.entries.get(valueName);
@@ -26,7 +33,7 @@ public class BlockProperty <T> {
 		return null;
 	}
 	
-	public String getName(final T value) {
+	public String getValueName(final T value) {
 		for (final String valueName : this.entries.keySet()) {
 			if (this.entries.get(valueName).equals(value))
 				return valueName;
@@ -55,8 +62,71 @@ public class BlockProperty <T> {
 		this.defaultValue = defaultValue;
 	}
 	
-	protected void freeze() {
+	public ImmutableList<T> getPossibleValues() {
+		return ImmutableList.copyOf(this.entries.values());
+	}
+	
+	@Override
+	public void freeze() {
 		this.entries.freeze();
+	}
+	
+	@Override
+	public boolean isFrozen() {
+		return this.entries.isFrozen();
+	}
+	
+	public static final class ValuePair <T> implements IFreezable, ICloneable<ValuePair<T>> {
+		private final BlockProperty<T> property;
+		
+		private volatile boolean frozen = false;
+		private T value;
+		
+		public ValuePair(final BlockProperty<T> property) {
+			this(property, property.getDefaultValue());
+		}
+		
+		public ValuePair(final BlockProperty<T> property, final T value) {
+			this.property = property;
+			this.value = value;
+		}
+		
+		public BlockProperty<T> getProperty() {
+			return this.property;
+		}
+		
+		public T getValue() {
+			return this.value;
+		}
+		
+		public void setValue(final T value) {
+			if (!this.property.getPossibleValues().contains(value))
+				throw new IllegalArgumentException("This value is not supported by this property");
+			
+			IFreezable.throwIfFrozen(this);
+			
+			this.value = value;
+		}
+		
+		public void setObjectValue(final Object value) {
+			setValue((T) value);
+		}
+		
+		
+		@Override
+		public ValuePair<T> copy() {
+			return new ValuePair<>(this.property, this.value);
+		}
+		
+		@Override
+		public void freeze() {
+			this.frozen = true;
+		}
+		
+		@Override
+		public boolean isFrozen() {
+			return this.frozen;
+		}
 	}
 	
 	public static final class NameAlreadyDefinedException extends RuntimeException {
