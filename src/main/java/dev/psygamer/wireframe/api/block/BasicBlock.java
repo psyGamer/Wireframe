@@ -11,21 +11,21 @@ public abstract class BasicBlock {
 	private static final BasicBlock INSTANCE = Instancer.createInstance();
 	
 	protected final String registryName;
-	protected final BlockAttributes blockProperties;
+	protected final BlockAttributes attributes;
 	
 	protected final List<BlockProperty<?>> blockStateProperties = new ArrayList<>();
 	
-	public BasicBlock(final String blockName, final BlockProperties blockProperties) {
+	public BasicBlock(final String blockName, final BlockAttributes attributes) {
 		this.registryName = blockName;
-		this.blockProperties = blockProperties;
+		this.attributes = attributes;
 	}
 	
 	public String getRegistryName() {
 		return this.registryName;
 	}
 	
-	public BlockProperties getBlockProperties() {
-		return this.blockProperties;
+	public BlockAttributes getAttributes() {
+		return this.attributes;
 	}
 	
 	protected void registerBlockStateProperty(final BlockProperty<?> property) {

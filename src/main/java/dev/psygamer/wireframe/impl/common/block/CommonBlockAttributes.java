@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ImplementationVersion(MinecraftVersion.COMMON)
-public abstract class CommonBlockProperties extends BlockAttributes {
+public abstract class CommonBlockAttributes extends BlockAttributes {
 	
 	protected Material material;
 	protected SoundType sound;
@@ -35,7 +35,7 @@ public abstract class CommonBlockProperties extends BlockAttributes {
 	
 	protected List<Property<?>> blockStateProperties = new ArrayList<>();
 	
-	protected CommonBlockProperties() {
+	protected CommonBlockAttributes() {
 	}
 	
 	@Override
