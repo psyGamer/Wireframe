@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 /**
  * <p>A simple way of executing static implementation methods.</p>
- * <p><strong>Important:</strong> If possible, you should use {@link Instancer#createInstance}.</p>
+ * <p><strong>Important:</strong> If possible, you should use the {@link Instancer}.</p>
  *
  * @author psyGamer
  * @version 1.0

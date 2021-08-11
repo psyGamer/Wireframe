@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.impl.common.block;
 
+import dev.psygamer.wireframe.api.block.BlockProperties;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.api.block.BlockFactory;
 import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
 
 import net.minecraft.block.Block;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ImplementationVersion(MinecraftVersion.COMMON)
-public abstract class CommonBlockFactory implements BlockFactory {
+public abstract class CommonBlockFactory extends BlockProperties {
 	
 	protected String registryName;
 	
@@ -42,13 +42,13 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory inheritFromBlock(final Block block) {
+	public BlockProperties inheritFromBlock(final Block block) {
 		return null;
 	}
 	
 	@Override
-	public BlockFactory copy() {
-		return BlockFactory.create(this.registryName)
+	public BlockProperties copy() {
+		return BlockProperties.create(this.registryName)
 				.setMaterial(this.material)
 				.setGroup(this.group)
 				.setHardness(this.hardness)
@@ -66,7 +66,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setMaterial(final Material material) {
+	public BlockProperties setMaterial(final Material material) {
 		this.material = material;
 		
 		return this;
@@ -78,7 +78,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setGroup(final ItemGroup group) {
+	public BlockProperties setGroup(final ItemGroup group) {
 		this.group = group;
 		
 		return this;
@@ -90,14 +90,14 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setHardness(final float hardness) {
+	public BlockProperties setHardness(final float hardness) {
 		this.hardness = hardness;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockFactory multiplyHardness(final float factor) {
+	public BlockProperties multiplyHardness(final float factor) {
 		this.hardness *= factor;
 		
 		return this;
@@ -109,14 +109,14 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setBlastResistance(final float blastResistance) {
+	public BlockProperties setBlastResistance(final float blastResistance) {
 		this.blastResistance = blastResistance;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockFactory multiplyBlastResistance(final float factor) {
+	public BlockProperties multiplyBlastResistance(final float factor) {
 		this.blastResistance *= factor;
 		
 		return this;
@@ -128,7 +128,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setStrength(final float strength) {
+	public BlockProperties setStrength(final float strength) {
 		this.hardness = strength;
 		this.blastResistance = strength;
 		
@@ -136,7 +136,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory multiplyStrength(final float factor) {
+	public BlockProperties multiplyStrength(final float factor) {
 		this.hardness *= factor;
 		this.blastResistance *= factor;
 		
@@ -144,7 +144,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setSound(final SoundType sound) {
+	public BlockProperties setSound(final SoundType sound) {
 		this.sound = sound;
 		
 		return this;
@@ -156,7 +156,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setRequiredTool(final ToolType tool) {
+	public BlockProperties setRequiredTool(final ToolType tool) {
 		this.requiredTool = tool;
 		
 		return this;
@@ -168,28 +168,28 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setHarvestLevel(final int level) {
+	public BlockProperties setHarvestLevel(final int level) {
 		this.harvestLevel = HarvestLevel.values()[Math.max(0, Math.min(level - 1, HarvestLevel.values().length))];
 		
 		return this;
 	}
 	
 	@Override
-	public BlockFactory setHarvestLevel(final HarvestLevel harvestLevel) {
+	public BlockProperties setHarvestLevel(final HarvestLevel harvestLevel) {
 		this.harvestLevel = harvestLevel;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockFactory increaseHarvestLevel() {
+	public BlockProperties increaseHarvestLevel() {
 		this.harvestLevel = HarvestLevel.values()[Math.max(HarvestLevel.values().length, this.harvestLevel.getLevel() + 1)];
 		
 		return this;
 	}
 	
 	@Override
-	public BlockFactory decreaseHarvestLevel() {
+	public BlockProperties decreaseHarvestLevel() {
 		this.harvestLevel = HarvestLevel.values()[Math.max(0, this.harvestLevel.getLevel() - 1)];
 		
 		return this;
@@ -201,7 +201,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setBreakableByHand(final boolean breakableByHand) {
+	public BlockProperties setBreakableByHand(final boolean breakableByHand) {
 		this.breakableByHand = !breakableByHand;
 		
 		return this;
@@ -213,7 +213,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setFullBlock(final boolean fullBlock) {
+	public BlockProperties setFullBlock(final boolean fullBlock) {
 		this.fullBlock = fullBlock;
 		
 		return this;
@@ -225,7 +225,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory setOpaque(final boolean opaque) {
+	public BlockProperties setOpaque(final boolean opaque) {
 		this.opaque = opaque;
 		
 		return this;
@@ -237,7 +237,7 @@ public abstract class CommonBlockFactory implements BlockFactory {
 	}
 	
 	@Override
-	public BlockFactory addBlockStateProperty(final Property<?> property) {
+	public BlockProperties addBlockStateProperty(final Property<?> property) {
 		this.blockStateProperties.add(property);
 		
 		return this;
