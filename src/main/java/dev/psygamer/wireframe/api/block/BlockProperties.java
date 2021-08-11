@@ -25,61 +25,45 @@ public abstract class BlockProperties implements ICloneable<BlockProperties> {
 	
 	private static final BlockProperties INSTANCE = Instancer.createInstance();
 	
+	public static BlockProperties create() {
+		return INSTANCE.createInstance();
+	}
+	
 	/**
-	 * @param blockName Used to register and localize it.
-	 *                  <p> - Registered under: modid:blockname</p>
-	 *                  <p> - Localized under: block.modid.blockname</p>
+	 * @param material For sound, hardness, etc.
 	 * @return A new instance of a {@link BlockProperties}
 	 * @author psyGamer
 	 * @version 1.0
 	 * @since 1.0
 	 */
-	public static BlockProperties create(final String blockName) {
-		return INSTANCE.createInstance(blockName);
+	public static BlockProperties create(final Material material) {
+		return INSTANCE.createInstance(material);
 	}
 	
 	/**
-	 * @param blockName Used to register and localize it.
-	 *                  <p> - Registered under: modid:blockname</p>
-	 *                  <p> - Localized under: block.modid.blockname</p>
-	 * @param material  For sound, hardness, etc.
+	 * @param material For sound, hardness, etc.
+	 * @param group    Creative Tab for the Block
 	 * @return A new instance of a {@link BlockProperties}
 	 * @author psyGamer
 	 * @version 1.0
 	 * @since 1.0
 	 */
-	public static BlockProperties create(final String blockName, final Material material) {
-		return INSTANCE.createInstance(blockName, material);
+	public static BlockProperties create(final Material material, final ItemGroup group) {
+		return INSTANCE.createInstance(material, group);
 	}
 	
-	/**
-	 * @param blockName Used to register and localize it.
-	 *                  <p> - Registered under: modid:blockname</p>
-	 *                  <p> - Localized under: block.modid.blockname</p>
-	 * @param material  For sound, hardness, etc.
-	 * @param group     Creative Tab for the Block
-	 * @return A new instance of a {@link BlockProperties}
-	 * @author psyGamer
-	 * @version 1.0
-	 * @since 1.0
-	 */
-	public static BlockProperties create(final String blockName, final Material material, final ItemGroup group) {
-		return INSTANCE.createInstance(blockName, material, group);
-	}
+	protected abstract BlockProperties createInstance();
 	
-	protected abstract BlockProperties createInstance(final String blockName);
 	
-	protected abstract BlockProperties createInstance(final String blockName, final Material material);
+	protected abstract BlockProperties createInstance(final Material material);
 	
-	protected abstract BlockProperties createInstance(final String blockName, final Material material, final ItemGroup group);
+	protected abstract BlockProperties createInstance(final Material material, final ItemGroup group);
 	
 	public abstract BlockProperties multiplyHardness(final float factor);
 	
 	public abstract BlockProperties multiplyBlastResistance(final float factor);
 	
 	public abstract BlockProperties multiplyStrength(final float factor);
-	
-	public abstract String getRegistryName();
 	
 	public abstract Material getMaterial();
 	

@@ -1,40 +1,39 @@
 package dev.psygamer.wireframe.impl.common.block;
 
-import dev.psygamer.wireframe.api.block.BlockProperties;
+import dev.psygamer.wireframe.api.block.BasicBlock;
 import dev.psygamer.wireframe.api.block.BlockWrapper;
 import dev.psygamer.wireframe.api.registry.BlockRegistry;
 
+import dev.psygamer.wireframe.core.impl.MinecraftVersion;
+import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.namespace.Namespace;
 import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
-import dev.psygamer.wireframe.core.impl.ImplementationVersion;
-import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-
-import net.minecraft.block.Block;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ImplementationVersion(MinecraftVersion.COMMON)
-public class CommonBlockWrapper implements BlockWrapper {
+public class CommonBlockWrapper extends BlockWrapper {
+	
+	protected final BasicBlock block;
 	
 	protected final Namespace namespace;
 	protected final String registryName;
-	protected final Block block;
-	protected final BlockProperties factory;
-	protected List<BlockWrapper> blockVariants = new ArrayList<>();
 	
-	protected CommonBlockWrapper(final BlockProperties blockFactory) {
-		this.namespace = NamespaceUtil.getCurrentNamespace();
-		this.registryName = blockFactory.getRegistryName();
+	protected CommonBlockWrapper(final BasicBlock block) {
+		this.block = block;
 		
-		this.block = blockFactory.createBlock();
-		this.factory = blockFactory;
+		this.namespace = NamespaceUtil.getCurrentNamespace();
+		this.registryName = block.getRegistryName();
 		
 		BlockRegistry.register(this);
 	}
 	
-	public static BlockWrapper create(final BlockProperties factory) {
-		return new CommonBlockWrapper(factory);
+	@Override
+	protected BlockWrapper createInstance(final BasicBlock block) {
+		return new CommonBlockWrapper(block);
+	}
+	
+	@Override
+	public BasicBlock getBlock() {
+		return this.block;
 	}
 	
 	@Override
@@ -45,20 +44,5 @@ public class CommonBlockWrapper implements BlockWrapper {
 	@Override
 	public String getRegistryName() {
 		return this.registryName;
-	}
-	
-	@Override
-	public Block getBlock() {
-		return this.block;
-	}
-	
-	@Override
-	public List<BlockWrapper> getBlockVariants() {
-		return this.blockVariants;
-	}
-	
-	@Override
-	public BlockProperties getFactory() {
-		return this.factory.copy();
 	}
 }

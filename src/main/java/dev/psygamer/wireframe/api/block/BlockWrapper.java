@@ -1,25 +1,21 @@
 package dev.psygamer.wireframe.api.block;
 
-import dev.psygamer.wireframe.core.impl.Implementor;
+import dev.psygamer.wireframe.core.impl.Instancer;
 import dev.psygamer.wireframe.core.namespace.Namespace;
 
-import net.minecraft.block.Block;
-
-import java.util.List;
-
-public interface BlockWrapper {
+public abstract class BlockWrapper {
 	
-	static BlockWrapper create(final BlockProperties factory) {
-		return Implementor.execute(factory);
+	private static final BlockWrapper INSTANCE = Instancer.createInstance();
+	
+	public static BlockWrapper create(final BasicBlock block) {
+		return INSTANCE.createInstance(block);
 	}
 	
-	Namespace getNamespace();
+	protected abstract BlockWrapper createInstance(BasicBlock block);
 	
-	String getRegistryName();
+	public abstract BasicBlock getBlock();
 	
-	Block getBlock();
+	public abstract Namespace getNamespace();
 	
-	BlockProperties getFactory();
-	
-	List<BlockWrapper> getBlockVariants();
+	public abstract String getRegistryName();
 }

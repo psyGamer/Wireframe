@@ -1,11 +1,9 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
-import dev.psygamer.wireframe.core.impl.InstanceConstructor;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.impl.common.block.CommonBlockFactory;
+import dev.psygamer.wireframe.impl.common.block.CommonBlockProperties;
 import dev.psygamer.wireframe.api.block.BlockProperties;
-import dev.psygamer.wireframe.api.block.BlockWrapper;
 import dev.psygamer.wireframe.api.block.properties.HarvestLevel;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -14,30 +12,37 @@ import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @ImplementationVersion(MinecraftVersion.v16)
-public class BlockFactoryImpl16 extends CommonBlockFactory {
+public class BlockPropertiesImpl16 extends CommonBlockProperties {
 	
-	@InstanceConstructor
-	private BlockFactoryImpl16() {
-		super("");
+	protected BlockPropertiesImpl16() {
+		super();
 	}
 	
-	private BlockFactoryImpl16(final String registryName) {
-		super(registryName);
+	protected BlockPropertiesImpl16(final Material material) {
+		this();
+		
+		setMaterial(material);
 	}
 	
-	@Override
-	protected BlockProperties createInstance(final String blockName) {
-		return new BlockFactoryImpl16(blockName);
-	}
-	
-	@Override
-	protected BlockProperties createInstance(final String blockName, final Material material) {
-		return new BlockFactoryImpl16(blockName);
+	protected BlockPropertiesImpl16(final Material material, final ItemGroup group) {
+		this(material);
+		
+		setGroup(group);
 	}
 	
 	@Override
-	protected BlockProperties createInstance(final String blockName, final Material material, final ItemGroup group) {
-		return new BlockFactoryImpl16(blockName);
+	protected BlockProperties createInstance() {
+		return new BlockPropertiesImpl16();
+	}
+	
+	@Override
+	protected BlockProperties createInstance(final Material material) {
+		return new BlockPropertiesImpl16(material);
+	}
+	
+	@Override
+	protected BlockProperties createInstance(final Material material, final ItemGroup group) {
+		return new BlockPropertiesImpl16(material, group);
 	}
 	
 	@Override
