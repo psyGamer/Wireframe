@@ -61,25 +61,25 @@ public abstract class FreezableMap <K, V> implements Map<K, V>, IFreezable, IClo
 	
 	@Override
 	public V put(final K key, final V value) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.map.put(key, value);
 	}
 	
 	@Override
 	public V remove(final Object key) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		return this.map.remove(key);
 	}
 	
 	@Override
 	public void putAll(final Map<? extends K, ? extends V> m) {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		this.map.putAll(m);
 	}
 	
 	@Override
 	public void clear() {
-		throwIfFrozen();
+		IFreezable.throwIfFrozen(this);
 		this.map.clear();
 	}
 	
