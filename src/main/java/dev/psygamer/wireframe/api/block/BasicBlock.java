@@ -1,10 +1,9 @@
 package dev.psygamer.wireframe.api.block;
 
 import dev.psygamer.wireframe.api.block.state.BlockPropertySet;
+import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
 
-import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
-import dev.psygamer.wireframe.core.impl.Instancer;
 import dev.psygamer.wireframe.core.namespace.Namespace;
 import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
 import dev.psygamer.wireframe.util.IFreezable;
@@ -16,8 +15,7 @@ public class BasicBlock extends BlockEvents implements IFreezable {
 	protected final BlockAttributes attributes;
 	
 	protected final BlockPropertySet propertySet;
-	
-	protected BlockPropertyContainer defaultPropertyContainer;
+	protected final BlockPropertyContainer defaultPropertyContainer;
 	
 	public BasicBlock(final String registryName, final BlockAttributes attributes) {
 		this.registryName = registryName;
@@ -25,6 +23,7 @@ public class BasicBlock extends BlockEvents implements IFreezable {
 		this.attributes = attributes;
 		
 		this.propertySet = new BlockPropertySet();
+		this.defaultPropertyContainer = new BlockPropertyContainer(this.propertySet);
 	}
 	
 	public String getRegistryName() {
@@ -52,11 +51,12 @@ public class BasicBlock extends BlockEvents implements IFreezable {
 	
 	@Override
 	public void freeze() {
+		this.propertySet.freeze();
 		this.defaultPropertyContainer.freeze();
 	}
 	
 	@Override
 	public boolean isFrozen() {
-		return this.defaultPropertyContainer.isFrozen();
+		return this.propertySet.isFrozen() || this.defaultPropertyContainer.isFrozen();
 	}
 }
