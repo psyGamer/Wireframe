@@ -1,12 +1,10 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.api.block.BasicBlock;
-import dev.psygamer.wireframe.api.block.BlockEvents;
-
+import dev.psygamer.wireframe.api.block.util.IBlockEvents;
+import dev.psygamer.wireframe.api.block.util.IBlockCreators;
 import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
-import dev.psygamer.wireframe.util.collection.FreezableArrayList;
-import dev.psygamer.wireframe.util.collection.FreezableList;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,15 +13,22 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -31,13 +36,17 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CompiledBasicBlockImpl16 extends Block {
 	
 	private final BasicBlock block;
-	private final FreezableList<BlockEvents> blockEvents = new FreezableArrayList<>();
+	
+	private final List<IBlockEvents> blockEvents = new ArrayList<>();
+	private final List<IBlockCreators> blockCreators = new ArrayList<>();
 	
 	public CompiledBasicBlockImpl16(final BasicBlock block, final Properties properties) {
 		super(properties);
 		
 		this.block = block;
+		
 		this.blockEvents.add(block);
+		this.blockCreators.add(block);
 		
 		this.setRegistryName(block.getNamespace().evaluate(), block.getRegistryName());
 	}
@@ -56,6 +65,8 @@ public class CompiledBasicBlockImpl16 extends Block {
 		
 		return propertyContainerReference.get();
 	}
+	
+	/* Block Events */
 	
 	@Override
 	@SuppressWarnings("deprecation")
@@ -180,5 +191,44 @@ public class CompiledBasicBlockImpl16 extends Block {
 		));
 		
 		super.onProjectileHit(p_220066_1_, p_220066_2_, p_220066_3_, p_220066_4_);
+	}
+	
+	/* Block Creators */
+	
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
+		this.blockCreators.forEach(event -> event.createBlockEntity(
+				convertBlockState(state), world
+		));
+		
+		return super.createTileEntity(state, world);
+	}
+	
+	@Override
+	public ItemStack getPickBlock(final BlockState state, final RayTraceResult target, final IBlockReader world, final BlockPos pos, final PlayerEntity player) {
+		this.blockCreators.forEach(event -> event.createPickBlockStack(
+				convertBlockState(state), pos, world
+		));
+		
+		return super.getPickBlock(state, target, world, pos, player);
+	}
+	
+	@Override
+	public List<ItemStack> getDrops(final BlockState p_220076_1_, final LootContext.Builder p_220076_2_) {
+		this.blockCreators.forEach(event -> event.createBlockDrops(
+				convertBlockState(p_220076_1_), p_220076_2_
+		));
+		
+		return super.getDrops(p_220076_1_, p_220076_2_);
+	}
+	
+	@Override
+	public INamedContainerProvider getMenuProvider(final BlockState p_220052_1_, final World p_220052_2_, final BlockPos p_220052_3_) {
+		this.blockCreators.forEach(event -> event.createMenuProvider(
+				convertBlockState(p_220052_1_), p_220052_3_, p_220052_2_
+		));
+		
+		return super.getMenuProvider(p_220052_1_, p_220052_2_, p_220052_3_);
 	}
 }

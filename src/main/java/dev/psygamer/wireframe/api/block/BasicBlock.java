@@ -1,14 +1,16 @@
 package dev.psygamer.wireframe.api.block;
 
+import dev.psygamer.wireframe.api.block.util.BlockUtilityMethods;
 import dev.psygamer.wireframe.api.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
 
 import dev.psygamer.wireframe.core.namespace.Namespace;
 import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
+
 import dev.psygamer.wireframe.util.IFreezable;
 
-public class BasicBlock extends BlockEvents implements IFreezable {
+public class BasicBlock extends BlockUtilityMethods implements IFreezable {
 	
 	protected final String registryName;
 	protected final Namespace namespace;
