@@ -1,9 +1,10 @@
 package dev.psygamer.wireframe.core.impl;
 
-import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.core.WireframePackages;
 import dev.psygamer.wireframe.core.impl.exceptions.NoInvokerFoundException;
+import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.core.exceptions.FrameworkException;
+import org.apache.commons.io.input.CloseShieldInputStream;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,25 +15,27 @@ import java.util.function.Predicate;
 public class Instancer {
 	
 	public static <T> T createInstance() {
-		return invokeConstructorWithDefaultParameters(
-				findConstructor(
-						findCallingClass()
-				)
+		final Class<? extends T> implementationClass = findImplantationClass();
+		final Constructor<? extends T> implementationConstructor = findConstructor(
+				implementationClass
 		);
+		
+		return invokeConstructorWithDefaultParameters(implementationConstructor);
 	}
 	
-	private static <T> Class<T> findCallingClass() {
+	private static <T> Class<? extends T> findImplantationClass() {
 		final StackTraceElement caller = Arrays.stream(Thread.currentThread().getStackTrace())
 				.filter(WireframePackages::isAPIClass)
 				.findFirst()
 				.orElseThrow(() -> new NoInvokerFoundException("Class part of the Wireframe API classes"));
 		
-		return ClassUtil.getClassFromStackTraceElement(caller);
+		return Implementor.findClass(ClassUtil.getClassFromStackTraceElement(caller));
 	}
 	
 	private static <T> Constructor<T> findConstructor(final Class<T> parentClass) {
 		final Constructor<T> annotatedConstructor =
-				getConstructorWithPredicate(parentClass, constructor -> constructor.isAnnotationPresent(InstanceConstructor.class));
+				getConstructorWithPredicate(parentClass,
+						constructor -> constructor.isAnnotationPresent(InstanceConstructor.class));
 		
 		if (annotatedConstructor != null) {
 			return annotatedConstructor;
@@ -79,7 +82,7 @@ public class Instancer {
 				.orElse(null);
 	}
 	
-	private static <T> T invokeConstructorWithDefaultParameters(final Constructor<T> constructor) {
+	private static <C> C invokeConstructorWithDefaultParameters(final Constructor<? extends C> constructor) {
 		final Class<?>[] parameterTypes = constructor.getParameterTypes();
 		final Object[] parameters = new Object[parameterTypes.length];
 		

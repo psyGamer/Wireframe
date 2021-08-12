@@ -46,11 +46,13 @@ public final class Implementor {
 	 * you should use {@link Implementor#find(Class[]) find} and then {@link Implementor#run(Object[]) run}
 	 * to avoid invoking the wrong method.</p>
 	 *
+	 * @param <R>        The expected return type.
 	 * @param parameters A class array, representing the parameter types.
 	 * @return A new {@link Implementor} instance.
 	 * @throws NoInvokerFoundException If this class isn't part of the Wireframe API classes.
 	 * @author psyGamer
 	 * @version 1.0
+	 * @see Instancer
 	 * @since 1.0
 	 */
 	public static <R> R execute(final Object... parameters) {
@@ -65,6 +67,7 @@ public final class Implementor {
 	 * @throws NoInvokerFoundException If this class isn't part of the Wireframe API classes.
 	 * @author psyGamer
 	 * @version 1.0
+	 * @see Instancer
 	 * @since 1.0
 	 */
 	public static Implementor find(final Class<?>... parameterTypes) {
@@ -82,14 +85,16 @@ public final class Implementor {
 	/**
 	 * Finds an implementation of said class.
 	 *
+	 * @param <T>      The unimplemented base class.
 	 * @param apiClass The class of which the implementation should be found.
+	 *
 	 * @return The implementation class.
 	 * @throws NoClassImplementorFoundException If no implementation class is found.
+	 * @since 1.0
 	 * @author psyGamer
 	 * @version 1.0
-	 * @since 1.0
 	 */
-	public static Class<?> findClass(final Class<?> apiClass) {
+	public static <T> Class<? extends T> findClass(final Class<T> apiClass) {
 		return getImplementationClassStream(apiClass)
 				.findFirst()
 				.orElseThrow(() -> new NoClassImplementorFoundException(apiClass));
@@ -131,9 +136,10 @@ public final class Implementor {
 		
 	}
 	
-	private static Stream<Class<?>> getImplementationClassStream(final Class<?> apiClass) {
+	private static <T> Stream<? extends Class<? extends T>> getImplementationClassStream(final Class<T> apiClass) {
 		return ClassUtil.getClasses(WireframePackages.IMPL_PACKAGE).stream()
-				.filter(apiClass::isAssignableFrom)
+				.filter(clazz -> clazz.isInstance(apiClass))
+				.map(clazz -> (Class<? extends T>) clazz)
 				.filter(clazz -> clazz.isAnnotationPresent(ImplementationVersion.class))
 				.filter(clazz -> MinecraftVersion.getCurrentVersion().compareTo( // Check if the impl version is <= the current version
 						clazz.getAnnotation(ImplementationVersion.class).value()) >= 0)
@@ -155,7 +161,6 @@ public final class Implementor {
 	 * @version 1.0
 	 * @since 1.0
 	 */
-	@SuppressWarnings("unchecked")
 	public <R> R run(final Object... parameters) {
 		final Method implementedMethod = ImplementorCache.getCachedMethod(this.apiMethod);
 		
