@@ -72,7 +72,6 @@ public class Instancer {
 		throw new FrameworkException("Could not find a constructor in " + parentClass);
 	}
 	
-	@SuppressWarnings("unchecked")
 	private static <T> Constructor<T> getConstructorWithPredicate(final Class<T> parentClass, final Predicate<Constructor<T>> constructorPredicate) {
 		return Arrays.stream((Constructor<T>[]) parentClass.getConstructors())
 				.filter(constructorPredicate)
@@ -113,7 +112,7 @@ public class Instancer {
 		try {
 			return constructor.newInstance(parameters);
 		} catch (InstantiationException | InvocationTargetException | IllegalAccessException ex) {
-			throw new FrameworkException("Could not create instance of " + constructor.getDeclaringClass());
+			throw new FrameworkException("Could not create instance of " + constructor.getDeclaringClass(), ex);
 		}
 	}
 }
