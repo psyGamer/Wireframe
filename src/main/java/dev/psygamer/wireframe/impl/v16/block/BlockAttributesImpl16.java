@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.api.block.BlockAttributes;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
+import dev.psygamer.wireframe.core.impl.InstanceConstructor;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 
 import dev.psygamer.wireframe.impl.common.block.CommonBlockAttributes;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 @ImplementationVersion(MinecraftVersion.v16)
 public class BlockAttributesImpl16 extends CommonBlockAttributes {
 	
+	@InstanceConstructor
 	protected BlockAttributesImpl16() {
 		super();
 	}

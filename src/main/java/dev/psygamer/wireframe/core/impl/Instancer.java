@@ -4,7 +4,6 @@ import dev.psygamer.wireframe.core.WireframePackages;
 import dev.psygamer.wireframe.core.impl.exceptions.NoInvokerFoundException;
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.core.exceptions.FrameworkException;
-import org.apache.commons.io.input.CloseShieldInputStream;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -76,7 +75,7 @@ public class Instancer {
 	}
 	
 	private static <T> Constructor<T> getConstructorWithPredicate(final Class<T> parentClass, final Predicate<Constructor<T>> constructorPredicate) {
-		return Arrays.stream((Constructor<T>[]) parentClass.getConstructors())
+		return Arrays.stream((Constructor<T>[]) parentClass.getDeclaredConstructors())
 				.filter(constructorPredicate)
 				.findFirst()
 				.orElse(null);
