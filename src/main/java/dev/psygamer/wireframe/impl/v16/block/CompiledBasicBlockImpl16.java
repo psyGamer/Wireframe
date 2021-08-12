@@ -38,6 +38,8 @@ public class CompiledBasicBlockImpl16 extends Block {
 		
 		this.block = block;
 		this.blockEvents.add(block);
+		
+		this.setRegistryName(block.getNamespace().evaluate(), block.getRegistryName());
 	}
 	
 	private BlockPropertyContainer convertBlockState(final BlockState blockState) {
