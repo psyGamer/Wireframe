@@ -10,7 +10,7 @@ import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
 
 import dev.psygamer.wireframe.util.IFreezable;
 
-public class BasicBlock extends BlockUtilityMethods implements IFreezable {
+public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	
 	protected final String registryName;
 	protected final Namespace namespace;
@@ -19,7 +19,7 @@ public class BasicBlock extends BlockUtilityMethods implements IFreezable {
 	protected final BlockPropertySet propertySet;
 	protected final BlockPropertyContainer defaultPropertyContainer;
 	
-	public BasicBlock(final String registryName, final BlockAttributes attributes) {
+	public BlockFoundation(final String registryName, final BlockAttributes attributes) {
 		this.registryName = registryName;
 		this.namespace = NamespaceUtil.getCurrentNamespace();
 		this.attributes = attributes;

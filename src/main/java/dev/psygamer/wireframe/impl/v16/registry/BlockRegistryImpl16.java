@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.impl.v16.registry;
 
-import dev.psygamer.wireframe.api.block.BasicBlock;
 import dev.psygamer.wireframe.api.registry.BlockRegistry;
 
 import dev.psygamer.wireframe.core.WireframeCore;
@@ -10,7 +9,7 @@ import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 
 import dev.psygamer.wireframe.impl.common.registry.CommonBlockRegistry;
 
-import dev.psygamer.wireframe.impl.v16.block.CompiledBasicBlockImpl16;
+import dev.psygamer.wireframe.impl.v16.block.CompiledBlockFoundationImpl16;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 
@@ -41,7 +40,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 				.filter(block -> Objects.equals(
 						block.getNamespace().evaluate(), this.modID))
 				.forEach(block -> {
-					final CompiledBasicBlockImpl16 compiledBlock = new CompiledBasicBlockImpl16(block, AbstractBlock.Properties.of(Material.STONE));
+					final CompiledBlockFoundationImpl16 compiledBlock = new CompiledBlockFoundationImpl16(block, AbstractBlock.Properties.of(Material.STONE));
 					
 					event.getRegistry().register(compiledBlock);
 					
