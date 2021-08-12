@@ -5,6 +5,8 @@ import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
 
 import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.core.impl.Instancer;
+import dev.psygamer.wireframe.core.namespace.Namespace;
+import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
 import dev.psygamer.wireframe.util.IFreezable;
 
 public class BasicBlock extends BlockEvents implements IFreezable {
@@ -12,6 +14,7 @@ public class BasicBlock extends BlockEvents implements IFreezable {
 	private static final BasicBlock INSTANCE = Instancer.createInstance();
 	
 	protected final String registryName;
+	protected final Namespace namespace;
 	protected final BlockAttributes attributes;
 	
 	protected final BlockPropertySet propertySet;
@@ -20,6 +23,7 @@ public class BasicBlock extends BlockEvents implements IFreezable {
 	
 	public BasicBlock(final String registryName, final BlockAttributes attributes) {
 		this.registryName = registryName;
+		this.namespace = NamespaceUtil.getCurrentNamespace();
 		this.attributes = attributes;
 		
 		this.propertySet = new BlockPropertySet();
@@ -27,6 +31,10 @@ public class BasicBlock extends BlockEvents implements IFreezable {
 	
 	public String getRegistryName() {
 		return this.registryName;
+	}
+	
+	public Namespace getNamespace() {
+		return this.namespace;
 	}
 	
 	public BlockAttributes getAttributes() {
