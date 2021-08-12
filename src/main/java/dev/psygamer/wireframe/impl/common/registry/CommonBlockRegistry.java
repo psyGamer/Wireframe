@@ -1,31 +1,28 @@
 package dev.psygamer.wireframe.impl.common.registry;
 
+import dev.psygamer.wireframe.api.block.BasicBlock;
+import dev.psygamer.wireframe.api.registry.BlockRegistry;
+
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 
-import dev.psygamer.wireframe.api.block.BlockWrapper;
-import dev.psygamer.wireframe.api.registry.BlockRegistry;
+import dev.psygamer.wireframe.util.collection.FreezableArrayList;
+import dev.psygamer.wireframe.util.collection.FreezableList;
 
-import net.minecraft.block.Block;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 @ImplementationVersion(MinecraftVersion.COMMON)
-public abstract class CommonBlockRegistry implements BlockRegistry {
+public abstract class CommonBlockRegistry extends BlockRegistry {
 	
-	protected static List<Block> blocks = new ArrayList<>();
-	protected static List<BlockWrapper> blockWrappers = new ArrayList<>();
+	protected static FreezableList<BasicBlock> blocks = new FreezableArrayList<>();
 	
-	public static List<Block> getBlocks() {
-		return blocks;
+	@Override
+	protected void registerBasicBlock(final BasicBlock block) {
+		blocks.add(block);
 	}
 	
-	public static List<BlockWrapper> getBlockWrappers() {
-		return blockWrappers;
-	}
-	
-	public static void register(final BlockWrapper blockWrapper) {
-		blockWrappers.add(blockWrapper);
+	@Override
+	protected ImmutableList<BasicBlock> getBlocksBasicBlocks() {
+		return blocks.toImmutable();
 	}
 }

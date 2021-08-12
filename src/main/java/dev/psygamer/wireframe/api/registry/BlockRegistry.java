@@ -1,34 +1,32 @@
 package dev.psygamer.wireframe.api.registry;
 
-import dev.psygamer.wireframe.api.block.BlockWrapper;
+import dev.psygamer.wireframe.api.block.BasicBlock;
 
 import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
-import dev.psygamer.wireframe.core.impl.Implementor;
+import dev.psygamer.wireframe.core.impl.Instancer;
 
-import net.minecraft.block.Block;
-
-import net.minecraftforge.event.RegistryEvent;
-
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 @ModEventBusSubscriber
-public interface BlockRegistry {
+public abstract class BlockRegistry {
 	
-	static BlockRegistry create(final String modID) {
-		return Implementor.execute(modID);
+	private static final BlockRegistry INSTANCE = Instancer.createInstance();
+	
+	public static BlockRegistry create(final String modID) {
+		return INSTANCE.createInstance(modID);
 	}
 	
-	static void register(final BlockWrapper blockWrapper) {
-		Implementor.execute(blockWrapper);
+	public static void register(final BasicBlock block) {
+		INSTANCE.registerBasicBlock(block);
 	}
 	
-	static List<Block> getBlocks() {
-		return Implementor.execute();
+	public static ImmutableList<BasicBlock> getBlocks() {
+		return INSTANCE.getBlocksBasicBlocks();
 	}
 	
-	static List<BlockWrapper> getBlockWrappers() {
-		return Implementor.execute();
-	}
+	protected abstract BlockRegistry createInstance(final String modID);
 	
-	void onBlockRegistry(RegistryEvent.Register<Block> event);
+	protected abstract void registerBasicBlock(final BasicBlock block);
+	
+	protected abstract ImmutableList<BasicBlock> getBlocksBasicBlocks();
 }
