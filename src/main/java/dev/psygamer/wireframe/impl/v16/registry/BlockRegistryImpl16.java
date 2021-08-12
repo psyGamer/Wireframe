@@ -40,7 +40,7 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 				.filter(block -> Objects.equals(
 						block.getNamespace().evaluate(), this.modID))
 				.forEach(block -> {
-					final CompiledBlockFoundationImpl16 compiledBlock = new CompiledBlockFoundationImpl16(block, AbstractBlock.Properties.of(Material.STONE));
+					final CompiledBlockFoundationImpl16 compiledBlock = new CompiledBlockFoundationImpl16(block, block.getAttributes());
 					
 					event.getRegistry().register(compiledBlock);
 					

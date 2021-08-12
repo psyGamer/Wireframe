@@ -47,7 +47,7 @@ public class BlockAttributesImpl16 extends CommonBlockAttributes {
 		return new BlockAttributesImpl16(material, group);
 	}
 	
-	private AbstractBlock.Properties createProperties() {
+	public AbstractBlock.Properties createProperties() {
 		final AbstractBlock.Properties properties = AbstractBlock.Properties.of(this.material);
 		
 		if (this.hardness > 0 && this.blastResistance > 0) {

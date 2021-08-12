@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
+import dev.psygamer.wireframe.api.block.BlockAttributes;
 import dev.psygamer.wireframe.api.block.BlockFoundation;
 import dev.psygamer.wireframe.api.block.util.IBlockEvents;
 import dev.psygamer.wireframe.api.block.util.IBlockCreators;
@@ -40,8 +41,8 @@ public class CompiledBlockFoundationImpl16 extends Block {
 	private final List<IBlockEvents> blockEvents = new ArrayList<>();
 	private final List<IBlockCreators> blockCreators = new ArrayList<>();
 	
-	public CompiledBlockFoundationImpl16(final BlockFoundation block, final Properties properties) {
-		super(properties);
+	public CompiledBlockFoundationImpl16(final BlockFoundation block, final BlockAttributes attributes) {
+		super(((BlockAttributesImpl16) attributes).createProperties());
 		
 		this.block = block;
 		
