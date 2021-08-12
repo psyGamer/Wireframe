@@ -3,6 +3,8 @@ package dev.psygamer.wireframe.util.collection;
 import dev.psygamer.wireframe.util.ICloneable;
 import dev.psygamer.wireframe.util.IFreezable;
 
+import com.google.common.collect.ImmutableSet;
+
 import java.util.Set;
 import java.util.Iterator;
 import java.util.Collection;
@@ -96,5 +98,9 @@ public abstract class FreezableSet <E> implements Set<E>, IFreezable, ICloneable
 	@Override
 	public boolean isFrozen() {
 		return this.frozen;
+	}
+	
+	public ImmutableSet<E> toImmutable() {
+		return ImmutableSet.copyOf(this);
 	}
 }
