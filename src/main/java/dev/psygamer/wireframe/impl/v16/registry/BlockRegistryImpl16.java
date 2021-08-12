@@ -43,6 +43,8 @@ public class BlockRegistryImpl16 extends CommonBlockRegistry {
 				.forEach(block -> {
 					final CompiledBasicBlockImpl16 compiledBlock = new CompiledBasicBlockImpl16(block, AbstractBlock.Properties.of(Material.STONE));
 					
+					event.getRegistry().register(compiledBlock);
+					
 					WireframeCore.LOGGER.info(
 							String.format("Successfully registered block %s:%s",
 									block.getNamespace().evaluate(),
