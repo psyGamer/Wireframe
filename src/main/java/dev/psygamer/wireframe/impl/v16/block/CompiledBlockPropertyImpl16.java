@@ -2,8 +2,9 @@ package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
 
-import dev.psygamer.wireframe.util.collection.FreezableHashMap;
 import dev.psygamer.wireframe.util.collection.FreezableMap;
+import dev.psygamer.wireframe.util.collection.FreezableHashMap;
+
 import net.minecraft.state.Property;
 
 import java.util.Collection;
