@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
-import dev.psygamer.wireframe.api.block.BasicBlock;
+import dev.psygamer.wireframe.api.block.BlockFoundation;
 import dev.psygamer.wireframe.api.block.util.IBlockEvents;
 import dev.psygamer.wireframe.api.block.util.IBlockCreators;
 import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
@@ -33,14 +33,14 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("deprecation")
-public class CompiledBasicBlockImpl16 extends Block {
+public class CompiledBlockFoundationImpl16 extends Block {
 	
-	private final BasicBlock block;
+	private final BlockFoundation block;
 	
 	private final List<IBlockEvents> blockEvents = new ArrayList<>();
 	private final List<IBlockCreators> blockCreators = new ArrayList<>();
 	
-	public CompiledBasicBlockImpl16(final BasicBlock block, final Properties properties) {
+	public CompiledBlockFoundationImpl16(final BlockFoundation block, final Properties properties) {
 		super(properties);
 		
 		this.block = block;

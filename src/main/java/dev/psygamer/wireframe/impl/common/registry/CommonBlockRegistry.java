@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.impl.common.registry;
 
-import dev.psygamer.wireframe.api.block.BasicBlock;
+import dev.psygamer.wireframe.api.block.BlockFoundation;
 import dev.psygamer.wireframe.api.registry.BlockRegistry;
 
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
@@ -14,15 +14,15 @@ import com.google.common.collect.ImmutableList;
 @ImplementationVersion(MinecraftVersion.COMMON)
 public abstract class CommonBlockRegistry extends BlockRegistry {
 	
-	protected static FreezableList<BasicBlock> blocks = new FreezableArrayList<>();
+	protected static FreezableList<BlockFoundation> blocks = new FreezableArrayList<>();
 	
 	@Override
-	protected void registerBasicBlock(final BasicBlock block) {
+	protected void registerBasicBlock(final BlockFoundation block) {
 		blocks.add(block);
 	}
 	
 	@Override
-	protected ImmutableList<BasicBlock> getBlocksBasicBlocks() {
+	protected ImmutableList<BlockFoundation> getBlocksBasicBlocks() {
 		return blocks.toImmutable();
 	}
 }
