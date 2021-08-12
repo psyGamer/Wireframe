@@ -11,8 +11,6 @@ import dev.psygamer.wireframe.util.IFreezable;
 
 public class BasicBlock extends BlockEvents implements IFreezable {
 	
-	private static final BasicBlock INSTANCE = Instancer.createInstance();
-	
 	protected final String registryName;
 	protected final Namespace namespace;
 	protected final BlockAttributes attributes;
