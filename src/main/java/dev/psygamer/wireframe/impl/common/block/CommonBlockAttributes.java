@@ -1,11 +1,11 @@
 package dev.psygamer.wireframe.impl.common.block;
 
 import dev.psygamer.wireframe.api.block.BlockAttributes;
+import dev.psygamer.wireframe.api.block.attributes.HarvestLevel;
 
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
@@ -26,21 +26,14 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	protected float blastResistance;
 	protected float hardness;
 	
-	protected ToolType requiredTool;
-	protected HarvestLevel harvestLevel;
+	protected ToolType correctTool;
+	protected int harvestLevel;
 	
-	protected boolean breakableByHand;
 	protected boolean fullBlock;
-	protected boolean opaque;
 	
 	protected List<Property<?>> blockStateProperties = new ArrayList<>();
 	
 	protected CommonBlockAttributes() {
-	}
-	
-	@Override
-	public BlockAttributes inheritFromBlock(final Block block) {
-		return null;
 	}
 	
 	@Override
@@ -50,11 +43,9 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 				.setGroup(this.group)
 				.setHardness(this.hardness)
 				.setBlastResistance(this.blastResistance)
-				.setRequiredTool(this.requiredTool)
+				.setRequiredTool(this.correctTool)
 				.setHarvestLevel(this.harvestLevel)
-				.setBreakableByHand(!this.breakableByHand)
-				.setFullBlock(this.fullBlock)
-				.setOpaque(this.opaque);
+				.setFullBlock(this.fullBlock);
 	}
 	
 	@Override
@@ -89,13 +80,6 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	}
 	
 	@Override
-	public BlockAttributes multiplyHardness(final float factor) {
-		this.hardness *= factor;
-		
-		return this;
-	}
-	
-	@Override
 	public float getHardness() {
 		return this.hardness;
 	}
@@ -108,31 +92,8 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	}
 	
 	@Override
-	public BlockAttributes multiplyBlastResistance(final float factor) {
-		this.blastResistance *= factor;
-		
-		return this;
-	}
-	
-	@Override
 	public float getBlastResistance() {
 		return this.blastResistance;
-	}
-	
-	@Override
-	public BlockAttributes setStrength(final float strength) {
-		this.hardness = strength;
-		this.blastResistance = strength;
-		
-		return this;
-	}
-	
-	@Override
-	public BlockAttributes multiplyStrength(final float factor) {
-		this.hardness *= factor;
-		this.blastResistance *= factor;
-		
-		return this;
 	}
 	
 	@Override
@@ -149,59 +110,33 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	
 	@Override
 	public BlockAttributes setRequiredTool(final ToolType tool) {
-		this.requiredTool = tool;
+		this.correctTool = tool;
 		
 		return this;
 	}
 	
 	@Override
-	public ToolType getRequiredTool() {
-		return this.requiredTool;
+	public ToolType getCorrectTool() {
+		return this.correctTool;
 	}
 	
 	@Override
 	public BlockAttributes setHarvestLevel(final int level) {
-		this.harvestLevel = HarvestLevel.values()[Math.max(0, Math.min(level - 1, HarvestLevel.values().length))];
+		this.harvestLevel = level;
 		
 		return this;
 	}
 	
 	@Override
 	public BlockAttributes setHarvestLevel(final HarvestLevel harvestLevel) {
-		this.harvestLevel = harvestLevel;
+		this.harvestLevel = harvestLevel.getHarvestLevel();
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes increaseHarvestLevel() {
-		this.harvestLevel = HarvestLevel.values()[Math.max(HarvestLevel.values().length, this.harvestLevel.getLevel() + 1)];
-		
-		return this;
-	}
-	
-	@Override
-	public BlockAttributes decreaseHarvestLevel() {
-		this.harvestLevel = HarvestLevel.values()[Math.max(0, this.harvestLevel.getLevel() - 1)];
-		
-		return this;
-	}
-	
-	@Override
-	public HarvestLevel getHarvestLevel() {
+	public int getHarvestLevel() {
 		return this.harvestLevel;
-	}
-	
-	@Override
-	public BlockAttributes setBreakableByHand(final boolean breakableByHand) {
-		this.breakableByHand = !breakableByHand;
-		
-		return this;
-	}
-	
-	@Override
-	public boolean isBreakableByHand() {
-		return this.breakableByHand;
 	}
 	
 	@Override
@@ -214,24 +149,5 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	@Override
 	public boolean isFullBlock() {
 		return this.fullBlock;
-	}
-	
-	@Override
-	public BlockAttributes setOpaque(final boolean opaque) {
-		this.opaque = opaque;
-		
-		return this;
-	}
-	
-	@Override
-	public boolean isOpaque() {
-		return this.opaque;
-	}
-	
-	@Override
-	public BlockAttributes addBlockStateProperty(final Property<?> property) {
-		this.blockStateProperties.add(property);
-		
-		return this;
 	}
 }
