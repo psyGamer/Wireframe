@@ -1,6 +1,9 @@
 package dev.psygamer.wireframe.util.collection;
 
-import java.util.*;
+import java.util.TreeSet;
+import java.util.SortedSet;
+import java.util.Collection;
+import java.util.Comparator;
 
 public class FreezableTreeSet <E> extends FreezableSet<E> {
 	

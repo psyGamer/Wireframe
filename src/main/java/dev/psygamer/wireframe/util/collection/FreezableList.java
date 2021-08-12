@@ -21,23 +21,14 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	}
 	
 	@Override
+	public E get(final int index) {
+		return this.list.get(index);
+	}
+	
+	@Override
 	public E set(final int index, final E element) {
 		IFreezable.throwIfFrozen(this);
 		return this.list.set(index, element);
-	}
-	
-	@Override
-	public void freeze() {
-		this.frozen = true;
-	}
-	
-	@Override
-	public boolean isFrozen() {
-		return this.frozen;
-	}
-	
-	public ImmutableList<E> toImmutable() {
-		return ImmutableList.copyOf(this);
 	}
 	
 	@Override
@@ -161,7 +152,16 @@ public abstract class FreezableList <E> implements List<E>, IFreezable, ICloneab
 	}
 	
 	@Override
-	public E get(final int index) {
-		return this.list.get(index);
+	public void freeze() {
+		this.frozen = true;
+	}
+	
+	@Override
+	public boolean isFrozen() {
+		return this.frozen;
+	}
+	
+	public ImmutableList<E> toImmutable() {
+		return ImmutableList.copyOf(this);
 	}
 }

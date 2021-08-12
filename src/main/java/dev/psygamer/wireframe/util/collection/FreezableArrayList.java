@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.collection;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ArrayList;
 
 public class FreezableArrayList <E> extends FreezableList<E> {
 	
