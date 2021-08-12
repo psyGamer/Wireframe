@@ -8,10 +8,6 @@ import dev.psygamer.wireframe.util.collection.FreezableSet;
 import dev.psygamer.wireframe.util.collection.FreezableLinkedHashSet;
 
 import com.google.common.collect.ImmutableSet;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BlockPropertyContainer implements IFreezable, ICloneable<BlockPropertyContainer> {
 	
