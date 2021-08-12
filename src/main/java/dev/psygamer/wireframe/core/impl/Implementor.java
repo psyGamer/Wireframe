@@ -138,7 +138,7 @@ public final class Implementor {
 	
 	private static <T> Stream<? extends Class<? extends T>> getImplementationClassStream(final Class<T> apiClass) {
 		return ClassUtil.getClasses(WireframePackages.IMPL_PACKAGE).stream()
-				.filter(clazz -> clazz.isInstance(apiClass))
+				.filter(apiClass::isAssignableFrom)
 				.map(clazz -> (Class<? extends T>) clazz)
 				.filter(clazz -> clazz.isAnnotationPresent(ImplementationVersion.class))
 				.filter(clazz -> MinecraftVersion.getCurrentVersion().compareTo( // Check if the impl version is <= the current version
