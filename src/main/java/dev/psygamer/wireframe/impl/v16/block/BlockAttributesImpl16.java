@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
 import dev.psygamer.wireframe.api.block.BlockAttributes;
+import dev.psygamer.wireframe.api.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.InstanceConstructor;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
@@ -8,11 +9,8 @@ import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.impl.common.block.CommonBlockAttributes;
 
 import net.minecraft.item.ItemGroup;
-import net.minecraft.block.Block;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.material.Material;
-
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @ImplementationVersion(MinecraftVersion.v16)
 public class BlockAttributesImpl16 extends CommonBlockAttributes {
@@ -49,36 +47,6 @@ public class BlockAttributesImpl16 extends CommonBlockAttributes {
 		return new BlockAttributesImpl16(material, group);
 	}
 	
-	@Override
-	@SuppressWarnings("ConstantConditions")
-	public BlockAttributes inheritFromBlock(final Block block) {
-		final AbstractBlock.Properties properties = ObfuscationReflectionHelper.getPrivateValue(AbstractBlock.class, block, "field_235684_aB_");
-		final Class<AbstractBlock.Properties> propertiesClass = AbstractBlock.Properties.class;
-		
-		assert properties != null;
-		
-		setMaterial(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200953_a"));
-		setSound(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200956_d"));
-		setGroup(block.asItem().getItemCategory());
-		
-		setHardness(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200959_g"));
-		setBlastResistance(ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_200958_f"));
-		
-		setRequiredTool(properties.getHarvestTool());
-		setHarvestLevel(properties.getHarvestLevel());
-		
-		setBreakableByHand(!(Boolean) ObfuscationReflectionHelper.getPrivateValue(propertiesClass, properties, "field_235806_h_"));
-		
-		return this;
-	}
-	
-	@Override
-	public Block createBlock() {
-		return new Block(createProperties()) {
-		
-		};
-	}
-	
 	private AbstractBlock.Properties createProperties() {
 		final AbstractBlock.Properties properties = AbstractBlock.Properties.of(this.material);
 		
@@ -88,25 +56,23 @@ public class BlockAttributesImpl16 extends CommonBlockAttributes {
 			properties.strength(this.hardness);
 		}
 		
-		if (this.requiredTool == null) {
+		if (this.correctTool == null) {
 			properties.instabreak();
 		} else {
-			properties.harvestTool(this.requiredTool);
+			properties.harvestTool(this.correctTool);
 		}
 		
-		if (this.harvestLevel != HarvestLevel.HAND) {
-			properties.harvestLevel(this.harvestLevel.getLevel());
-			
-			if (this.breakableByHand) {
-				properties.requiresCorrectToolForDrops();
-			}
+		properties.harvestLevel(this.harvestLevel);
+		
+		if (this.harvestLevel == HarvestLevel.NONE.getHarvestLevel()) {
+			properties.requiresCorrectToolForDrops();
 		}
 		
 		if (this.sound != null) {
 			properties.sound(this.sound);
 		}
 		
-		if (this.fullBlock && !this.opaque) {
+		if (this.fullBlock) {
 			properties.isValidSpawn(AbstractBlock.AbstractBlockState::isValidSpawn);
 			properties.isSuffocating(AbstractBlock.AbstractBlockState::isSuffocating);
 			properties.isViewBlocking(AbstractBlock.AbstractBlockState::isViewBlocking);
