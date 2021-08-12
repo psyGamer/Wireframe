@@ -66,6 +66,6 @@ public class BlockEvents {
 	
 	public void onHitByProjectile(
 			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world, final ProjectileEntity projectile
+			final World world, final ProjectileEntity projectile
 	) { }
 }
