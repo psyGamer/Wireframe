@@ -42,6 +42,10 @@ public class BlockPropertyContainer implements IFreezable, ICloneable<BlockPrope
 				.reduce(0, (subtotal, current) -> subtotal * (current + 1)));
 	}
 	
+	public <T> BlockPropertyContainer withObjectValue(final BlockProperty<?> blockProperty, final Object value) {
+		return withValue((BlockProperty<? super T>) blockProperty, (T) value);
+	}
+	
 	public <T> void setProperty(final BlockProperty<T> property, final T value) {
 		this.values.add(new BlockProperty.ValuePair<>(property, value));
 	}
