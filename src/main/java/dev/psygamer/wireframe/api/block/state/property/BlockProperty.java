@@ -1,17 +1,19 @@
 package dev.psygamer.wireframe.api.block.state.property;
 
-import com.google.common.collect.ImmutableList;
-import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.util.ICloneable;
 import dev.psygamer.wireframe.util.IFreezable;
-import dev.psygamer.wireframe.util.collection.FreezableHashMap;
+import dev.psygamer.wireframe.util.collection.FreezableMap;
+import dev.psygamer.wireframe.util.collection.FreezableLinkedHashMap;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class BlockProperty <T> implements IFreezable {
 	
 	protected final String propertyName;
-	protected final FreezableHashMap<String, T> entries;
+	protected final FreezableMap<String, T> entries;
 	
 	protected T defaultValue;
 	
@@ -19,7 +21,7 @@ public class BlockProperty <T> implements IFreezable {
 		Objects.requireNonNull(propertyName, "The property name may not be null");
 		
 		this.propertyName = propertyName;
-		this.entries = new FreezableHashMap<>();
+		this.entries = new FreezableLinkedHashMap<>();
 	}
 	
 	public String getPropertyName() {
@@ -66,6 +68,10 @@ public class BlockProperty <T> implements IFreezable {
 		return ImmutableList.copyOf(this.entries.values());
 	}
 	
+	public int getValueIndex(final T value) {
+		return new ArrayList<>(this.entries.values()).indexOf(value);
+	}
+	
 	@Override
 	public void freeze() {
 		this.entries.freeze();
@@ -80,6 +86,7 @@ public class BlockProperty <T> implements IFreezable {
 		private final BlockProperty<T> property;
 		
 		private volatile boolean frozen = false;
+		private int valueIndex;
 		private T value;
 		
 		public ValuePair(final BlockProperty<T> property) {
@@ -89,6 +96,8 @@ public class BlockProperty <T> implements IFreezable {
 		public ValuePair(final BlockProperty<T> property, final T value) {
 			this.property = property;
 			this.value = value;
+			
+			this.valueIndex = property.getValueIndex(value);
 		}
 		
 		public BlockProperty<T> getProperty() {
@@ -106,12 +115,16 @@ public class BlockProperty <T> implements IFreezable {
 			IFreezable.throwIfFrozen(this);
 			
 			this.value = value;
+			this.valueIndex = this.property.getValueIndex(value);
 		}
 		
 		public void setObjectValue(final Object value) {
 			setValue((T) value);
 		}
 		
+		public int getValueIndex() {
+			return this.valueIndex;
+		}
 		
 		@Override
 		public ValuePair<T> copy() {
