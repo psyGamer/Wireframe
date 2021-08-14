@@ -1,8 +1,9 @@
 package dev.psygamer.wireframe.api.item;
 
+import dev.psygamer.wireframe.api.item.util.IItemEvents;
 import dev.psygamer.wireframe.core.dependant.Namespace;
 
-public class ItemFoundation {
+public class ItemFoundation implements IItemEvents {
 	
 	protected final String registryName;
 	protected final Namespace namespace;
