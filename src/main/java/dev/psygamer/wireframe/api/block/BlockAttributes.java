@@ -56,37 +56,21 @@ public abstract class BlockAttributes implements ICloneable<BlockAttributes> {
 		return INSTANCE.createInstance(material, group);
 	}
 	
-	public abstract Material getMaterial();
-	
 	public abstract BlockAttributes setMaterial(final Material material);
-	
-	public abstract ItemGroup getGroup();
 	
 	public abstract BlockAttributes setGroup(final ItemGroup group);
 	
-	public abstract float getHardness();
-	
 	public abstract BlockAttributes setHardness(final float hardness);
-	
-	public abstract float getBlastResistance();
 	
 	public abstract BlockAttributes setBlastResistance(final float blastResistance);
 	
-	public abstract SoundType getSound();
-	
 	public abstract BlockAttributes setSound(final SoundType sound);
 	
-	public abstract ToolType getCorrectTool();
-	
 	public abstract BlockAttributes setRequiredTool(final ToolType tool);
-	
-	public abstract int getHarvestLevel();
 	
 	public abstract BlockAttributes setHarvestLevel(final int level);
 	
 	public abstract BlockAttributes setHarvestLevel(final HarvestLevel harvestLevel);
-	
-	public abstract boolean isFullBlock();
 	
 	public abstract BlockAttributes setFullBlock(final boolean fullBlock);
 	

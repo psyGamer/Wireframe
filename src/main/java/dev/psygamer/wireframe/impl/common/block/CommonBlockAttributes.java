@@ -9,12 +9,8 @@ import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.state.Property;
 
 import net.minecraftforge.common.ToolType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ImplementationVersion(MinecraftVersion.COMMON)
 public abstract class CommonBlockAttributes extends BlockAttributes {
@@ -30,8 +26,6 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	protected int harvestLevel;
 	
 	protected boolean fullBlock;
-	
-	protected List<Property<?>> blockStateProperties = new ArrayList<>();
 	
 	protected CommonBlockAttributes() {
 	}
@@ -56,20 +50,10 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	}
 	
 	@Override
-	public Material getMaterial() {
-		return this.material;
-	}
-	
-	@Override
 	public BlockAttributes setGroup(final ItemGroup group) {
 		this.group = group;
 		
 		return this;
-	}
-	
-	@Override
-	public ItemGroup getGroup() {
-		return this.group;
 	}
 	
 	@Override
@@ -80,20 +64,10 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	}
 	
 	@Override
-	public float getHardness() {
-		return this.hardness;
-	}
-	
-	@Override
 	public BlockAttributes setBlastResistance(final float blastResistance) {
 		this.blastResistance = blastResistance;
 		
 		return this;
-	}
-	
-	@Override
-	public float getBlastResistance() {
-		return this.blastResistance;
 	}
 	
 	@Override
@@ -104,20 +78,10 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	}
 	
 	@Override
-	public SoundType getSound() {
-		return this.sound;
-	}
-	
-	@Override
 	public BlockAttributes setRequiredTool(final ToolType tool) {
 		this.correctTool = tool;
 		
 		return this;
-	}
-	
-	@Override
-	public ToolType getCorrectTool() {
-		return this.correctTool;
 	}
 	
 	@Override
@@ -135,19 +99,9 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	}
 	
 	@Override
-	public int getHarvestLevel() {
-		return this.harvestLevel;
-	}
-	
-	@Override
 	public BlockAttributes setFullBlock(final boolean fullBlock) {
 		this.fullBlock = fullBlock;
 		
 		return this;
-	}
-	
-	@Override
-	public boolean isFullBlock() {
-		return this.fullBlock;
 	}
 }
