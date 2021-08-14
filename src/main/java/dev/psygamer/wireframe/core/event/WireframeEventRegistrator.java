@@ -4,7 +4,6 @@ import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.WireframePackages;
 import dev.psygamer.wireframe.core.impl.Implementor;
 import dev.psygamer.wireframe.core.dependant.Dependant;
-import dev.psygamer.wireframe.core.dependant.DependantsHandler;
 
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.util.reflection.FieldUtil;
@@ -23,7 +22,7 @@ public class WireframeEventRegistrator {
 		getEventClassStream()
 				.filter(clazz -> clazz.isAnnotationPresent(ModEventBusSubscriber.class))
 				.forEach(clazz -> {
-					DependantsHandler.getDependants().forEach(dependant -> {
+					Dependant.getDependants().forEach(dependant -> {
 						final FMLJavaModLoadingContext modLoadingContext = dependant.getModLoadingContext();
 						
 						try {
@@ -60,7 +59,7 @@ public class WireframeEventRegistrator {
 		
 		final List<Class<?>> classes = new ArrayList<>(ClassUtil.getClasses(WireframePackages.WIREFRAME_PACKAGE));
 		
-		for (final Dependant<?> dependant : DependantsHandler.getDependants()) {
+		for (final Dependant<?> dependant : Dependant.getDependants()) {
 			classes.addAll(ClassUtil.getClasses(dependant.getRootPackage()));
 		}
 		

@@ -1,7 +1,10 @@
 package dev.psygamer.wireframe.core.dependant;
 
+import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.core.WireframePackages;
-import dev.psygamer.wireframe.core.namespace.Namespace;
+
+import dev.psygamer.wireframe.util.collection.FreezableArrayList;
+import dev.psygamer.wireframe.util.collection.FreezableList;
 import dev.psygamer.wireframe.util.reflection.FieldUtil;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -10,6 +13,8 @@ import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import java.util.Objects;
 
 public final class Dependant <T> {
+	private static final FreezableList<Dependant<?>> dependants = new FreezableArrayList<>();
+	
 	private final String namespace;
 	private final String rootPackage;
 	
@@ -19,7 +24,6 @@ public final class Dependant <T> {
 	private final Class<T> modClass;
 	private final T modInstance;
 	
-	@SuppressWarnings("unchecked")
 	public Dependant(final Class<T> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		this.modLoadingContext = modLoadingContext;
 		this.modContainer = FieldUtil.getField(FMLJavaModLoadingContext.class, modLoadingContext, "container");
@@ -29,6 +33,33 @@ public final class Dependant <T> {
 		
 		this.modClass = modClass;
 		this.modInstance = (T) this.modContainer.getMod();
+		
+		dependants.add(this);
+	}
+	
+	public static ImmutableList<Dependant<?>> getDependants() {
+		return dependants.toImmutable();
+	}
+	
+	public static Dependant<?> fromNamespace(final Namespace namespace) {
+		for (final Dependant<?> dependant : dependants) {
+			if (dependant.getRootPackage().startsWith(namespace.getPackagePath()) ||
+					dependant.getNamespace().equalsIgnoreCase(namespace.getNamespace())
+			) return dependant;
+		}
+		
+		throw new NotFoundException(namespace);
+	}
+	
+	/**
+	 * <p>Searches the StackTrace of the current Thread for the first non internal class, and gets the corresponding mod definition.</p>
+	 * <p><strong>Note: </strong>Should only be used in methods that are directly call by the dependant.</p>
+	 * <p>
+	 *
+	 * @return The mod definition of the current mod.
+	 */
+	public static Dependant<?> getCurrent() {
+		return fromNamespace(Namespace.getCurrent());
 	}
 	
 	public String getNamespace() {

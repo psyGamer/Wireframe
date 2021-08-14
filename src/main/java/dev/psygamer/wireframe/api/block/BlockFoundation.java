@@ -5,8 +5,7 @@ import dev.psygamer.wireframe.api.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
 
-import dev.psygamer.wireframe.core.namespace.Namespace;
-import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
+import dev.psygamer.wireframe.core.dependant.Namespace;
 
 import dev.psygamer.wireframe.util.IFreezable;
 
@@ -21,7 +20,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	
 	public BlockFoundation(final String registryName, final BlockAttributes attributes) {
 		this.registryName = registryName;
-		this.namespace = NamespaceUtil.getCurrentNamespace();
+		this.namespace = Namespace.getCurrent();
 		this.attributes = attributes;
 		
 		this.propertySet = new BlockPropertySet();

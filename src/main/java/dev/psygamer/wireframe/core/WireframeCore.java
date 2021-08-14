@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe.core;
 
+import dev.psygamer.wireframe.core.dependant.Dependant;
+import dev.psygamer.wireframe.core.dependant.Namespace;
 import dev.psygamer.wireframe.core.event.WireframeEventRegistrator;
 import dev.psygamer.wireframe.core.event.WireframeEventBus;
-import dev.psygamer.wireframe.core.namespace.NamespaceHandler;
-import dev.psygamer.wireframe.core.dependant.DependantsHandler;
 import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 
 import net.minecraftforge.fml.common.Mod;
@@ -32,12 +32,12 @@ public final class WireframeCore {
 			throw new FrameworkException("Mod class is not annotated with @Mod");
 		}
 		
-		DependantsHandler.registerDependant(
+		new Dependant<>(
 				modClass,
 				modLoadingContext
 		);
 		
-		NamespaceHandler.registerNamespace(
+		new Namespace(
 				modClass.getAnnotation(Mod.class).value(),
 				modClass.getPackage().getName()
 		);

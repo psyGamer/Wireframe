@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.impl.v16.data;
 
-import dev.psygamer.wireframe.core.namespace.NamespaceUtil;
+import dev.psygamer.wireframe.core.dependant.Namespace;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.impl.common.data.CommonDataGenerators;
@@ -19,6 +19,6 @@ public class DataGeneratorsImpl16 extends CommonDataGenerators {
 		final DataGenerator generator = event.getGenerator();
 		final ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 		
-		generator.addProvider(new BlockStateDataProviderImpl16(generator, NamespaceUtil.getCurrentNamespace().evaluate(), existingFileHelper));
+		generator.addProvider(new BlockStateDataProviderImpl16(generator, Namespace.getCurrent().evaluate(), existingFileHelper));
 	}
 }
