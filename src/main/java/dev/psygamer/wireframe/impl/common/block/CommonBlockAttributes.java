@@ -33,73 +33,73 @@ public abstract class CommonBlockAttributes extends BlockAttributes {
 	@Override
 	public BlockAttributes copy() {
 		return BlockAttributes.create()
-				.setMaterial(this.material)
-				.setGroup(this.group)
-				.setHardness(this.hardness)
-				.setBlastResistance(this.blastResistance)
-				.setRequiredTool(this.correctTool)
-				.setHarvestLevel(this.harvestLevel)
-				.setFullBlock(this.fullBlock);
+				.material(this.material)
+				.group(this.group)
+				.hardness(this.hardness)
+				.blastResistance(this.blastResistance)
+				.requiredTool(this.correctTool)
+				.harvestLevel(this.harvestLevel)
+				.fullBlock(this.fullBlock);
 	}
 	
 	@Override
-	public BlockAttributes setMaterial(final Material material) {
+	public BlockAttributes material(final Material material) {
 		this.material = material;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setGroup(final ItemGroup group) {
+	public BlockAttributes group(final ItemGroup group) {
 		this.group = group;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setHardness(final float hardness) {
+	public BlockAttributes hardness(final float hardness) {
 		this.hardness = hardness;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setBlastResistance(final float blastResistance) {
+	public BlockAttributes blastResistance(final float blastResistance) {
 		this.blastResistance = blastResistance;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setSound(final SoundType sound) {
+	public BlockAttributes sound(final SoundType sound) {
 		this.sound = sound;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setRequiredTool(final ToolType tool) {
+	public BlockAttributes requiredTool(final ToolType tool) {
 		this.correctTool = tool;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setHarvestLevel(final int level) {
+	public BlockAttributes harvestLevel(final int level) {
 		this.harvestLevel = level;
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setHarvestLevel(final HarvestLevel harvestLevel) {
+	public BlockAttributes harvestLevel(final HarvestLevel harvestLevel) {
 		this.harvestLevel = harvestLevel.getHarvestLevel();
 		
 		return this;
 	}
 	
 	@Override
-	public BlockAttributes setFullBlock(final boolean fullBlock) {
+	public BlockAttributes fullBlock(final boolean fullBlock) {
 		this.fullBlock = fullBlock;
 		
 		return this;
