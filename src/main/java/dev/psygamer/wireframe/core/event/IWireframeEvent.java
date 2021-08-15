@@ -1,4 +1,3 @@
 package dev.psygamer.wireframe.core.event;
 
-public interface IWireframeEvent {
-}
+public interface IWireframeEvent { }

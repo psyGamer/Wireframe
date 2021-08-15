@@ -2,8 +2,8 @@ package dev.psygamer.wireframe.core;
 
 import dev.psygamer.wireframe.core.dependant.Dependant;
 import dev.psygamer.wireframe.core.dependant.Namespace;
-import dev.psygamer.wireframe.core.event.WireframeEventRegistrator;
-import dev.psygamer.wireframe.core.event.WireframeEventBus;
+import dev.psygamer.wireframe.core.eventbus.EventBusRegistrator;
+import dev.psygamer.wireframe.core.eventbus.WireframeEventBus;
 import dev.psygamer.wireframe.core.exceptions.FrameworkException;
 
 import net.minecraftforge.fml.common.Mod;
@@ -44,8 +44,8 @@ public final class WireframeCore {
 	}
 	
 	private void onModConstruct(final FMLConstructModEvent event) {
-		WireframeEventRegistrator.registerModLoadingEventBuses();
-		WireframeEventRegistrator.registerWireframeEventBuses();
+		EventBusRegistrator.registerModLoadingEventBuses();
+		EventBusRegistrator.registerWireframeEventBuses();
 	}
 	
 	
