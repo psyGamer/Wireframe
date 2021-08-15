@@ -1,7 +1,9 @@
-package dev.psygamer.wireframe.core.event;
+package dev.psygamer.wireframe.core.eventbus;
 
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.WireframePackages;
+import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
+import dev.psygamer.wireframe.core.event.WireframeEventBusSubscriber;
 import dev.psygamer.wireframe.core.impl.Implementor;
 import dev.psygamer.wireframe.core.dependant.Dependant;
 
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class WireframeEventRegistrator {
+public class EventBusRegistrator {
 	
 	public static void registerModLoadingEventBuses() {
 		getEventClassStream()

@@ -1,7 +1,8 @@
-package dev.psygamer.wireframe.core.event;
+package dev.psygamer.wireframe.core.eventbus;
 
 import dev.psygamer.wireframe.core.WireframeCore;
 
+import dev.psygamer.wireframe.core.event.IWireframeEvent;
 import net.minecraftforge.eventbus.EventBusErrorMessage;
 import net.minecraftforge.eventbus.api.*;
 
