@@ -8,12 +8,10 @@ import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 
 import dev.psygamer.wireframe.impl.common.registry.CommonBlockRegistry;
-
 import dev.psygamer.wireframe.impl.v16.block.CompiledBlockFoundationImpl16;
-import net.minecraft.block.AbstractBlock;
+
 import net.minecraft.block.Block;
 
-import net.minecraft.block.material.Material;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
