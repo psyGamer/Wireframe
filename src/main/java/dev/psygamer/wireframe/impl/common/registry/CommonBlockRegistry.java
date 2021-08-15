@@ -17,12 +17,12 @@ public abstract class CommonBlockRegistry extends BlockRegistry {
 	protected static FreezableList<BlockFoundation> blocks = new FreezableArrayList<>();
 	
 	@Override
-	protected void registerBasicBlock(final BlockFoundation block) {
+	protected void registerBlockFoundation(final BlockFoundation block) {
 		blocks.add(block);
 	}
 	
 	@Override
-	protected ImmutableList<BlockFoundation> getBlocksBasicBlocks() {
+	protected ImmutableList<BlockFoundation> getBlockFoundations() {
 		return blocks.toImmutable();
 	}
 }

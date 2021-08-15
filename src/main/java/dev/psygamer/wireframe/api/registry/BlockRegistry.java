@@ -11,14 +11,14 @@ public abstract class BlockRegistry {
 	private static final BlockRegistry INSTANCE = Instancer.createInstance();
 	
 	public static void register(final BlockFoundation block) {
-		INSTANCE.registerBasicBlock(block);
+		INSTANCE.registerBlockFoundation(block);
 	}
 	
 	public static ImmutableList<BlockFoundation> getBlocks() {
-		return INSTANCE.getBlocksBasicBlocks();
+		return INSTANCE.getBlockFoundations();
 	}
 	
-	protected abstract void registerBasicBlock(final BlockFoundation block);
+	protected abstract void registerBlockFoundation(final BlockFoundation block);
 	
-	protected abstract ImmutableList<BlockFoundation> getBlocksBasicBlocks();
+	protected abstract ImmutableList<BlockFoundation> getBlockFoundations();
 }
