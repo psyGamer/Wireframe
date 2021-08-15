@@ -28,13 +28,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("deprecation")
 public class CompiledBlockFoundationImpl16 extends Block {
+	
+	private static final Map<Block, BlockFoundation> compiledBlocks = new HashMap<>();
 	
 	private final BlockFoundation block;
 	
@@ -50,11 +50,17 @@ public class CompiledBlockFoundationImpl16 extends Block {
 		this.blockCreators.add(block);
 		
 		this.setRegistryName(block.getNamespace().evaluate(), block.getRegistryName());
+		
+		compiledBlocks.put(this, block);
 	}
 	
-	private BlockPropertyContainer convertBlockState(final BlockState blockState) {
+	public static BlockFoundation convertBlock(final Block block) {
+		return compiledBlocks.get(block);
+	}
+	
+	public static BlockPropertyContainer convertBlockState(final BlockFoundation block, final BlockState blockState) {
 		final AtomicReference<BlockPropertyContainer> propertyContainerReference = new AtomicReference<>(
-				this.block.getDefaultBlockPropertyContainer()
+				block.getDefaultBlockPropertyContainer()
 		);
 		
 		blockState.getProperties().forEach(property -> {
@@ -65,6 +71,10 @@ public class CompiledBlockFoundationImpl16 extends Block {
 		});
 		
 		return propertyContainerReference.get();
+	}
+	
+	private BlockPropertyContainer convertBlockState(final BlockState blockState) {
+		return convertBlockState(this.block, blockState);
 	}
 	
 	/* Block Events */
