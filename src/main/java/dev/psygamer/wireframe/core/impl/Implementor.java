@@ -141,7 +141,7 @@ public final class Implementor {
 				.filter(apiClass::isAssignableFrom)
 				.map(clazz -> (Class<? extends T>) clazz)
 				.filter(clazz -> clazz.isAnnotationPresent(ImplementationVersion.class))
-				.filter(clazz -> MinecraftVersion.getCurrentVersion().compareTo( // Check if the impl version is <= the current version
+				.filter(clazz -> MinecraftVersion.getCurrent().compareTo( // Check if the impl version is <= the current version
 						clazz.getAnnotation(ImplementationVersion.class).value()) >= 0)
 				.sorted((classA, classB) -> { // Sort from newest to oldest
 					final MinecraftVersion versionA = classA.getAnnotation(ImplementationVersion.class).value();

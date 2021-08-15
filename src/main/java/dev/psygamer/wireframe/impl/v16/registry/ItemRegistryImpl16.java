@@ -8,10 +8,10 @@ import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 
 import dev.psygamer.wireframe.impl.common.registry.CommonItemRegistry;
-import dev.psygamer.wireframe.impl.v16.block.CompiledBlockFoundationImpl16;
 import dev.psygamer.wireframe.impl.v16.item.CompiledItemFoundationImpl16;
-import net.minecraft.block.Block;
+
 import net.minecraft.item.Item;
+
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

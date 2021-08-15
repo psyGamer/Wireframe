@@ -1,8 +1,10 @@
 package dev.psygamer.wireframe.core.impl;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public enum MinecraftVersion {
+	
 	COMMON(null),
 	
 	v16(Major.v16),
@@ -11,6 +13,23 @@ public enum MinecraftVersion {
 	v16_3(Major.v16, Minor.v3),
 	v16_4(Major.v16, Minor.v4),
 	v16_5(Major.v16, Minor.v5);
+	
+	private static MinecraftVersion currentVersion;
+	
+	static { // We need to use reflection, to be version agnostic //
+		
+		try {
+			final Class<?> minecraftVersionClass = Class.forName("net.minecraft.util.MinecraftVersion");
+			final Field minecraftVersionInstance = minecraftVersionClass.getDeclaredField("BUILT_IN");
+			final Field currentVersionField = minecraftVersionClass.getDeclaredField("releaseTarget");
+			
+			currentVersion = fromString(
+					(String) currentVersionField.get(minecraftVersionInstance.get(null))
+			);
+			
+		} catch (ClassNotFoundException | ClassCastException | NoSuchFieldException | IllegalAccessException ignore) {
+		}
+	}
 	
 	private final Major majorVersion;
 	private final Minor minorVersion;
@@ -25,28 +44,20 @@ public enum MinecraftVersion {
 	}
 	
 	enum Major {
-		COMMON,
 		v16;
 		
-		private final Major previousMajorVersion;
-		
-		Major() {
-			this(null);
-		}
-		
-		Major(final Major previousVersion) {
-			this.previousMajorVersion = previousVersion;
+		public MinecraftVersion[] getSubVersions() {
+			return Arrays.stream(MinecraftVersion.values())
+					.filter(version -> version.getMajorVersion() == this)
+					.toArray(MinecraftVersion[]::new);
 		}
 		
 		public Major getPreviousMajorVersion() {
-			return this.previousMajorVersion;
+			return Major.values()[ordinal() <= 0 ? 0 : ordinal() - 1];
 		}
 		
 		public Major getNextMinorVersion() {
-			return Arrays.stream(Major.values())
-					.filter(version -> version.getPreviousMajorVersion() == this)
-					.findFirst()
-					.orElse(null);
+			return Major.values()[ordinal() >= Major.values().length ? Major.values().length : ordinal() + 1];
 		}
 		
 		@Override
@@ -56,32 +67,14 @@ public enum MinecraftVersion {
 	}
 	
 	enum Minor {
-		v0,
-		v1(v0),
-		v2(v1),
-		v3(v2),
-		v4(v3),
-		v5(v4);
-		
-		private final Minor previousMinorVersion;
-		
-		Minor() {
-			this(null);
-		}
-		
-		Minor(final Minor previousVersion) {
-			this.previousMinorVersion = previousVersion;
-		}
+		v0, v1, v2, v3, v4, v5;
 		
 		public Minor getPreviousMinorVersion() {
-			return this.previousMinorVersion;
+			return Minor.values()[ordinal() <= 0 ? 0 : ordinal() - 1];
 		}
 		
 		public Minor getNextMinorVersion() {
-			return Arrays.stream(Minor.values())
-					.filter(version -> version.getPreviousMinorVersion() == this)
-					.findFirst()
-					.orElse(null);
+			return Minor.values()[ordinal() >= Minor.values().length ? Minor.values().length : ordinal() + 1];
 		}
 		
 		@Override
@@ -90,44 +83,38 @@ public enum MinecraftVersion {
 		}
 	}
 	
-	public static MinecraftVersion getCurrentVersion() {
-		return getVersionFromString(net.minecraft.util.MinecraftVersion.tryDetectVersion().getReleaseTarget());
+	public static MinecraftVersion getCurrent() {
+		return currentVersion;
 	}
 	
-	public static MinecraftVersion getVersionFromString(final String versionString) {
+	public static MinecraftVersion fromString(final String versionString) {
 		return Arrays.stream(MinecraftVersion.values())
-				.filter(version -> version.getVersionString().equalsIgnoreCase(versionString))
+				.filter(version -> version.toString().equalsIgnoreCase(versionString))
 				.findFirst()
 				.orElse(null);
 	}
 	
-	public static MinecraftVersion getVersion(final Major majorVersion, final Minor minorVersion) {
+	private static MinecraftVersion fromMajorAndMinor(final Major majorVersion, final Minor minorVersion) {
 		return Arrays.stream(values())
 				.filter(version -> version.getMajorVersion() == majorVersion && version.getMinorVersion() == minorVersion)
 				.findFirst()
 				.orElse(null);
 	}
 	
-	public static MinecraftVersion[] getVersions(final Major majorVersion) {
+	public MinecraftVersion[] getVersionAbove() {
 		return Arrays.stream(values())
-				.filter(version -> version.getMajorVersion() == majorVersion)
+				.filter(mcVersion -> mcVersion.ordinal() >= this.ordinal())
 				.toArray(MinecraftVersion[]::new);
 	}
 	
-	public static MinecraftVersion[] getVersionAbove(final MinecraftVersion version) {
+	public MinecraftVersion[] getVersionBelow() {
 		return Arrays.stream(values())
-				.filter(mcVersion -> mcVersion.ordinal() >= version.ordinal())
+				.filter(mcVersion -> mcVersion.ordinal() <= this.ordinal())
 				.toArray(MinecraftVersion[]::new);
 	}
 	
-	public static MinecraftVersion[] getVersionBelow(final MinecraftVersion version) {
-		return Arrays.stream(values())
-				.filter(mcVersion -> mcVersion.ordinal() <= version.ordinal())
-				.toArray(MinecraftVersion[]::new);
-	}
-	
-	public static MinecraftVersion[] getVersionBetween(final MinecraftVersion olderVersion, final MinecraftVersion newerVersion) {
-		return Arrays.stream(getVersionAbove(olderVersion))
+	public MinecraftVersion[] getVersionBetween(final MinecraftVersion newerVersion) {
+		return Arrays.stream(getVersionAbove())
 				.filter(version -> version.ordinal() < newerVersion.ordinal())
 				.toArray(MinecraftVersion[]::new);
 	}
@@ -145,7 +132,7 @@ public enum MinecraftVersion {
 			final Minor nextMinorVersion = this.minorVersion.getNextMinorVersion();
 			
 			if (nextMinorVersion != null) {
-				return getVersion(this.majorVersion, nextMinorVersion);
+				return fromMajorAndMinor(this.majorVersion, nextMinorVersion);
 			}
 		}
 		
@@ -153,7 +140,7 @@ public enum MinecraftVersion {
 			final Major nextMajorVersion = this.majorVersion.getNextMinorVersion();
 			
 			if (nextMajorVersion != null) {
-				return getVersion(nextMajorVersion, Minor.v0);
+				return fromMajorAndMinor(nextMajorVersion, Minor.v0);
 			}
 		}
 		
@@ -165,7 +152,7 @@ public enum MinecraftVersion {
 			final Minor previousMinorVersion = this.minorVersion.getPreviousMinorVersion();
 			
 			if (previousMinorVersion != null) {
-				return getVersion(this.majorVersion, previousMinorVersion);
+				return fromMajorAndMinor(this.majorVersion, previousMinorVersion);
 			}
 		}
 		
@@ -173,15 +160,11 @@ public enum MinecraftVersion {
 			final Major nextMajorVersion = this.majorVersion.getPreviousMajorVersion();
 			
 			if (nextMajorVersion != null) {
-				return getVersion(nextMajorVersion, Minor.v0);
+				return fromMajorAndMinor(nextMajorVersion, Minor.v0);
 			}
 		}
 		
 		return COMMON;
-	}
-	
-	public String getVersionString() {
-		return toString();
 	}
 	
 	@Override
