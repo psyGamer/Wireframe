@@ -23,13 +23,13 @@ public class BlockAttributesImpl16 extends CommonBlockAttributes {
 	protected BlockAttributesImpl16(final Material material) {
 		this();
 		
-		setMaterial(material);
+		material(material);
 	}
 	
 	protected BlockAttributesImpl16(final Material material, final ItemGroup group) {
 		this(material);
 		
-		setGroup(group);
+		group(group);
 	}
 	
 	@Override
