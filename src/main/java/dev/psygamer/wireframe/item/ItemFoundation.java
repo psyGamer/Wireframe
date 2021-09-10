@@ -1,27 +1,12 @@
 package dev.psygamer.wireframe.item;
 
-import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
-import dev.psygamer.wireframe.impl.v16.block.CompiledBlockFoundationImpl16;
-import dev.psygamer.wireframe.item.util.IItemEvents;
 import dev.psygamer.wireframe.core.dependant.Namespace;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
+import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
+import dev.psygamer.wireframe.item.util.IItemEvents;
 
 public class ItemFoundation implements IItemEvents {
 	
-	protected final Internal internal;
+	protected final InternalItemFoundation internal;
 	
 	protected final String registryName;
 	protected final Namespace namespace;
@@ -32,7 +17,7 @@ public class ItemFoundation implements IItemEvents {
 		this.namespace = Namespace.getCurrent();
 		this.attributes = attributes;
 		
-		this.internal = new Internal(attributes);
+		this.internal = new InternalItemFoundation(this, attributes);
 	}
 	
 	public String getRegistryName() {
@@ -47,68 +32,7 @@ public class ItemFoundation implements IItemEvents {
 		return this.attributes;
 	}
 	
-	public Internal getInternal() {
+	public InternalItemFoundation getInternal() {
 		return this.internal;
-	}
-	
-	protected class Internal extends Item {
-		private final List<IItemEvents> itemEvents = new ArrayList<>();
-		
-		public Internal(final ItemAttributes attributes) {
-			super(attributes.getInternal().createProperties());
-		}
-		
-		/* Item Events */
-		
-		@Override
-		public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
-			this.itemEvents.forEach(event -> event.onItemUsed(player.getItemInHand(hand), world, player, hand));
-			
-			return onItemUsed(player.getItemInHand(hand), world, player, hand).toInternal();
-		}
-		
-		@Override
-		public ActionResultType useOn(final ItemUseContext context) {
-			this.itemEvents.forEach(event -> event.onItemUsedOnBlock(context));
-			
-			return onItemUsedOnBlock(context).getInternal();
-		}
-		
-		@Override
-		public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
-			this.itemEvents.forEach(event -> event.onItemUsedOnEntity(
-					player.getItemInHand(hand), player.level, player, entity, hand
-			));
-			
-			return onItemUsedOnEntity(
-					player.getItemInHand(hand), player.level, player, entity, hand
-			).getInternal();
-		}
-		
-		@Override
-		public boolean mineBlock(final ItemStack itemStack, final World world, final BlockState state, final BlockPos pos, final LivingEntity entity) {
-			final BlockPropertyContainer propertyContainer = CompiledBlockFoundationImpl16.convertBlockState(
-					CompiledBlockFoundationImpl16.convertBlock(state.getBlock()), state
-			);
-			
-			this.itemEvents.forEach(event -> event.onBlockMined(
-					itemStack, propertyContainer, pos, world, entity
-			));
-			
-			return onBlockMined(
-					itemStack, propertyContainer, pos, world, entity
-			);
-		}
-		
-		@Override
-		public void onCraftedBy(final ItemStack itemStack, final World world, final PlayerEntity player) {
-			this.itemEvents.forEach(event -> event.onItemCrafted(
-					itemStack, world, player
-			));
-			
-			onItemCrafted(
-					itemStack, world, player
-			);
-		}
 	}
 }
