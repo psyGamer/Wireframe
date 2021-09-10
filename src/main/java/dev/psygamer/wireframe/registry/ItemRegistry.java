@@ -3,29 +3,59 @@ package dev.psygamer.wireframe.registry;
 import dev.psygamer.wireframe.item.ItemFoundation;
 
 import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.core.impl.Instancer;
 
 import dev.psygamer.wireframe.util.IFreezable;
 
 import com.google.common.collect.ImmutableList;
+import dev.psygamer.wireframe.util.collection.FreezableArrayList;
+import dev.psygamer.wireframe.util.collection.FreezableList;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public abstract class ItemRegistry implements IFreezable {
+import java.util.Objects;
+
+public class ItemRegistry {
 	
-	private static final ItemRegistry INSTANCE = Instancer.createInstance();
+	protected static FreezableList<ItemFoundation> items = new FreezableArrayList<>();
+	protected final String modID;
+	protected Internal internal;
 	
-	static {
-		WireframeCore.EVENT_BUS.register(INSTANCE);
+	public ItemRegistry(final String modID) {
+		this.modID = modID;
+		
+		this.internal = new Internal();
 	}
 	
 	public static void register(final ItemFoundation item) {
-		INSTANCE.registerItemFoundation(item);
+		items.add(item);
 	}
 	
 	public static ImmutableList<ItemFoundation> getItems() {
-		return INSTANCE.getItemFoundations();
+		return items.toImmutable();
 	}
 	
-	protected abstract void registerItemFoundation(final ItemFoundation item);
+	public Internal getInternal() {
+		return this.internal;
+	}
 	
-	protected abstract ImmutableList<ItemFoundation> getItemFoundations();
+	protected class Internal {
+		@SubscribeEvent()
+		public void onBlockRegistry(final RegistryEvent.Register<Item> event) {
+			items.freeze();
+			items.stream()
+					.filter(item -> Objects.equals(
+							item.getNamespace().evaluate(), ItemRegistry.this.modID))
+					.forEach(item -> {
+						event.getRegistry().register(item.getInternal());
+						
+						WireframeCore.LOGGER.info(
+								String.format("Successfully registered item %s:%s",
+										item.getNamespace().evaluate(),
+										item.getRegistryName()
+								)
+						);
+					});
+		}
+	}
 }
