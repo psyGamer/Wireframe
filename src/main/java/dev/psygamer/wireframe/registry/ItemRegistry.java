@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.registry;
 
+import dev.psygamer.wireframe.internal.registry.InternalItemRegistry;
 import dev.psygamer.wireframe.item.ItemFoundation;
 
 import dev.psygamer.wireframe.core.WireframeCore;
@@ -9,22 +10,17 @@ import dev.psygamer.wireframe.util.IFreezable;
 import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.util.collection.FreezableArrayList;
 import dev.psygamer.wireframe.util.collection.FreezableList;
-import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.Objects;
 
 public class ItemRegistry {
 	
 	protected static FreezableList<ItemFoundation> items = new FreezableArrayList<>();
 	protected final String modID;
-	protected Internal internal;
+	protected InternalItemRegistry internal;
 	
 	public ItemRegistry(final String modID) {
 		this.modID = modID;
 		
-		this.internal = new Internal();
+		this.internal = new InternalItemRegistry(this);
 	}
 	
 	public static void register(final ItemFoundation item) {
@@ -35,27 +31,15 @@ public class ItemRegistry {
 		return items.toImmutable();
 	}
 	
-	public Internal getInternal() {
-		return this.internal;
+	public static void freeze() {
+		items.freeze();
 	}
 	
-	protected class Internal {
-		@SubscribeEvent()
-		public void onBlockRegistry(final RegistryEvent.Register<Item> event) {
-			items.freeze();
-			items.stream()
-					.filter(item -> Objects.equals(
-							item.getNamespace().evaluate(), ItemRegistry.this.modID))
-					.forEach(item -> {
-						event.getRegistry().register(item.getInternal());
-						
-						WireframeCore.LOGGER.info(
-								String.format("Successfully registered item %s:%s",
-										item.getNamespace().evaluate(),
-										item.getRegistryName()
-								)
-						);
-					});
-		}
+	public String getModID() {
+		return this.modID;
+	}
+	
+	public InternalItemRegistry getInternal() {
+		return this.internal;
 	}
 }

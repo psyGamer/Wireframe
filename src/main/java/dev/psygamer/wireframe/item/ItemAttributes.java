@@ -1,11 +1,12 @@
 package dev.psygamer.wireframe.item;
 
+import dev.psygamer.wireframe.internal.item.InternalItemAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
 public class ItemAttributes {
 	
-	protected Internal internal;
+	protected InternalItemAttributes internal;
 	
 	protected int maxStackSize;
 	
@@ -36,7 +37,7 @@ public class ItemAttributes {
 	public ItemAttributes(final ItemGroup itemGroup) {
 		this.itemGroup = itemGroup;
 		
-		this.internal = new Internal();
+		this.internal = new InternalItemAttributes(this);
 	}
 	
 	public ItemAttributes maxStackSize(final int maxStackSize) {
@@ -69,26 +70,31 @@ public class ItemAttributes {
 		return this;
 	}
 	
-	public Internal getInternal() {
-		return this.internal;
+	public int getMaxStackSize() {
+		return this.maxStackSize;
 	}
 	
-	protected class Internal {
-		public Item.Properties createProperties() {
-			final Item.Properties properties = new Item.Properties()
-					.rarity(ItemAttributes.this.rarity.getInternal())
-					.stacksTo(ItemAttributes.this.maxStackSize);
-			
-			if (ItemAttributes.this.itemGroup != null)
-				properties.tab(ItemAttributes.this.itemGroup);
-			
-			if (ItemAttributes.this.fireResistant)
-				properties.fireResistant();
-			
-			if (!ItemAttributes.this.repairable)
-				properties.setNoRepair();
-			
-			return properties;
-		}
+	public boolean isFireResistant() {
+		return this.fireResistant;
+	}
+	
+	public boolean isRepairable() {
+		return this.repairable;
+	}
+	
+	public ItemGroup getItemGroup() {
+		return this.itemGroup;
+	}
+	
+	public Item getCraftingRemainder() {
+		return this.craftingRemainder;
+	}
+	
+	public Rarity getRarity() {
+		return this.rarity;
+	}
+	
+	public InternalItemAttributes getInternal() {
+		return this.internal;
 	}
 }
