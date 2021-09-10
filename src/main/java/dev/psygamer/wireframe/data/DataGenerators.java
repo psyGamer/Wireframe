@@ -1,15 +1,22 @@
 package dev.psygamer.wireframe.data;
 
-import dev.psygamer.wireframe.core.impl.Implementor;
 
+import dev.psygamer.wireframe.internal.data.InternalDataGenerators;
 import net.minecraft.data.IDataProvider;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
-public interface DataGenerators {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DataGenerators {
 	
-	static void addDataProvider(final IDataProvider provider) {
-		Implementor.execute(provider);
+	protected static InternalDataGenerators internal = new InternalDataGenerators();
+	protected static List<IDataProvider> dataProviders = new ArrayList<>();
+	
+	public static void addDataProvider(final IDataProvider provider) {
+		dataProviders.add(provider);
 	}
 	
-	void gatherData(GatherDataEvent event);
+	public static InternalDataGenerators getInternal() {
+		return internal;
+	}
 }
