@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.item.util;
 
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.item.ClickResult;
+import dev.psygamer.wireframe.item.ClickResultContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -12,10 +13,12 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public interface IItemEvents {
 	
-	default boolean onItemUsed(
+	default ClickResultContainer<ItemStack> onItemUsed(
 			final ItemStack usedItemStack,
 			final World world, final PlayerEntity player, final Hand hand
-	) { return false; }
+	) {
+		return ClickResultContainer.pass(player.getItemInHand(hand));
+	}
 	
 	default ClickResult onItemUsedOnBlock(
 			final ItemUseContext context
