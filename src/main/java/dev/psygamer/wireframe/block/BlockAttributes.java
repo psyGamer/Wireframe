@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.block;
 
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
+import dev.psygamer.wireframe.internal.block.InternalBlockAttributes;
 import dev.psygamer.wireframe.util.ICloneable;
 
 import dev.psygamer.wireframe.core.impl.Instancer;
@@ -19,9 +20,21 @@ import net.minecraftforge.common.ToolType;
  * @see BlockFoundation
  * @since 1.0 | Minecraft 1.16
  */
-public abstract class BlockAttributes implements ICloneable<BlockAttributes> {
+public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
-	private static final BlockAttributes INSTANCE = Instancer.createInstance();
+	protected InternalBlockAttributes internal;
+	
+	protected Material material;
+	protected SoundType sound;
+	protected ItemGroup group;
+	
+	protected float blastResistance;
+	protected float hardness;
+	
+	protected ToolType correctTool;
+	protected int harvestLevel;
+	
+	protected boolean fullBlock;
 	
 	/**
 	 * @return A new instance of a {@link BlockAttributes}
@@ -29,8 +42,8 @@ public abstract class BlockAttributes implements ICloneable<BlockAttributes> {
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
 	 */
-	public static BlockAttributes create() {
-		return INSTANCE.createInstance();
+	public BlockAttributes() {
+		this(null);
 	}
 	
 	/**
@@ -40,8 +53,8 @@ public abstract class BlockAttributes implements ICloneable<BlockAttributes> {
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
 	 */
-	public static BlockAttributes create(final Material material) {
-		return INSTANCE.createInstance(material);
+	public BlockAttributes(final Material material) {
+		this(material, null);
 	}
 	
 	/**
@@ -52,34 +65,110 @@ public abstract class BlockAttributes implements ICloneable<BlockAttributes> {
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
 	 */
-	public static BlockAttributes create(final Material material, final ItemGroup group) {
-		return INSTANCE.createInstance(material, group);
+	public BlockAttributes(final Material material, final ItemGroup group) {
+		this.material = material;
+		this.group = group;
+		
+		this.internal = new InternalBlockAttributes(this);
 	}
 	
-	public abstract BlockAttributes material(final Material material);
+	public BlockAttributes material(final Material material) {
+		this.material = material;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes group(final ItemGroup group);
+	public BlockAttributes group(final ItemGroup group) {
+		this.group = group;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes hardness(final float hardness);
+	public BlockAttributes hardness(final float hardness) {
+		this.hardness = hardness;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes blastResistance(final float blastResistance);
+	public BlockAttributes blastResistance(final float blastResistance) {
+		this.blastResistance = blastResistance;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes sound(final SoundType sound);
+	public BlockAttributes sound(final SoundType sound) {
+		this.sound = sound;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes requiredTool(final ToolType tool);
+	public BlockAttributes requiredTool(final ToolType tool) {
+		this.correctTool = tool;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes harvestLevel(final int level);
+	public BlockAttributes harvestLevel(final int level) {
+		this.harvestLevel = level;
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes harvestLevel(final HarvestLevel harvestLevel);
+	public BlockAttributes harvestLevel(final HarvestLevel harvestLevel) {
+		this.harvestLevel = harvestLevel.getHarvestLevel();
+		
+		return this;
+	}
 	
-	public abstract BlockAttributes fullBlock(final boolean fullBlock);
+	public BlockAttributes fullBlock(final boolean fullBlock) {
+		this.fullBlock = fullBlock;
+		
+		return this;
+	}
+	
+	public Material getMaterial() {
+		return this.material;
+	}
+	
+	public SoundType getSound() {
+		return this.sound;
+	}
+	
+	public ItemGroup getGroup() {
+		return this.group;
+	}
+	
+	public float getBlastResistance() {
+		return this.blastResistance;
+	}
+	
+	public float getHardness() {
+		return this.hardness;
+	}
+	
+	public ToolType getCorrectTool() {
+		return this.correctTool;
+	}
+	
+	public int getHarvestLevel() {
+		return this.harvestLevel;
+	}
+	
+	public boolean isFullBlock() {
+		return this.fullBlock;
+	}
+	
+	@Override
+	public BlockAttributes copy() {
+		return new BlockAttributes()
+				.material(this.material)
+				.group(this.group)
+				.hardness(this.hardness)
+				.blastResistance(this.blastResistance)
+				.requiredTool(this.correctTool)
+				.harvestLevel(this.harvestLevel)
+				.fullBlock(this.fullBlock);
+	}
 	
 	//	TODO BOUNDING BOX
-	
-	protected abstract BlockAttributes createInstance();
-	
-	protected abstract BlockAttributes createInstance(final Material material);
-	
-	protected abstract BlockAttributes createInstance(final Material material, final ItemGroup group);
-	
 }
