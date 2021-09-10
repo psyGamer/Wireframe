@@ -48,6 +48,10 @@ public class ItemFoundation implements IItemEvents {
 		return this.attributes;
 	}
 	
+	public Internal getInternal() {
+		return this.internal;
+	}
+	
 	protected class Internal extends Item {
 		private final List<IItemEvents> itemEvents = new ArrayList<>();
 		
