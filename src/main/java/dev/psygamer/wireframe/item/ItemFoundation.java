@@ -2,7 +2,6 @@ package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.impl.v16.block.CompiledBlockFoundationImpl16;
-import dev.psygamer.wireframe.impl.v16.item.ItemAttributesImpl16;
 import dev.psygamer.wireframe.item.util.IItemEvents;
 import dev.psygamer.wireframe.core.dependant.Namespace;
 import net.minecraft.block.BlockState;
@@ -56,7 +55,7 @@ public class ItemFoundation implements IItemEvents {
 		private final List<IItemEvents> itemEvents = new ArrayList<>();
 		
 		public Internal(final ItemAttributes attributes) {
-			super(((ItemAttributesImpl16) attributes).createProperties());
+			super(attributes.getInternal().createProperties());
 		}
 		
 		/* Item Events */

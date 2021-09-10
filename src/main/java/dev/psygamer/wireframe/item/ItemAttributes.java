@@ -69,6 +69,10 @@ public class ItemAttributes {
 		return this;
 	}
 	
+	public Internal getInternal() {
+		return this.internal;
+	}
+	
 	protected class Internal {
 		public Item.Properties createProperties() {
 			final Item.Properties properties = new Item.Properties()
