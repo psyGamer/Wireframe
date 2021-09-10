@@ -1,14 +1,20 @@
 package dev.psygamer.wireframe.item;
 
-import dev.psygamer.wireframe.core.impl.Instancer;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
 
 public abstract class ItemAttributes {
 	
-	private static final ItemAttributes INSTANCE = Instancer.createInstance();
+	protected Internal internal;
+	
+	protected int maxStackSize;
+	
+	protected boolean fireResistant;
+	protected boolean repairable;
+	
+	protected ItemGroup itemGroup;
+	protected Item craftingRemainder;
+	protected Rarity rarity;
 	
 	/**
 	 * @return A new instance of a {@link ItemAttributes}
@@ -16,32 +22,69 @@ public abstract class ItemAttributes {
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
 	 */
-	public static ItemAttributes create() {
-		return INSTANCE.createInstance();
+	public ItemAttributes() {
+		this(null);
 	}
 	
 	/**
-	 * @param group Creative Tab for the Block
+	 * @param itemGroup Creative Tab for the Block
 	 * @return A new instance of a {@link ItemAttributes}
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
 	 */
-	public static ItemAttributes create(final ItemGroup group) {
-		return INSTANCE.createInstance(group);
+	public ItemAttributes(final ItemGroup itemGroup) {
+		this.itemGroup = itemGroup;
+		
+		this.internal = new Internal();
 	}
 	
-	public abstract ItemAttributes maxStackSize(final int stackSize);
+	public ItemAttributes maxStackSize(final int maxStackSize) {
+		this.maxStackSize = maxStackSize;
+		
+		return this;
+	}
 	
-	public abstract ItemAttributes rarity(final Rarity rarity);
+	public ItemAttributes fireResistant(final boolean fireResistant) {
+		this.fireResistant = fireResistant;
+		
+		return this;
+	}
 	
-	public abstract ItemAttributes fireResistant(final boolean fireResistant);
+	public ItemAttributes repairable(final boolean repairable) {
+		this.repairable = repairable;
+		
+		return this;
+	}
 	
-	public abstract ItemAttributes repairable(final boolean repairable);
+	public ItemAttributes craftingRemainder(final Item craftingRemainder) {
+		this.craftingRemainder = craftingRemainder;
+		
+		return this;
+	}
 	
-	public abstract ItemAttributes craftingRemainder(final Item remainder);
+	public ItemAttributes rarity(final Rarity rarity) {
+		this.rarity = rarity;
+		
+		return this;
+	}
 	
-	protected abstract ItemAttributes createInstance();
-	
-	protected abstract ItemAttributes createInstance(final ItemGroup group);
+	protected class Internal {
+		public Item.Properties createProperties() {
+			final Item.Properties properties = new Item.Properties()
+					.rarity(ItemAttributes.this.rarity.getInternal())
+					.stacksTo(ItemAttributes.this.maxStackSize);
+			
+			if (ItemAttributes.this.itemGroup != null)
+				properties.tab(ItemAttributes.this.itemGroup);
+			
+			if (ItemAttributes.this.fireResistant)
+				properties.fireResistant();
+			
+			if (!ItemAttributes.this.repairable)
+				properties.setNoRepair();
+			
+			return properties;
+		}
+	}
 }
