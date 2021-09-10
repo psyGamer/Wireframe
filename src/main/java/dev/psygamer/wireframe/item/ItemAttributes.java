@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
-public abstract class ItemAttributes {
+public class ItemAttributes {
 	
 	protected Internal internal;
 	
