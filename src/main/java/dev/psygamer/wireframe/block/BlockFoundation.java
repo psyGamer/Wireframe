@@ -1,25 +1,24 @@
 package dev.psygamer.wireframe.block;
 
-import dev.psygamer.wireframe.registry.BlockRegistry;
-import dev.psygamer.wireframe.block.util.BlockUtilityMethods;
-import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-
+import dev.psygamer.wireframe.block.util.BlockUtilityMethods;
 import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.core.event.RegistryEvents;
 import dev.psygamer.wireframe.core.dependant.Namespace;
-
+import dev.psygamer.wireframe.core.event.RegistryEvents;
+import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
+import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.IFreezable;
-
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	
+	protected final InternalBlockFoundation internal;
+	
 	protected final String registryName;
 	protected final Namespace namespace;
 	protected final BlockAttributes attributes;
-	
 	protected final BlockPropertySet propertySet;
 	protected final BlockPropertyContainer defaultPropertyContainer;
 	
@@ -30,6 +29,8 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 		
 		this.propertySet = new BlockPropertySet();
 		this.defaultPropertyContainer = new BlockPropertyContainer(this.propertySet);
+		
+		this.internal = new InternalBlockFoundation(this, attributes);
 		
 		WireframeCore.EVENT_BUS.register(this);
 	}

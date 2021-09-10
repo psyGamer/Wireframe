@@ -1,12 +1,13 @@
-package dev.psygamer.wireframe.impl.v16.block;
+package dev.psygamer.wireframe.internal.block;
 
 import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.BlockFoundation;
-import dev.psygamer.wireframe.block.util.IBlockEvents;
-import dev.psygamer.wireframe.block.util.IBlockCreators;
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-
+import dev.psygamer.wireframe.block.util.IBlockCreators;
+import dev.psygamer.wireframe.block.util.IBlockEvents;
+import dev.psygamer.wireframe.impl.v16.block.BlockAttributesImpl16;
+import dev.psygamer.wireframe.impl.v16.block.CompiledBlockPropertyImpl16;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -32,7 +33,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("deprecation")
-public class CompiledBlockFoundationImpl16 extends Block {
+public class InternalBlockFoundation extends Block {
 	
 	private static final Map<Block, BlockFoundation> compiledBlocks = new HashMap<>();
 	
@@ -41,7 +42,7 @@ public class CompiledBlockFoundationImpl16 extends Block {
 	private final List<IBlockEvents> blockEvents = new ArrayList<>();
 	private final List<IBlockCreators> blockCreators = new ArrayList<>();
 	
-	public CompiledBlockFoundationImpl16(final BlockFoundation block, final BlockAttributes attributes) {
+	public InternalBlockFoundation(final BlockFoundation block, final BlockAttributes attributes) {
 		super(((BlockAttributesImpl16) attributes).createProperties());
 		
 		this.block = block;
@@ -80,7 +81,6 @@ public class CompiledBlockFoundationImpl16 extends Block {
 	/* Block Events */
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public void onPlace(final BlockState newBlockState, final World world, final BlockPos blockPos, final BlockState oldBlockState, final boolean isMoving) {
 		this.blockEvents.forEach(event -> event.onBlockPlaced(
 				convertBlockState(oldBlockState),
@@ -107,7 +107,6 @@ public class CompiledBlockFoundationImpl16 extends Block {
 	}
 	
 	@Override
-	@SuppressWarnings("deprecation")
 	public void onRemove(final BlockState newBlockState, final World world, final BlockPos blockPos, final BlockState oldBlockState, final boolean isMoving) {
 		this.blockEvents.forEach(event -> event.onBlockRemoved(
 				convertBlockState(oldBlockState),
