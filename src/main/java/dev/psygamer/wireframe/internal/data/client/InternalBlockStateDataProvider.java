@@ -1,19 +1,12 @@
-package dev.psygamer.wireframe.impl.v16.data.client;
-
-import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.core.impl.ImplementationVersion;
-
-import dev.psygamer.wireframe.data.client.BlockStateDataProvider;
-
-import net.minecraftforge.common.data.ExistingFileHelper;
+package dev.psygamer.wireframe.internal.data.client;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
-
-@ImplementationVersion(MinecraftVersion.v16)
-public class BlockStateDataProviderImpl16 extends BlockStateDataProvider {
+public class InternalBlockStateDataProvider extends BlockStateProvider {
 	
-	public BlockStateDataProviderImpl16(final DataGenerator gen, final String modid, final ExistingFileHelper exFileHelper) {
+	public InternalBlockStateDataProvider(final DataGenerator gen, final String modid, final ExistingFileHelper exFileHelper) {
 		super(gen, modid, exFileHelper);
 	}
 	
