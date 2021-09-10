@@ -1,11 +1,11 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
-import dev.psygamer.wireframe.api.block.BlockAttributes;
-import dev.psygamer.wireframe.api.block.BlockFoundation;
-import dev.psygamer.wireframe.api.block.util.IBlockEvents;
-import dev.psygamer.wireframe.api.block.util.IBlockCreators;
-import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
+import dev.psygamer.wireframe.block.BlockAttributes;
+import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.util.IBlockEvents;
+import dev.psygamer.wireframe.block.util.IBlockCreators;
+import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

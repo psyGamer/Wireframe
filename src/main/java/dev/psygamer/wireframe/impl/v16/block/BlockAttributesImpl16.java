@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.impl.v16.block;
 
-import dev.psygamer.wireframe.api.block.BlockAttributes;
-import dev.psygamer.wireframe.api.block.attributes.HarvestLevel;
+import dev.psygamer.wireframe.block.BlockAttributes;
+import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.InstanceConstructor;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;

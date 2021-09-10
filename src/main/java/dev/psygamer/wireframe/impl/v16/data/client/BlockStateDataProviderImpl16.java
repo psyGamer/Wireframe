@@ -3,8 +3,7 @@ package dev.psygamer.wireframe.impl.v16.data.client;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 
-import dev.psygamer.wireframe.api.data.client.BlockStateDataProvider;
-import dev.psygamer.wireframe.api.registry.BlockRegistry;
+import dev.psygamer.wireframe.data.client.BlockStateDataProvider;
 
 import net.minecraftforge.common.data.ExistingFileHelper;
 

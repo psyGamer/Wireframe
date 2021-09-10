@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.impl.v16.registry;
 
-import dev.psygamer.wireframe.api.registry.ItemRegistry;
+import dev.psygamer.wireframe.registry.ItemRegistry;
 
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
