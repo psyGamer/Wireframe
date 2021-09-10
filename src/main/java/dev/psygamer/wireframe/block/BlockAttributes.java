@@ -4,8 +4,6 @@ import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.internal.block.InternalBlockAttributes;
 import dev.psygamer.wireframe.util.ICloneable;
 
-import dev.psygamer.wireframe.core.impl.Instancer;
-
 import net.minecraft.item.ItemGroup;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -156,6 +154,10 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	public boolean isFullBlock() {
 		return this.fullBlock;
+	}
+	
+	public InternalBlockAttributes getInternal() {
+		return this.internal;
 	}
 	
 	@Override

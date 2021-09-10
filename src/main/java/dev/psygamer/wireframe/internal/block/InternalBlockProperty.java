@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.impl.v16.block;
+package dev.psygamer.wireframe.internal.block;
 
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
@@ -10,14 +10,14 @@ import net.minecraft.state.Property;
 import java.util.Collection;
 import java.util.Optional;
 
-public class CompiledBlockPropertyImpl16 <T extends Comparable<T>> extends Property<T> {
+public class InternalBlockProperty <T extends Comparable<T>> extends Property<T> {
 	
 	private static final FreezableMap<BlockProperty<? extends Comparable<?>>, Property<? extends Comparable<?>>>
 			blockPropertyCache = new FreezableHashMap<>();
 	
 	private final BlockProperty<T> blockProperty;
 	
-	protected CompiledBlockPropertyImpl16(final BlockProperty<T> blockProperty) {
+	protected InternalBlockProperty(final BlockProperty<T> blockProperty) {
 		super(blockProperty.getPropertyName(), (Class<T>) blockProperty.getDefaultValue().getClass());
 		
 		this.blockProperty = blockProperty;
