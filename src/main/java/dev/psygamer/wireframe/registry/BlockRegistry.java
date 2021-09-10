@@ -1,24 +1,43 @@
 package dev.psygamer.wireframe.registry;
 
 import dev.psygamer.wireframe.block.BlockFoundation;
-import dev.psygamer.wireframe.core.impl.Instancer;
-import dev.psygamer.wireframe.util.IFreezable;
 
 import com.google.common.collect.ImmutableList;
+import dev.psygamer.wireframe.internal.registry.InternalBlockRegistry;
+import dev.psygamer.wireframe.util.collection.FreezableArrayList;
+import dev.psygamer.wireframe.util.collection.FreezableList;
 
-public abstract class BlockRegistry implements IFreezable {
+public abstract class BlockRegistry {
 	
-	private static final BlockRegistry INSTANCE = Instancer.createInstance();
+	protected static FreezableList<BlockFoundation> blocks = new FreezableArrayList<>();
+	
+	protected final String modID;
+	protected final InternalBlockRegistry internal;
+	
+	public BlockRegistry(final String modID) {
+		this.modID = modID;
+		
+		this.internal = new InternalBlockRegistry(this);
+	}
+	
 	
 	public static void register(final BlockFoundation block) {
-		INSTANCE.registerBlockFoundation(block);
+		blocks.add(block);
 	}
 	
 	public static ImmutableList<BlockFoundation> getBlocks() {
-		return INSTANCE.getBlockFoundations();
+		return blocks.toImmutable();
 	}
 	
-	protected abstract void registerBlockFoundation(final BlockFoundation block);
+	public static void freeze() {
+		blocks.freeze();
+	}
 	
-	protected abstract ImmutableList<BlockFoundation> getBlockFoundations();
+	public String getModID() {
+		return this.modID;
+	}
+	
+	public InternalBlockRegistry getInternal() {
+		return this.internal;
+	}
 }

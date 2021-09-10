@@ -63,6 +63,10 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 		this.defaultPropertyContainer.setProperty(property, property.getDefaultValue());
 	}
 	
+	public InternalBlockFoundation getInternal() {
+		return this.internal;
+	}
+	
 	@Override
 	public void freeze() {
 		this.propertySet.freeze();
