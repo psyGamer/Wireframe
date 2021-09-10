@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.impl.v16.item;
 
-import dev.psygamer.wireframe.api.item.ItemAttributes;
+import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.impl.common.item.CommonItemAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;

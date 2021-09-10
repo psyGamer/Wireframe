@@ -1,14 +1,10 @@
 package dev.psygamer.wireframe.impl.v16.item;
 
-import dev.psygamer.wireframe.api.block.BlockFoundation;
-import dev.psygamer.wireframe.api.block.state.BlockPropertyContainer;
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty;
-import dev.psygamer.wireframe.api.item.ItemAttributes;
-import dev.psygamer.wireframe.api.item.ItemFoundation;
-import dev.psygamer.wireframe.api.item.util.IItemEvents;
+import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.item.ItemAttributes;
+import dev.psygamer.wireframe.item.ItemFoundation;
+import dev.psygamer.wireframe.item.util.IItemEvents;
 import dev.psygamer.wireframe.impl.v16.block.CompiledBlockFoundationImpl16;
-import dev.psygamer.wireframe.impl.v16.block.CompiledBlockPropertyImpl16;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +19,6 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class CompiledItemFoundationImpl16 extends Item {
 	

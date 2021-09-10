@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.impl.common.data;
 
 import dev.psygamer.wireframe.core.impl.ImplementationVersion;
 import dev.psygamer.wireframe.core.impl.MinecraftVersion;
-import dev.psygamer.wireframe.api.data.DataGenerators;
+import dev.psygamer.wireframe.data.DataGenerators;
 
 import net.minecraft.data.IDataProvider;
 
