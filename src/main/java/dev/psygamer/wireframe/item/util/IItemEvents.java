@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.item.util;
 
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.item.ClickResult;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -16,14 +17,14 @@ public interface IItemEvents {
 			final World world, final PlayerEntity player, final Hand hand
 	) { return false; }
 	
-	default boolean onItemUsedOnBlock(
+	default ClickResult onItemUsedOnBlock(
 			final ItemUseContext context
-	) { return false; }
+	) { return ClickResult.PASS; }
 	
-	default boolean onItemUsedOnEntity(
+	default ClickResult onItemUsedOnEntity(
 			final ItemStack usedItemStack,
 			final World world, final PlayerEntity player, final LivingEntity entity, final Hand hand
-	) { return false; }
+	) { return ClickResult.PASS; }
 	
 	default boolean onEntityAttacked(
 			final ItemStack usedItemStack,
