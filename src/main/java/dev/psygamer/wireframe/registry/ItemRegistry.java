@@ -15,7 +15,7 @@ public class ItemRegistry {
 	
 	protected static FreezableList<ItemFoundation> items = new FreezableArrayList<>();
 	protected final String modID;
-	protected InternalItemRegistry internal;
+	protected final InternalItemRegistry internal;
 	
 	public ItemRegistry(final String modID) {
 		this.modID = modID;
