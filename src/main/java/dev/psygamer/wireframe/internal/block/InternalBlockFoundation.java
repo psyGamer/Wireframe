@@ -6,8 +6,6 @@ import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.block.util.IBlockCreators;
 import dev.psygamer.wireframe.block.util.IBlockEvents;
-import dev.psygamer.wireframe.impl.v16.block.BlockAttributesImpl16;
-import dev.psygamer.wireframe.impl.v16.block.CompiledBlockPropertyImpl16;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -43,7 +41,7 @@ public class InternalBlockFoundation extends Block {
 	private final List<IBlockCreators> blockCreators = new ArrayList<>();
 	
 	public InternalBlockFoundation(final BlockFoundation block, final BlockAttributes attributes) {
-		super(((BlockAttributesImpl16) attributes).createProperties());
+		super(attributes.getInternal().createProperties());
 		
 		this.block = block;
 		
@@ -65,7 +63,7 @@ public class InternalBlockFoundation extends Block {
 		);
 		
 		blockState.getProperties().forEach(property -> {
-			final BlockProperty<?> blockProperty = CompiledBlockPropertyImpl16.getCachedBlockProperty(property);
+			final BlockProperty<?> blockProperty = InternalBlockProperty.getCachedBlockProperty(property);
 			final Object value = blockState.getValue(property);
 			
 			propertyContainerReference.set(propertyContainerReference.get().withObjectValue(blockProperty, value));
