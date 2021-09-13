@@ -18,7 +18,6 @@ public class ItemAttributes {
 	protected Rarity rarity;
 	
 	/**
-	 * @return A new instance of a {@link ItemAttributes}
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
@@ -29,7 +28,6 @@ public class ItemAttributes {
 	
 	/**
 	 * @param itemGroup Creative Tab for the Block
-	 * @return A new instance of a {@link ItemAttributes}
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16

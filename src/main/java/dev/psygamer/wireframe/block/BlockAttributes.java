@@ -35,7 +35,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	protected boolean fullBlock;
 	
 	/**
-	 * @return A new instance of a {@link BlockAttributes}
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
@@ -46,7 +45,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	/**
 	 * @param material For sound, hardness, etc.
-	 * @return A new instance of a {@link BlockAttributes}
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
@@ -58,7 +56,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	/**
 	 * @param material For sound, hardness, etc.
 	 * @param group    Creative Tab for the Block
-	 * @return A new instance of a {@link BlockAttributes}
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
