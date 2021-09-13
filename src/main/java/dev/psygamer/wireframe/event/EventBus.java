@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-public abstract class EventBus {
+public abstract class EventBus implements IEventBus {
 	
 	private final ConcurrentSet<Object> registeredListeners = new ConcurrentSet<>();
-	private final ConcurrentHashMap<Class<? extends Event>, List<IEventListener>> listeners = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Class<? extends IEvent>, List<IEventListener>> listeners = new ConcurrentHashMap<>();
 	
+	@Override
 	public void register(final Object target) {
 		if (target == null || this.registeredListeners.contains(target))
 			return;
@@ -44,11 +45,13 @@ public abstract class EventBus {
 				.forEach(method -> addListener(object, method, method.getAnnotation(EventSubscriber.class).priority()));
 	}
 	
-	public <T extends Event> void addListener(final Consumer<T> consumer) {
-		addListener(consumer, Event.Priority.NORMAL);
+	@Override
+	public <T extends IEvent> void addListener(final Consumer<T> consumer) {
+		addListener(consumer, IEvent.Priority.NORMAL);
 	}
 	
-	public <T extends Event> void addListener(final Consumer<T> consumer, final Event.Priority priority) {
+	@Override
+	public <T extends IEvent> void addListener(final Consumer<T> consumer, final IEvent.Priority priority) {
 		final Class<T> eventClass = getEventClass(consumer);
 		
 		addListener(eventClass,
@@ -56,14 +59,16 @@ public abstract class EventBus {
 		);
 	}
 	
-	public <T extends Event> void addListener(final Object instance, final Method method) {
-		addListener(instance, method, Event.Priority.NORMAL);
+	@Override
+	public <T extends IEvent> void addListener(final Object instance, final Method method) {
+		addListener(instance, method, IEvent.Priority.NORMAL);
 	}
 	
-	public <T extends Event> void addListener(final Object instance, final Method method, final Event.Priority priority) {
+	@Override
+	public <T extends IEvent> void addListener(final Object instance, final Method method, final IEvent.Priority priority) {
 		if (method.getParameterTypes().length != 1)
 			throw new IllegalArgumentException("Event method must have 1 argument");
-		if (!method.getParameterTypes()[0].isAssignableFrom(Event.class))
+		if (!method.getParameterTypes()[0].isAssignableFrom(IEvent.class))
 			throw new IllegalArgumentException("Event method's argument must inherit Event");
 		
 		final Class<T> eventClass = (Class<T>) method.getParameterTypes()[0];
@@ -73,7 +78,7 @@ public abstract class EventBus {
 		);
 	}
 	
-	private void addListener(final Class<? extends Event> eventClass, final IEventListener listener) {
+	private void addListener(final Class<? extends IEvent> eventClass, final IEventListener listener) {
 		if (eventClass == null || listener == null ||
 				(this.listeners.contains(eventClass) && this.listeners.get(eventClass).contains(listener))
 		) return;
@@ -84,7 +89,8 @@ public abstract class EventBus {
 		this.listeners.get(eventClass).add(listener);
 	}
 	
-	public boolean post(final Event event) {
+	@Override
+	public boolean post(final IEvent event) {
 		final List<IEventListener> eventListeners = this.listeners.get(event.getClass());
 		
 		eventListeners.stream()
@@ -95,7 +101,7 @@ public abstract class EventBus {
 		return event.isCancelable() & event.isCanceled();
 	}
 	
-	private <T extends Event> Class<T> getEventClass(final Consumer<T> consumer) {
+	private <T extends IEvent> Class<T> getEventClass(final Consumer<T> consumer) {
 		final Class<T> eventClass = (Class<T>) TypeResolver.resolveRawArgument(Consumer.class, consumer.getClass());
 		
 		if ((Class<?>) eventClass == TypeResolver.Unknown.class) {
