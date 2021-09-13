@@ -1,12 +1,7 @@
 package dev.psygamer.wireframe.registry;
 
-import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 import dev.psygamer.wireframe.internal.registry.InternalItemRegistry;
 import dev.psygamer.wireframe.item.ItemFoundation;
-
-import dev.psygamer.wireframe.core.WireframeCore;
-
-import dev.psygamer.wireframe.util.IFreezable;
 
 import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.util.collection.FreezableArrayList;
