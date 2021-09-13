@@ -7,7 +7,7 @@ import dev.psygamer.wireframe.internal.registry.InternalBlockRegistry;
 import dev.psygamer.wireframe.util.collection.FreezableArrayList;
 import dev.psygamer.wireframe.util.collection.FreezableList;
 
-public abstract class BlockRegistry {
+public class BlockRegistry {
 	
 	protected static FreezableList<BlockFoundation> blocks = new FreezableArrayList<>();
 	

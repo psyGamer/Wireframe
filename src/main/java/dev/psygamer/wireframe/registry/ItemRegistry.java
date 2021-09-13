@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.registry;
 
+import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 import dev.psygamer.wireframe.internal.registry.InternalItemRegistry;
 import dev.psygamer.wireframe.item.ItemFoundation;
 

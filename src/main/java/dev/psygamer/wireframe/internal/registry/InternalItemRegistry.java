@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.core.WireframeCore;
+import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -8,6 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Objects;
 
+@ModEventBusSubscriber
 public class InternalItemRegistry {
 	
 	private final ItemRegistry itemRegistry;
@@ -16,7 +18,7 @@ public class InternalItemRegistry {
 		this.itemRegistry = itemRegistry;
 	}
 	
-	@SubscribeEvent()
+	@SubscribeEvent
 	public void onBlockRegistry(final RegistryEvent.Register<Item> event) {
 		ItemRegistry.freeze();
 		ItemRegistry.getItems().stream()
