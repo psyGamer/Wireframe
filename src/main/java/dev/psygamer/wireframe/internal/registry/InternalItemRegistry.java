@@ -24,14 +24,14 @@ public class InternalItemRegistry {
 		ItemRegistry.freeze();
 		ItemRegistry.getItems().stream()
 				.filter(item -> Objects.equals(
-						item.getNamespace().evaluate(), this.itemRegistry.getModID()))
+						item.getIdentifier().getNamespace(), this.itemRegistry.getModID()))
 				.forEach(item -> {
 					event.getRegistry().register(item.getInternal());
 					
 					Wireframe.LOGGER.info(
 							String.format("Successfully registered item %s:%s",
-									item.getNamespace().evaluate(),
-									item.getRegistryName()
+									item.getIdentifier().getNamespace(),
+									item.getIdentifier().getPath()
 							)
 					);
 				});

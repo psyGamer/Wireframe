@@ -28,6 +28,8 @@ public class InternalItemFoundation extends Item {
 		super(attributes.getInternal().createProperties());
 		
 		this.item = item;
+		
+		setRegistryName(item.getIdentifier().getNamespace(), item.getIdentifier().getPath());
 	}
 	
 	/* Item Events */
