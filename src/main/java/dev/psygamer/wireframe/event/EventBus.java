@@ -17,8 +17,14 @@ import java.util.function.Consumer;
 
 public abstract class EventBus implements IEventBus {
 	
+	private final Class<?> eventMarkerClass;
+	
 	private final ConcurrentSet<Object> registeredListeners = new ConcurrentSet<>();
 	private final ConcurrentHashMap<Class<? extends Event>, List<IEventListener>> listeners = new ConcurrentHashMap<>();
+	
+	protected EventBus(final Class<?> eventMarkerClass) {
+		this.eventMarkerClass = eventMarkerClass;
+	}
 	
 	@Override
 	public void register(final Object target) {
@@ -57,6 +63,9 @@ public abstract class EventBus implements IEventBus {
 	public <T extends Event> void addListener(final Consumer<T> consumer, final Event.Priority priority) {
 		final Class<T> eventClass = getEventClass(consumer);
 		
+		if (!eventClass.isAssignableFrom(this.eventMarkerClass))
+			throw new IllegalArgumentException("Event must inherit: " + this.eventMarkerClass);
+		
 		addListener(eventClass,
 				new ConsumerEventListener<>(consumer, priority, this)
 		);
@@ -75,6 +84,9 @@ public abstract class EventBus implements IEventBus {
 			throw new IllegalArgumentException("Event method's argument must inherit Event");
 		
 		final Class<T> eventClass = (Class<T>) method.getParameterTypes()[0];
+		
+		if (!eventClass.isAssignableFrom(this.eventMarkerClass))
+			throw new IllegalArgumentException("Event must inherit: " + this.eventMarkerClass);
 		
 		addListener(eventClass,
 				new MethodEventListener(instance, method, priority, this)
