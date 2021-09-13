@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.event;
+package dev.psygamer.wireframe.event.api;
 
 public abstract class Event {
 	

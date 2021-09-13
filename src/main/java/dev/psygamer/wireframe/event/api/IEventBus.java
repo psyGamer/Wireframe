@@ -1,7 +1,5 @@
 package dev.psygamer.wireframe.event.api;
 
-import dev.psygamer.wireframe.event.Event;
-
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
