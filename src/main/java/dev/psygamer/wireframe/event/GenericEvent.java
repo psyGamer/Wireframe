@@ -1,5 +1,8 @@
 package dev.psygamer.wireframe.event;
 
-public class GenericEvent <T> {
+import java.lang.reflect.Type;
 
+public abstract class GenericEvent <T> extends Event {
+	
+	public abstract Type getGenericType();
 }
