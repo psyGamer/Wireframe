@@ -1,15 +1,18 @@
 package dev.psygamer.wireframe.event;
 
+import dev.psygamer.wireframe.event.api.IEventBus;
+import dev.psygamer.wireframe.event.api.IEventListener;
+
 import java.util.function.Consumer;
 
-public class ConsumerEventListener <T extends IEvent> implements IEventListener {
+public class ConsumerEventListener <T extends Event> implements IEventListener {
 	
 	private final Consumer<T> consumer;
 	
-	private final IEvent.Priority priority;
+	private final Event.Priority priority;
 	private final IEventBus eventBus;
 	
-	public ConsumerEventListener(final Consumer<T> consumer, final IEvent.Priority priority, final IEventBus eventBus) {
+	public ConsumerEventListener(final Consumer<T> consumer, final Event.Priority priority, final IEventBus eventBus) {
 		this.consumer = consumer;
 		
 		this.eventBus = eventBus;
@@ -17,7 +20,7 @@ public class ConsumerEventListener <T extends IEvent> implements IEventListener 
 	}
 	
 	@Override
-	public void invoke(final IEvent event) {
+	public void invoke(final Event event) {
 		final T cast = (T) event;
 		
 		if (!(event.isCancelable() && event.isCanceled()))
@@ -25,7 +28,7 @@ public class ConsumerEventListener <T extends IEvent> implements IEventListener 
 	}
 	
 	@Override
-	public IEvent.Priority getPriority() {
+	public Event.Priority getPriority() {
 		return this.priority;
 	}
 	

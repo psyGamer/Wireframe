@@ -1,15 +1,19 @@
 package dev.psygamer.wireframe.event;
 
-public abstract class Event implements IEvent {
+public abstract class Event {
 	
 	private boolean canceled = false;
 	
-	@Override
+	public enum Priority {
+		HIGHEST, HIGH, NORMAL, LOW, LOWEST
+	}
+	
+	public abstract boolean isCancelable();
+	
 	public boolean isCanceled() {
 		return this.canceled;
 	}
 	
-	@Override
 	public void setCanceled(final boolean canceled) {
 		if (!isCancelable()) {
 			throw new UnsupportedOperationException(

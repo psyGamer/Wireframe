@@ -1,5 +1,8 @@
 package dev.psygamer.wireframe.event;
 
+import dev.psygamer.wireframe.event.api.IEventBus;
+import dev.psygamer.wireframe.event.api.IEventListener;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -8,10 +11,10 @@ public class MethodEventListener implements IEventListener {
 	private final Object instance;
 	private final Method method;
 	
-	private final IEvent.Priority priority;
+	private final Event.Priority priority;
 	private final IEventBus eventBus;
 	
-	public MethodEventListener(final Object instance, final Method method, final IEvent.Priority priority, final IEventBus eventBus) {
+	public MethodEventListener(final Object instance, final Method method, final Event.Priority priority, final IEventBus eventBus) {
 		this.instance = instance;
 		this.method = method;
 		
@@ -20,7 +23,7 @@ public class MethodEventListener implements IEventListener {
 	}
 	
 	@Override
-	public void invoke(final IEvent event) {
+	public void invoke(final Event event) {
 		try {
 			this.method.invoke(this.instance, this.method);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -29,7 +32,7 @@ public class MethodEventListener implements IEventListener {
 	}
 	
 	@Override
-	public IEvent.Priority getPriority() {
+	public Event.Priority getPriority() {
 		return this.priority;
 	}
 	
