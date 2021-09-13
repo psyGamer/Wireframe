@@ -48,7 +48,7 @@ public class InternalBlockFoundation extends Block {
 		this.blockEvents.add(block);
 		this.blockCreators.add(block);
 		
-		this.setRegistryName(block.getNamespace().evaluate(), block.getRegistryName());
+		this.setRegistryName(block.getIdentifier().getNamespace(), block.getIdentifier().getPath());
 		
 		compiledBlocks.put(this, block);
 	}

@@ -16,8 +16,4 @@ public class Identifier {
 	public String getPath() {
 		return this.path;
 	}
-	
-	public net.minecraft.util.ResourceLocation toInternal() {
-		return new net.minecraft.util.ResourceLocation(this.namespace, this.path);
-	}
 }

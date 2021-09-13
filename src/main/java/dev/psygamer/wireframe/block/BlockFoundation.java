@@ -5,23 +5,22 @@ import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.block.util.BlockUtilityMethods;
-import dev.psygamer.wireframe.core.dependant.Namespace;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.util.IFreezable;
+import dev.psygamer.wireframe.util.Identifier;
 
 public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	
 	protected final InternalBlockFoundation internal;
 	
-	protected final String registryName;
-	protected final Namespace namespace;
+	protected final Identifier identifier;
+	
 	protected final BlockAttributes attributes;
 	protected final BlockPropertySet propertySet;
 	protected final BlockPropertyContainer defaultPropertyContainer;
 	
-	public BlockFoundation(final String registryName, final BlockAttributes attributes) {
-		this.registryName = registryName;
-		this.namespace = Namespace.getCurrent();
+	public BlockFoundation(final Identifier identifier, final BlockAttributes attributes) {
+		this.identifier = identifier;
 		this.attributes = attributes;
 		
 		this.propertySet = new BlockPropertySet();
@@ -32,12 +31,8 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 		Wireframe.EVENT_BUS.register(this);
 	}
 	
-	public String getRegistryName() {
-		return this.registryName;
-	}
-	
-	public Namespace getNamespace() {
-		return this.namespace;
+	public Identifier getIdentifier() {
+		return this.identifier;
 	}
 	
 	public BlockAttributes getAttributes() {

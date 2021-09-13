@@ -24,14 +24,14 @@ public class InternalBlockRegistry {
 		BlockRegistry.freeze();
 		BlockRegistry.getBlocks().stream()
 				.filter(block -> Objects.equals(
-						block.getNamespace().evaluate(), this.registry.getModID()))
+						block.getIdentifier().getNamespace(), this.registry.getModID()))
 				.forEach(block -> {
 					event.getRegistry().register(block.getInternal());
 					
 					Wireframe.LOGGER.info(
 							String.format("Successfully registered block %s:%s",
-									block.getNamespace().evaluate(),
-									block.getRegistryName()
+									block.getIdentifier().getNamespace(),
+									block.getIdentifier().getPath()
 							)
 					);
 				});
