@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InternalItemFoundation extends Item {
-	private final List<IItemEvents> itemEvents = new ArrayList<>();
 	private final ItemFoundation item;
 	
 	public InternalItemFoundation(final ItemFoundation item, final ItemAttributes attributes) {
@@ -36,24 +35,16 @@ public class InternalItemFoundation extends Item {
 	
 	@Override
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
-		this.itemEvents.forEach(event -> event.onItemUsed(player.getItemInHand(hand), world, player, hand));
-		
 		return this.item.onItemUsed(player.getItemInHand(hand), world, player, hand).toInternal();
 	}
 	
 	@Override
 	public ActionResultType useOn(final ItemUseContext context) {
-		this.itemEvents.forEach(event -> event.onItemUsedOnBlock(context));
-		
 		return this.item.onItemUsedOnBlock(context).getInternal();
 	}
 	
 	@Override
 	public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
-		this.itemEvents.forEach(event -> event.onItemUsedOnEntity(
-				player.getItemInHand(hand), player.level, player, entity, hand
-		));
-		
 		return this.item.onItemUsedOnEntity(
 				player.getItemInHand(hand), player.level, player, entity, hand
 		).getInternal();
@@ -65,10 +56,6 @@ public class InternalItemFoundation extends Item {
 				InternalBlockFoundation.convertBlock(state.getBlock()), state
 		);
 		
-		this.itemEvents.forEach(event -> event.onBlockMined(
-				itemStack, propertyContainer, pos, world, entity
-		));
-		
 		return this.item.onBlockMined(
 				itemStack, propertyContainer, pos, world, entity
 		);
@@ -76,10 +63,6 @@ public class InternalItemFoundation extends Item {
 	
 	@Override
 	public void onCraftedBy(final ItemStack itemStack, final World world, final PlayerEntity player) {
-		this.itemEvents.forEach(event -> event.onItemCrafted(
-				itemStack, world, player
-		));
-		
 		this.item.onItemCrafted(
 				itemStack, world, player
 		);
