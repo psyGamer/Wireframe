@@ -4,7 +4,7 @@ import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.WireframePackages;
 import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 import dev.psygamer.wireframe.core.event.WireframeEventBusSubscriber;
-import dev.psygamer.wireframe.core.impl.Implementor;
+
 import dev.psygamer.wireframe.core.dependant.Dependant;
 
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
@@ -13,7 +13,6 @@ import dev.psygamer.wireframe.util.reflection.FieldUtil;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -24,20 +23,10 @@ public class EventBusRegistrator {
 		getEventClassStream()
 				.filter(clazz -> clazz.isAnnotationPresent(ModEventBusSubscriber.class))
 				.forEach(clazz -> {
-					Dependant.getDependants().forEach(dependant -> {
-						final FMLJavaModLoadingContext modLoadingContext = dependant.getModLoadingContext();
-						
-						try {
-							modLoadingContext.getModEventBus().register(
-									Implementor.findClass(clazz)
-											.getMethod("create", String.class)
-											.invoke(null, getModID(modLoadingContext))
-							);
-							
-						} catch (final IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-							ex.printStackTrace();
-						}
-					});
+					Dependant.getDependants().forEach(dependant -> dependant
+							.getModLoadingContext()
+							.getModEventBus()
+							.register(clazz));
 					
 					WireframeCore.LOGGER.info("Added " + clazz + " to the mod event bus");
 				});
