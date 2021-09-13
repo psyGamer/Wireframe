@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe;
 
-import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.EventBus;
+import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.api.IEventBus;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class Wireframe {
 		}
 	}
 	
-	@net.minecraftforge.fml.common.Mod(WireframeCore.MODID)
+	@net.minecraftforge.fml.common.Mod(Wireframe.MODID)
 	public static final class Internal {
 		public Internal() {
 			final net.minecraftforge.eventbus.api.IEventBus modEventBus =

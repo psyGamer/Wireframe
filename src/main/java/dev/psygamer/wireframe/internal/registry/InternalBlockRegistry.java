@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.Wireframe;
-import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
+import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.BlockRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
