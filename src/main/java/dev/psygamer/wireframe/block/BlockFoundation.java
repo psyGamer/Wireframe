@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.block;
 
+import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
@@ -32,7 +33,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 		
 		this.internal = new InternalBlockFoundation(this, attributes);
 		
-		WireframeCore.EVENT_BUS.register(this);
+		Wireframe.EVENT_BUS.register(this);
 	}
 	
 	@SubscribeEvent

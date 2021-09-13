@@ -13,10 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public final class WireframeCore {
-	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
-	public static final String MODID = "wireframe";
-	
-	public static final IEventBus EVENT_BUS = WireframeEventBus.create();
 	
 	public static void register(final Class<?> modClass, final FMLJavaModLoadingContext modLoadingContext) {
 		if (!modClass.isAnnotationPresent(Mod.class)) {

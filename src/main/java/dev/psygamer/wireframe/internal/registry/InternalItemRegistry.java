@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.internal.registry;
 
+import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.ItemRegistry;
@@ -27,7 +28,7 @@ public class InternalItemRegistry {
 				.forEach(item -> {
 					event.getRegistry().register(item.getInternal());
 					
-					WireframeCore.LOGGER.info(
+					Wireframe.LOGGER.info(
 							String.format("Successfully registered item %s:%s",
 									item.getNamespace().evaluate(),
 									item.getRegistryName()
