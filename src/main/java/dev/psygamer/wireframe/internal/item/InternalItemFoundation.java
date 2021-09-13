@@ -4,8 +4,7 @@ import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemFoundation;
-import dev.psygamer.wireframe.item.util.IItemEvents;
-import net.minecraft.block.BlockState;
+import dev.psygamer.wireframe.util.BlockPosition;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,9 +15,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InternalItemFoundation extends Item {
 	private final ItemFoundation item;
@@ -57,7 +53,7 @@ public class InternalItemFoundation extends Item {
 		);
 		
 		return this.item.onBlockMined(
-				itemStack, propertyContainer, pos, world, entity
+				itemStack, propertyContainer, new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, entity
 		);
 	}
 	
