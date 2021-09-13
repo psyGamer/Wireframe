@@ -13,34 +13,5 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public interface IItemEvents {
 	
-	default ClickResultContainer<ItemStack> onItemUsed(
-			final ItemStack usedItemStack,
-			final World world, final PlayerEntity player, final Hand hand
-	) {
-		return ClickResultContainer.pass(player.getItemInHand(hand));
-	}
-	
-	default ClickResult onItemUsedOnBlock(
-			final ItemUseContext context
-	) { return ClickResult.PASS; }
-	
-	default ClickResult onItemUsedOnEntity(
-			final ItemStack usedItemStack,
-			final World world, final PlayerEntity player, final LivingEntity entity, final Hand hand
-	) { return ClickResult.PASS; }
-	
-	default boolean onEntityAttacked(
-			final ItemStack usedItemStack,
-			final World world, final LivingEntity attacker, final LivingEntity entity
-	) { return false; }
-	
-	default boolean onBlockMined(
-			final ItemStack usedItemStack,
-			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world, final LivingEntity entity
-	) { return false; }
-	
-	default boolean onItemCrafted(
-			final ItemStack usedItemStack, final World world, final PlayerEntity player
-	) { return false; }
+
 }
