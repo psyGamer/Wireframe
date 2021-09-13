@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe;
 
 import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.core.eventbus.EventBusRegistrator;
+import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.EventBus;
 import dev.psygamer.wireframe.event.api.IEventBus;
 

@@ -1,12 +1,12 @@
-package dev.psygamer.wireframe.core.eventbus;
+package dev.psygamer.wireframe.event;
 
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.WireframePackages;
-import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
-import dev.psygamer.wireframe.core.event.WireframeEventBusSubscriber;
 
 import dev.psygamer.wireframe.core.dependant.Dependant;
 
+import dev.psygamer.wireframe.event.api.EventBusSubscriber;
+import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import dev.psygamer.wireframe.util.reflection.FieldUtil;
 
@@ -34,7 +34,7 @@ public class EventBusRegistrator {
 	
 	public static void registerWireframeEventBuses() {
 		getEventClassStream()
-				.filter(clazz -> clazz.isAnnotationPresent(WireframeEventBusSubscriber.class))
+				.filter(clazz -> clazz.isAnnotationPresent(EventBusSubscriber.class))
 				.forEach(clazz -> {
 					WireframeCore.EVENT_BUS.register(clazz);
 					WireframeCore.LOGGER.info("Added " + clazz + " to the Wireframe event bus");
