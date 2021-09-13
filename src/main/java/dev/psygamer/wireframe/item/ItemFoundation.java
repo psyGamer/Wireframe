@@ -2,18 +2,18 @@ package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
-import dev.psygamer.wireframe.item.util.IItemEvents;
 import dev.psygamer.wireframe.registry.ItemRegistry;
+import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemFoundation implements IItemEvents {
+public class ItemFoundation {
 	
 	protected final InternalItemFoundation internal;
 	
@@ -60,7 +60,7 @@ public class ItemFoundation implements IItemEvents {
 	public boolean onBlockMined(
 			final ItemStack usedItemStack,
 			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world, final LivingEntity entity
+			final BlockPosition blockPosition, final World world, final LivingEntity entity
 	) {
 		return false;
 	}

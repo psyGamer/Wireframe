@@ -4,8 +4,7 @@ import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-import dev.psygamer.wireframe.block.util.IBlockCreators;
-import dev.psygamer.wireframe.block.util.IBlockEvents;
+import dev.psygamer.wireframe.util.BlockPosition;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -37,16 +36,10 @@ public class InternalBlockFoundation extends Block {
 	
 	private final BlockFoundation block;
 	
-	private final List<IBlockEvents> blockEvents = new ArrayList<>();
-	private final List<IBlockCreators> blockCreators = new ArrayList<>();
-	
 	public InternalBlockFoundation(final BlockFoundation block, final BlockAttributes attributes) {
 		super(attributes.getInternal().createProperties());
 		
 		this.block = block;
-		
-		this.blockEvents.add(block);
-		this.blockCreators.add(block);
 		
 		this.setRegistryName(block.getIdentifier().getNamespace(), block.getIdentifier().getPath());
 		
@@ -79,12 +72,12 @@ public class InternalBlockFoundation extends Block {
 	/* Block Events */
 	
 	@Override
-	public void onPlace(final BlockState newBlockState, final World world, final BlockPos blockPos, final BlockState oldBlockState, final boolean isMoving) {
+	public void onPlace(final BlockState newBlockState, final World world, final BlockPos pos, final BlockState oldBlockState, final boolean isMoving) {
 		this.block.onBlockPlaced(
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
 				
-				blockPos, world
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);
 	}
 	
@@ -95,18 +88,18 @@ public class InternalBlockFoundation extends Block {
 					convertBlockState(blockState),
 					convertBlockState(blockState),
 					
-					pos, world, (PlayerEntity) placer
+					new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, (PlayerEntity) placer
 			);
 		}
 	}
 	
 	@Override
-	public void onRemove(final BlockState newBlockState, final World world, final BlockPos blockPos, final BlockState oldBlockState, final boolean isMoving) {
+	public void onRemove(final BlockState newBlockState, final World world, final BlockPos pos, final BlockState oldBlockState, final boolean isMoving) {
 		this.block.onBlockRemoved(
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
 				
-				blockPos, world
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);
 	}
 	
@@ -116,7 +109,7 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(state),
 				convertBlockState(state),
 				
-				pos, world, player
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, player
 		);
 	}
 	
@@ -125,7 +118,7 @@ public class InternalBlockFoundation extends Block {
 		this.block.onTick(
 				convertBlockState(state),
 				
-				pos, world
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);
 	}
 	
@@ -134,21 +127,21 @@ public class InternalBlockFoundation extends Block {
 		this.block.onRandomTick(
 				convertBlockState(state),
 				
-				pos, world, random
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, random
 		);
 	}
 	
 	@Override
 	public void stepOn(final World world, final BlockPos pos, final Entity entity) {
 		this.block.onEntityStepOnBlock(
-				pos, world, entity
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, entity
 		);
 	}
 	
 	@Override
 	public void fallOn(final World world, final BlockPos pos, final Entity entity, final float distance) {
 		this.block.onEntityFallOnBlock(
-				pos, world, entity, distance
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, entity, distance
 		);
 	}
 	
@@ -157,25 +150,25 @@ public class InternalBlockFoundation extends Block {
 		return this.block.onUsedByPlayer(
 				convertBlockState(state),
 				
-				pos, world, player
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, player
 		).getInternal();
 	}
 	
 	@Override
-	public void attack(final BlockState p_196270_1_, final World p_196270_2_, final BlockPos p_196270_3_, final PlayerEntity p_196270_4_) {
+	public void attack(final BlockState state, final World world, final BlockPos pos, final PlayerEntity plaer) {
 		this.block.onAttackedByPlayer(
-				convertBlockState(p_196270_1_),
+				convertBlockState(state),
 				
-				p_196270_3_, p_196270_2_, p_196270_4_
+				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, plaer
 		);
 	}
 	
 	@Override
-	public void onProjectileHit(final World p_220066_1_, final BlockState p_220066_2_, final BlockRayTraceResult p_220066_3_, final ProjectileEntity p_220066_4_) {
+	public void onProjectileHit(final World world, final BlockState state, final BlockRayTraceResult p_220066_3_, final ProjectileEntity projctile) {
 		this.block.onHitByProjectile(
-				convertBlockState(p_220066_2_),
+				convertBlockState(state),
 				
-				p_220066_1_, p_220066_4_
+				world, projctile
 		);
 	}
 	
@@ -190,7 +183,7 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public ItemStack getPickBlock(final BlockState state, final RayTraceResult target, final IBlockReader world, final BlockPos pos, final PlayerEntity player) {
 		return this.block.createPickBlockStack(
-				convertBlockState(state), pos, world
+				convertBlockState(state), new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);
 	}
 	
@@ -204,7 +197,7 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public INamedContainerProvider getMenuProvider(final BlockState state, final World world, final BlockPos pos) {
 		return this.block.createMenuProvider(
-				convertBlockState(state), pos, world
+				convertBlockState(state), new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);
 	}
 }

@@ -3,12 +3,13 @@ package dev.psygamer.wireframe.block;
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-import dev.psygamer.wireframe.block.util.BlockUtilityMethods;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
+import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.IFreezable;
 import dev.psygamer.wireframe.util.Identifier;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -16,14 +17,13 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
 
-public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
+public class BlockFoundation implements IFreezable {
 	
 	protected final InternalBlockFoundation internal;
 	
@@ -71,7 +71,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	public boolean onBlockPlaced(
 			final BlockPropertyContainer oldBlockState,
 			final BlockPropertyContainer newBlockState,
-			final BlockPos blockPosition, final World world
+			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
@@ -79,7 +79,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	public boolean onBlockPlacedByPlayer(
 			final BlockPropertyContainer oldBlockState,
 			final BlockPropertyContainer newBlockState,
-			final BlockPos blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
@@ -87,7 +87,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	public boolean onBlockRemoved(
 			final BlockPropertyContainer oldBlockState,
 			final BlockPropertyContainer newBlockState,
-			final BlockPos blockPosition, final World world
+			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
@@ -95,47 +95,47 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	public boolean onBlockRemovedByPlayer(
 			final BlockPropertyContainer oldBlockState,
 			final BlockPropertyContainer newBlockState,
-			final BlockPos blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
 	
 	public boolean onTick(
 			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world
+			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
 	
 	public boolean onRandomTick(
 			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world, final Random random
+			final BlockPosition blockPosition, final World world, final Random random
 	) {
 		return false;
 	}
 	
 	public boolean onEntityStepOnBlock(
-			final BlockPos blockPosition, final World world, final Entity entity
+			final BlockPosition blockPosition, final World world, final Entity entity
 	) {
 		return false;
 	}
 	
 	public boolean onEntityFallOnBlock(
-			final BlockPos blockPosition, final World world, final Entity entity, final float fallDistance
+			final BlockPosition blockPosition, final World world, final Entity entity, final float fallDistance
 	) {
 		return false;
 	}
 	
 	public ClickResult onUsedByPlayer(
 			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return ClickResult.PASS;
 	}
 	
 	public boolean onAttackedByPlayer(
 			final BlockPropertyContainer blockState,
-			final BlockPos blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
@@ -154,7 +154,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	}
 	
 	public ItemStack createPickBlockStack(
-			final BlockPropertyContainer blockState, final BlockPos pos, final IBlockReader world
+			final BlockPropertyContainer blockState, final BlockPosition pos, final IBlockReader world
 	) {
 		return null;
 	}
@@ -166,7 +166,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 	}
 	
 	public INamedContainerProvider createMenuProvider(
-			final BlockPropertyContainer blockState, final BlockPos pos, final World world
+			final BlockPropertyContainer blockState, final BlockPosition pos, final World world
 	) {
 		return null;
 	}
