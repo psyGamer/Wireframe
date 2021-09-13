@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.event;
+package dev.psygamer.wireframe.event.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

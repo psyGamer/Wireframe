@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.event;
 
+import dev.psygamer.wireframe.event.api.Event;
 import dev.psygamer.wireframe.event.api.IEventBus;
-import dev.psygamer.wireframe.event.api.IEventListener;
 
 import java.util.function.Consumer;
 
