@@ -15,14 +15,18 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-public abstract class EventBus implements IEventBus {
+public class EventBus implements IEventBus {
 	
 	private final Class<?> eventMarkerClass;
 	
 	private final ConcurrentSet<Object> registeredListeners = new ConcurrentSet<>();
 	private final ConcurrentHashMap<Class<? extends Event>, List<IEventListener>> listeners = new ConcurrentHashMap<>();
 	
-	protected EventBus(final Class<?> eventMarkerClass) {
+	public EventBus() {
+		this(Event.class);
+	}
+	
+	public EventBus(final Class<?> eventMarkerClass) {
 		this.eventMarkerClass = eventMarkerClass;
 	}
 	
