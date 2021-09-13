@@ -2,9 +2,9 @@ package dev.psygamer.wireframe.event;
 
 public interface IEventListener {
 	
-	void invoke(Event event);
+	void invoke(IEvent event);
 	
-	Event.Priority getPriority();
+	IEvent.Priority getPriority();
 	
-	EventBus getEventBus();
+	IEventBus getEventBus();
 }

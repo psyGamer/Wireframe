@@ -8,10 +8,10 @@ public class MethodEventListener implements IEventListener {
 	private final Object instance;
 	private final Method method;
 	
-	private final Event.Priority priority;
-	private final EventBus eventBus;
+	private final IEvent.Priority priority;
+	private final IEventBus eventBus;
 	
-	public MethodEventListener(final Object instance, final Method method, final Event.Priority priority, final EventBus eventBus) {
+	public MethodEventListener(final Object instance, final Method method, final IEvent.Priority priority, final IEventBus eventBus) {
 		this.instance = instance;
 		this.method = method;
 		
@@ -20,7 +20,7 @@ public class MethodEventListener implements IEventListener {
 	}
 	
 	@Override
-	public void invoke(final Event event) {
+	public void invoke(final IEvent event) {
 		try {
 			this.method.invoke(this.instance, this.method);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -29,12 +29,12 @@ public class MethodEventListener implements IEventListener {
 	}
 	
 	@Override
-	public Event.Priority getPriority() {
+	public IEvent.Priority getPriority() {
 		return this.priority;
 	}
 	
 	@Override
-	public EventBus getEventBus() {
+	public IEventBus getEventBus() {
 		return this.eventBus;
 	}
 }
