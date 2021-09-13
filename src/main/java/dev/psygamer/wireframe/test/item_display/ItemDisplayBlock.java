@@ -5,6 +5,7 @@ import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty;
 
+import dev.psygamer.wireframe.util.Identifier;
 import net.minecraft.block.material.Material;
 
 /*
@@ -19,9 +20,9 @@ public class ItemDisplayBlock extends BlockFoundation {
 	public static final DirectionBlockProperty FACING = new DirectionBlockProperty("facing");
 	
 	public ItemDisplayBlock() {
-		super("item_display",
+		super(new Identifier("test_mod", "item_display"),
 				
-				BlockAttributes.create(Material.WOOD)
+				new BlockAttributes(Material.WOOD)
 						.hardness(1.0f)
 						.blastResistance(1.0f)
 						.harvestLevel(HarvestLevel.STONE)
