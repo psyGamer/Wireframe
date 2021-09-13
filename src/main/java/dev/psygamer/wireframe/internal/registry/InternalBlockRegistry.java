@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.internal.registry;
 
+import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.event.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.BlockRegistry;
@@ -27,7 +28,7 @@ public class InternalBlockRegistry {
 				.forEach(block -> {
 					event.getRegistry().register(block.getInternal());
 					
-					WireframeCore.LOGGER.info(
+					Wireframe.LOGGER.info(
 							String.format("Successfully registered block %s:%s",
 									block.getNamespace().evaluate(),
 									block.getRegistryName()

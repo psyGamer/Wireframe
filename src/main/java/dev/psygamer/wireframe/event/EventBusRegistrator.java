@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.event;
 
+import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.core.WireframeCore;
 import dev.psygamer.wireframe.core.WireframePackages;
 
@@ -28,7 +29,7 @@ public class EventBusRegistrator {
 							.getModEventBus()
 							.register(clazz));
 					
-					WireframeCore.LOGGER.info("Added " + clazz + " to the mod event bus");
+					Wireframe.LOGGER.info("Added " + clazz + " to the mod event bus");
 				});
 	}
 	
@@ -36,8 +37,8 @@ public class EventBusRegistrator {
 		getEventClassStream()
 				.filter(clazz -> clazz.isAnnotationPresent(EventBusSubscriber.class))
 				.forEach(clazz -> {
-					WireframeCore.EVENT_BUS.register(clazz);
-					WireframeCore.LOGGER.info("Added " + clazz + " to the Wireframe event bus");
+					Wireframe.EVENT_BUS.register(clazz);
+					Wireframe.LOGGER.info("Added " + clazz + " to the Wireframe event bus");
 				});
 	}
 	
