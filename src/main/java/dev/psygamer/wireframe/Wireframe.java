@@ -33,12 +33,35 @@ public class Wireframe {
 	}
 	
 	public static class Mod {
-		private final String modID, modName, modVersion;
+		private final String modID, modName, modVersion, rootPackage;
+		private final EventBus modEventBus = new EventBus();
 		
 		protected Mod(final String modID, final String modName, final String modVersion) {
 			this.modID = modID;
 			this.modName = modName;
 			this.modVersion = modVersion;
+			
+			this.rootPackage = this.getClass().getPackage().getName();
+		}
+		
+		public String getModID() {
+			return this.modID;
+		}
+		
+		public String getModName() {
+			return this.modName;
+		}
+		
+		public String getModVersion() {
+			return this.modVersion;
+		}
+		
+		public String getRootPackage() {
+			return this.rootPackage;
+		}
+		
+		public EventBus getModEventBus() {
+			return this.modEventBus;
 		}
 	}
 	
