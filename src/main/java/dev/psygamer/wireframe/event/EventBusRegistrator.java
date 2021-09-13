@@ -1,21 +1,14 @@
 package dev.psygamer.wireframe.event;
 
 import dev.psygamer.wireframe.Wireframe;
-import dev.psygamer.wireframe.core.WireframeCore;
-import dev.psygamer.wireframe.core.WireframePackages;
-
-import dev.psygamer.wireframe.core.dependant.Dependant;
 
 import dev.psygamer.wireframe.event.api.EventBusSubscriber;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
+
 import dev.psygamer.wireframe.util.reflection.ClassUtil;
-import dev.psygamer.wireframe.util.reflection.FieldUtil;
 
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.javafmlmod.FMLModContainer;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class EventBusRegistrator {
@@ -24,8 +17,7 @@ public class EventBusRegistrator {
 		getEventClassStream()
 				.filter(clazz -> clazz.isAnnotationPresent(ModEventBusSubscriber.class))
 				.forEach(clazz -> {
-					Dependant.getDependants().forEach(dependant -> dependant
-							.getModLoadingContext()
+					Wireframe.getMods().forEach(mod -> mod
 							.getModEventBus()
 							.register(clazz));
 					
@@ -42,18 +34,12 @@ public class EventBusRegistrator {
 				});
 	}
 	
-	private static String getModID(final FMLJavaModLoadingContext modLoadingContext) {
-		return ((FMLModContainer) FieldUtil.getField(FMLJavaModLoadingContext.class, modLoadingContext, "container"))
-				.getModId();
-	}
-	
 	private static Stream<Class<?>> getEventClassStream() {
+		final List<Class<?>> classes = new ArrayList<>(
+				ClassUtil.getClasses(Wireframe.class.getPackage().getName())
+		);
 		
-		final List<Class<?>> classes = new ArrayList<>(ClassUtil.getClasses(WireframePackages.WIREFRAME_PACKAGE));
-		
-		for (final Dependant<?> dependant : Dependant.getDependants()) {
-			classes.addAll(ClassUtil.getClasses(dependant.getRootPackage()));
-		}
+		Wireframe.getMods().forEach(mod -> classes.addAll(ClassUtil.getClasses(mod.getRootPackage())));
 		
 		return classes.stream();
 	}
