@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
 import dev.psygamer.wireframe.item.util.IItemEvents;
+import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.Identifier;
 
 public class ItemFoundation implements IItemEvents {
@@ -17,6 +18,8 @@ public class ItemFoundation implements IItemEvents {
 		this.attributes = attributes;
 		
 		this.internal = new InternalItemFoundation(this, attributes);
+		
+		ItemRegistry.register(this);
 	}
 	
 	public Identifier getIdentifier() {

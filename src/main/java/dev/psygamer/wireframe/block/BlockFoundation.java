@@ -1,11 +1,11 @@
 package dev.psygamer.wireframe.block;
 
-import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
 import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.block.util.BlockUtilityMethods;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
+import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.IFreezable;
 import dev.psygamer.wireframe.util.Identifier;
 
@@ -28,7 +28,7 @@ public class BlockFoundation extends BlockUtilityMethods implements IFreezable {
 		
 		this.internal = new InternalBlockFoundation(this, attributes);
 		
-		Wireframe.EVENT_BUS.register(this);
+		BlockRegistry.register(this);
 	}
 	
 	public Identifier getIdentifier() {
