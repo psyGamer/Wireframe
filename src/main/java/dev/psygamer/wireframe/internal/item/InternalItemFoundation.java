@@ -5,6 +5,7 @@ import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemFoundation;
 import dev.psygamer.wireframe.util.BlockPosition;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,22 +17,36 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InternalItemFoundation extends Item {
+	private static final Map<Item, ItemFoundation> cachedItems = new HashMap<>();
+	
 	private final ItemFoundation item;
 	
 	public InternalItemFoundation(final ItemFoundation item, final ItemAttributes attributes) {
 		super(attributes.getInternal().createProperties());
 		
 		this.item = item;
+		this.setRegistryName(item.getIdentifier().getNamespace(), item.getIdentifier().getPath());
 		
-		setRegistryName(item.getIdentifier().getNamespace(), item.getIdentifier().getPath());
+		cachedItems.put(this, item);
+	}
+	
+	public static ItemFoundation convertItem(final Item item) {
+		return cachedItems.get(item);
 	}
 	
 	/* Item Events */
 	
 	@Override
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
-		return this.item.onItemUsed(player.getItemInHand(hand), world, player, hand).toInternal();
+		final ActionResult<dev.psygamer.wireframe.item.ItemStack> result = this.item.onItemUsed(
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)), world, player, hand
+		).toInternal();
+		
+		return new ActionResult<>(result.getResult(), result.getObject().toInternal());
 	}
 	
 	@Override
@@ -42,7 +57,7 @@ public class InternalItemFoundation extends Item {
 	@Override
 	public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
 		return this.item.onItemUsedOnEntity(
-				player.getItemInHand(hand), player.level, player, entity, hand
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)), player.level, player, entity, hand
 		).getInternal();
 	}
 	
@@ -53,14 +68,14 @@ public class InternalItemFoundation extends Item {
 		);
 		
 		return this.item.onBlockMined(
-				itemStack, propertyContainer, new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, entity
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(itemStack), propertyContainer, new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world, entity
 		);
 	}
 	
 	@Override
 	public void onCraftedBy(final ItemStack itemStack, final World world, final PlayerEntity player) {
 		this.item.onItemCrafted(
-				itemStack, world, player
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(itemStack), world, player
 		);
 	}
 }

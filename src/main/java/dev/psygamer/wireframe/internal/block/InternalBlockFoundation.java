@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @SuppressWarnings("deprecation")
 public class InternalBlockFoundation extends Block {
 	
-	private static final Map<Block, BlockFoundation> compiledBlocks = new HashMap<>();
+	private static final Map<Block, BlockFoundation> cachedBlocks = new HashMap<>();
 	
 	private final BlockFoundation block;
 	
@@ -39,14 +39,13 @@ public class InternalBlockFoundation extends Block {
 		super(attributes.getInternal().createProperties());
 		
 		this.block = block;
-		
 		this.setRegistryName(block.getIdentifier().getNamespace(), block.getIdentifier().getPath());
 		
-		compiledBlocks.put(this, block);
+		cachedBlocks.put(this, block);
 	}
 	
 	public static BlockFoundation convertBlock(final Block block) {
-		return compiledBlocks.get(block);
+		return cachedBlocks.get(block);
 	}
 	
 	public static BlockState convertBlockState(final BlockFoundation block, final net.minecraft.block.BlockState blockState) {
