@@ -3,18 +3,18 @@ package dev.psygamer.wireframe.block.state;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
 import dev.psygamer.wireframe.util.ICloneable;
-import dev.psygamer.wireframe.util.IFreezable;
-import dev.psygamer.wireframe.util.collection.FreezableSet;
-import dev.psygamer.wireframe.util.collection.FreezableLinkedHashSet;
 
 import com.google.common.collect.ImmutableSet;
 
-public class BlockState implements IFreezable, ICloneable<BlockState> {
+import java.util.HashSet;
+import java.util.Set;
+
+public class BlockState implements ICloneable<BlockState> {
 	
-	private final FreezableSet<BlockProperty.ValuePair<?>> values;
+	private final Set<BlockProperty.ValuePair<?>> values;
 	
 	public BlockState() {
-		this.values = new FreezableLinkedHashSet<>();
+		this.values = new HashSet<>();
 	}
 	
 	public BlockState(final BlockState baseContainer) {
@@ -49,18 +49,7 @@ public class BlockState implements IFreezable, ICloneable<BlockState> {
 	}
 	
 	public ImmutableSet<BlockProperty.ValuePair<?>> getValuePairs() {
-		return this.values.toImmutable();
-	}
-	
-	@Override
-	public void freeze() {
-		this.values.forEach(BlockProperty.ValuePair::freeze);
-		this.values.freeze();
-	}
-	
-	@Override
-	public boolean isFrozen() {
-		return this.values.isFrozen();
+		return ImmutableSet.copyOf(this.values);
 	}
 	
 	@Override
