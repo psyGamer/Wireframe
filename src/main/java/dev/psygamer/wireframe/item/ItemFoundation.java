@@ -2,6 +2,8 @@ package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
+import dev.psygamer.wireframe.item.util.ClickResult;
+import dev.psygamer.wireframe.item.util.ClickResultContainer;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
