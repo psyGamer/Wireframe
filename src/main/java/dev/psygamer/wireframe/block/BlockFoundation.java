@@ -6,7 +6,6 @@ import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
-import dev.psygamer.wireframe.util.IFreezable;
 import dev.psygamer.wireframe.util.Identifier;
 
 import net.minecraft.entity.Entity;
@@ -22,7 +21,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class BlockFoundation implements IFreezable {
+public class BlockFoundation {
 	
 	protected final InternalBlockFoundation internal;
 	
@@ -166,15 +165,5 @@ public class BlockFoundation implements IFreezable {
 			final BlockState blockState, final BlockPosition pos, final World world
 	) {
 		return null;
-	}
-	
-	@Override
-	public void freeze() {
-		this.defaultBlockState.freeze();
-	}
-	
-	@Override
-	public boolean isFrozen() {
-		return this.defaultBlockState.isFrozen();
 	}
 }
