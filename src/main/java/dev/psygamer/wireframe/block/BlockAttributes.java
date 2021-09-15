@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.block;
 
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.internal.block.InternalBlockAttributes;
-import dev.psygamer.wireframe.util.ICloneable;
+import dev.psygamer.wireframe.util.helper.ICloneable;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.block.SoundType;

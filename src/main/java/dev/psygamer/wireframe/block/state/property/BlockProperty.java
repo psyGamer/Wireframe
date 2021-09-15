@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.block.state.property;
 
-import dev.psygamer.wireframe.util.ICloneable;
+import dev.psygamer.wireframe.util.helper.ICloneable;
 
 import com.google.common.collect.ImmutableList;
 

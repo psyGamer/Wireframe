@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.collection;
 
-import dev.psygamer.wireframe.util.ICloneable;
-import dev.psygamer.wireframe.util.IFreezable;
+import dev.psygamer.wireframe.util.helper.ICloneable;
+import dev.psygamer.wireframe.util.helper.IFreezable;
 
 import com.google.common.collect.ImmutableSet;
 
