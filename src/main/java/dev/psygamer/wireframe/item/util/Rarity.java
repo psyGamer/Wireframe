@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.item;
+package dev.psygamer.wireframe.item.util;
 
 public enum Rarity {
 	
