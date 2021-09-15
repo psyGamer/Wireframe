@@ -11,39 +11,28 @@ import com.google.common.collect.ImmutableSet;
 
 public class BlockState implements IFreezable, ICloneable<BlockState> {
 	
-	private final BlockPropertySet propertySet;
 	private final FreezableSet<BlockProperty.ValuePair<?>> values;
 	
-	public BlockState(final BlockPropertySet propertySet) {
+	public BlockState() {
 		this.values = new FreezableLinkedHashSet<>();
-		this.propertySet = propertySet;
-		
-		propertySet.getProperties().forEach(property -> this.values.add(new BlockProperty.ValuePair<>(property)));
 	}
 	
 	public BlockState(final BlockState baseContainer) {
 		this.values = baseContainer.values;
-		this.propertySet = baseContainer.propertySet;
 	}
 	
 	public <T> BlockState withValue(final BlockProperty<T> blockProperty, final T value) {
-		return this.propertySet.getPossibleContainers().get(this.propertySet.getProperties().stream()
-				.map(property -> {
-					if (property == blockProperty)
-						return new BlockProperty.ValuePair<>(blockProperty, value);
-					
-					return getValuePair(property);
-				})
-				.mapToInt(BlockProperty.ValuePair::getValueIndex)
-				.reduce(0, (subtotal, current) -> subtotal * (current + 1)));
+		return copy().setProperty(blockProperty, value);
 	}
 	
 	public <T> BlockState withObjectValue(final BlockProperty<?> blockProperty, final Object value) {
 		return withValue((BlockProperty<? super T>) blockProperty, (T) value);
 	}
 	
-	public <T> void setProperty(final BlockProperty<T> property, final T value) {
+	public <T> BlockState setProperty(final BlockProperty<T> property, final T value) {
 		this.values.add(new BlockProperty.ValuePair<>(property, value));
+		
+		return this;
 	}
 	
 	public <T> BlockProperty.ValuePair<T> getValuePair(final BlockProperty<T> property) {
@@ -61,17 +50,6 @@ public class BlockState implements IFreezable, ICloneable<BlockState> {
 	
 	public ImmutableSet<BlockProperty.ValuePair<?>> getValuePairs() {
 		return this.values.toImmutable();
-	}
-	
-	public BlockPropertySet getPropertySet() {
-		return this.propertySet;
-	}
-	
-	public int getIndex() {
-		return this.propertySet.getProperties().stream()
-				.map(this::getValuePair)
-				.mapToInt(BlockProperty.ValuePair::getValueIndex)
-				.reduce(0, (subtotal, current) -> subtotal * (current + 1));
 	}
 	
 	@Override
