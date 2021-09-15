@@ -2,11 +2,10 @@ package dev.psygamer.wireframe.internal.block;
 
 import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.BlockFoundation;
-import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.util.BlockPosition;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,8 +49,8 @@ public class InternalBlockFoundation extends Block {
 		return compiledBlocks.get(block);
 	}
 	
-	public static BlockPropertyContainer convertBlockState(final BlockFoundation block, final BlockState blockState) {
-		final AtomicReference<BlockPropertyContainer> propertyContainerReference = new AtomicReference<>(
+	public static BlockState convertBlockState(final BlockFoundation block, final net.minecraft.block.BlockState blockState) {
+		final AtomicReference<BlockState> blockStateReference = new AtomicReference<>(
 				block.getDefaultBlockPropertyContainer()
 		);
 		
@@ -59,20 +58,20 @@ public class InternalBlockFoundation extends Block {
 			final BlockProperty<?> blockProperty = InternalBlockProperty.getCachedBlockProperty(property);
 			final Object value = blockState.getValue(property);
 			
-			propertyContainerReference.set(propertyContainerReference.get().withObjectValue(blockProperty, value));
+			blockStateReference.set(blockStateReference.get().withObjectValue(blockProperty, value));
 		});
 		
-		return propertyContainerReference.get();
+		return blockStateReference.get();
 	}
 	
-	private BlockPropertyContainer convertBlockState(final BlockState blockState) {
+	private BlockState convertBlockState(final net.minecraft.block.BlockState blockState) {
 		return convertBlockState(this.block, blockState);
 	}
 	
 	/* Block Events */
 	
 	@Override
-	public void onPlace(final BlockState newBlockState, final World world, final BlockPos pos, final BlockState oldBlockState, final boolean isMoving) {
+	public void onPlace(final net.minecraft.block.BlockState newBlockState, final World world, final BlockPos pos, final net.minecraft.block.BlockState oldBlockState, final boolean isMoving) {
 		this.block.onBlockPlaced(
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
@@ -82,7 +81,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void setPlacedBy(final World world, final BlockPos pos, final BlockState blockState, @Nullable final LivingEntity placer, final ItemStack itemStack) {
+	public void setPlacedBy(final World world, final BlockPos pos, final net.minecraft.block.BlockState blockState, @Nullable final LivingEntity placer, final ItemStack itemStack) {
 		if (placer instanceof PlayerEntity) {
 			this.block.onBlockPlacedByPlayer(
 					convertBlockState(blockState),
@@ -94,7 +93,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void onRemove(final BlockState newBlockState, final World world, final BlockPos pos, final BlockState oldBlockState, final boolean isMoving) {
+	public void onRemove(final net.minecraft.block.BlockState newBlockState, final World world, final BlockPos pos, final net.minecraft.block.BlockState oldBlockState, final boolean isMoving) {
 		this.block.onBlockRemoved(
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
@@ -104,7 +103,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public boolean removedByPlayer(final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final boolean willHarvest, final FluidState fluid) {
+	public boolean removedByPlayer(final net.minecraft.block.BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final boolean willHarvest, final FluidState fluid) {
 		return this.block.onBlockRemovedByPlayer(
 				convertBlockState(state),
 				convertBlockState(state),
@@ -114,7 +113,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void tick(final BlockState state, final ServerWorld world, final BlockPos pos, final Random random) {
+	public void tick(final net.minecraft.block.BlockState state, final ServerWorld world, final BlockPos pos, final Random random) {
 		this.block.onTick(
 				convertBlockState(state),
 				
@@ -123,7 +122,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void randomTick(final BlockState state, final ServerWorld world, final BlockPos pos, final Random random) {
+	public void randomTick(final net.minecraft.block.BlockState state, final ServerWorld world, final BlockPos pos, final Random random) {
 		this.block.onRandomTick(
 				convertBlockState(state),
 				
@@ -146,7 +145,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public ActionResultType use(final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand, final BlockRayTraceResult p_225533_6_) {
+	public ActionResultType use(final net.minecraft.block.BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand, final BlockRayTraceResult p_225533_6_) {
 		return this.block.onUsedByPlayer(
 				convertBlockState(state),
 				
@@ -155,7 +154,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void attack(final BlockState state, final World world, final BlockPos pos, final PlayerEntity plaer) {
+	public void attack(final net.minecraft.block.BlockState state, final World world, final BlockPos pos, final PlayerEntity plaer) {
 		this.block.onAttackedByPlayer(
 				convertBlockState(state),
 				
@@ -164,7 +163,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void onProjectileHit(final World world, final BlockState state, final BlockRayTraceResult p_220066_3_, final ProjectileEntity projctile) {
+	public void onProjectileHit(final World world, final net.minecraft.block.BlockState state, final BlockRayTraceResult p_220066_3_, final ProjectileEntity projctile) {
 		this.block.onHitByProjectile(
 				convertBlockState(state),
 				
@@ -174,28 +173,28 @@ public class InternalBlockFoundation extends Block {
 	
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
+	public TileEntity createTileEntity(final net.minecraft.block.BlockState state, final IBlockReader world) {
 		return this.block.createBlockEntity(
 				convertBlockState(state), world
 		);
 	}
 	
 	@Override
-	public ItemStack getPickBlock(final BlockState state, final RayTraceResult target, final IBlockReader world, final BlockPos pos, final PlayerEntity player) {
+	public ItemStack getPickBlock(final net.minecraft.block.BlockState state, final RayTraceResult target, final IBlockReader world, final BlockPos pos, final PlayerEntity player) {
 		return this.block.createPickBlockStack(
 				convertBlockState(state), new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);
 	}
 	
 	@Override
-	public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
+	public List<ItemStack> getDrops(final net.minecraft.block.BlockState state, final LootContext.Builder builder) {
 		return this.block.createBlockDrops(
 				convertBlockState(state), builder
 		);
 	}
 	
 	@Override
-	public INamedContainerProvider getMenuProvider(final BlockState state, final World world, final BlockPos pos) {
+	public INamedContainerProvider getMenuProvider(final net.minecraft.block.BlockState state, final World world, final BlockPos pos) {
 		return this.block.createMenuProvider(
 				convertBlockState(state), new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
 		);

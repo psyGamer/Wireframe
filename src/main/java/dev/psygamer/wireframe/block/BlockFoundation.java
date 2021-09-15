@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.block;
 
-import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
@@ -31,14 +31,14 @@ public class BlockFoundation implements IFreezable {
 	
 	protected final BlockAttributes attributes;
 	protected final BlockPropertySet propertySet;
-	protected final BlockPropertyContainer defaultPropertyContainer;
+	protected final BlockState defaultPropertyContainer;
 	
 	public BlockFoundation(final Identifier identifier, final BlockAttributes attributes) {
 		this.identifier = identifier;
 		this.attributes = attributes;
 		
 		this.propertySet = new BlockPropertySet();
-		this.defaultPropertyContainer = new BlockPropertyContainer(this.propertySet);
+		this.defaultPropertyContainer = new BlockState(this.propertySet);
 		
 		this.internal = new InternalBlockFoundation(this, attributes);
 		
@@ -53,7 +53,7 @@ public class BlockFoundation implements IFreezable {
 		return this.attributes;
 	}
 	
-	public BlockPropertyContainer getDefaultBlockPropertyContainer() {
+	public BlockState getDefaultBlockPropertyContainer() {
 		return this.defaultPropertyContainer.copy();
 	}
 	
@@ -69,46 +69,46 @@ public class BlockFoundation implements IFreezable {
 	}
 	
 	public boolean onBlockPlaced(
-			final BlockPropertyContainer oldBlockState,
-			final BlockPropertyContainer newBlockState,
+			final BlockState oldBlockState,
+			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
 	
 	public boolean onBlockPlacedByPlayer(
-			final BlockPropertyContainer oldBlockState,
-			final BlockPropertyContainer newBlockState,
+			final BlockState oldBlockState,
+			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
 	
 	public boolean onBlockRemoved(
-			final BlockPropertyContainer oldBlockState,
-			final BlockPropertyContainer newBlockState,
+			final BlockState oldBlockState,
+			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
 	
 	public boolean onBlockRemovedByPlayer(
-			final BlockPropertyContainer oldBlockState,
-			final BlockPropertyContainer newBlockState,
+			final BlockState oldBlockState,
+			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
 	
 	public boolean onTick(
-			final BlockPropertyContainer blockState,
+			final BlockState blockState,
 			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
 	
 	public boolean onRandomTick(
-			final BlockPropertyContainer blockState,
+			final BlockState blockState,
 			final BlockPosition blockPosition, final World world, final Random random
 	) {
 		return false;
@@ -127,46 +127,46 @@ public class BlockFoundation implements IFreezable {
 	}
 	
 	public ClickResult onUsedByPlayer(
-			final BlockPropertyContainer blockState,
+			final BlockState blockState,
 			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return ClickResult.PASS;
 	}
 	
 	public boolean onAttackedByPlayer(
-			final BlockPropertyContainer blockState,
+			final BlockState blockState,
 			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
 	
 	public boolean onHitByProjectile(
-			final BlockPropertyContainer blockState,
+			final BlockState blockState,
 			final World world, final ProjectileEntity projectile
 	) {
 		return false;
 	}
 	
 	public TileEntity createBlockEntity(
-			final BlockPropertyContainer blockState, final IBlockReader world
+			final BlockState blockState, final IBlockReader world
 	) {
 		return null;
 	}
 	
 	public ItemStack createPickBlockStack(
-			final BlockPropertyContainer blockState, final BlockPosition pos, final IBlockReader world
+			final BlockState blockState, final BlockPosition pos, final IBlockReader world
 	) {
 		return null;
 	}
 	
 	public List<ItemStack> createBlockDrops(
-			final BlockPropertyContainer blockState, final LootContext.Builder lootContextBuilder
+			final BlockState blockState, final LootContext.Builder lootContextBuilder
 	) {
 		return null;
 	}
 	
 	public INamedContainerProvider createMenuProvider(
-			final BlockPropertyContainer blockState, final BlockPosition pos, final World world
+			final BlockState blockState, final BlockPosition pos, final World world
 	) {
 		return null;
 	}

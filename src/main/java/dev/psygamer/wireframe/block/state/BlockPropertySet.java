@@ -18,7 +18,7 @@ import java.util.List;
 public class BlockPropertySet implements IFreezable {
 	
 	private final FreezableSet<BlockProperty<?>> properties;
-	private final FreezableList<BlockPropertyContainer> propertyContainers;
+	private final FreezableList<BlockState> propertyContainers;
 	
 	public BlockPropertySet() {
 		this.properties = new FreezableLinkedHashSet<>();
@@ -34,11 +34,11 @@ public class BlockPropertySet implements IFreezable {
 				.mapToInt(prop -> prop.getPossibleValues().size())
 				.reduce(0, Integer::sum);
 		
-		final BlockPropertyContainer[] compiledContainers = new BlockPropertyContainer[totalSize];
+		final BlockState[] compiledContainers = new BlockState[totalSize];
 		
 		compileRecursively(
 				new ArrayList<>(this.properties),
-				new BlockPropertyContainer(this),
+				new BlockState(this),
 				
 				compiledContainers
 		);
@@ -46,11 +46,11 @@ public class BlockPropertySet implements IFreezable {
 		this.propertyContainers.clear();
 		this.propertyContainers.addAll(Arrays.asList(compiledContainers));
 		
-		this.propertyContainers.forEach(BlockPropertyContainer::freeze);
+		this.propertyContainers.forEach(BlockState::freeze);
 		this.propertyContainers.freeze();
 	}
 	
-	private void compileRecursively(final List<BlockProperty<?>> propertiesLeft, final BlockPropertyContainer propertyContainer, final BlockPropertyContainer[] compiledContainers) {
+	private void compileRecursively(final List<BlockProperty<?>> propertiesLeft, final BlockState propertyContainer, final BlockState[] compiledContainers) {
 		if (propertiesLeft.isEmpty()) {
 			compiledContainers[propertyContainer.getIndex()] = propertyContainer;
 			
@@ -62,7 +62,7 @@ public class BlockPropertySet implements IFreezable {
 		propertiesLeft.remove(currentProperty);
 		
 		currentProperty.getPossibleValues().forEach(value -> {
-			final BlockPropertyContainer propertyContainerCopy = propertyContainer.copy();
+			final BlockState propertyContainerCopy = propertyContainer.copy();
 			
 			propertyContainerCopy.getValuePair(currentProperty).setObjectValue(value);
 			compileRecursively(new ArrayList<>(this.properties), propertyContainerCopy, compiledContainers);
@@ -73,7 +73,7 @@ public class BlockPropertySet implements IFreezable {
 		return new ArrayList<>(this.properties).indexOf(property);
 	}
 	
-	public ImmutableList<BlockPropertyContainer> getPossibleContainers() {
+	public ImmutableList<BlockState> getPossibleContainers() {
 		return this.propertyContainers.toImmutable();
 	}
 	
@@ -86,7 +86,7 @@ public class BlockPropertySet implements IFreezable {
 		if (!this.propertyContainers.isFrozen()) {
 			compilePropertyContainers();
 			
-			this.propertyContainers.forEach(BlockPropertyContainer::freeze);
+			this.propertyContainers.forEach(BlockState::freeze);
 			this.propertyContainers.freeze();
 		}
 		
