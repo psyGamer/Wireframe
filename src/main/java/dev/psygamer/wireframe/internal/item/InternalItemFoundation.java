@@ -15,16 +15,34 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.animation.TimeValues;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InternalItemFoundation extends Item {
 	private static final Map<Item, ItemFoundation> cachedItems = new HashMap<>();
 	
+	private static final Field hitResultField;
+	
+	static {
+		Field tmp;
+		
+		try {
+			tmp = ItemUseContext.class.getDeclaredField("hitResult");
+		} catch (final NoSuchFieldException ignored) {
+			tmp = null;
+		}
+		
+		hitResultField = tmp;
+	} // TODO Use AT or extend ItemUseContext
+	
 	private final ItemFoundation item;
+	
+	/* Item Events */
 	
 	public InternalItemFoundation(final ItemFoundation item, final ItemAttributes attributes) {
 		super(attributes.getInternal().createProperties());
@@ -39,8 +57,6 @@ public class InternalItemFoundation extends Item {
 		return cachedItems.get(item);
 	}
 	
-	/* Item Events */
-	
 	@Override
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
 		final ActionResult<dev.psygamer.wireframe.item.ItemStack> result = this.item.onItemUsed(
@@ -53,8 +69,17 @@ public class InternalItemFoundation extends Item {
 	
 	@Override
 	public ActionResultType useOn(final ItemUseContext context) {
-		return this.item.onItemUsedOnBlock(context).getInternal();
-	}
+		try {
+			return this.item.onItemUsedOnBlock(
+					dev.psygamer.wireframe.item.ItemStack.fromInternal(context.getItemInHand()),
+					context.getLevel(), context.getPlayer(),
+					dev.psygamer.wireframe.item.util.Hand.fromInternal(context.getHand()),
+					(BlockRayTraceResult) hitResultField.get(context)
+			).getInternal();
+		} catch (final IllegalAccessException e) {
+			return ActionResultType.PASS;
+		}
+	} // TODO improve this mess
 	
 	@Override
 	public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
