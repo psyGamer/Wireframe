@@ -1,18 +1,19 @@
 package dev.psygamer.wireframe.block.state.property;
 
+import dev.psygamer.wireframe.util.collection.FreezableMap;
+import dev.psygamer.wireframe.util.collection.FreezableLinkedHashMap;
+import dev.psygamer.wireframe.util.helper.IFreezable;
 import dev.psygamer.wireframe.util.helper.ICloneable;
 
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-public class BlockProperty <T> {
+public class BlockProperty <T> implements IFreezable {
 	
 	protected final String propertyName;
-	protected final Map<String, T> entries;
+	protected final FreezableMap<String, T> entries;
 	
 	protected T defaultValue;
 	
@@ -20,7 +21,7 @@ public class BlockProperty <T> {
 		Objects.requireNonNull(propertyName, "The property name may not be null");
 		
 		this.propertyName = propertyName;
-		this.entries = new HashMap<>();
+		this.entries = new FreezableLinkedHashMap<>();
 	}
 	
 	public String getPropertyName() {
@@ -69,6 +70,16 @@ public class BlockProperty <T> {
 	
 	public int getValueIndex(final T value) {
 		return new ArrayList<>(this.entries.values()).indexOf(value);
+	}
+	
+	@Override
+	public void freeze() {
+		this.entries.freeze();
+	}
+	
+	@Override
+	public boolean isFrozen() {
+		return this.entries.isFrozen();
 	}
 	
 	public static final class ValuePair <T> implements ICloneable<ValuePair<T>> {
