@@ -10,7 +10,6 @@ import dev.psygamer.wireframe.util.Identifier;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -36,7 +35,7 @@ public class ItemFoundation {
 			final ItemStack usedItemStack,
 			final World world, final PlayerEntity player, final Hand hand
 	) {
-		return ClickResultContainer.pass(player.getItemInHand(hand));
+		return ClickResultContainer.pass(ItemStack.fromInternal(player.getItemInHand(hand)));
 	}
 	
 	public ClickResult onItemUsedOnBlock(
