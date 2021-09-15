@@ -9,24 +9,24 @@ import dev.psygamer.wireframe.util.collection.FreezableLinkedHashSet;
 
 import com.google.common.collect.ImmutableSet;
 
-public class BlockPropertyContainer implements IFreezable, ICloneable<BlockPropertyContainer> {
+public class BlockState implements IFreezable, ICloneable<BlockState> {
 	
 	private final BlockPropertySet propertySet;
 	private final FreezableSet<BlockProperty.ValuePair<?>> values;
 	
-	public BlockPropertyContainer(final BlockPropertySet propertySet) {
+	public BlockState(final BlockPropertySet propertySet) {
 		this.values = new FreezableLinkedHashSet<>();
 		this.propertySet = propertySet;
 		
 		propertySet.getProperties().forEach(property -> this.values.add(new BlockProperty.ValuePair<>(property)));
 	}
 	
-	public BlockPropertyContainer(final BlockPropertyContainer baseContainer) {
+	public BlockState(final BlockState baseContainer) {
 		this.values = baseContainer.values;
 		this.propertySet = baseContainer.propertySet;
 	}
 	
-	public <T> BlockPropertyContainer withValue(final BlockProperty<T> blockProperty, final T value) {
+	public <T> BlockState withValue(final BlockProperty<T> blockProperty, final T value) {
 		return this.propertySet.getPossibleContainers().get(this.propertySet.getProperties().stream()
 				.map(property -> {
 					if (property == blockProperty)
@@ -38,7 +38,7 @@ public class BlockPropertyContainer implements IFreezable, ICloneable<BlockPrope
 				.reduce(0, (subtotal, current) -> subtotal * (current + 1)));
 	}
 	
-	public <T> BlockPropertyContainer withObjectValue(final BlockProperty<?> blockProperty, final Object value) {
+	public <T> BlockState withObjectValue(final BlockProperty<?> blockProperty, final Object value) {
 		return withValue((BlockProperty<? super T>) blockProperty, (T) value);
 	}
 	
@@ -86,7 +86,7 @@ public class BlockPropertyContainer implements IFreezable, ICloneable<BlockPrope
 	}
 	
 	@Override
-	public BlockPropertyContainer copy() {
-		return new BlockPropertyContainer(this);
+	public BlockState copy() {
+		return new BlockState(this);
 	}
 }

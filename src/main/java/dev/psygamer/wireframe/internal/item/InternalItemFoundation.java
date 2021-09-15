@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.internal.item;
 
-import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemFoundation;
@@ -47,8 +47,8 @@ public class InternalItemFoundation extends Item {
 	}
 	
 	@Override
-	public boolean mineBlock(final ItemStack itemStack, final World world, final BlockState state, final BlockPos pos, final LivingEntity entity) {
-		final BlockPropertyContainer propertyContainer = InternalBlockFoundation.convertBlockState(
+	public boolean mineBlock(final ItemStack itemStack, final World world, final net.minecraft.block.BlockState state, final BlockPos pos, final LivingEntity entity) {
+		final BlockState propertyContainer = InternalBlockFoundation.convertBlockState(
 				InternalBlockFoundation.convertBlock(state.getBlock()), state
 		);
 		

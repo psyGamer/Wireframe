@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.item;
 
-import dev.psygamer.wireframe.block.state.BlockPropertyContainer;
+import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
@@ -59,7 +59,7 @@ public class ItemFoundation {
 	
 	public boolean onBlockMined(
 			final ItemStack usedItemStack,
-			final BlockPropertyContainer blockState,
+			final BlockState blockState,
 			final BlockPosition blockPosition, final World world, final LivingEntity entity
 	) {
 		return false;
