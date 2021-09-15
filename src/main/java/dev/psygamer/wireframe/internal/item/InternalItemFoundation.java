@@ -16,6 +16,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.animation.TimeValues;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,8 @@ public class InternalItemFoundation extends Item {
 	@Override
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
 		final ActionResult<dev.psygamer.wireframe.item.ItemStack> result = this.item.onItemUsed(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)), world, player, hand
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)), world, player,
+				dev.psygamer.wireframe.item.util.Hand.fromInternal(hand)
 		).toInternal();
 		
 		return new ActionResult<>(result.getResult(), result.getObject().toInternal());
@@ -57,7 +59,8 @@ public class InternalItemFoundation extends Item {
 	@Override
 	public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
 		return this.item.onItemUsedOnEntity(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)), player.level, player, entity, hand
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)), player.level, player, entity,
+				dev.psygamer.wireframe.item.util.Hand.fromInternal(hand)
 		).getInternal();
 	}
 	

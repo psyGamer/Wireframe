@@ -4,6 +4,7 @@ import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.ClickResultContainer;
+import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
@@ -11,7 +12,6 @@ import dev.psygamer.wireframe.util.Identifier;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class ItemFoundation {
@@ -35,7 +35,7 @@ public class ItemFoundation {
 			final ItemStack usedItemStack,
 			final World world, final PlayerEntity player, final Hand hand
 	) {
-		return ClickResultContainer.pass(ItemStack.fromInternal(player.getItemInHand(hand)));
+		return ClickResultContainer.pass(ItemStack.fromInternal(player.getItemInHand(hand.getInternal())));
 	}
 	
 	public ClickResult onItemUsedOnBlock(
