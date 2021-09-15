@@ -28,7 +28,7 @@ public class ItemDisplayBlock extends BlockFoundation {
 						.harvestLevel(HarvestLevel.STONE)
 		);
 		
-		registerBlockStateProperty(FACING);
+		registerBlockProperty(FACING);
 	}
 	
 	

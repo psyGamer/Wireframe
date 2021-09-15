@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.block;
 
 import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.block.state.BlockPropertySet;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ClickResult;
@@ -30,15 +29,13 @@ public class BlockFoundation implements IFreezable {
 	protected final Identifier identifier;
 	
 	protected final BlockAttributes attributes;
-	protected final BlockPropertySet propertySet;
-	protected final BlockState defaultPropertyContainer;
+	protected final BlockState defaultBlockState;
 	
 	public BlockFoundation(final Identifier identifier, final BlockAttributes attributes) {
 		this.identifier = identifier;
 		this.attributes = attributes;
 		
-		this.propertySet = new BlockPropertySet();
-		this.defaultPropertyContainer = new BlockState(this.propertySet);
+		this.defaultBlockState = new BlockState();
 		
 		this.internal = new InternalBlockFoundation(this, attributes);
 		
@@ -53,15 +50,15 @@ public class BlockFoundation implements IFreezable {
 		return this.attributes;
 	}
 	
-	public BlockState getDefaultBlockPropertyContainer() {
-		return this.defaultPropertyContainer.copy();
+	public BlockState getDefaultBlockState() {
+		return this.defaultBlockState.copy();
 	}
 	
-	protected <T> void registerBlockStateProperty(final BlockProperty<T> property) {
-		if (this.defaultPropertyContainer.containsProperty(property))
+	protected <T> void registerBlockProperty(final BlockProperty<T> property) {
+		if (this.defaultBlockState.containsProperty(property))
 			return;
 		
-		this.defaultPropertyContainer.setProperty(property, property.getDefaultValue());
+		this.defaultBlockState.setProperty(property, property.getDefaultValue());
 	}
 	
 	public InternalBlockFoundation getInternal() {
@@ -173,12 +170,11 @@ public class BlockFoundation implements IFreezable {
 	
 	@Override
 	public void freeze() {
-		this.propertySet.freeze();
-		this.defaultPropertyContainer.freeze();
+		this.defaultBlockState.freeze();
 	}
 	
 	@Override
 	public boolean isFrozen() {
-		return this.propertySet.isFrozen() || this.defaultPropertyContainer.isFrozen();
+		return this.defaultBlockState.isFrozen();
 	}
 }

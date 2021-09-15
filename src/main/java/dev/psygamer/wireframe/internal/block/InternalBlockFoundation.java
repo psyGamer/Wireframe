@@ -51,7 +51,7 @@ public class InternalBlockFoundation extends Block {
 	
 	public static BlockState convertBlockState(final BlockFoundation block, final net.minecraft.block.BlockState blockState) {
 		final AtomicReference<BlockState> blockStateReference = new AtomicReference<>(
-				block.getDefaultBlockPropertyContainer()
+				block.getDefaultBlockState()
 		);
 		
 		blockState.getProperties().forEach(property -> {
