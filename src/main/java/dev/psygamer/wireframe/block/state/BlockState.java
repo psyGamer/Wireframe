@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.block.state;
 
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
-import dev.psygamer.wireframe.util.ICloneable;
+import dev.psygamer.wireframe.util.helper.ICloneable;
 
 import com.google.common.collect.ImmutableSet;
 
