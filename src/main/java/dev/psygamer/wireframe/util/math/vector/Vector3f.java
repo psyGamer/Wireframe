@@ -10,6 +10,10 @@ public class Vector3f {
 		this.z = z;
 	}
 	
+	public static Vector3f get(final net.minecraft.util.math.vector.Vector3f internal) {
+		return new Vector3f(internal.x(), internal.y(), internal.z());
+	}
+	
 	public float getX() {
 		return this.x;
 	}
