@@ -10,6 +10,10 @@ public class Vector3i {
 		this.z = z;
 	}
 	
+	public static Vector3i get(final net.minecraft.util.math.vector.Vector3i internal) {
+		return new Vector3i(internal.getX(), internal.getY(), internal.getZ());
+	}
+	
 	public int getX() {
 		return this.x;
 	}

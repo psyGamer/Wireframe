@@ -10,6 +10,10 @@ public class Vector3d {
 		this.z = z;
 	}
 	
+	public static Vector3d get(final net.minecraft.util.math.vector.Vector3d internal) {
+		return new Vector3d(internal.x, internal.y, internal.z);
+	}
+	
 	public double getX() {
 		return this.x;
 	}
