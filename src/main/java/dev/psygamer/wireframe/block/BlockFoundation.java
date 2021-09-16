@@ -34,7 +34,7 @@ public class BlockFoundation {
 		this.identifier = identifier;
 		this.attributes = attributes;
 		
-		this.defaultBlockState = new BlockState();
+		this.defaultBlockState = new BlockState(this);
 		
 		this.internal = new InternalBlockFoundation(this, attributes);
 		
