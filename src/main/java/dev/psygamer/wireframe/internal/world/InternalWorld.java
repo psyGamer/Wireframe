@@ -21,12 +21,12 @@ public class InternalWorld implements World {
 	
 	@Override
 	public boolean isClientSide() {
-		return true;
+		return this.internal.isClientSide;
 	}
 	
 	@Override
 	public boolean isServerSide() {
-		return false;
+		return !this.internal.isClientSide;
 	}
 	
 	@Override
