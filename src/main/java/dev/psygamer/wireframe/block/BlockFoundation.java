@@ -6,6 +6,7 @@ import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.entity.ProjectileEntity;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
+import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
@@ -14,7 +15,6 @@ import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
 

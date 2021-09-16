@@ -29,6 +29,7 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("deprecation")
 public class InternalBlockFoundation extends Block {
@@ -199,14 +200,16 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(state),
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				BlockReader.get(blockReader)
-		);
+		).toInternal();
 	}
 	
 	@Override
 	public List<ItemStack> getDrops(final net.minecraft.block.BlockState state, final LootContext.Builder builder) {
 		return this.block.createBlockDrops(
-				convertBlockState(state), builder
-		);
+						convertBlockState(state), builder
+				).stream()
+				.map(dev.psygamer.wireframe.item.ItemStack::toInternal)
+				.collect(Collectors.toList());
 	}
 	
 	@Override
