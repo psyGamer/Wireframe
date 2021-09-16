@@ -60,7 +60,8 @@ public class InternalItemFoundation extends Item {
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
 		final ActionResult<dev.psygamer.wireframe.item.ItemStack> result = this.item.onItemUsed(
 				dev.psygamer.wireframe.item.ItemStack.get(player.getItemInHand(hand)),
-				dev.psygamer.wireframe.world.World.get(world), player,
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.Player.get(player),
 				dev.psygamer.wireframe.item.util.Hand.get(hand)
 		).toInternal();
 		
@@ -72,7 +73,8 @@ public class InternalItemFoundation extends Item {
 		try {
 			return this.item.onItemUsedOnBlock(
 					dev.psygamer.wireframe.item.ItemStack.get(context.getItemInHand()),
-					dev.psygamer.wireframe.world.World.get(context.getLevel()), context.getPlayer(),
+					dev.psygamer.wireframe.world.World.get(context.getLevel()),
+					dev.psygamer.wireframe.entity.Player.get(context.getPlayer()),
 					dev.psygamer.wireframe.item.util.Hand.get(context.getHand()),
 					BlockHitResult.get((BlockRayTraceResult) hitResultField.get(context))
 			).getInternal();
@@ -85,21 +87,24 @@ public class InternalItemFoundation extends Item {
 	public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
 		return this.item.onItemUsedOnEntity(
 				dev.psygamer.wireframe.item.ItemStack.get(player.getItemInHand(hand)),
-				dev.psygamer.wireframe.world.World.get(player.level), player, entity,
+				dev.psygamer.wireframe.world.World.get(player.level),
+				dev.psygamer.wireframe.entity.Player.get(player),
+				dev.psygamer.wireframe.entity.LivingEntity.get(entity),
 				dev.psygamer.wireframe.item.util.Hand.get(hand)
 		).getInternal();
 	}
 	
 	@Override
 	public boolean mineBlock(final ItemStack itemStack, final World world, final net.minecraft.block.BlockState state, final BlockPos pos, final LivingEntity entity) {
-		final BlockState propertyContainer = InternalBlockFoundation.convertBlockState(
+		final BlockState blockState = InternalBlockFoundation.convertBlockState(
 				InternalBlockFoundation.convertBlock(state.getBlock()), state
 		);
 		
 		return this.item.onBlockMined(
-				dev.psygamer.wireframe.item.ItemStack.get(itemStack), propertyContainer,
+				dev.psygamer.wireframe.item.ItemStack.get(itemStack), blockState,
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), entity
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.LivingEntity.get(entity)
 		);
 	}
 	
@@ -107,7 +112,8 @@ public class InternalItemFoundation extends Item {
 	public void onCraftedBy(final ItemStack itemStack, final World world, final PlayerEntity player) {
 		this.item.onItemCrafted(
 				dev.psygamer.wireframe.item.ItemStack.get(itemStack),
-				dev.psygamer.wireframe.world.World.get(world), player
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.Player.get(player)
 		);
 	}
 }

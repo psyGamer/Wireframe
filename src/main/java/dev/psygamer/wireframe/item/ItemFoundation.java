@@ -1,6 +1,8 @@
 package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.block.state.BlockState;
+import dev.psygamer.wireframe.entity.LivingEntity;
+import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.ClickResultContainer;
@@ -10,9 +12,6 @@ import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.World;
-
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 
 /*
 
@@ -53,21 +52,21 @@ public class ItemFoundation {
 	
 	public ClickResultContainer<ItemStack> onItemUsed(
 			final ItemStack usedItemStack,
-			final World world, final PlayerEntity player, final Hand hand
+			final World world, final Player player, final Hand hand
 	) {
-		return ClickResultContainer.pass(ItemStack.get(player.getItemInHand(hand.getInternal())));
+		return ClickResultContainer.pass(player.getHeldItem(hand));
 	}
 	
 	public ClickResult onItemUsedOnBlock(
 			final ItemStack usedItemStack,
-			final World world, final PlayerEntity player, final Hand hand, final BlockHitResult rayTraceResult
+			final World world, final Player player, final Hand hand, final BlockHitResult rayTraceResult
 	) {
 		return ClickResult.PASS;
 	}
 	
 	public ClickResult onItemUsedOnEntity(
 			final ItemStack usedItemStack,
-			final World world, final PlayerEntity player, final LivingEntity entity, final Hand hand
+			final World world, final Player player, final LivingEntity entity, final Hand hand
 	) {
 		return ClickResult.PASS;
 	}
@@ -88,7 +87,7 @@ public class ItemFoundation {
 	}
 	
 	public boolean onItemCrafted(
-			final ItemStack usedItemStack, final World world, final PlayerEntity player
+			final ItemStack usedItemStack, final World world, final Player player
 	) {
 		return false;
 	}
