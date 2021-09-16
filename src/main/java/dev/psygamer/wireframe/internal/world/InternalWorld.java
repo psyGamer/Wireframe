@@ -2,7 +2,6 @@ package dev.psygamer.wireframe.internal.world;
 
 import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.World;
 
@@ -11,27 +10,24 @@ import net.minecraft.world.LightType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
 
-public class InternalWorld implements World {
+public class InternalWorld extends InternalBlockReader implements World {
 	
-	private final net.minecraft.world.World internal;
+	private final net.minecraft.world.World internalWorld;
 	
 	public InternalWorld(final net.minecraft.world.World internal) {
-		this.internal = internal;
+		super(internal);
+		
+		this.internalWorld = internal;
 	}
 	
 	@Override
 	public boolean isClientSide() {
-		return this.internal.isClientSide;
+		return this.internalWorld.isClientSide;
 	}
 	
 	@Override
 	public boolean isServerSide() {
-		return !this.internal.isClientSide;
-	}
-	
-	@Override
-	public BlockFoundation getBlock(final BlockPosition position) {
-		return getBlockState(position).getBlock();
+		return !this.internalWorld.isClientSide;
 	}
 	
 	@Override
@@ -40,18 +36,13 @@ public class InternalWorld implements World {
 	}
 	
 	@Override
-	public BlockState getBlockState(final BlockPosition position) {
-		return InternalBlockFoundation.convertBlockState(this.internal.getBlockState(position.toInternal()));
-	}
-	
-	@Override
 	public void setBlockState(final BlockState blockState, final BlockPosition position) {
-		this.internal.setBlock(position.toInternal(), blockState.getInternal(), Constants.BlockFlags.BLOCK_UPDATE);
+		this.internalWorld.setBlock(position.toInternal(), blockState.getInternal(), Constants.BlockFlags.BLOCK_UPDATE);
 	}
 	
 	@Override
 	public boolean isReplaceable(final BlockPosition position) {
-		final net.minecraft.block.BlockState blockState = this.internal.getBlockState(position.toInternal());
+		final net.minecraft.block.BlockState blockState = this.internalWorld.getBlockState(position.toInternal());
 		final Block block = blockState.getBlock();
 		
 		return blockState.getMaterial().isReplaceable() ||
@@ -66,8 +57,8 @@ public class InternalWorld implements World {
 	
 	@Override
 	public void notifyNeighbours(final BlockPosition position) {
-		this.internal.updateNeighborsAt(position.toInternal(),
-				this.internal.getBlockState(position.toInternal()).getBlock()
+		this.internalWorld.updateNeighborsAt(position.toInternal(),
+				this.internalWorld.getBlockState(position.toInternal()).getBlock()
 		);
 	}
 	
@@ -78,41 +69,41 @@ public class InternalWorld implements World {
 	
 	@Override
 	public void breakBlock(final BlockPosition position, final boolean dropItems) {
-		this.internal.destroyBlock(position.toInternal(), dropItems);
+		this.internalWorld.destroyBlock(position.toInternal(), dropItems);
 	}
 	
 	@Override
 	public boolean isAir(final BlockPosition position) {
-		return this.internal.isEmptyBlock(position.toInternal());
+		return this.internalWorld.isEmptyBlock(position.toInternal());
 	}
 	
 	@Override
 	public boolean isBlock(final BlockFoundation block, final BlockPosition position) {
-		return this.internal.getBlockState(position.toInternal()).getBlock() == block.getInternal();
+		return this.internalWorld.getBlockState(position.toInternal()).getBlock() == block.getInternal();
 	}
 	
 	@Override
 	public boolean isLoaded(final BlockPosition position) {
-		return this.internal.isLoaded(position.toInternal());
+		return this.internalWorld.isLoaded(position.toInternal());
 	}
 	
 	@Override
 	public float getBlockLightLevel(final BlockPosition position) {
-		return this.internal.getBrightness(LightType.BLOCK, position.toInternal());
+		return this.internalWorld.getBrightness(LightType.BLOCK, position.toInternal());
 	}
 	
 	@Override
 	public float getSkyLightLevel(final BlockPosition position) {
-		return this.internal.getBrightness(LightType.SKY, position.toInternal());
+		return this.internalWorld.getBrightness(LightType.SKY, position.toInternal());
 	}
 	
 	@Override
 	public long getTime() {
-		return this.internal.getDayTime();
+		return this.internalWorld.getDayTime();
 	}
 	
 	@Override
 	public long getTicks() {
-		return this.internal.getGameTime();
+		return this.internalWorld.getGameTime();
 	}
 }
