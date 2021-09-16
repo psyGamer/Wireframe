@@ -22,8 +22,6 @@ public interface IWorld {
 	
 	void notifyNeighbours(final BlockPosition position);
 	
-	void notifyNeighbours(final BlockPosition position, final boolean updateObservers);
-	
 	void breakBlock(final BlockPosition position);
 	
 	void breakBlock(final BlockPosition position, final boolean dropItems);
