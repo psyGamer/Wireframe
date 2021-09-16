@@ -28,6 +28,16 @@ public class InternalPlayer extends InternalLivingEntity implements Player {
 	}
 	
 	@Override
+	public float getSaturationLevel() {
+		return this.internalPlayer.getFoodData().getSaturationLevel();
+	}
+	
+	@Override
+	public void setSaturationLevel(final float saturationLevel) {
+		this.internalPlayer.getFoodData().setSaturation(saturationLevel);
+	}
+	
+	@Override
 	public ItemStack getHeldItem(final Hand hand) {
 		return ItemStack.get(this.internalPlayer.getItemInHand(hand.getInternal()));
 	}

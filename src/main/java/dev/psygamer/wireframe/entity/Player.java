@@ -10,6 +10,10 @@ public interface Player extends LivingEntity {
 	
 	void setFoodLevel(int foodLevel);
 	
+	float getSaturationLevel();
+	
+	void setSaturationLevel(float saturationLevel);
+	
 	ItemStack getHeldItem(Hand hand);
 	
 	void setHeldItem(ItemStack item, Hand hand);
