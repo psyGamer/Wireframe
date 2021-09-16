@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.util;
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -13,6 +14,14 @@ public class TagCompound {
 	
 	public TagCompound() {
 		this.internal = new net.minecraft.nbt.CompoundNBT();
+	}
+	
+	private TagCompound(final net.minecraft.nbt.CompoundNBT internal) {
+		this.internal = internal;
+	}
+	
+	public static TagCompound get(final net.minecraft.nbt.CompoundNBT internal) {
+		return new TagCompound(internal);
 	}
 	
 	public void putByte(final String key, final byte value) {
@@ -133,5 +142,9 @@ public class TagCompound {
 	
 	public boolean isEmpty() {
 		return this.internal.isEmpty();
+	}
+	
+	public CompoundNBT getInternal() {
+		return this.internal;
 	}
 }

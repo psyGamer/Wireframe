@@ -1,14 +1,14 @@
 package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
-import net.minecraft.nbt.CompoundNBT;
+import dev.psygamer.wireframe.util.TagCompound;
 
 public class ItemStack {
 	
 	protected int count;
 	
 	protected ItemFoundation item;
-	protected CompoundNBT tagData;
+	protected TagCompound tagData;
 	
 	public ItemStack(final ItemFoundation item) {
 		this(item, 1);
@@ -18,7 +18,7 @@ public class ItemStack {
 	
 	}
 	
-	public ItemStack(final ItemFoundation item, final int count, final CompoundNBT tagData) {
+	public ItemStack(final ItemFoundation item, final int count, final TagCompound tagData) {
 		this.item = item;
 		this.count = count;
 		
@@ -29,12 +29,11 @@ public class ItemStack {
 		return new ItemStack(
 				InternalItemFoundation.convertItem(internalStack.getItem()),
 				
-				internalStack.getCount(),
-				internalStack.getTag()
+				internalStack.getCount(), TagCompound.get(internalStack.getTag())
 		);
 	}
 	
 	public net.minecraft.item.ItemStack toInternal() {
-		return new net.minecraft.item.ItemStack(this.item.getInternal(), this.count, this.tagData);
+		return new net.minecraft.item.ItemStack(this.item.getInternal(), this.count, this.tagData.getInternal());
 	}
 }
