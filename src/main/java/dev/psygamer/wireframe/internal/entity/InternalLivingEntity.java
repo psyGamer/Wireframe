@@ -5,6 +5,7 @@ import dev.psygamer.wireframe.entity.LivingEntity;
 import dev.psygamer.wireframe.entity.Player;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class InternalLivingEntity extends InternalEntity implements LivingEntity {
 	
@@ -47,7 +48,7 @@ public class InternalLivingEntity extends InternalEntity implements LivingEntity
 	@Override
 	public Player getLeashHolder() {
 		if (this.internalLivingEntity instanceof MobEntity) {
-			return new InternalEntity(((MobEntity) this.internalLivingEntity).getLeashHolder());
+			return new InternalPlayer((PlayerEntity) ((MobEntity) this.internalLivingEntity).getLeashHolder());
 		}
 		
 		return null;
