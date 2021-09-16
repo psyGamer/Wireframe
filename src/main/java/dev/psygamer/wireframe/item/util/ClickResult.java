@@ -11,6 +11,19 @@ public enum ClickResult {
 		this.internal = internal;
 	}
 	
+	public static ClickResult get(final net.minecraft.util.ActionResultType internal) {
+		switch (internal) {
+			default:
+			case SUCCESS:
+			case CONSUME:
+				return ACCEPTED;
+			case FAIL:
+				return REJECTED;
+			case PASS:
+				return PASS;
+		}
+	}
+	
 	public ActionResultType getInternal() {
 		return this.internal;
 	}
