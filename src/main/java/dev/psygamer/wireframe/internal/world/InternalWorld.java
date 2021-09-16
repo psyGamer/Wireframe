@@ -4,19 +4,18 @@ import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.util.BlockPosition;
-import dev.psygamer.wireframe.world.IWorld;
+import dev.psygamer.wireframe.world.World;
 
 import net.minecraft.block.*;
 import net.minecraft.world.LightType;
-import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
 
-public class InternalWorld implements IWorld {
+public class InternalWorld extends World {
 	
-	private final World internal;
+	private final net.minecraft.world.World internal;
 	
-	public InternalWorld(final World internal) {
+	public InternalWorld(final net.minecraft.world.World internal) {
 		this.internal = internal;
 	}
 	
