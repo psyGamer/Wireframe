@@ -206,7 +206,7 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public List<ItemStack> getDrops(final net.minecraft.block.BlockState state, final LootContext.Builder builder) {
 		return this.block.createBlockDrops(
-						convertBlockState(state), builder
+						convertBlockState(state)
 				).stream()
 				.map(dev.psygamer.wireframe.item.ItemStack::toInternal)
 				.collect(Collectors.toList());

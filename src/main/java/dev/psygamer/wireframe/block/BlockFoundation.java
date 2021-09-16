@@ -14,7 +14,6 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
-import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
@@ -155,7 +154,7 @@ public class BlockFoundation {
 	}
 	
 	public List<ItemStack> createBlockDrops(
-			final BlockState blockState, final LootContext.Builder lootContextBuilder
+			final BlockState blockState
 	) {
 		return null;
 	}
