@@ -19,4 +19,7 @@ public interface Player extends LivingEntity {
 	boolean isCrouching();
 	
 	boolean isCreative();
+	
+	@Override
+	net.minecraft.entity.player.PlayerEntity getInternal();
 }
