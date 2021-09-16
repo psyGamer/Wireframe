@@ -4,7 +4,6 @@ import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemFoundation;
-import dev.psygamer.wireframe.util.BlockPosition;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +16,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.common.animation.TimeValues;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -60,9 +58,9 @@ public class InternalItemFoundation extends Item {
 	@Override
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
 		final ActionResult<dev.psygamer.wireframe.item.ItemStack> result = this.item.onItemUsed(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)),
+				dev.psygamer.wireframe.item.ItemStack.get(player.getItemInHand(hand)),
 				dev.psygamer.wireframe.world.World.get(world), player,
-				dev.psygamer.wireframe.item.util.Hand.fromInternal(hand)
+				dev.psygamer.wireframe.item.util.Hand.get(hand)
 		).toInternal();
 		
 		return new ActionResult<>(result.getResult(), result.getObject().toInternal());
@@ -72,9 +70,9 @@ public class InternalItemFoundation extends Item {
 	public ActionResultType useOn(final ItemUseContext context) {
 		try {
 			return this.item.onItemUsedOnBlock(
-					dev.psygamer.wireframe.item.ItemStack.fromInternal(context.getItemInHand()),
+					dev.psygamer.wireframe.item.ItemStack.get(context.getItemInHand()),
 					dev.psygamer.wireframe.world.World.get(context.getLevel()), context.getPlayer(),
-					dev.psygamer.wireframe.item.util.Hand.fromInternal(context.getHand()),
+					dev.psygamer.wireframe.item.util.Hand.get(context.getHand()),
 					(BlockRayTraceResult) hitResultField.get(context)
 			).getInternal();
 		} catch (final IllegalAccessException e) {
@@ -85,9 +83,9 @@ public class InternalItemFoundation extends Item {
 	@Override
 	public ActionResultType interactLivingEntity(final ItemStack item, final PlayerEntity player, final LivingEntity entity, final Hand hand) {
 		return this.item.onItemUsedOnEntity(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(player.getItemInHand(hand)),
+				dev.psygamer.wireframe.item.ItemStack.get(player.getItemInHand(hand)),
 				dev.psygamer.wireframe.world.World.get(player.level), player, entity,
-				dev.psygamer.wireframe.item.util.Hand.fromInternal(hand)
+				dev.psygamer.wireframe.item.util.Hand.get(hand)
 		).getInternal();
 	}
 	
@@ -98,7 +96,7 @@ public class InternalItemFoundation extends Item {
 		);
 		
 		return this.item.onBlockMined(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(itemStack), propertyContainer,
+				dev.psygamer.wireframe.item.ItemStack.get(itemStack), propertyContainer,
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), entity
 		);
@@ -107,7 +105,7 @@ public class InternalItemFoundation extends Item {
 	@Override
 	public void onCraftedBy(final ItemStack itemStack, final World world, final PlayerEntity player) {
 		this.item.onItemCrafted(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(itemStack),
+				dev.psygamer.wireframe.item.ItemStack.get(itemStack),
 				dev.psygamer.wireframe.world.World.get(world), player
 		);
 	}

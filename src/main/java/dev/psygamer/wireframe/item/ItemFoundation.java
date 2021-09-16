@@ -55,7 +55,7 @@ public class ItemFoundation {
 			final ItemStack usedItemStack,
 			final World world, final PlayerEntity player, final Hand hand
 	) {
-		return ClickResultContainer.pass(ItemStack.fromInternal(player.getItemInHand(hand.getInternal())));
+		return ClickResultContainer.pass(ItemStack.get(player.getItemInHand(hand.getInternal())));
 	}
 	
 	public ClickResult onItemUsedOnBlock(
