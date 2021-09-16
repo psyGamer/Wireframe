@@ -7,7 +7,7 @@ import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
-import dev.psygamer.wireframe.world.IWorld;
+import dev.psygamer.wireframe.world.World;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -67,7 +67,7 @@ public class BlockFoundation {
 	public boolean onBlockPlaced(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
-			final BlockPosition blockPosition, final IWorld world
+			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
@@ -75,7 +75,7 @@ public class BlockFoundation {
 	public boolean onBlockPlacedByPlayer(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
-			final BlockPosition blockPosition, final IWorld world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
@@ -83,7 +83,7 @@ public class BlockFoundation {
 	public boolean onBlockRemoved(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
-			final BlockPosition blockPosition, final IWorld world
+			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
@@ -91,54 +91,54 @@ public class BlockFoundation {
 	public boolean onBlockRemovedByPlayer(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
-			final BlockPosition blockPosition, final IWorld world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
 	
 	public boolean onTick(
 			final BlockState blockState,
-			final BlockPosition blockPosition, final IWorld world
+			final BlockPosition blockPosition, final World world
 	) {
 		return false;
 	}
 	
 	public boolean onRandomTick(
 			final BlockState blockState,
-			final BlockPosition blockPosition, final IWorld world, final Random random
+			final BlockPosition blockPosition, final World world, final Random random
 	) {
 		return false;
 	}
 	
 	public boolean onEntityStepOnBlock(
-			final BlockPosition blockPosition, final IWorld world, final Entity entity
+			final BlockPosition blockPosition, final World world, final Entity entity
 	) {
 		return false;
 	}
 	
 	public boolean onEntityFallOnBlock(
-			final BlockPosition blockPosition, final IWorld world, final Entity entity, final float fallDistance
+			final BlockPosition blockPosition, final World world, final Entity entity, final float fallDistance
 	) {
 		return false;
 	}
 	
 	public ClickResult onUsedByPlayer(
 			final BlockState blockState,
-			final BlockPosition blockPosition, final IWorld world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return ClickResult.PASS;
 	}
 	
 	public boolean onAttackedByPlayer(
 			final BlockState blockState,
-			final BlockPosition blockPosition, final IWorld world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final PlayerEntity player
 	) {
 		return false;
 	}
 	
 	public boolean onHitByProjectile(
 			final BlockState blockState,
-			final IWorld world, final ProjectileEntity projectile
+			final World world, final ProjectileEntity projectile
 	) {
 		return false;
 	}
@@ -162,7 +162,7 @@ public class BlockFoundation {
 	}
 	
 	public INamedContainerProvider createMenuProvider(
-			final BlockState blockState, final BlockPosition pos, final IWorld world
+			final BlockState blockState, final BlockPosition pos, final World world
 	) {
 		return null;
 	}
