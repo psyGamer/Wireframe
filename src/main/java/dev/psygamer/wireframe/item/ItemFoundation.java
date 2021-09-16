@@ -8,11 +8,11 @@ import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.World;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockRayTraceResult;
 
 /*
 
@@ -60,7 +60,7 @@ public class ItemFoundation {
 	
 	public ClickResult onItemUsedOnBlock(
 			final ItemStack usedItemStack,
-			final World world, final PlayerEntity player, final Hand hand, final BlockRayTraceResult rayTraceResult
+			final World world, final PlayerEntity player, final Hand hand, final BlockHitResult rayTraceResult
 	) {
 		return ClickResult.PASS;
 	}

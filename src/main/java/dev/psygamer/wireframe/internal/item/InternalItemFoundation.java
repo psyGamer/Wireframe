@@ -5,6 +5,7 @@ import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemFoundation;
 
+import dev.psygamer.wireframe.util.math.BlockHitResult;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -73,7 +74,7 @@ public class InternalItemFoundation extends Item {
 					dev.psygamer.wireframe.item.ItemStack.get(context.getItemInHand()),
 					dev.psygamer.wireframe.world.World.get(context.getLevel()), context.getPlayer(),
 					dev.psygamer.wireframe.item.util.Hand.get(context.getHand()),
-					(BlockRayTraceResult) hitResultField.get(context)
+					BlockHitResult.get((BlockRayTraceResult) hitResultField.get(context))
 			).getInternal();
 		} catch (final IllegalAccessException e) {
 			return ActionResultType.PASS;
