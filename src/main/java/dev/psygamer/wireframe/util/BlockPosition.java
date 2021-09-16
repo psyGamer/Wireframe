@@ -21,4 +21,8 @@ public class BlockPosition {
 	public int getZ() {
 		return this.z;
 	}
+	
+	public net.minecraft.util.math.BlockPos toInternal() {
+		return new net.minecraft.util.math.BlockPos(this.x, this.y, this.z);
+	}
 }
