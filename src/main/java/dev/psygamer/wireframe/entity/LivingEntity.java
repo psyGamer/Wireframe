@@ -2,13 +2,13 @@ package dev.psygamer.wireframe.entity;
 
 public interface LivingEntity extends Entity {
 	
-	boolean canBeLeashedTo(Entity entity);
+	boolean canBeLeashedTo(Player entity);
 	
-	boolean isLeashedTo(Entity entity);
+	boolean isLeashedTo(Player entity);
 	
-	Entity getLeashHolder();
+	Player getLeashHolder();
 	
-	void setLeashHolder(Entity entity);
+	void setLeashHolder(Player entity);
 	
 	void unleash();
 }
