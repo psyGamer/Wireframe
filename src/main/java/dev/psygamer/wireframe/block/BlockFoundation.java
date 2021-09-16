@@ -2,6 +2,9 @@ package dev.psygamer.wireframe.block;
 
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
+import dev.psygamer.wireframe.entity.Entity;
+import dev.psygamer.wireframe.entity.Player;
+import dev.psygamer.wireframe.entity.ProjectileEntity;
 import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
@@ -9,9 +12,6 @@ import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.world.World;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
@@ -75,7 +75,7 @@ public class BlockFoundation {
 	public boolean onBlockPlacedByPlayer(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
-			final BlockPosition blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final Player player
 	) {
 		return false;
 	}
@@ -91,7 +91,7 @@ public class BlockFoundation {
 	public boolean onBlockRemovedByPlayer(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
-			final BlockPosition blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final Player player
 	) {
 		return false;
 	}
@@ -124,14 +124,14 @@ public class BlockFoundation {
 	
 	public ClickResult onUsedByPlayer(
 			final BlockState blockState,
-			final BlockPosition blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final Player player
 	) {
 		return ClickResult.PASS;
 	}
 	
 	public boolean onAttackedByPlayer(
 			final BlockState blockState,
-			final BlockPosition blockPosition, final World world, final PlayerEntity player
+			final BlockPosition blockPosition, final World world, final Player player
 	) {
 		return false;
 	}

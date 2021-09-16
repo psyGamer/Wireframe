@@ -4,7 +4,8 @@ import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-import dev.psygamer.wireframe.util.BlockPosition;
+import dev.psygamer.wireframe.entity.Player;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -88,7 +89,7 @@ public class InternalBlockFoundation extends Block {
 					convertBlockState(blockState),
 					
 					dev.psygamer.wireframe.util.BlockPosition.get(pos),
-					dev.psygamer.wireframe.world.World.get(world), (PlayerEntity) placer
+					dev.psygamer.wireframe.world.World.get(world), Player.get((PlayerEntity) placer)
 			);
 		}
 	}
@@ -111,7 +112,7 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(state),
 				
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), player
+				dev.psygamer.wireframe.world.World.get(world), Player.get(player)
 		);
 	}
 	
@@ -139,7 +140,8 @@ public class InternalBlockFoundation extends Block {
 	public void stepOn(final World world, final BlockPos pos, final Entity entity) {
 		this.block.onEntityStepOnBlock(
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), entity
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.Entity.get(entity)
 		);
 	}
 	
@@ -147,7 +149,8 @@ public class InternalBlockFoundation extends Block {
 	public void fallOn(final World world, final BlockPos pos, final Entity entity, final float distance) {
 		this.block.onEntityFallOnBlock(
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), entity, distance
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.Entity.get(entity), distance
 		);
 	}
 	
@@ -157,26 +160,27 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(state),
 				
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), player
+				dev.psygamer.wireframe.world.World.get(world), Player.get(player)
 		).getInternal();
 	}
 	
 	@Override
-	public void attack(final net.minecraft.block.BlockState state, final World world, final BlockPos pos, final PlayerEntity plaer) {
+	public void attack(final net.minecraft.block.BlockState state, final World world, final BlockPos pos, final PlayerEntity player) {
 		this.block.onAttackedByPlayer(
 				convertBlockState(state),
 				
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), plaer
+				dev.psygamer.wireframe.world.World.get(world), Player.get(player)
 		);
 	}
 	
 	@Override
-	public void onProjectileHit(final World world, final net.minecraft.block.BlockState state, final BlockRayTraceResult p_220066_3_, final ProjectileEntity projctile) {
+	public void onProjectileHit(final World world, final net.minecraft.block.BlockState state, final BlockRayTraceResult hitResult, final ProjectileEntity projctile) {
 		this.block.onHitByProjectile(
 				convertBlockState(state),
 				
-				dev.psygamer.wireframe.world.World.get(world), projctile
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.ProjectileEntity.get(projctile)
 		);
 	}
 	
