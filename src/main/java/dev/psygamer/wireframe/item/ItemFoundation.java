@@ -14,28 +14,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
-/*
-
-net.minecraft.item.Item;
-net.minecraft.item.ItemGroup;
-net.minecraft.item.ItemUseContext;
-net.minecraft.block.SoundType;
-net.minecraft.block.material.Material;
-
-net.minecraft.entity.Entity;
-net.minecraft.entity.player.PlayerEntity;
-net.minecraft.entity.projectile.ProjectileEntity;
-net.minecraft.entity.LivingEntity;
-net.minecraft.entity.player.PlayerEntity;
-net.minecraft.inventory.container.INamedContainerProvider;
-net.minecraft.loot.LootContext;
-net.minecraft.tileentity.TileEntity;
-net.minecraft.world.IBlockReader;
-net.minecraft.world.World;
-net.minecraft.world.World;
-
- */
-
 public class ItemFoundation {
 	
 	protected final InternalItemFoundation internal;
