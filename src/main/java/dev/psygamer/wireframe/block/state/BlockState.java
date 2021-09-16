@@ -21,21 +21,21 @@ public class BlockState implements ICloneable<BlockState> {
 		this.values = baseContainer.values;
 	}
 	
-	public <T> BlockState withValue(final BlockProperty<T> blockProperty, final T value) {
+	public <T extends Comparable<T>> BlockState withValue(final BlockProperty<T> blockProperty, final T value) {
 		return copy().setProperty(blockProperty, value);
 	}
 	
-	public <T> BlockState withObjectValue(final BlockProperty<?> blockProperty, final Object value) {
-		return withValue((BlockProperty<? super T>) blockProperty, (T) value);
+	public <T extends Comparable<T>> BlockState withObjectValue(final BlockProperty<?> blockProperty, final Object value) {
+		return withValue((BlockProperty<T>) blockProperty, (T) value);
 	}
 	
-	public <T> BlockState setProperty(final BlockProperty<T> property, final T value) {
+	public <T extends Comparable<T>> BlockState setProperty(final BlockProperty<T> property, final T value) {
 		this.values.add(new BlockProperty.ValuePair<>(property, value));
 		
 		return this;
 	}
 	
-	public <T> BlockProperty.ValuePair<T> getValuePair(final BlockProperty<T> property) {
+	public <T extends Comparable<T>> BlockProperty.ValuePair<T> getValuePair(final BlockProperty<T> property) {
 		for (final BlockProperty.ValuePair<?> valuePair : this.values) {
 			if (valuePair.getProperty() == property)
 				return (BlockProperty.ValuePair<T>) valuePair;

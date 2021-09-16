@@ -53,7 +53,7 @@ public class BlockFoundation {
 		return this.defaultBlockState.copy();
 	}
 	
-	protected <T> void registerBlockProperty(final BlockProperty<T> property) {
+	protected <T extends Comparable<T>> void registerBlockProperty(final BlockProperty<T> property) {
 		if (this.defaultBlockState.containsProperty(property))
 			return;
 		
