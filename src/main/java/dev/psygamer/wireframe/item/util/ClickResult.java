@@ -1,13 +1,13 @@
 package dev.psygamer.wireframe.item.util;
 
-import net.minecraft.util.ActionResultType;
-
 public enum ClickResult {
-	ACCEPTED(ActionResultType.SUCCESS), REJECTED(ActionResultType.FAIL), PASS(ActionResultType.PASS);
+	ACCEPTED(net.minecraft.util.ActionResultType.SUCCESS),
+	REJECTED(net.minecraft.util.ActionResultType.FAIL),
+	PASS(net.minecraft.util.ActionResultType.PASS);
 	
-	private final ActionResultType internal;
+	private final net.minecraft.util.ActionResultType internal;
 	
-	ClickResult(final ActionResultType internal) {
+	ClickResult(final net.minecraft.util.ActionResultType internal) {
 		this.internal = internal;
 	}
 	
@@ -24,7 +24,7 @@ public enum ClickResult {
 		}
 	}
 	
-	public ActionResultType getInternal() {
+	public net.minecraft.util.ActionResultType getInternal() {
 		return this.internal;
 	}
 }

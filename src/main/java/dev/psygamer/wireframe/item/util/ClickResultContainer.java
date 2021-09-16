@@ -1,7 +1,5 @@
 package dev.psygamer.wireframe.item.util;
 
-import net.minecraft.util.ActionResult;
-
 public class ClickResultContainer <T> {
 	
 	private final T object;
@@ -32,8 +30,8 @@ public class ClickResultContainer <T> {
 		return this.result;
 	}
 	
-	public ActionResult<T> toInternal() {
-		return new ActionResult<>(this.result.getInternal(), this.object);
+	public net.minecraft.util.ActionResult<T> toInternal() {
+		return new net.minecraft.util.ActionResult<>(this.result.getInternal(), this.object);
 	}
 	
 }
