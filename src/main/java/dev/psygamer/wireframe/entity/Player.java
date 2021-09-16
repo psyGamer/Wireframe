@@ -1,10 +1,15 @@
 package dev.psygamer.wireframe.entity;
 
+import dev.psygamer.wireframe.internal.entity.InternalPlayer;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
 
 public interface Player extends LivingEntity {
+	
+	static Player get(final net.minecraft.entity.player.PlayerEntity internalPlayer) {
+		return new InternalPlayer(internalPlayer);
+	}
 	
 	int getFoodLevel();
 	

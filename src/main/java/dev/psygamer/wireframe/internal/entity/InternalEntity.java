@@ -121,7 +121,7 @@ public class InternalEntity implements Entity {
 	
 	@Override
 	public Entity getRiding() {
-		return new InternalEntity(this.internalEntity.getVehicle());
+		return Entity.get(this.internalEntity.getVehicle());
 	}
 	
 	@Override

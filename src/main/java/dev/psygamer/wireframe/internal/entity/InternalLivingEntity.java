@@ -48,7 +48,7 @@ public class InternalLivingEntity extends InternalEntity implements LivingEntity
 	@Override
 	public Player getLeashHolder() {
 		if (this.internalLivingEntity instanceof MobEntity) {
-			return new InternalPlayer((PlayerEntity) ((MobEntity) this.internalLivingEntity).getLeashHolder());
+			return Player.get((PlayerEntity) ((MobEntity) this.internalLivingEntity).getLeashHolder());
 		}
 		
 		return null;

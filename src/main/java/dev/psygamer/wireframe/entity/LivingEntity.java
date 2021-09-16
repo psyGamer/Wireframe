@@ -1,6 +1,12 @@
 package dev.psygamer.wireframe.entity;
 
+import dev.psygamer.wireframe.internal.entity.InternalLivingEntity;
+
 public interface LivingEntity extends Entity {
+	
+	static LivingEntity get(final net.minecraft.entity.LivingEntity internalEntity) {
+		return new InternalLivingEntity(internalEntity);
+	}
 	
 	int getMaxHealthLevel();
 	
