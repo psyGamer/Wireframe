@@ -10,6 +10,10 @@ import java.util.UUID;
 
 public interface Entity {
 	
+	static Entity get(final net.minecraft.entity.Entity internalEntity) {
+		return new InternalEntity(internalEntity);
+	}
+	
 	/* General */
 	
 	long getTicks();
