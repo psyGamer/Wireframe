@@ -5,43 +5,43 @@ import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.world.InternalWorld;
 import dev.psygamer.wireframe.util.BlockPosition;
 
-public abstract class World {
+public interface World {
 	
-	public static World get(final net.minecraft.world.World internalWorld) {
+	static World get(final net.minecraft.world.World internalWorld) {
 		return new InternalWorld(internalWorld);
 	}
 	
-	public abstract boolean isClientSide();
+	boolean isClientSide();
 	
-	public abstract boolean isServerSide();
+	boolean isServerSide();
 	
-	public abstract BlockFoundation getBlock(final BlockPosition position);
+	BlockFoundation getBlock(final BlockPosition position);
 	
-	public abstract void setBlock(final BlockFoundation block, final BlockPosition position);
+	void setBlock(final BlockFoundation block, final BlockPosition position);
 	
-	public abstract BlockState getBlockState(final BlockPosition position);
+	BlockState getBlockState(final BlockPosition position);
 	
-	public abstract void setBlockState(final BlockState blockState, final BlockPosition position);
+	void setBlockState(final BlockState blockState, final BlockPosition position);
 	
-	public abstract boolean isReplaceable(final BlockPosition position);
+	boolean isReplaceable(final BlockPosition position);
 	
-	public abstract void notifyNeighbours(final BlockPosition position);
+	void notifyNeighbours(final BlockPosition position);
 	
-	public abstract void breakBlock(final BlockPosition position);
+	void breakBlock(final BlockPosition position);
 	
-	public abstract void breakBlock(final BlockPosition position, final boolean dropItems);
+	void breakBlock(final BlockPosition position, final boolean dropItems);
 	
-	public abstract boolean isAir(final BlockPosition position);
+	boolean isAir(final BlockPosition position);
 	
-	public abstract boolean isBlock(final BlockFoundation block, final BlockPosition position);
+	boolean isBlock(final BlockFoundation block, final BlockPosition position);
 	
-	public abstract boolean isLoaded(final BlockPosition position);
+	boolean isLoaded(final BlockPosition position);
 	
-	public abstract float getBlockLightLevel(final BlockPosition blockPosition);
+	float getBlockLightLevel(final BlockPosition blockPosition);
 	
-	public abstract float getSkyLightLevel(final BlockPosition blockPosition);
+	float getSkyLightLevel(final BlockPosition blockPosition);
 	
-	public abstract long getTime();
+	long getTime();
 	
-	public abstract long getTicks();
+	long getTicks();
 }
