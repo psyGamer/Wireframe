@@ -17,7 +17,7 @@ public class InternalBlockProperty <T extends Comparable<T>> extends Property<T>
 	
 	private final BlockProperty<T> blockProperty;
 	
-	protected InternalBlockProperty(final BlockProperty<T> blockProperty) {
+	public InternalBlockProperty(final BlockProperty<T> blockProperty) {
 		super(blockProperty.getPropertyName(), (Class<T>) blockProperty.getDefaultValue().getClass());
 		
 		this.blockProperty = blockProperty;

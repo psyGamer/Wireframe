@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.block.state.property;
 
+import dev.psygamer.wireframe.internal.block.InternalBlockProperty;
 import dev.psygamer.wireframe.util.collection.FreezableMap;
 import dev.psygamer.wireframe.util.collection.FreezableLinkedHashMap;
 import dev.psygamer.wireframe.util.helper.IFreezable;
@@ -10,7 +11,9 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BlockProperty <T> implements IFreezable {
+public class BlockProperty <T extends Comparable<T>> implements IFreezable {
+	
+	protected final InternalBlockProperty<T> internal;
 	
 	protected final String propertyName;
 	protected final FreezableMap<String, T> entries;
@@ -22,6 +25,8 @@ public class BlockProperty <T> implements IFreezable {
 		
 		this.propertyName = propertyName;
 		this.entries = new FreezableLinkedHashMap<>();
+		
+		this.internal = new InternalBlockProperty<>(this);
 	}
 	
 	public String getPropertyName() {
@@ -72,6 +77,10 @@ public class BlockProperty <T> implements IFreezable {
 		return new ArrayList<>(this.entries.values()).indexOf(value);
 	}
 	
+	public InternalBlockProperty<T> getInternal() {
+		return this.internal;
+	}
+	
 	@Override
 	public void freeze() {
 		this.entries.freeze();
@@ -82,7 +91,7 @@ public class BlockProperty <T> implements IFreezable {
 		return this.entries.isFrozen();
 	}
 	
-	public static final class ValuePair <T> implements ICloneable<ValuePair<T>> {
+	public static final class ValuePair <T extends Comparable<T>> implements ICloneable<ValuePair<T>> {
 		private final BlockProperty<T> property;
 		
 		private int valueIndex;
@@ -143,3 +152,4 @@ public class BlockProperty <T> implements IFreezable {
 		}
 	}
 }
+
