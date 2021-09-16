@@ -98,7 +98,8 @@ public class InternalItemFoundation extends Item {
 		);
 		
 		return this.item.onBlockMined(
-				dev.psygamer.wireframe.item.ItemStack.fromInternal(itemStack), propertyContainer, new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.item.ItemStack.fromInternal(itemStack), propertyContainer,
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), entity
 		);
 	}

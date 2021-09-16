@@ -75,7 +75,7 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world)
 		);
 	}
@@ -87,7 +87,7 @@ public class InternalBlockFoundation extends Block {
 					convertBlockState(blockState),
 					convertBlockState(blockState),
 					
-					new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+					dev.psygamer.wireframe.util.BlockPosition.get(pos),
 					dev.psygamer.wireframe.world.World.get(world), (PlayerEntity) placer
 			);
 		}
@@ -99,7 +99,7 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world)
 		);
 	}
@@ -110,7 +110,7 @@ public class InternalBlockFoundation extends Block {
 				convertBlockState(state),
 				convertBlockState(state),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), player
 		);
 	}
@@ -120,7 +120,7 @@ public class InternalBlockFoundation extends Block {
 		this.block.onTick(
 				convertBlockState(state),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world)
 		);
 	}
@@ -130,7 +130,7 @@ public class InternalBlockFoundation extends Block {
 		this.block.onRandomTick(
 				convertBlockState(state),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), random
 		);
 	}
@@ -138,7 +138,7 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public void stepOn(final World world, final BlockPos pos, final Entity entity) {
 		this.block.onEntityStepOnBlock(
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), entity
 		);
 	}
@@ -146,7 +146,7 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public void fallOn(final World world, final BlockPos pos, final Entity entity, final float distance) {
 		this.block.onEntityFallOnBlock(
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), entity, distance
 		);
 	}
@@ -156,7 +156,7 @@ public class InternalBlockFoundation extends Block {
 		return this.block.onUsedByPlayer(
 				convertBlockState(state),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), player
 		).getInternal();
 	}
@@ -166,7 +166,7 @@ public class InternalBlockFoundation extends Block {
 		this.block.onAttackedByPlayer(
 				convertBlockState(state),
 				
-				new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), plaer
 		);
 	}
@@ -191,7 +191,8 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public ItemStack getPickBlock(final net.minecraft.block.BlockState state, final RayTraceResult target, final IBlockReader world, final BlockPos pos, final PlayerEntity player) {
 		return this.block.createPickBlockStack(
-				convertBlockState(state), new BlockPosition(pos.getX(), pos.getY(), pos.getZ()), world
+				convertBlockState(state),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos), world
 		);
 	}
 	
@@ -205,7 +206,8 @@ public class InternalBlockFoundation extends Block {
 	@Override
 	public INamedContainerProvider getMenuProvider(final net.minecraft.block.BlockState state, final World world, final BlockPos pos) {
 		return this.block.createMenuProvider(
-				convertBlockState(state), new BlockPosition(pos.getX(), pos.getY(), pos.getZ()),
+				convertBlockState(state),
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world)
 		);
 	}

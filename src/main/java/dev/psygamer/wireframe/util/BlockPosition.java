@@ -10,6 +10,10 @@ public class BlockPosition {
 		this.z = z;
 	}
 	
+	public static BlockPosition get(final net.minecraft.util.math.BlockPos internalPosition) {
+		return new BlockPosition(internalPosition.getX(), internalPosition.getY(), internalPosition.getZ());
+	}
+	
 	public int getX() {
 		return this.x;
 	}
