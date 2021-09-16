@@ -18,7 +18,7 @@ public class EventBusRegistrator {
 				.filter(clazz -> clazz.isAnnotationPresent(ModEventBusSubscriber.class))
 				.forEach(clazz -> {
 					Wireframe.getMods().forEach(mod -> mod
-							.getModEventBus()
+							.getInternalModEventBus()
 							.register(clazz));
 					
 					Wireframe.LOGGER.info("Added " + clazz + " to the mod event bus");

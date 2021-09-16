@@ -36,12 +36,16 @@ public class Wireframe {
 		private final String modID, modName, modVersion, rootPackage;
 		private final EventBus modEventBus = new EventBus();
 		
+		private final net.minecraftforge.eventbus.api.IEventBus internalModEventBus;
+		
 		protected Mod(final String modID, final String modName, final String modVersion) {
 			this.modID = modID;
 			this.modName = modName;
 			this.modVersion = modVersion;
 			
 			this.rootPackage = this.getClass().getPackage().getName();
+			
+			this.internalModEventBus = net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
 		}
 		
 		public String getModID() {
@@ -62,6 +66,10 @@ public class Wireframe {
 		
 		public EventBus getModEventBus() {
 			return this.modEventBus;
+		}
+		
+		public net.minecraftforge.eventbus.api.IEventBus getInternalModEventBus() {
+			return this.internalModEventBus;
 		}
 	}
 	
