@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.util.math;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Direction;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
+import net.minecraft.util.math.RayTraceResult;
 
 public class BlockHitResult extends HitResult {
 	
@@ -23,6 +24,17 @@ public class BlockHitResult extends HitResult {
 		this.position = position;
 		this.miss = miss;
 		this.inside = inside;
+	}
+	
+	public static BlockHitResult get(final net.minecraft.util.math.BlockRayTraceResult internal) {
+		return new BlockHitResult(
+				Vector3d.get(internal.getLocation()),
+				Direction.get(internal.getDirection()),
+				BlockPosition.get(internal.getBlockPos()),
+				
+				internal.getType() == RayTraceResult.Type.MISS,
+				internal.isInside()
+		);
 	}
 	
 	public Direction getDirection() {
