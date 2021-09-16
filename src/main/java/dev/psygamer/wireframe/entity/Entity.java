@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.entity;
 
+import dev.psygamer.wireframe.internal.entity.InternalEntity;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
 import dev.psygamer.wireframe.world.World;
@@ -39,8 +40,6 @@ public interface Entity {
 	
 	float getRotationPitch();
 	
-	float getHeadRotationPitch();
-	
 	float getPreviousRotationPitch();
 	
 	/* Passengers */
@@ -65,9 +64,13 @@ public interface Entity {
 	
 	boolean isDead();
 	
-	void damage(double damage, String message);
+	void damage(float damage, String message);
 	
-	void directDamage(double damage, String message);
+	void directDamage(float damage, String message);
 	
 	void kill();
+	
+	/* Internal */
+	
+	net.minecraft.entity.Entity getInternal();
 }
