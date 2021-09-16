@@ -7,7 +7,9 @@ import dev.psygamer.wireframe.util.BlockPosition;
 
 public abstract class World {
 	
-	boolean isClientSide();
+	public static World get(final net.minecraft.world.World internalWorld) {
+		return new InternalWorld(internalWorld);
+	}
 	
 	public abstract boolean isClientSide();
 	
