@@ -1,7 +1,9 @@
 package dev.psygamer.wireframe.block.state;
 
+import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
+import dev.psygamer.wireframe.internal.block.InternalBlockState;
 import dev.psygamer.wireframe.util.helper.ICloneable;
 
 import com.google.common.collect.ImmutableSet;
@@ -11,14 +13,23 @@ import java.util.Set;
 
 public class BlockState implements ICloneable<BlockState> {
 	
+	private final InternalBlockState internal;
+	
+	private final BlockFoundation block;
 	private final Set<BlockProperty.ValuePair<?>> values;
 	
-	public BlockState() {
+	public BlockState(final BlockFoundation block) {
+		this.block = block;
 		this.values = new HashSet<>();
+		
+		this.internal = new InternalBlockState(this);
 	}
 	
-	public BlockState(final BlockState baseContainer) {
-		this.values = baseContainer.values;
+	public BlockState(final BlockState other) {
+		this.block = other.block;
+		this.values = other.values;
+		
+		this.internal = other.internal;
 	}
 	
 	public <T extends Comparable<T>> BlockState withValue(final BlockProperty<T> blockProperty, final T value) {
@@ -48,8 +59,16 @@ public class BlockState implements ICloneable<BlockState> {
 		return getValuePair(property) != null;
 	}
 	
+	public BlockFoundation getBlock() {
+		return this.block;
+	}
+	
 	public ImmutableSet<BlockProperty.ValuePair<?>> getValuePairs() {
 		return ImmutableSet.copyOf(this.values);
+	}
+	
+	public net.minecraft.block.BlockState getInternal() {
+		return this.internal.any();
 	}
 	
 	@Override

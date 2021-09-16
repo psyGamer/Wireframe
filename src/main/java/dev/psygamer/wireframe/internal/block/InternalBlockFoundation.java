@@ -48,6 +48,10 @@ public class InternalBlockFoundation extends Block {
 		return cachedBlocks.get(block);
 	}
 	
+	public static BlockState convertBlockState(final net.minecraft.block.BlockState blockState) {
+		return convertBlockState(convertBlock(blockState.getBlock()), blockState);
+	}
+	
 	public static BlockState convertBlockState(final BlockFoundation block, final net.minecraft.block.BlockState blockState) {
 		final AtomicReference<BlockState> blockStateReference = new AtomicReference<>(
 				block.getDefaultBlockState()
@@ -61,10 +65,6 @@ public class InternalBlockFoundation extends Block {
 		});
 		
 		return blockStateReference.get();
-	}
-	
-	private BlockState convertBlockState(final net.minecraft.block.BlockState blockState) {
-		return convertBlockState(this.block, blockState);
 	}
 	
 	/* Block Events */
