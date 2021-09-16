@@ -211,13 +211,4 @@ public class InternalBlockFoundation extends Block {
 				.map(dev.psygamer.wireframe.item.ItemStack::toInternal)
 				.collect(Collectors.toList());
 	}
-	
-	@Override
-	public INamedContainerProvider getMenuProvider(final net.minecraft.block.BlockState state, final World world, final BlockPos pos) {
-		return this.block.createMenuProvider(
-				convertBlockState(state),
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world)
-		);
-	}
 }

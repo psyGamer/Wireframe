@@ -14,7 +14,6 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
 
@@ -157,12 +156,6 @@ public class BlockFoundation {
 	
 	public List<ItemStack> createBlockDrops(
 			final BlockState blockState, final LootContext.Builder lootContextBuilder
-	) {
-		return null;
-	}
-	
-	public INamedContainerProvider createMenuProvider(
-			final BlockState blockState, final BlockPosition pos, final World world
 	) {
 		return null;
 	}
