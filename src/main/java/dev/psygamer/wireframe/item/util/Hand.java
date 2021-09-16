@@ -9,7 +9,7 @@ public enum Hand {
 		this.internal = internal;
 	}
 	
-	public static Hand fromInternal(final net.minecraft.util.Hand internal) {
+	public static Hand get(final net.minecraft.util.Hand internal) {
 		switch (internal) {
 			default:
 			case MAIN_HAND:

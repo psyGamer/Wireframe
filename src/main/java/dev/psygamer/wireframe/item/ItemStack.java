@@ -25,9 +25,10 @@ public class ItemStack {
 		this.tagData = tagData;
 	}
 	
-	public static ItemStack fromInternal(final net.minecraft.item.ItemStack internalStack) {
+	public static ItemStack get(final net.minecraft.item.ItemStack internalStack) {
 		return new ItemStack(
 				InternalItemFoundation.convertItem(internalStack.getItem()),
+				
 				internalStack.getCount(),
 				internalStack.getTag()
 		);
