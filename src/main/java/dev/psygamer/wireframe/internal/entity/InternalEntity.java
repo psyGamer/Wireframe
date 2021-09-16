@@ -13,105 +13,105 @@ import java.util.stream.Collectors;
 
 public class InternalEntity implements Entity {
 	
-	private final net.minecraft.entity.Entity internal;
+	protected final net.minecraft.entity.Entity internalEntity;
 	
 	public InternalEntity(final net.minecraft.entity.Entity internal) {
-		this.internal = internal;
+		this.internalEntity = internal;
 	}
 	
 	@Override
 	public long getTicks() {
-		return this.internal.tickCount;
+		return this.internalEntity.tickCount;
 	}
 	
 	@Override
 	public UUID getUUID() {
-		return this.internal.getUUID();
+		return this.internalEntity.getUUID();
 	}
 	
 	@Override
 	public World getWorld() {
-		return World.get(this.internal.level);
+		return World.get(this.internalEntity.level);
 	}
 	
 	@Override
 	public Vector3d getPosition() {
-		return Vector3d.get(this.internal.position());
+		return Vector3d.get(this.internalEntity.position());
 	}
 	
 	@Override
 	public Vector3d getPreviousPosition() {
 		return new Vector3d(
-				this.internal.xOld,
-				this.internal.yOld,
-				this.internal.zOld
+				this.internalEntity.xOld,
+				this.internalEntity.yOld,
+				this.internalEntity.zOld
 		);
 	}
 	
 	@Override
 	public Vector3d getEyePosition() {
 		return new Vector3d(
-				this.internal.getX(),
-				this.internal.getY() + this.internal.getEyeHeight(),
-				this.internal.getZ()
+				this.internalEntity.getX(),
+				this.internalEntity.getY() + this.internalEntity.getEyeHeight(),
+				this.internalEntity.getZ()
 		);
 	}
 	
 	@Override
 	public BlockPosition getBlockPosition() {
-		return BlockPosition.get(this.internal.blockPosition());
+		return BlockPosition.get(this.internalEntity.blockPosition());
 	}
 	
 	@Override
 	public Vector3d getVelocity() {
-		return Vector3d.get(this.internal.getDeltaMovement());
+		return Vector3d.get(this.internalEntity.getDeltaMovement());
 	}
 	
 	@Override
 	public float getRotationYaw() {
-		return this.internal.yRot;
+		return this.internalEntity.yRot;
 	}
 	
 	@Override
 	public float getHeadRotationYaw() {
-		return this.internal.getYHeadRot();
+		return this.internalEntity.getYHeadRot();
 	}
 	
 	@Override
 	public float getPreviousRotationYaw() {
-		return this.internal.yRotO;
+		return this.internalEntity.yRotO;
 	}
 	
 	@Override
 	public float getRotationPitch() {
-		return this.internal.xRot;
+		return this.internalEntity.xRot;
 	}
 	
 	@Override
 	public float getPreviousRotationPitch() {
-		return this.internal.xRotO;
+		return this.internalEntity.xRotO;
 	}
 	
 	@Override
 	public int getPassengerCount() {
-		return this.internal.getPassengers().size();
+		return this.internalEntity.getPassengers().size();
 	}
 	
 	@Override
 	public List<Entity> getPassengers() {
-		return this.internal.getPassengers().stream()
+		return this.internalEntity.getPassengers().stream()
 				.map(InternalEntity::new)
 				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public boolean isPassenger(final Entity passenger) {
-		return this.internal.hasPassenger(passenger.getInternal());
+		return this.internalEntity.hasPassenger(passenger.getInternal());
 	}
 	
 	@Override
 	public void addPassenger(final Entity passenger) {
-		passenger.getInternal().startRiding(this.internal);
+		passenger.getInternal().startRiding(this.internalEntity);
 	}
 	
 	@Override
@@ -121,36 +121,36 @@ public class InternalEntity implements Entity {
 	
 	@Override
 	public Entity getRiding() {
-		return new InternalEntity(this.internal.getVehicle());
+		return new InternalEntity(this.internalEntity.getVehicle());
 	}
 	
 	@Override
 	public void setRiding(final Entity riding) {
-		this.internal.startRiding(riding.getInternal());
+		this.internalEntity.startRiding(riding.getInternal());
 	}
 	
 	@Override
 	public boolean isDead() {
-		return !this.internal.isAlive();
+		return !this.internalEntity.isAlive();
 	}
 	
 	@Override
 	public void damage(final float damage, final String message) {
-		this.internal.hurt(new DamageSource(message), damage);
+		this.internalEntity.hurt(new DamageSource(message), damage);
 	}
 	
 	@Override
 	public void directDamage(final float damage, final String message) {
-		this.internal.hurt(new DamageSource(message).bypassArmor(), damage);
+		this.internalEntity.hurt(new DamageSource(message).bypassArmor(), damage);
 	}
 	
 	@Override
 	public void kill() {
-		this.internal.kill();
+		this.internalEntity.kill();
 	}
 	
 	@Override
 	public net.minecraft.entity.Entity getInternal() {
-		return this.internal;
+		return this.internalEntity;
 	}
 }
