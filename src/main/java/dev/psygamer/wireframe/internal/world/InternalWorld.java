@@ -11,7 +11,7 @@ import net.minecraft.world.LightType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
 
-public class InternalWorld extends World {
+public class InternalWorld implements World {
 	
 	private final net.minecraft.world.World internal;
 	
