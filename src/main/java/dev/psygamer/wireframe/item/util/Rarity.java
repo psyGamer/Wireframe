@@ -13,6 +13,20 @@ public enum Rarity {
 		this.internal = internal;
 	}
 	
+	public static Rarity get(final net.minecraft.item.Rarity internal) {
+		switch (internal) {
+			default:
+			case COMMON:
+				return COMMON;
+			case UNCOMMON:
+				return UNCOMMON;
+			case RARE:
+				return RARE;
+			case EPIC:
+				return EPIC;
+		}
+	}
+	
 	public net.minecraft.item.Rarity getInternal() {
 		return this.internal;
 	}
