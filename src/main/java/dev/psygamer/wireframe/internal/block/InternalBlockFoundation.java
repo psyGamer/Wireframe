@@ -6,6 +6,7 @@ import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Player;
 
+import dev.psygamer.wireframe.world.BlockReader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -175,28 +176,29 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	@Override
-	public void onProjectileHit(final World world, final net.minecraft.block.BlockState state, final BlockRayTraceResult hitResult, final ProjectileEntity projctile) {
+	public void onProjectileHit(final World world, final net.minecraft.block.BlockState state, final BlockRayTraceResult hitResult, final ProjectileEntity projectile) {
 		this.block.onHitByProjectile(
 				convertBlockState(state),
 				
 				dev.psygamer.wireframe.world.World.get(world),
-				dev.psygamer.wireframe.entity.ProjectileEntity.get(projctile)
+				dev.psygamer.wireframe.entity.ProjectileEntity.get(projectile)
 		);
 	}
 	
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(final net.minecraft.block.BlockState state, final IBlockReader world) {
+	public TileEntity createTileEntity(final net.minecraft.block.BlockState state, final IBlockReader blockReader) {
 		return this.block.createBlockEntity(
-				convertBlockState(state), world
+				convertBlockState(state), BlockReader.get(blockReader)
 		);
 	}
 	
 	@Override
-	public ItemStack getPickBlock(final net.minecraft.block.BlockState state, final RayTraceResult target, final IBlockReader world, final BlockPos pos, final PlayerEntity player) {
+	public ItemStack getPickBlock(final net.minecraft.block.BlockState state, final RayTraceResult target, final IBlockReader blockReader, final BlockPos pos, final PlayerEntity player) {
 		return this.block.createPickBlockStack(
 				convertBlockState(state),
-				dev.psygamer.wireframe.util.BlockPosition.get(pos), world
+				dev.psygamer.wireframe.util.BlockPosition.get(pos),
+				BlockReader.get(blockReader)
 		);
 	}
 	

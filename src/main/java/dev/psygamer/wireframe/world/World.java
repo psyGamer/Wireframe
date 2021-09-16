@@ -5,7 +5,7 @@ import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.world.InternalWorld;
 import dev.psygamer.wireframe.util.BlockPosition;
 
-public interface World {
+public interface World extends BlockReader {
 	
 	static World get(final net.minecraft.world.World internalWorld) {
 		return new InternalWorld(internalWorld);
@@ -15,11 +15,7 @@ public interface World {
 	
 	boolean isServerSide();
 	
-	BlockFoundation getBlock(final BlockPosition position);
-	
 	void setBlock(final BlockFoundation block, final BlockPosition position);
-	
-	BlockState getBlockState(final BlockPosition position);
 	
 	void setBlockState(final BlockState blockState, final BlockPosition position);
 	

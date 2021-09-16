@@ -10,13 +10,13 @@ import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
 
 import java.util.List;
 import java.util.Random;
@@ -144,13 +144,13 @@ public class BlockFoundation {
 	}
 	
 	public TileEntity createBlockEntity(
-			final BlockState blockState, final IBlockReader world
+			final BlockState blockState, final BlockReader blockReader
 	) {
 		return null;
 	}
 	
 	public ItemStack createPickBlockStack(
-			final BlockState blockState, final BlockPosition pos, final IBlockReader world
+			final BlockState blockState, final BlockPosition pos, final BlockReader blockReader
 	) {
 		return null;
 	}
