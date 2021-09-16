@@ -6,10 +6,6 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d;
 
 public interface Player extends LivingEntity {
 	
-	int getHealthLevel();
-	
-	void setHealthLevel(final int healthLevel);
-	
 	int getFoodLevel();
 	
 	void setFoodLevel(int foodLevel);
