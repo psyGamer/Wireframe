@@ -21,12 +21,21 @@ import java.util.Random;
 
 public class BlockFoundation {
 	
-	protected final InternalBlockFoundation internal;
+	protected final net.minecraft.block.Block internal;
 	
 	protected final Identifier identifier;
 	
 	protected final BlockAttributes attributes;
 	protected final BlockState defaultBlockState;
+	
+	public BlockFoundation(final net.minecraft.block.Block internal) {
+		this.identifier = Identifier.get(internal.getRegistryName());
+		this.attributes = null;
+		
+		this.internal = internal;
+		
+		this.defaultBlockState = new BlockState(this);
+	}
 	
 	public BlockFoundation(final Identifier identifier, final BlockAttributes attributes) {
 		this.identifier = identifier;
@@ -37,6 +46,10 @@ public class BlockFoundation {
 		this.defaultBlockState = new BlockState(this);
 		
 		BlockRegistry.register(this);
+	}
+	
+	public static BlockFoundation get(final net.minecraft.block.Block internal) {
+		return new BlockFoundation(internal);
 	}
 	
 	public Identifier getIdentifier() {
@@ -58,7 +71,7 @@ public class BlockFoundation {
 		this.defaultBlockState.setProperty(property, property.getDefaultValue());
 	}
 	
-	public InternalBlockFoundation getInternal() {
+	public net.minecraft.block.Block getInternal() {
 		return this.internal;
 	}
 	

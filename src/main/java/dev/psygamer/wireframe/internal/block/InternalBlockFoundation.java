@@ -52,7 +52,7 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	public static BlockState convertBlockState(final net.minecraft.block.BlockState blockState) {
-		return convertBlockState(convertBlock(blockState.getBlock()), blockState);
+		return convertBlockState(BlockFoundation.get(blockState.getBlock()), blockState);
 	}
 	
 	public static BlockState convertBlockState(final BlockFoundation block, final net.minecraft.block.BlockState blockState) {
