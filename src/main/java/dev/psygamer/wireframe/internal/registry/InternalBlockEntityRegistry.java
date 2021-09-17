@@ -3,8 +3,8 @@ package dev.psygamer.wireframe.internal.registry;
 import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
-import dev.psygamer.wireframe.registry.TileEntityRegistry;
-import dev.psygamer.wireframe.tileentity.TileEntity;
+import dev.psygamer.wireframe.registry.BlockEntityRegistry;
+import dev.psygamer.wireframe.block.entity.BlockEntity;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,22 +14,22 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @ModEventBusSubscriber
-public class InternalTileEntityRegistry {
+public class InternalBlockEntityRegistry {
 	
-	private final TileEntityRegistry registry;
+	private final BlockEntityRegistry registry;
 	
-	public InternalTileEntityRegistry(final TileEntityRegistry registry) {
+	public InternalBlockEntityRegistry(final BlockEntityRegistry registry) {
 		this.registry = registry;
 	}
 	
-	public static InternalTileEntityRegistry createInstance(final String modID) {
-		return new TileEntityRegistry(modID).getInternal();
+	public static InternalBlockEntityRegistry createInstance(final String modID) {
+		return new BlockEntityRegistry(modID).getInternal();
 	}
 	
 	@SubscribeEvent
 	public void onBlockRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
-		TileEntityRegistry.freeze();
-		TileEntityRegistry.getTileEntities().stream()
+		BlockEntityRegistry.freeze();
+		BlockEntityRegistry.getTileEntities().stream()
 				.filter(tileEntity -> Objects.equals(
 						tileEntity.getIdentifier().getNamespace(), this.registry.getModID()))
 				.forEach(tileEntity -> {
@@ -46,7 +46,7 @@ public class InternalTileEntityRegistry {
 				});
 	}
 	
-	private TileEntityType<?> generateTileEntityType(final TileEntity tileEntity) {
+	private TileEntityType<?> generateTileEntityType(final BlockEntity tileEntity) {
 		return TileEntityType.Builder.of(
 				tileEntity::getInternal,
 				Arrays.stream(tileEntity.getTileEntityHolders())

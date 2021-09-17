@@ -1,6 +1,6 @@
-package dev.psygamer.wireframe.internal.tileentity;
+package dev.psygamer.wireframe.internal.block.entity;
 
-import dev.psygamer.wireframe.tileentity.TileEntity;
+import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
@@ -11,11 +11,11 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 
 import javax.annotation.Nullable;
 
-public class InternalTileEntity extends net.minecraft.tileentity.TileEntity {
+public class InternalBlockEntity extends net.minecraft.tileentity.TileEntity {
 	
-	protected final TileEntity tileEntity;
+	protected final BlockEntity tileEntity;
 	
-	public InternalTileEntity(final TileEntity tileEntity) {
+	public InternalBlockEntity(final BlockEntity tileEntity) {
 		super(null);
 		
 		this.tileEntity = tileEntity;
