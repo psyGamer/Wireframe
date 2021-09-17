@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.Wireframe;
+import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 
 import net.minecraft.block.Block;
@@ -9,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Objects;
 
+@ModEventBusSubscriber
 public class InternalBlockRegistry {
 	
 	private final BlockRegistry registry;

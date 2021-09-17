@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.TileEntityRegistry;
 import dev.psygamer.wireframe.tileentity.TileEntityFoundation;
 
@@ -13,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.Arrays;
 import java.util.Objects;
 
+@ModEventBusSubscriber
 public class InternalTileEntityRegistry {
 	
 	private final TileEntityRegistry registry;
