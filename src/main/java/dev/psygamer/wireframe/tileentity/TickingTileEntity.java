@@ -1,11 +1,11 @@
 package dev.psygamer.wireframe.tileentity;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.util.Identifier;
 
-public class TickingTileEntity extends TileEntityFoundation {
+public class TickingTileEntity extends TileEntity {
 	
-	protected TickingTileEntity(final Identifier identifier, final BlockFoundation... tileEntityHolders) {
+	protected TickingTileEntity(final Identifier identifier, final Block... tileEntityHolders) {
 		super(identifier, tileEntityHolders);
 	}
 	

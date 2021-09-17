@@ -1,23 +1,23 @@
 package dev.psygamer.wireframe.tileentity;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.internal.tileentity.InternalTileEntity;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
 
-public class TileEntityFoundation {
+public class TileEntity {
 	
 	private final Identifier identifier;
-	private final BlockFoundation[] tileEntityHolders;
+	private final Block[] tileEntityHolders;
 	
 	private final InternalTileEntity internal;
 	
 	private World world;
 	private BlockPosition position;
 	
-	protected TileEntityFoundation(final Identifier identifier, final BlockFoundation... tileEntityHolders) {
+	protected TileEntity(final Identifier identifier, final Block... tileEntityHolders) {
 		
 		this.identifier = identifier;
 		this.tileEntityHolders = tileEntityHolders;
@@ -52,7 +52,7 @@ public class TileEntityFoundation {
 		return this.identifier;
 	}
 	
-	public final BlockFoundation[] getTileEntityHolders() {
+	public final Block[] getTileEntityHolders() {
 		return this.tileEntityHolders;
 	}
 	

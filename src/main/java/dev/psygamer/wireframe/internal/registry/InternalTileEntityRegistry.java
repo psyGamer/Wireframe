@@ -1,12 +1,11 @@
 package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.Wireframe;
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.TileEntityRegistry;
-import dev.psygamer.wireframe.tileentity.TileEntityFoundation;
+import dev.psygamer.wireframe.tileentity.TileEntity;
 
-import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,12 +46,12 @@ public class InternalTileEntityRegistry {
 				});
 	}
 	
-	private TileEntityType<?> generateTileEntityType(final TileEntityFoundation tileEntity) {
+	private TileEntityType<?> generateTileEntityType(final TileEntity tileEntity) {
 		return TileEntityType.Builder.of(
 				tileEntity::getInternal,
 				Arrays.stream(tileEntity.getTileEntityHolders())
-						.map(BlockFoundation::getInternal)
-						.toArray(Block[]::new)
+						.map(Block::getInternal)
+						.toArray(net.minecraft.block.Block[]::new)
 		).build(null);
 	}
 }

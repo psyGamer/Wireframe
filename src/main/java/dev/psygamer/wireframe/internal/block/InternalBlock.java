@@ -1,19 +1,17 @@
 package dev.psygamer.wireframe.internal.block;
 
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.BlockAttributes;
-import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Player;
 
 import dev.psygamer.wireframe.world.BlockReader;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
@@ -32,11 +30,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("deprecation")
-public class InternalBlockFoundation extends Block {
+public class InternalBlock extends net.minecraft.block.Block {
 	
-	private final BlockFoundation block;
+	private final Block block;
 	
-	public InternalBlockFoundation(final BlockFoundation block, final BlockAttributes attributes) {
+	public InternalBlock(final Block block, final BlockAttributes attributes) {
 		super(attributes.getInternal().createProperties());
 		
 		this.block = block;
@@ -44,10 +42,10 @@ public class InternalBlockFoundation extends Block {
 	}
 	
 	public static BlockState convertBlockState(final net.minecraft.block.BlockState blockState) {
-		return convertBlockState(BlockFoundation.get(blockState.getBlock()), blockState);
+		return convertBlockState(Block.get(blockState.getBlock()), blockState);
 	}
 	
-	public static BlockState convertBlockState(final BlockFoundation block, final net.minecraft.block.BlockState blockState) {
+	public static BlockState convertBlockState(final Block block, final net.minecraft.block.BlockState blockState) {
 		final AtomicReference<BlockState> blockStateReference = new AtomicReference<>(
 				block.getDefaultBlockState()
 		);

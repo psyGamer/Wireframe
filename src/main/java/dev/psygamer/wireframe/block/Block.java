@@ -5,7 +5,7 @@ import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.entity.ProjectileEntity;
-import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
+import dev.psygamer.wireframe.internal.block.InternalBlock;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.registry.BlockRegistry;
@@ -19,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.List;
 import java.util.Random;
 
-public class BlockFoundation {
+public class Block {
 	
 	protected final net.minecraft.block.Block internal;
 	
@@ -28,7 +28,7 @@ public class BlockFoundation {
 	protected final BlockAttributes attributes;
 	protected final BlockState defaultBlockState;
 	
-	public BlockFoundation(final net.minecraft.block.Block internal) {
+	public Block(final net.minecraft.block.Block internal) {
 		this.identifier = Identifier.get(internal.getRegistryName());
 		this.attributes = null;
 		
@@ -37,19 +37,19 @@ public class BlockFoundation {
 		this.defaultBlockState = new BlockState(this);
 	}
 	
-	public BlockFoundation(final Identifier identifier, final BlockAttributes attributes) {
+	public Block(final Identifier identifier, final BlockAttributes attributes) {
 		this.identifier = identifier;
 		this.attributes = attributes;
 		
-		this.internal = new InternalBlockFoundation(this, attributes);
+		this.internal = new InternalBlock(this, attributes);
 		
 		this.defaultBlockState = new BlockState(this);
 		
 		BlockRegistry.register(this);
 	}
 	
-	public static BlockFoundation get(final net.minecraft.block.Block internal) {
-		return new BlockFoundation(internal);
+	public static Block get(final net.minecraft.block.Block internal) {
+		return new Block(internal);
 	}
 	
 	public Identifier getIdentifier() {

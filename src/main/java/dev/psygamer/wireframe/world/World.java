@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.world;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.world.InternalWorld;
 import dev.psygamer.wireframe.util.BlockPosition;
@@ -15,7 +15,7 @@ public interface World extends BlockReader {
 	
 	boolean isServerSide();
 	
-	void setBlock(final BlockFoundation block, final BlockPosition position);
+	void setBlock(final Block block, final BlockPosition position);
 	
 	void setBlockState(final BlockState blockState, final BlockPosition position);
 	
@@ -29,7 +29,7 @@ public interface World extends BlockReader {
 	
 	boolean isAir(final BlockPosition position);
 	
-	boolean isBlock(final BlockFoundation block, final BlockPosition position);
+	boolean isBlock(final Block block, final BlockPosition position);
 	
 	boolean isLoaded(final BlockPosition position);
 	
