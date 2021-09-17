@@ -34,8 +34,6 @@ import java.util.stream.Collectors;
 @SuppressWarnings("deprecation")
 public class InternalBlockFoundation extends Block {
 	
-	private static final Map<Block, BlockFoundation> cachedBlocks = new HashMap<>();
-	
 	private final BlockFoundation block;
 	
 	public InternalBlockFoundation(final BlockFoundation block, final BlockAttributes attributes) {
@@ -43,12 +41,6 @@ public class InternalBlockFoundation extends Block {
 		
 		this.block = block;
 		this.setRegistryName(block.getIdentifier().getNamespace(), block.getIdentifier().getPath());
-		
-		cachedBlocks.put(this, block);
-	}
-	
-	public static BlockFoundation convertBlock(final Block block) {
-		return cachedBlocks.get(block);
 	}
 	
 	public static BlockState convertBlockState(final net.minecraft.block.BlockState blockState) {
