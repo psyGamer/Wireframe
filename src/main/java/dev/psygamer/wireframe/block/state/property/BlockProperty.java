@@ -13,20 +13,17 @@ import java.util.Objects;
 
 public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	
-	protected final InternalBlockProperty<T> internal;
-	
 	protected final String propertyName;
 	protected final FreezableMap<String, T> entries;
 	
 	protected T defaultValue;
+	protected InternalBlockProperty<T> internal;
 	
 	public BlockProperty(final String propertyName) {
 		Objects.requireNonNull(propertyName, "The property name may not be null");
 		
 		this.propertyName = propertyName;
 		this.entries = new FreezableLinkedHashMap<>();
-		
-		this.internal = new InternalBlockProperty<>(this);
 	}
 	
 	public String getPropertyName() {
@@ -59,6 +56,10 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 			throw new ValueAlreadyDefinedException(value.toString());
 		
 		this.entries.put(valueName, value);
+		
+		if (this.defaultValue == null) {
+			this.defaultValue = value;
+		}
 	}
 	
 	public T getDefaultValue() {
@@ -84,6 +85,8 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	@Override
 	public void freeze() {
 		this.entries.freeze();
+		
+		this.internal = new InternalBlockProperty<>(this);
 	}
 	
 	@Override
