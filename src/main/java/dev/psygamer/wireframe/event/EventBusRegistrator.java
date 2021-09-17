@@ -10,16 +10,30 @@ import dev.psygamer.wireframe.util.reflection.ClassUtil;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 public class EventBusRegistrator {
 	
 	public static void registerModLoadingEventBuses() {
 		getEventClassStream()
-				.filter(clazz -> clazz.isAnnotationPresent(ModEventBusSubscriber.class))
-				.forEach(clazz -> {
-					Wireframe.getMods().forEach(mod -> mod
-							.getInternalModEventBus()
-							.register(clazz));
+				.filter(clazz -> clazz.isAnnotationPresent(ModEventBusSubscriber.class)
+				).forEach(clazz -> {
+					try {
+						Wireframe.getMods().forEach(mod -> {
+							final net.minecraftforge.eventbus.api.IEventBus modEventBus = mod.getInternalModEventBus();
+							
+							try {
+								final Method creatorMethod = clazz.getDeclaredMethod("createInstance", String.class);
+								final Object classInstance = creatorMethod.invoke(null,mod.getModID());
+								
+								modEventBus.register(classInstance);
+								
+							} catch (final NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+								throw new IllegalStateException(); // Break out of the forEach loop
+							}
+						});
+					} catch (final IllegalStateException ignored) { } // A hacky way of breaking from Stream#forEach()
 					
 					Wireframe.LOGGER.info("Added " + clazz + " to the mod event bus");
 				});
