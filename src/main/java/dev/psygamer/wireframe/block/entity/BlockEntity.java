@@ -1,28 +1,28 @@
-package dev.psygamer.wireframe.tileentity;
+package dev.psygamer.wireframe.block.entity;
 
 import dev.psygamer.wireframe.block.Block;
-import dev.psygamer.wireframe.internal.tileentity.InternalTileEntity;
+import dev.psygamer.wireframe.internal.block.entity.InternalBlockEntity;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
 
-public class TileEntity {
+public class BlockEntity {
 	
 	private final Identifier identifier;
 	private final Block[] tileEntityHolders;
 	
-	private final InternalTileEntity internal;
+	private final InternalBlockEntity internal;
 	
 	private World world;
 	private BlockPosition position;
 	
-	protected TileEntity(final Identifier identifier, final Block... tileEntityHolders) {
+	protected BlockEntity(final Identifier identifier, final Block... tileEntityHolders) {
 		
 		this.identifier = identifier;
 		this.tileEntityHolders = tileEntityHolders;
 		
-		this.internal = new InternalTileEntity(this);
+		this.internal = new InternalBlockEntity(this);
 	}
 	
 	public void saveNBT(final TagCompound tagCompound) {
@@ -64,7 +64,7 @@ public class TileEntity {
 		return this.position;
 	}
 	
-	public final InternalTileEntity getInternal() {
+	public final InternalBlockEntity getInternal() {
 		return this.internal;
 	}
 }
