@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.Wireframe;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
+import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 
 import net.minecraft.item.Item;
@@ -17,6 +18,10 @@ public class InternalItemRegistry {
 	
 	public InternalItemRegistry(final ItemRegistry itemRegistry) {
 		this.itemRegistry = itemRegistry;
+	}
+	
+	public static InternalItemRegistry createInstance(final String modID) {
+		return new ItemRegistry(modID).getInternal();
 	}
 	
 	@SubscribeEvent

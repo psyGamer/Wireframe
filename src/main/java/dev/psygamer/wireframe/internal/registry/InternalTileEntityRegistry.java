@@ -21,6 +21,10 @@ public class InternalTileEntityRegistry {
 		this.registry = registry;
 	}
 	
+	public static InternalTileEntityRegistry createInstance(final String modID) {
+		return new TileEntityRegistry(modID).getInternal();
+	}
+	
 	@SubscribeEvent
 	public void onBlockRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
 		TileEntityRegistry.freeze();
