@@ -9,6 +9,10 @@ public class Identifier {
 		this.path = path;
 	}
 	
+	public static Identifier get(final net.minecraft.util.ResourceLocation internal) {
+		return new Identifier(internal.getNamespace(), internal.getPath());
+	}
+	
 	public String getNamespace() {
 		return this.namespace;
 	}
