@@ -96,9 +96,7 @@ public class InternalItemFoundation extends Item {
 	
 	@Override
 	public boolean mineBlock(final ItemStack itemStack, final World world, final net.minecraft.block.BlockState state, final BlockPos pos, final LivingEntity entity) {
-		final BlockState blockState = InternalBlockFoundation.convertBlockState(
-				InternalBlockFoundation.convertBlock(state.getBlock()), state
-		);
+		final BlockState blockState = InternalBlockFoundation.convertBlockState(state);
 		
 		return this.item.onBlockMined(
 				dev.psygamer.wireframe.item.ItemStack.get(itemStack), blockState,
