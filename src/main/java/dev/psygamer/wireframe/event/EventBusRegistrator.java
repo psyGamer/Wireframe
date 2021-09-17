@@ -49,11 +49,10 @@ public class EventBusRegistrator {
 	}
 	
 	private static Stream<Class<?>> getEventClassStream() {
-		final List<Class<?>> classes = new ArrayList<>(
-				ClassUtil.getClasses("dev.psygamer.wireframe")
-		);
+		final List<Class<?>> classes = new ArrayList<>();
 		
-		Wireframe.getMods().forEach(mod -> classes.addAll(ClassUtil.getClasses(mod.getRootPackage())));
+		Wireframe.getMods()
+				.forEach(mod -> classes.addAll(ClassUtil.getClasses(mod.getRootPackage())));
 		
 		return classes.stream();
 	}
