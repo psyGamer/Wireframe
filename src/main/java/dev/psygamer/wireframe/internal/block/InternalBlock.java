@@ -192,11 +192,13 @@ public class InternalBlock extends net.minecraft.block.Block {
 	
 	@Override
 	public ItemStack getPickBlock(final net.minecraft.block.BlockState state, final RayTraceResult target, final IBlockReader blockReader, final BlockPos pos, final PlayerEntity player) {
-		return this.block.createPickBlockStack(
+		final dev.psygamer.wireframe.item.ItemStack pickBlock = this.block.createPickBlockStack(
 				convertBlockState(state),
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				BlockReader.get(blockReader)
-		).toInternal();
+		);
+		
+		return pickBlock == null ? ItemStack.EMPTY : pickBlock.toInternal();
 	}
 	
 	@Override
