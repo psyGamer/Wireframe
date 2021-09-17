@@ -20,7 +20,7 @@ public class ItemDisplayBlock extends BlockFoundation {
 	public static final DirectionBlockProperty FACING = new DirectionBlockProperty("facing");
 	
 	public ItemDisplayBlock() {
-		super(new Identifier("test_mod", "item_display"),
+		super(new Identifier("wireframe", "item_display"),
 				
 				new BlockAttributes(Material.WOOD)
 						.hardness(1.0f)
