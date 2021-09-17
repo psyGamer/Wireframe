@@ -1,14 +1,13 @@
 package dev.psygamer.wireframe.internal.item;
 
 import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
+import dev.psygamer.wireframe.internal.block.InternalBlock;
+import dev.psygamer.wireframe.item.Item;
 import dev.psygamer.wireframe.item.ItemAttributes;
-import dev.psygamer.wireframe.item.ItemFoundation;
 
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
@@ -22,8 +21,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InternalItemFoundation extends Item {
-	private static final Map<Item, ItemFoundation> cachedItems = new HashMap<>();
+public class InternalItem extends net.minecraft.item.Item {
+	private static final Map<net.minecraft.item.Item, Item> cachedItems = new HashMap<>();
 	
 	private static final Field hitResultField;
 	
@@ -39,11 +38,11 @@ public class InternalItemFoundation extends Item {
 		hitResultField = tmp;
 	} // TODO Use AT or extend ItemUseContext
 	
-	private final ItemFoundation item;
+	private final Item item;
 	
 	/* Item Events */
 	
-	public InternalItemFoundation(final ItemFoundation item, final ItemAttributes attributes) {
+	public InternalItem(final Item item, final ItemAttributes attributes) {
 		super(attributes.getInternal().createProperties());
 		
 		this.item = item;
@@ -52,7 +51,7 @@ public class InternalItemFoundation extends Item {
 		cachedItems.put(this, item);
 	}
 	
-	public static ItemFoundation convertItem(final Item item) {
+	public static Item convertItem(final net.minecraft.item.Item item) {
 		return cachedItems.get(item);
 	}
 	
@@ -96,7 +95,7 @@ public class InternalItemFoundation extends Item {
 	
 	@Override
 	public boolean mineBlock(final ItemStack itemStack, final World world, final net.minecraft.block.BlockState state, final BlockPos pos, final LivingEntity entity) {
-		final BlockState blockState = InternalBlockFoundation.convertBlockState(state);
+		final BlockState blockState = InternalBlock.convertBlockState(state);
 		
 		return this.item.onBlockMined(
 				dev.psygamer.wireframe.item.ItemStack.get(itemStack), blockState,

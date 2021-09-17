@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.internal.world;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.World;
@@ -31,7 +30,7 @@ public class InternalWorld extends InternalBlockReader implements World {
 	}
 	
 	@Override
-	public void setBlock(final BlockFoundation block, final BlockPosition position) {
+	public void setBlock(final dev.psygamer.wireframe.block.Block block, final BlockPosition position) {
 		setBlockState(block.getDefaultBlockState(), position);
 	}
 	
@@ -43,7 +42,7 @@ public class InternalWorld extends InternalBlockReader implements World {
 	@Override
 	public boolean isReplaceable(final BlockPosition position) {
 		final net.minecraft.block.BlockState blockState = this.internalWorld.getBlockState(position.toInternal());
-		final Block block = blockState.getBlock();
+		final net.minecraft.block.Block block = blockState.getBlock();
 		
 		return blockState.getMaterial().isReplaceable() ||
 				
@@ -78,7 +77,7 @@ public class InternalWorld extends InternalBlockReader implements World {
 	}
 	
 	@Override
-	public boolean isBlock(final BlockFoundation block, final BlockPosition position) {
+	public boolean isBlock(final dev.psygamer.wireframe.block.Block block, final BlockPosition position) {
 		return this.internalWorld.getBlockState(position.toInternal()).getBlock() == block.getInternal();
 	}
 	

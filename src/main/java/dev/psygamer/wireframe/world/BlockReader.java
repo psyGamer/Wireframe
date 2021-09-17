@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.world;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.internal.world.InternalBlockReader;
 import dev.psygamer.wireframe.util.BlockPosition;
@@ -15,7 +15,7 @@ public interface BlockReader {
 	
 	int getLowestBlockPosition();
 	
-	BlockFoundation getBlock(final BlockPosition position);
+	Block getBlock(final BlockPosition position);
 	
 	BlockState getBlockState(final BlockPosition position);
 }

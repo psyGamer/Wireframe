@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.item;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.entity.LivingEntity;
 import dev.psygamer.wireframe.entity.Player;
-import dev.psygamer.wireframe.internal.item.InternalItemFoundation;
+import dev.psygamer.wireframe.internal.item.InternalItem;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.ClickResultContainer;
 import dev.psygamer.wireframe.item.util.Hand;
@@ -33,19 +33,19 @@ net.minecraft.world.IBlockReader;
 
  */
 
-public class ItemFoundation {
+public class Item {
 	
-	protected final InternalItemFoundation internal;
+	protected final InternalItem internal;
 	
 	protected final Identifier identifier;
 	
 	protected final ItemAttributes attributes;
 	
-	public ItemFoundation(final Identifier identifier, final ItemAttributes attributes) {
+	public Item(final Identifier identifier, final ItemAttributes attributes) {
 		this.identifier = identifier;
 		this.attributes = attributes;
 		
-		this.internal = new InternalItemFoundation(this, attributes);
+		this.internal = new InternalItem(this, attributes);
 		
 		ItemRegistry.register(this);
 	}
@@ -100,7 +100,7 @@ public class ItemFoundation {
 		return this.attributes;
 	}
 	
-	public InternalItemFoundation getInternal() {
+	public InternalItem getInternal() {
 		return this.internal;
 	}
 }

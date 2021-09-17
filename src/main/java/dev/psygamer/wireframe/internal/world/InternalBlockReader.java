@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.internal.world;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.internal.block.InternalBlockFoundation;
+import dev.psygamer.wireframe.internal.block.InternalBlock;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.BlockReader;
 import net.minecraft.world.IBlockReader;
@@ -26,12 +26,12 @@ public class InternalBlockReader implements BlockReader {
 	}
 	
 	@Override
-	public BlockFoundation getBlock(final BlockPosition position) {
+	public Block getBlock(final BlockPosition position) {
 		return getBlockState(position).getBlock();
 	}
 	
 	@Override
 	public BlockState getBlockState(final BlockPosition position) {
-		return InternalBlockFoundation.convertBlockState(this.internalBlockReader.getBlockState(position.toInternal()));
+		return InternalBlock.convertBlockState(this.internalBlockReader.getBlockState(position.toInternal()));
 	}
 }

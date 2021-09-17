@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.registry;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 
 import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.internal.registry.InternalBlockRegistry;
@@ -9,7 +9,7 @@ import dev.psygamer.wireframe.util.collection.FreezableList;
 
 public class BlockRegistry {
 	
-	protected static FreezableList<BlockFoundation> blocks = new FreezableArrayList<>();
+	protected static FreezableList<Block> blocks = new FreezableArrayList<>();
 	
 	protected final String modID;
 	protected final InternalBlockRegistry internal;
@@ -21,11 +21,11 @@ public class BlockRegistry {
 	}
 	
 	
-	public static void register(final BlockFoundation block) {
+	public static void register(final Block block) {
 		blocks.add(block);
 	}
 	
-	public static ImmutableList<BlockFoundation> getBlocks() {
+	public static ImmutableList<Block> getBlocks() {
 		return blocks.toImmutable();
 	}
 	

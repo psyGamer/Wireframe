@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.block.state;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
 import dev.psygamer.wireframe.internal.block.InternalBlockState;
@@ -15,10 +15,10 @@ public class BlockState implements ICloneable<BlockState> {
 	
 	private final InternalBlockState internal;
 	
-	private final BlockFoundation block;
+	private final Block block;
 	private final Set<BlockProperty.ValuePair<?>> values;
 	
-	public BlockState(final BlockFoundation block) {
+	public BlockState(final Block block) {
 		this.block = block;
 		this.values = new HashSet<>();
 		
@@ -59,7 +59,7 @@ public class BlockState implements ICloneable<BlockState> {
 		return getValuePair(property) != null;
 	}
 	
-	public BlockFoundation getBlock() {
+	public Block getBlock() {
 		return this.block;
 	}
 	

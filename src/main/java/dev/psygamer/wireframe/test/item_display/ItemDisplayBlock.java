@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.test.item_display;
 
-import dev.psygamer.wireframe.block.BlockFoundation;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty;
@@ -15,7 +15,7 @@ import net.minecraft.block.material.Material;
  * Once this block is finished it should be an item display.
  */
 
-public class ItemDisplayBlock extends BlockFoundation {
+public class ItemDisplayBlock extends Block {
 	
 	public static final DirectionBlockProperty FACING = new DirectionBlockProperty("facing");
 	

@@ -15,7 +15,7 @@ import net.minecraftforge.common.ToolType;
  *
  * @author psyGamer
  * @version 1.0 | Minecraft 1.16 +
- * @see BlockFoundation
+ * @see Block
  * @since 1.0 | Minecraft 1.16
  */
 public class BlockAttributes implements ICloneable<BlockAttributes> {
