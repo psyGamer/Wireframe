@@ -90,6 +90,8 @@ public class InternalBlockFoundation extends Block {
 	
 	@Override
 	public void onRemove(final net.minecraft.block.BlockState newBlockState, final World world, final BlockPos pos, final net.minecraft.block.BlockState oldBlockState, final boolean isMoving) {
+		super.onRemove(newBlockState, world, pos, oldBlockState, isMoving);
+		
 		this.block.onBlockRemoved(
 				convertBlockState(oldBlockState),
 				convertBlockState(newBlockState),
@@ -101,6 +103,8 @@ public class InternalBlockFoundation extends Block {
 	
 	@Override
 	public boolean removedByPlayer(final net.minecraft.block.BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final boolean willHarvest, final FluidState fluid) {
+		super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
+		
 		return this.block.onBlockRemovedByPlayer(
 				convertBlockState(state),
 				convertBlockState(state),
@@ -141,6 +145,8 @@ public class InternalBlockFoundation extends Block {
 	
 	@Override
 	public void fallOn(final World world, final BlockPos pos, final Entity entity, final float distance) {
+		super.fallOn(world, pos, entity, distance);
+		
 		this.block.onEntityFallOnBlock(
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world),
