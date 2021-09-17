@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.event.EventBus;
 import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.api.IEventBus;
@@ -18,7 +19,7 @@ public class Wireframe {
 	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
 	public static final IEventBus EVENT_BUS = new EventBus();
 	
-	private static final List<Mod> mods = new ArrayList<>();
+	private static final List<Mod> mods = Lists.newArrayList(new InternalMod());
 	private static Internal internal;
 	
 	public static void register(final Mod mod) {
@@ -90,6 +91,14 @@ public class Wireframe {
 		private void onModConstruct(final net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent event) {
 			EventBusRegistrator.registerModLoadingEventBuses();
 			EventBusRegistrator.registerWireframeEventBuses();
+		}
+	}
+	
+	/* A Wireframe$Mod implementation for native stuff */
+	private static final class InternalMod extends Mod {
+		
+		private InternalMod() {
+			super("wireframe", "Wireframe", "1.0");
 		}
 	}
 }
