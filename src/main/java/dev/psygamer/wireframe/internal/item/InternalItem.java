@@ -37,6 +37,7 @@ public class InternalItem extends net.minecraft.item.Item {
 		}
 		
 		hitResultField = tmp;
+		hitResultField.setAccessible(true);
 	} // TODO Use AT or extend ItemUseContext
 	
 	private final Item item;
