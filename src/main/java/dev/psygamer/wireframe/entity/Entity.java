@@ -11,6 +11,9 @@ import java.util.UUID;
 public interface Entity {
 	
 	static Entity get(final net.minecraft.entity.Entity internalEntity) {
+		if (internalEntity == null)
+			return null;
+		
 		return new InternalEntity(internalEntity);
 	}
 	

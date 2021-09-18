@@ -8,6 +8,9 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d;
 public interface Player extends LivingEntity {
 	
 	static Player get(final net.minecraft.entity.player.PlayerEntity internalPlayer) {
+		if (internalPlayer == null)
+			return null;
+		
 		return new InternalPlayer(internalPlayer);
 	}
 	
