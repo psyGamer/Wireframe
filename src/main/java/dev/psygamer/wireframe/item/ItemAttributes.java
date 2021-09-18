@@ -9,14 +9,15 @@ public class ItemAttributes {
 	
 	protected InternalItemAttributes internal;
 	
-	protected int maxStackSize;
+	protected int maxStackSize = 64;
 	
-	protected boolean fireResistant;
-	protected boolean repairable;
+	protected boolean fireResistant = false;
+	protected boolean repairable = false;
 	
 	protected ItemGroup itemGroup;
 	protected Item craftingRemainder;
-	protected Rarity rarity;
+	
+	protected Rarity rarity = Rarity.COMMON;
 	
 	/**
 	 * @author psyGamer
