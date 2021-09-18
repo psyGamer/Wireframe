@@ -5,36 +5,44 @@ import dev.psygamer.wireframe.util.TagCompound;
 
 public class ItemStack {
 	
-	protected int count;
+	protected final net.minecraft.item.ItemStack internal;
 	
 	protected Item item;
-	protected TagCompound tagData;
 	
 	public ItemStack(final Item item) {
 		this(item, 1);
 	}
 	
 	public ItemStack(final Item item, final int count) {
-	
+		this(item, count, null);
 	}
 	
 	public ItemStack(final Item item, final int count, final TagCompound tagData) {
 		this.item = item;
-		this.count = count;
 		
-		this.tagData = tagData;
+		this.internal = new net.minecraft.item.ItemStack(item.getInternal(), count, tagData.getInternal());
+	}
+	
+	private ItemStack(final net.minecraft.item.ItemStack internal) {
+		this.item = InternalItem.convertItem(internal.getItem());
+		
+		this.internal = internal;
 	}
 	
 	public static ItemStack get(final net.minecraft.item.ItemStack internalStack) {
-		return new ItemStack(
-				InternalItem.convertItem(internalStack.getItem()),
-				
-				internalStack.getCount(), TagCompound.get(internalStack.getTag())
-		);
+		return new ItemStack(internalStack);
+	}
+	
+	public void grow(final int amount) {
+		this.internal.grow(amount);
+	}
+	
+	public void shrink(final int amount) {
+		this.internal.shrink(amount);
 	}
 	
 	public int getCount() {
-		return this.count;
+		return this.internal.getCount();
 	}
 	
 	public Item getItem() {
@@ -42,10 +50,10 @@ public class ItemStack {
 	}
 	
 	public TagCompound getTag() {
-		return this.tagData;
+		return TagCompound.get(this.internal.getTag());
 	}
 	
-	public net.minecraft.item.ItemStack toInternal() {
-		return new net.minecraft.item.ItemStack(this.item.getInternal(), this.count, this.tagData.getInternal());
+	public net.minecraft.item.ItemStack getInternal() {
+		return this.internal;
 	}
 }

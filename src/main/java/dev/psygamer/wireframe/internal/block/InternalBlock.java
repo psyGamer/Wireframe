@@ -217,7 +217,7 @@ public class InternalBlock extends net.minecraft.block.Block {
 				BlockReader.get(blockReader)
 		);
 		
-		return pickBlock == null ? ItemStack.EMPTY : pickBlock.toInternal();
+		return pickBlock == null ? ItemStack.EMPTY : pickBlock.getInternal();
 	}
 	
 	@Override
@@ -225,7 +225,7 @@ public class InternalBlock extends net.minecraft.block.Block {
 		return this.block.createBlockDrops(
 						convertBlockState(state)
 				).stream()
-				.map(dev.psygamer.wireframe.item.ItemStack::toInternal)
+				.map(dev.psygamer.wireframe.item.ItemStack::getInternal)
 				.collect(Collectors.toList());
 	}
 }
