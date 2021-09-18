@@ -7,16 +7,19 @@ import dev.psygamer.wireframe.internal.block.InternalBlockState;
 import dev.psygamer.wireframe.util.helper.ICloneable;
 
 import com.google.common.collect.ImmutableSet;
+import dev.psygamer.wireframe.util.helper.IFreezable;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class BlockState implements ICloneable<BlockState> {
+public class BlockState implements IFreezable, ICloneable<BlockState> {
 	
 	private final InternalBlockState internal;
 	
 	private final Block block;
 	private final Set<BlockProperty.ValuePair<?>> values;
+	
+	private volatile boolean frozen = false;
 	
 	public BlockState(final Block block) {
 		this.block = block;
@@ -41,15 +44,31 @@ public class BlockState implements ICloneable<BlockState> {
 	}
 	
 	public <T extends Comparable<T>> BlockState setProperty(final BlockProperty<T> property, final T value) {
+		if (!this.values.contains(property))
+			IFreezable.throwIfFrozen(this);
+		
 		this.values.add(new BlockProperty.ValuePair<>(property, value));
 		
 		return this;
+	}
+	
+	public <T extends Comparable<T>> BlockState setObjectProperty(final BlockProperty<?> property, final Object value) {
+		return setProperty((BlockProperty<T>) property, (T) value);
 	}
 	
 	public <T extends Comparable<T>> BlockProperty.ValuePair<T> getValuePair(final BlockProperty<T> property) {
 		for (final BlockProperty.ValuePair<?> valuePair : this.values) {
 			if (valuePair.getProperty() == property)
 				return (BlockProperty.ValuePair<T>) valuePair;
+		}
+		
+		return null;
+	}
+	
+	public <T extends Comparable<T>> BlockProperty<T> getProperty(final String propertyName) {
+		for (final BlockProperty.ValuePair<?> valuePair : this.values) {
+			if (valuePair.getProperty().getPropertyName().equalsIgnoreCase(propertyName))
+				return (BlockProperty<T>) valuePair.getProperty();
 		}
 		
 		return null;
@@ -69,6 +88,16 @@ public class BlockState implements ICloneable<BlockState> {
 	
 	public net.minecraft.block.BlockState getInternal() {
 		return this.internal.any();
+	}
+	
+	@Override
+	public void freeze() {
+		this.frozen = true;
+	}
+	
+	@Override
+	public boolean isFrozen() {
+		return this.frozen;
 	}
 	
 	@Override
