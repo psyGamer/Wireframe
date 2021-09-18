@@ -6,6 +6,8 @@ import com.google.common.primitives.Longs;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class TagCompound {
@@ -138,6 +140,10 @@ public class TagCompound {
 	
 	public TagCompound getCompound(final String key) {
 		return TagCompound.get(this.internal.getCompound(key));
+	}
+	
+	public Set<String> getKeys() {
+		return this.internal.getAllKeys();
 	}
 	
 	public boolean contains(final String key) {
