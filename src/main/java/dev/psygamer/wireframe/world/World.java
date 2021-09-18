@@ -15,17 +15,17 @@ public interface World extends BlockReader {
 	
 	boolean isServerSide();
 	
-	void setBlock(final Block block, final BlockPosition position);
+	boolean setBlock(final Block block, final BlockPosition position);
 	
-	void setBlockState(final BlockState blockState, final BlockPosition position);
+	boolean setBlockState(final BlockState blockState, final BlockPosition position);
 	
 	boolean isReplaceable(final BlockPosition position);
 	
 	void notifyNeighbours(final BlockPosition position);
 	
-	void breakBlock(final BlockPosition position);
+	boolean breakBlock(final BlockPosition position);
 	
-	void breakBlock(final BlockPosition position, final boolean dropItems);
+	boolean breakBlock(final BlockPosition position, final boolean dropItems);
 	
 	boolean isAir(final BlockPosition position);
 	
