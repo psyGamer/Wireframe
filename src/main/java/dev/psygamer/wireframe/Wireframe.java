@@ -7,6 +7,7 @@ import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.api.IEventBus;
 
 import dev.psygamer.wireframe.test.item_display.ItemDisplayBlock;
+import dev.psygamer.wireframe.test.item_display.ItemDisplayItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -86,6 +87,7 @@ public class Wireframe {
 			modEventBus.addListener(this::onModConstruct);
 			
 			new ItemDisplayBlock();
+			new ItemDisplayItem();
 		}
 		
 		private void onModConstruct(final net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent event) {
