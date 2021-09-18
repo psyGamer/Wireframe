@@ -132,6 +132,14 @@ public class TagCompound {
 		return this.internal.getUUID(key);
 	}
 	
+	public void putCompound(final String key, final TagCompound compound) {
+		this.internal.put(key,compound.getInternal());
+	}
+	
+	public TagCompound getCompound(final String key) {
+		return TagCompound.get(this.internal.getCompound(key));
+	}
+	
 	public boolean contains(final String key) {
 		return this.internal.contains(key);
 	}
