@@ -51,6 +51,9 @@ public class Block {
 	}
 	
 	public static Block get(final net.minecraft.block.Block internal) {
+		if (internal == null)
+			return null;
+		
 		return new Block(internal);
 	}
 	

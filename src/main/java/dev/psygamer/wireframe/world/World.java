@@ -8,6 +8,9 @@ import dev.psygamer.wireframe.util.BlockPosition;
 public interface World extends BlockReader {
 	
 	static World get(final net.minecraft.world.World internalWorld) {
+		if (internalWorld == null)
+			return null;
+		
 		return new InternalWorld(internalWorld);
 	}
 	
