@@ -22,9 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InternalItem extends net.minecraft.item.Item {
-	private static final Map<net.minecraft.item.Item, Item> cachedItems = new HashMap<>();
 	
-	private static final Field hitResultField;
+	public static final Field hitResultField;
+	
+	private static final Map<net.minecraft.item.Item, Item> cachedItems = new HashMap<>();
 	
 	static {
 		Field tmp;

@@ -8,9 +8,11 @@ import dev.psygamer.wireframe.entity.ProjectileEntity;
 import dev.psygamer.wireframe.internal.block.InternalBlock;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
+import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
@@ -73,6 +75,13 @@ public class Block {
 	
 	public net.minecraft.block.Block getInternal() {
 		return this.internal;
+	}
+	
+	public BlockState getPlacementState(
+			final ItemStack usedItemStack,
+			final World world, final Player player, final Hand hand, final BlockHitResult hitResult
+	) {
+		return getDefaultBlockState();
 	}
 	
 	public boolean onBlockPlaced(

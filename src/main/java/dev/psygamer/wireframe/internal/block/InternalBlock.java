@@ -6,12 +6,15 @@ import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Player;
 
+import dev.psygamer.wireframe.internal.item.InternalItem;
+import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.BlockReader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
 import net.minecraft.tileentity.TileEntity;
@@ -61,6 +64,22 @@ public class InternalBlock extends net.minecraft.block.Block {
 	}
 	
 	/* Block Events */
+	
+	@Nullable
+	@Override
+	public net.minecraft.block.BlockState getStateForPlacement(final BlockItemUseContext context) {
+		try {
+			return this.block.getPlacementState(
+					dev.psygamer.wireframe.item.ItemStack.get(context.getItemInHand()),
+					dev.psygamer.wireframe.world.World.get(context.getLevel()),
+					Player.get(context.getPlayer()),
+					dev.psygamer.wireframe.item.util.Hand.get(context.getHand()),
+					BlockHitResult.get((BlockRayTraceResult) InternalItem.hitResultField.get(context))
+			).getInternal();
+		} catch (final IllegalAccessException e) {
+			return this.block.getInternal().defaultBlockState();
+		}
+	}
 	
 	@Override
 	public void onPlace(final net.minecraft.block.BlockState newBlockState, final World world, final BlockPos pos, final net.minecraft.block.BlockState oldBlockState, final boolean isMoving) {

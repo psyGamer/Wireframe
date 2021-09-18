@@ -59,7 +59,7 @@ public class Item {
 	
 	public ClickResult onItemUsedOnBlock(
 			final ItemStack usedItemStack,
-			final World world, final Player player, final Hand hand, final BlockHitResult rayTraceResult
+			final World world, final Player player, final Hand hand, final BlockHitResult hitResult
 	) {
 		return ClickResult.PASS;
 	}
