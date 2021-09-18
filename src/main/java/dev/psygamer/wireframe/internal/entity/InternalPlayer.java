@@ -44,7 +44,7 @@ public class InternalPlayer extends InternalLivingEntity implements Player {
 	
 	@Override
 	public void setHeldItem(final ItemStack item, final Hand hand) {
-		this.internalPlayer.setItemInHand(hand.getInternal(), item.toInternal());
+		this.internalPlayer.setItemInHand(hand.getInternal(), item.getInternal());
 	}
 	
 	@Override

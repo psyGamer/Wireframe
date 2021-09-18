@@ -65,7 +65,7 @@ public class InternalItem extends net.minecraft.item.Item {
 				dev.psygamer.wireframe.item.util.Hand.get(hand)
 		).toInternal();
 		
-		return new ActionResult<>(result.getResult(), result.getObject().toInternal());
+		return new ActionResult<>(result.getResult(), result.getObject().getInternal());
 	}
 	
 	@Override
