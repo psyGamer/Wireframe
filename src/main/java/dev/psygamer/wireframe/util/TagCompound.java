@@ -23,6 +23,9 @@ public class TagCompound {
 	}
 	
 	public static TagCompound get(final net.minecraft.nbt.CompoundNBT internal) {
+		if (internal == null)
+			return null;
+		
 		return new TagCompound(internal);
 	}
 	

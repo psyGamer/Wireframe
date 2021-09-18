@@ -24,11 +24,12 @@ public class BlockItem extends Item {
 	
 	@Override
 	public ClickResult onItemUsedOnBlock(final ItemStack usedItemStack, final World world, final Player player, final Hand hand, final BlockHitResult hitResult) {
-		if (!world.isReplaceable(hitResult.getBlockPosition()))
-			return ClickResult.REJECTED;
+		final BlockPosition targetPosition = world.isReplaceable(
+				hitResult.getBlockPosition()
+		) ? hitResult.getBlockPosition() : hitResult.getBlockPosition().offset(hitResult.getDirection());
 		
-		final BlockPosition hitPosition = hitResult.getBlockPosition();
-		final BlockPosition targetPosition = world.isReplaceable(hitPosition) ? hitPosition : hitPosition.offset(hitResult.getDirection());
+		if (!world.isReplaceable(targetPosition))
+			return ClickResult.REJECTED;
 		
 		final BlockState placementState = this.block.getPlacementState(usedItemStack, world, player, hand, hitResult);
 		

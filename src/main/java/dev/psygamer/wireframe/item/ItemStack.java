@@ -30,6 +30,9 @@ public class ItemStack {
 	}
 	
 	public static ItemStack get(final net.minecraft.item.ItemStack internalStack) {
+		if (internalStack == null)
+			return null;
+		
 		return new ItemStack(internalStack);
 	}
 	

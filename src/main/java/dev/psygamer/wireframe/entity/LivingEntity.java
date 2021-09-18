@@ -5,6 +5,9 @@ import dev.psygamer.wireframe.internal.entity.InternalLivingEntity;
 public interface LivingEntity extends Entity {
 	
 	static LivingEntity get(final net.minecraft.entity.LivingEntity internalEntity) {
+		if (internalEntity == null)
+			return null;
+		
 		return new InternalLivingEntity(internalEntity);
 	}
 	

@@ -8,6 +8,9 @@ import dev.psygamer.wireframe.util.BlockPosition;
 public interface BlockReader {
 	
 	static BlockReader get(final net.minecraft.world.IBlockReader internal) {
+		if (internal == null)
+			return null;
+		
 		return new InternalBlockReader(internal);
 	}
 	
