@@ -33,6 +33,18 @@ public class ItemStack {
 		);
 	}
 	
+	public int getCount() {
+		return this.count;
+	}
+	
+	public Item getItem() {
+		return this.item;
+	}
+	
+	public TagCompound getTag() {
+		return this.tagData;
+	}
+	
 	public net.minecraft.item.ItemStack toInternal() {
 		return new net.minecraft.item.ItemStack(this.item.getInternal(), this.count, this.tagData.getInternal());
 	}
