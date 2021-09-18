@@ -86,7 +86,6 @@ public class Wireframe {
 			
 			modEventBus.addListener(this::onModConstruct);
 			
-			new ItemDisplayBlock();
 			new ItemDisplayItem();
 		}
 		

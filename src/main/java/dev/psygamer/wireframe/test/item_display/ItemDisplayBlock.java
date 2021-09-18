@@ -3,9 +3,14 @@ package dev.psygamer.wireframe.test.item_display;
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
+import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty;
 
+import dev.psygamer.wireframe.entity.Player;
+import dev.psygamer.wireframe.item.util.ClickResult;
+import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.world.World;
 import net.minecraft.block.material.Material;
 
 /*
@@ -31,5 +36,10 @@ public class ItemDisplayBlock extends Block {
 		registerBlockProperty(FACING);
 	}
 	
-	
+	@Override
+	public ClickResult onUsedByPlayer(final BlockState blockState, final BlockPosition blockPosition, final World world, final Player player) {
+		System.out.println(player.getUUID());
+		
+		return ClickResult.ACCEPTED;
+	}
 }
