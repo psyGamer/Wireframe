@@ -32,6 +32,10 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	protected ToolType correctTool;
 	protected int harvestLevel;
 	
+	protected boolean flammable;
+	protected boolean replaceable;
+	protected boolean solid;
+	
 	protected boolean toolRequired;
 	protected boolean fullBlock;
 	
@@ -118,6 +122,24 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		return this;
 	}
 	
+	public BlockAttributes flammable(final boolean flammable) {
+		this.flammable = flammable;
+		
+		return this;
+	}
+	
+	public BlockAttributes replaceable(final boolean replaceable) {
+		this.replaceable = replaceable;
+		
+		return this;
+	}
+	
+	public BlockAttributes solid(final boolean solid) {
+		this.solid = solid;
+		
+		return this;
+	}
+	
 	public BlockAttributes toolRequired(final boolean toolRequired) {
 		this.toolRequired = toolRequired;
 		
@@ -158,6 +180,18 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		return this.harvestLevel;
 	}
 	
+	public boolean isFlammable() {
+		return this.flammable;
+	}
+	
+	public boolean isReplaceable() {
+		return this.replaceable;
+	}
+	
+	public boolean isSolid() {
+		return this.solid;
+	}
+	
 	public boolean isToolRequired() {
 		return this.toolRequired;
 	}
@@ -188,6 +222,10 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		blastResistance(material.getBlastResistance());
 		
 		toolRequired(material.getHardness() > 0);
+		
+		flammable(material.isFlammable());
+		replaceable(material.isReplaceable());
+		solid(material.isSolid());
 	}
 	
 	//	TODO BOUNDING BOX
