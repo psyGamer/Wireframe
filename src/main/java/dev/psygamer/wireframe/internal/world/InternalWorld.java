@@ -62,6 +62,11 @@ public class InternalWorld extends InternalBlockReader implements World {
 	}
 	
 	@Override
+	public void notifyNeighbours(final BlockPosition position, final dev.psygamer.wireframe.block.Block block) {
+		this.internalWorld.updateNeighborsAt(position.toInternal(), block.getInternal());
+	}
+	
+	@Override
 	public boolean breakBlock(final BlockPosition position) {
 		return breakBlock(position, true);
 	}

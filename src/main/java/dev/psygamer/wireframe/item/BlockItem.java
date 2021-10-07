@@ -36,6 +36,8 @@ public class BlockItem extends Item {
 		if (!world.setBlockState(placementState, targetPosition))
 			return ClickResult.REJECTED;
 		
+		world.notifyNeighbours(targetPosition, placementState.getBlock());
+		
 		applyBlockStateTags(usedItemStack, world, world.getBlockState(targetPosition), targetPosition);
 		
 		this.block.onBlockPlaced(world.getBlockState(targetPosition), world.getBlockState(targetPosition), targetPosition, world);
