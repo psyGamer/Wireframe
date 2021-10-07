@@ -188,6 +188,8 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		blastResistance(material.getBlastResistance());
 		
 		toolRequired(material.getHardness() > 0);
+		
+		correctTool(material.getCorrectTool());
 	}
 	
 	//	TODO BOUNDING BOX
