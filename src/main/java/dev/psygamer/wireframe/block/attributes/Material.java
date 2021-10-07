@@ -1,61 +1,70 @@
 package dev.psygamer.wireframe.block.attributes;
 
+import net.minecraftforge.common.ToolType;
+
 public enum Material {
 		
-	AIR(net.minecraft.block.material.Material.AIR, 0.0f),
+	AIR(net.minecraft.block.material.Material.AIR, null, 0.0f),
 
 	/* Natural Materials */
 
-	STONE(net.minecraft.block.material.Material.STONE, 6.0f, 1.5f),
-	GRASS(net.minecraft.block.material.Material.GRASS, 0.6f),
-	DIRT(net.minecraft.block.material.Material.DIRT, 0.5f),
-	SAND(net.minecraft.block.material.Material.SAND, 0.5f),
-	CLAY(net.minecraft.block.material.Material.CLAY, 0.6f),
+	STONE(net.minecraft.block.material.Material.STONE, ToolType.PICKAXE, 6.0f, 1.5f),
+	GRASS(net.minecraft.block.material.Material.GRASS, ToolType.SHOVEL, 0.6f),
+	DIRT(net.minecraft.block.material.Material.DIRT, ToolType.SHOVEL, 0.5f),
+	SAND(net.minecraft.block.material.Material.SAND, ToolType.SHOVEL, 0.5f),
+	CLAY(net.minecraft.block.material.Material.CLAY, ToolType.SHOVEL, 0.6f),
 
-	WOOD(net.minecraft.block.material.Material.WOOD, 2.0f, 3.0f),
-	FIREPROOF_WOOD(net.minecraft.block.material.Material.NETHER_WOOD, 2.0f, 3.0f),
+	WOOD(net.minecraft.block.material.Material.WOOD, ToolType.AXE, 2.0f, 3.0f),
+	FIREPROOF_WOOD(net.minecraft.block.material.Material.NETHER_WOOD, ToolType.AXE, 2.0f, 3.0f),
 
-	SNOW(net.minecraft.block.material.Material.SNOW, 0.2f),
-	ICE(net.minecraft.block.material.Material.ICE, 0.5f),
+	SNOW(net.minecraft.block.material.Material.SNOW, ToolType.SHOVEL, 0.2f),
+	ICE(net.minecraft.block.material.Material.ICE, ToolType.PICKAXE, 0.5f),
 
 	/* Vegetation */
 
-	PLANT(net.minecraft.block.material.Material.PLANT, 0.0f),
-	REPLACEABLE_PLANT(net.minecraft.block.material.Material.REPLACEABLE_PLANT, 0.0f),
-	FIREPROOF_PLANT(net.minecraft.block.material.Material.REPLACEABLE_FIREPROOF_PLANT, 0.0f),
-	REPLACEABLE_FIREPROOF_PLANT(net.minecraft.block.material.Material.REPLACEABLE_FIREPROOF_PLANT, 0.0f),
+	PLANT(net.minecraft.block.material.Material.PLANT, null, 0.0f),
+	REPLACEABLE_PLANT(net.minecraft.block.material.Material.REPLACEABLE_PLANT, null, 0.0f),
+	FIREPROOF_PLANT(net.minecraft.block.material.Material.REPLACEABLE_FIREPROOF_PLANT, null, 0.0f),
+	REPLACEABLE_FIREPROOF_PLANT(net.minecraft.block.material.Material.REPLACEABLE_FIREPROOF_PLANT, null, 0.0f),
 
-	VEGETABLE(net.minecraft.block.material.Material.VEGETABLE, 0.0f),
-	LEAVES(net.minecraft.block.material.Material.LEAVES, 0.2f),
+	VEGETABLE(net.minecraft.block.material.Material.VEGETABLE, null, 0.0f),
+	LEAVES(net.minecraft.block.material.Material.LEAVES, ToolType.HOE, 0.2f),
 
 	/* Decoration */
 
-	GLASS(net.minecraft.block.material.Material.GLASS, 0.3f),
-	METAL(net.minecraft.block.material.Material.METAL, 6.0f, 5.0f),
-	CLOTH(net.minecraft.block.material.Material.WOOL,  0.8f),
+	GLASS(net.minecraft.block.material.Material.GLASS, ToolType.PICKAXE, 0.3f),
+	METAL(net.minecraft.block.material.Material.METAL, ToolType.PICKAXE, 6.0f, 5.0f),
+	CLOTH(net.minecraft.block.material.Material.WOOL, null, 0.8f),
 	
 	/* Miscellaneous */
 
-	UNBREAKABLE(net.minecraft.block.material.Material.STONE, 3600000.0f, -1.0f);
+	UNBREAKABLE(net.minecraft.block.material.Material.STONE, null, 3600000.0f, -1.0f);
 	
 	private final net.minecraft.block.material.Material internal;
+	
+	private final ToolType correctTool;
 	
 	private final float hardness;
 	private final float blastResistance;
 	
 	Material(final net.minecraft.block.material.Material internal,
-			 final float strength
+			 final ToolType correctTool, final float strength
 	) {
-		this(internal, strength, strength);
+		this(internal, correctTool, strength, strength);
 	}
 	
 	Material(final net.minecraft.block.material.Material internal,
-			 final float hardness, final float blastResistance
+			 final ToolType correctTool, final float hardness, final float blastResistance
 	) {
 		this.internal = internal;
+		this.correctTool = correctTool;
 		
 		this.hardness = hardness;
 		this.blastResistance = blastResistance;
+	}
+	
+	public ToolType getCorrectTool() {
+		return this.correctTool;
 	}
 	
 	public float getHardness() {
