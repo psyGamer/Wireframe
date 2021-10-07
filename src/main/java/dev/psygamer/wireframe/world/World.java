@@ -26,6 +26,8 @@ public interface World extends BlockReader {
 	
 	void notifyNeighbours(final BlockPosition position);
 	
+	void notifyNeighbours(final BlockPosition position, Block block);
+	
 	boolean breakBlock(final BlockPosition position);
 	
 	boolean breakBlock(final BlockPosition position, final boolean dropItems);
