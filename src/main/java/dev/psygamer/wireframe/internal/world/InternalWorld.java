@@ -3,8 +3,10 @@ package dev.psygamer.wireframe.internal.world;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.World;
-
-import net.minecraft.block.*;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.SnowBlock;
 import net.minecraft.world.LightType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
@@ -44,7 +46,8 @@ public class InternalWorld extends InternalBlockReader implements World {
 		final net.minecraft.block.BlockState blockState = this.internalWorld.getBlockState(position.toInternal());
 		final net.minecraft.block.Block block = blockState.getBlock();
 		
-		return blockState.getMaterial().isReplaceable() ||
+		return blockState.getMaterial()
+						 .isReplaceable() ||
 				
 				block instanceof IPlantable ||
 				block instanceof LeavesBlock ||
@@ -56,8 +59,11 @@ public class InternalWorld extends InternalBlockReader implements World {
 	
 	@Override
 	public void notifyNeighbours(final BlockPosition position) {
-		this.internalWorld.updateNeighborsAt(position.toInternal(),
-				this.internalWorld.getBlockState(position.toInternal()).getBlock()
+		this.internalWorld.updateNeighborsAt(
+				position.toInternal(),
+				
+				this.internalWorld.getBlockState(position.toInternal())
+								  .getBlock()
 		);
 	}
 	
@@ -83,7 +89,8 @@ public class InternalWorld extends InternalBlockReader implements World {
 	
 	@Override
 	public boolean isBlock(final dev.psygamer.wireframe.block.Block block, final BlockPosition position) {
-		return this.internalWorld.getBlockState(position.toInternal()).getBlock() == block.getInternal();
+		return this.internalWorld.getBlockState(position.toInternal())
+								 .getBlock() == block.getInternal();
 	}
 	
 	@Override

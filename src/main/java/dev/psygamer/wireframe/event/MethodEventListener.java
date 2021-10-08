@@ -14,7 +14,9 @@ public class MethodEventListener implements IEventListener {
 	private final Event.Priority priority;
 	private final IEventBus eventBus;
 	
-	public MethodEventListener(final Object instance, final Method method, final Event.Priority priority, final IEventBus eventBus) {
+	public MethodEventListener(final Object instance, final Method method, final Event.Priority priority,
+							   final IEventBus eventBus
+	) {
 		this.instance = instance;
 		this.method = method;
 		

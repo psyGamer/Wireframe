@@ -4,7 +4,6 @@ import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
 import dev.psygamer.wireframe.world.World;
-
 import net.minecraft.util.DamageSource;
 
 import java.util.List;
@@ -94,14 +93,16 @@ public class InternalEntity implements Entity {
 	
 	@Override
 	public int getPassengerCount() {
-		return this.internalEntity.getPassengers().size();
+		return this.internalEntity.getPassengers()
+								  .size();
 	}
 	
 	@Override
 	public List<Entity> getPassengers() {
-		return this.internalEntity.getPassengers().stream()
-				.map(InternalEntity::new)
-				.collect(Collectors.toList());
+		return this.internalEntity.getPassengers()
+								  .stream()
+								  .map(InternalEntity::new)
+								  .collect(Collectors.toList());
 	}
 	
 	@Override
@@ -111,12 +112,14 @@ public class InternalEntity implements Entity {
 	
 	@Override
 	public void addPassenger(final Entity passenger) {
-		passenger.getInternal().startRiding(this.internalEntity);
+		passenger.getInternal()
+				 .startRiding(this.internalEntity);
 	}
 	
 	@Override
 	public void removePassenger(final Entity passenger) {
-		passenger.getInternal().stopRiding();
+		passenger.getInternal()
+				 .stopRiding();
 	}
 	
 	@Override

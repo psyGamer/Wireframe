@@ -6,7 +6,6 @@ import com.google.common.primitives.Longs;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -138,7 +137,7 @@ public class TagCompound {
 	}
 	
 	public void putCompound(final String key, final TagCompound compound) {
-		this.internal.put(key,compound.getInternal());
+		this.internal.put(key, compound.getInternal());
 	}
 	
 	public TagCompound getCompound(final String key) {

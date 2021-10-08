@@ -5,13 +5,10 @@ import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.event.EventBus;
 import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.api.IEventBus;
-
-import dev.psygamer.wireframe.test.item_display.ItemDisplayBlock;
 import dev.psygamer.wireframe.test.item_display.ItemDisplayItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Wireframe {
@@ -21,6 +18,7 @@ public class Wireframe {
 	public static final IEventBus EVENT_BUS = new EventBus();
 	
 	private static final List<Mod> mods = Lists.newArrayList(new InternalMod());
+	
 	private static Internal internal;
 	
 	public static void register(final Mod mod) {
@@ -36,6 +34,7 @@ public class Wireframe {
 	}
 	
 	public static class Mod {
+		
 		private final String modID, modName, modVersion, rootPackage;
 		private final EventBus modEventBus = new EventBus();
 		
@@ -46,9 +45,12 @@ public class Wireframe {
 			this.modName = modName;
 			this.modVersion = modVersion;
 			
-			this.rootPackage = this.getClass().getPackage().getName();
+			this.rootPackage = this.getClass()
+								   .getPackage()
+								   .getName();
 			
-			this.internalModEventBus = net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
+			this.internalModEventBus = net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get()
+																								 .getModEventBus();
 		}
 		
 		public String getModID() {
@@ -78,11 +80,13 @@ public class Wireframe {
 	
 	@net.minecraftforge.fml.common.Mod(Wireframe.MODID)
 	public static final class Internal {
+		
 		public Internal() {
 			Wireframe.internal = this;
 			
 			final net.minecraftforge.eventbus.api.IEventBus modEventBus =
-					net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
+					net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get()
+																			  .getModEventBus();
 			
 			modEventBus.addListener(this::onModConstruct);
 			

@@ -30,6 +30,7 @@ public class ItemAttributes {
 	
 	/**
 	 * @param itemGroup Creative Tab for the Block
+	 *
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16

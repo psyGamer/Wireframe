@@ -13,11 +13,14 @@ public class BlockHitResult extends HitResult {
 	private final boolean miss;
 	private final boolean inside;
 	
-	public BlockHitResult(final Vector3d location, final Direction direction, final BlockPosition position, final boolean inside) {
+	public BlockHitResult(final Vector3d location, final Direction direction, final BlockPosition position, final boolean inside
+	) {
 		this(location, direction, position, false, inside);
 	}
 	
-	public BlockHitResult(final Vector3d location, final Direction direction, final BlockPosition position, final boolean miss, final boolean inside) {
+	public BlockHitResult(final Vector3d location, final Direction direction, final BlockPosition position, final boolean miss,
+						  final boolean inside
+	) {
 		super(location);
 		
 		this.direction = direction;

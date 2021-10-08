@@ -1,9 +1,7 @@
 package dev.psygamer.wireframe.internal.entity;
 
 import dev.psygamer.wireframe.entity.LivingEntity;
-
 import dev.psygamer.wireframe.entity.Player;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -42,7 +40,9 @@ public class InternalLivingEntity extends InternalEntity implements LivingEntity
 	public boolean isLeashedTo(final Player player) {
 		return this.internalLivingEntity instanceof MobEntity &&
 				((MobEntity) this.internalLivingEntity).isLeashed() &&
-				((MobEntity) this.internalLivingEntity).getLeashHolder().getUUID().equals(player.getUUID());
+				((MobEntity) this.internalLivingEntity).getLeashHolder()
+													   .getUUID()
+													   .equals(player.getUUID());
 	}
 	
 	@Override

@@ -2,11 +2,11 @@ package dev.psygamer.wireframe.event.api;
 
 public abstract class Event {
 	
-	private boolean canceled = false;
-	
 	public enum Priority {
 		HIGHEST, HIGH, NORMAL, LOW, LOWEST
 	}
+	
+	private boolean canceled = false;
 	
 	public abstract boolean isCancelable();
 	
@@ -18,7 +18,8 @@ public abstract class Event {
 		if (!isCancelable()) {
 			throw new UnsupportedOperationException(
 					"Attempted to call Event#setCanceled() on a non-cancelable event of type: "
-							+ this.getClass().getCanonicalName()
+							+ this.getClass()
+								  .getCanonicalName()
 			);
 		}
 		

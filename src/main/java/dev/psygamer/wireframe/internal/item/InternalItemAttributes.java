@@ -13,7 +13,8 @@ public class InternalItemAttributes {
 	
 	public Item.Properties createProperties() {
 		final Item.Properties properties = new Item.Properties()
-				.rarity(this.attributes.getRarity().getInternal())
+				.rarity(this.attributes.getRarity()
+									   .getInternal())
 				.stacksTo(this.attributes.getMaxStackSize());
 		
 		if (this.attributes.getItemGroup() != null)

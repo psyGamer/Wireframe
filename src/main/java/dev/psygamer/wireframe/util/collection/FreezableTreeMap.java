@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe.util.collection;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.SortedMap;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class FreezableTreeMap <K, V> extends FreezableMap<K, V> {
 	
