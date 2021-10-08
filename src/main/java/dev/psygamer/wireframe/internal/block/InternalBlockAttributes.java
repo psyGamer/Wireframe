@@ -15,7 +15,8 @@ public class InternalBlockAttributes {
 	
 	public AbstractBlock.Properties createProperties() {
 		final AbstractBlock.Properties properties = AbstractBlock.Properties.of(
-				this.attributes.getMaterial().getInternal()
+				this.attributes.getMaterial()
+							   .getInternal()
 		);
 		
 		if (this.attributes.getHardness() >= 0 && this.attributes.getBlastResistance() >= 0)

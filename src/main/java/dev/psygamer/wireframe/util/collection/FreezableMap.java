@@ -1,13 +1,12 @@
 package dev.psygamer.wireframe.util.collection;
 
+import com.google.common.collect.ImmutableMap;
 import dev.psygamer.wireframe.util.helper.ICloneable;
 import dev.psygamer.wireframe.util.helper.IFreezable;
 
-import com.google.common.collect.ImmutableMap;
-
-import java.util.Set;
-import java.util.Map;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class FreezableMap <K, V> implements Map<K, V>, IFreezable, ICloneable<FreezableMap<K, V>> {
 	

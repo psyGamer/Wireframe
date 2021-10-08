@@ -44,20 +44,6 @@ public class EventBus implements IEventBus {
 		}
 	}
 	
-	private void registerClass(final Class<?> clazz) {
-		Arrays.stream(clazz.getMethods())
-				.filter(method -> Modifier.isStatic(method.getModifiers()))
-				.filter(method -> method.isAnnotationPresent(EventSubscriber.class))
-				.forEach(method -> addListener(null, method, method.getAnnotation(EventSubscriber.class).priority()));
-	}
-	
-	private void registerObject(final Object object) {
-		Arrays.stream(object.getClass().getMethods())
-				.filter(method -> !Modifier.isStatic(method.getModifiers()))
-				.filter(method -> method.isAnnotationPresent(EventSubscriber.class))
-				.forEach(method -> addListener(object, method, method.getAnnotation(EventSubscriber.class).priority()));
-	}
-	
 	@Override
 	public <T extends Event> void addListener(final Consumer<T> consumer) {
 		addListener(consumer, Event.Priority.NORMAL);
@@ -71,7 +57,7 @@ public class EventBus implements IEventBus {
 			throw new IllegalArgumentException("Event must inherit: " + this.eventMarkerClass);
 		
 		addListener(eventClass,
-				new ConsumerEventListener<>(consumer, priority, this)
+					new ConsumerEventListener<>(consumer, priority, this)
 		);
 	}
 	
@@ -93,19 +79,8 @@ public class EventBus implements IEventBus {
 			throw new IllegalArgumentException("Event must inherit: " + this.eventMarkerClass);
 		
 		addListener(eventClass,
-				new MethodEventListener(instance, method, priority, this)
+					new MethodEventListener(instance, method, priority, this)
 		);
-	}
-	
-	private void addListener(final Class<? extends Event> eventClass, final IEventListener listener) {
-		if (eventClass == null || listener == null ||
-				(this.listeners.contains(eventClass) && this.listeners.get(eventClass).contains(listener))
-		) return;
-		
-		if (!this.listeners.contains(eventClass))
-			this.listeners.put(eventClass, new ArrayList<>());
-		
-		this.listeners.get(eventClass).add(listener);
 	}
 	
 	@Override
@@ -113,11 +88,41 @@ public class EventBus implements IEventBus {
 		final List<IEventListener> eventListeners = this.listeners.get(event.getClass());
 		
 		eventListeners.stream()
-				.filter(listener -> listener.getEventBus() == this)
-				.sorted(Comparator.comparing(IEventListener::getPriority))
-				.forEach(listener -> listener.invoke(event));
+					  .filter(listener -> listener.getEventBus() == this)
+					  .sorted(Comparator.comparing(IEventListener::getPriority))
+					  .forEach(listener -> listener.invoke(event));
 		
 		return event.isCancelable() & event.isCanceled();
+	}
+	
+	private void registerClass(final Class<?> clazz) {
+		Arrays.stream(clazz.getMethods())
+			  .filter(method -> Modifier.isStatic(method.getModifiers()))
+			  .filter(method -> method.isAnnotationPresent(EventSubscriber.class))
+			  .forEach(method -> addListener(null, method, method.getAnnotation(EventSubscriber.class)
+																 .priority()));
+	}
+	
+	private void registerObject(final Object object) {
+		Arrays.stream(object.getClass()
+							.getMethods())
+			  .filter(method -> !Modifier.isStatic(method.getModifiers()))
+			  .filter(method -> method.isAnnotationPresent(EventSubscriber.class))
+			  .forEach(method -> addListener(object, method, method.getAnnotation(EventSubscriber.class)
+																   .priority()));
+	}
+	
+	private void addListener(final Class<? extends Event> eventClass, final IEventListener listener) {
+		if (eventClass == null || listener == null ||
+				(this.listeners.contains(eventClass) && this.listeners.get(eventClass)
+																	  .contains(listener))
+		) return;
+		
+		if (!this.listeners.contains(eventClass))
+			this.listeners.put(eventClass, new ArrayList<>());
+		
+		this.listeners.get(eventClass)
+					  .add(listener);
 	}
 	
 	private <T extends Event> Class<T> getEventClass(final Consumer<T> consumer) {

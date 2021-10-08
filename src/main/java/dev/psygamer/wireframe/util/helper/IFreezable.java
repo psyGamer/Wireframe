@@ -17,6 +17,7 @@ public interface IFreezable {
 	
 	/**
 	 * @return Whether the object has been frozen or not.
+	 *
 	 * @version 1.0
 	 * @since 1.0
 	 */

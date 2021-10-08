@@ -1,8 +1,7 @@
 package dev.psygamer.wireframe.registry;
 
-import dev.psygamer.wireframe.block.Block;
-
 import com.google.common.collect.ImmutableList;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.internal.registry.InternalBlockRegistry;
 import dev.psygamer.wireframe.util.collection.FreezableArrayList;
 import dev.psygamer.wireframe.util.collection.FreezableList;
@@ -19,7 +18,6 @@ public class BlockRegistry {
 		
 		this.internal = new InternalBlockRegistry(this);
 	}
-	
 	
 	public static void register(final Block block) {
 		blocks.add(block);

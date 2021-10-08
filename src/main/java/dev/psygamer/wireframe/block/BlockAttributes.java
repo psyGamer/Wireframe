@@ -4,10 +4,8 @@ import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.attributes.Material;
 import dev.psygamer.wireframe.internal.block.InternalBlockAttributes;
 import dev.psygamer.wireframe.util.helper.ICloneable;
-
-import net.minecraft.item.ItemGroup;
 import net.minecraft.block.SoundType;
-
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.ToolType;
 
 /**
@@ -23,11 +21,12 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	protected InternalBlockAttributes internal;
 	
 	protected Material material;
+	
 	protected SoundType sound;
 	protected ItemGroup group;
 	
-	protected float blastResistance;
 	protected float hardness;
+	protected float blastResistance;
 	
 	protected ToolType correctTool;
 	protected int harvestLevel;
@@ -46,6 +45,7 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	/**
 	 * @param material For sound, hardness, etc.
+	 *
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
@@ -57,6 +57,7 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	/**
 	 * @param material For sound, hardness, etc.
 	 * @param group    Creative Tab for the Block
+	 *
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
@@ -142,12 +143,12 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		return this.group;
 	}
 	
-	public float getBlastResistance() {
-		return this.blastResistance;
-	}
-	
 	public float getHardness() {
 		return this.hardness;
+	}
+	
+	public float getBlastResistance() {
+		return this.blastResistance;
 	}
 	
 	public ToolType getCorrectTool() {
@@ -188,7 +189,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		blastResistance(material.getBlastResistance());
 		
 		toolRequired(material.getHardness() > 0);
-		
 		correctTool(material.getCorrectTool());
 	}
 	

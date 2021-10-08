@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.collection;
 
-import java.util.Map;
 import java.util.Hashtable;
+import java.util.Map;
 
 public class FreezableHashtable <K, V> extends FreezableMap<K, V> {
 	

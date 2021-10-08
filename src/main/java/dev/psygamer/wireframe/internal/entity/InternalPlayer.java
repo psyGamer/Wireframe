@@ -4,7 +4,6 @@ import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
-
 import net.minecraft.entity.player.PlayerEntity;
 
 public class InternalPlayer extends InternalLivingEntity implements Player {
@@ -19,22 +18,26 @@ public class InternalPlayer extends InternalLivingEntity implements Player {
 	
 	@Override
 	public int getFoodLevel() {
-		return this.internalPlayer.getFoodData().getFoodLevel();
+		return this.internalPlayer.getFoodData()
+								  .getFoodLevel();
 	}
 	
 	@Override
 	public void setFoodLevel(final int foodLevel) {
-		this.internalPlayer.getFoodData().setFoodLevel(foodLevel);
+		this.internalPlayer.getFoodData()
+						   .setFoodLevel(foodLevel);
 	}
 	
 	@Override
 	public float getSaturationLevel() {
-		return this.internalPlayer.getFoodData().getSaturationLevel();
+		return this.internalPlayer.getFoodData()
+								  .getSaturationLevel();
 	}
 	
 	@Override
 	public void setSaturationLevel(final float saturationLevel) {
-		this.internalPlayer.getFoodData().setSaturation(saturationLevel);
+		this.internalPlayer.getFoodData()
+						   .setSaturation(saturationLevel);
 	}
 	
 	@Override

@@ -23,14 +23,20 @@ public class BlockItem extends Item {
 	}
 	
 	@Override
-	public ClickResult onItemUsedOnBlock(final ItemStack usedItemStack, final World world, final Player player, final Hand hand, final BlockHitResult hitResult) {
+	public ClickResult onItemUsedOnBlock(final ItemStack usedItemStack, final World world, final Player player,
+										 final Hand hand, final BlockHitResult hitResult
+	) {
 		final BlockPosition targetPosition = world.isReplaceable(
 				hitResult.getBlockPosition()
-		) ? hitResult.getBlockPosition() : hitResult.getBlockPosition().offset(hitResult.getDirection());
+		)
+				? hitResult.getBlockPosition()
+				: hitResult.getBlockPosition()
+						   .offset(hitResult.getDirection());
 		
 		if (!world.isReplaceable(targetPosition))
 			return ClickResult.REJECTED;
 		
+		final BlockState oldBlockState = world.getBlockState(targetPosition);
 		final BlockState placementState = this.block.getPlacementState(usedItemStack, world, player, hand, hitResult);
 		
 		if (!world.setBlockState(placementState, targetPosition))
@@ -40,17 +46,18 @@ public class BlockItem extends Item {
 		
 		applyBlockStateTags(usedItemStack, world, world.getBlockState(targetPosition), targetPosition);
 		
-		this.block.onBlockPlaced(world.getBlockState(targetPosition), world.getBlockState(targetPosition), targetPosition, world);
-		this.block.onBlockPlacedByPlayer(world.getBlockState(targetPosition), world.getBlockState(targetPosition), targetPosition, world, player);
+		this.block.onBlockPlaced(oldBlockState, placementState, targetPosition, world);
+		this.block.onBlockPlacedByPlayer(oldBlockState, placementState, targetPosition, world, player);
 		
-		if (player != null && !player.isCreative()) {
+		if (player != null && !player.isCreative())
 			usedItemStack.shrink(1);
-		}
 		
 		return ClickResult.ACCEPTED;
 	}
 	
-	private void applyBlockStateTags(final ItemStack itemStack, final World world, final BlockState blockState, final BlockPosition position) {
+	private void applyBlockStateTags(final ItemStack itemStack, final World world, final BlockState blockState,
+									 final BlockPosition position
+	) {
 		final TagCompound itemTag = itemStack.getTag();
 		
 		if (itemTag == null)
@@ -66,6 +73,6 @@ public class BlockItem extends Item {
 			}
 		}
 		
-		world.setBlockState(blockState,position);
+		world.setBlockState(blockState, position);
 	}
 }

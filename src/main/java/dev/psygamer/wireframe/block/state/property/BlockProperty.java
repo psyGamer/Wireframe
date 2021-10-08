@@ -1,12 +1,11 @@
 package dev.psygamer.wireframe.block.state.property;
 
-import dev.psygamer.wireframe.internal.block.InternalBlockProperty;
-import dev.psygamer.wireframe.util.collection.FreezableMap;
-import dev.psygamer.wireframe.util.collection.FreezableLinkedHashMap;
-import dev.psygamer.wireframe.util.helper.IFreezable;
-import dev.psygamer.wireframe.util.helper.ICloneable;
-
 import com.google.common.collect.ImmutableList;
+import dev.psygamer.wireframe.internal.block.InternalBlockProperty;
+import dev.psygamer.wireframe.util.collection.FreezableLinkedHashMap;
+import dev.psygamer.wireframe.util.collection.FreezableMap;
+import dev.psygamer.wireframe.util.helper.ICloneable;
+import dev.psygamer.wireframe.util.helper.IFreezable;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -39,7 +38,8 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	
 	public String getValueName(final T value) {
 		for (final String valueName : this.entries.keySet()) {
-			if (this.entries.get(valueName).equals(value))
+			if (this.entries.get(valueName)
+							.equals(value))
 				return valueName;
 		}
 		
@@ -95,6 +95,7 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public static final class ValuePair <T extends Comparable<T>> implements ICloneable<ValuePair<T>> {
+		
 		private final BlockProperty<T> property;
 		
 		private int valueIndex;
@@ -120,7 +121,8 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 		}
 		
 		public void setValue(final T value) {
-			if (!this.property.getPossibleValues().contains(value))
+			if (!this.property.getPossibleValues()
+							  .contains(value))
 				throw new IllegalArgumentException("This value is not supported by this property");
 			
 			this.value = value;

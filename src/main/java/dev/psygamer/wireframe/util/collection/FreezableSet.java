@@ -1,13 +1,12 @@
 package dev.psygamer.wireframe.util.collection;
 
+import com.google.common.collect.ImmutableSet;
 import dev.psygamer.wireframe.util.helper.ICloneable;
 import dev.psygamer.wireframe.util.helper.IFreezable;
 
-import com.google.common.collect.ImmutableSet;
-
-import java.util.Set;
-import java.util.Iterator;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 public abstract class FreezableSet <E> implements Set<E>, IFreezable, ICloneable<FreezableSet<E>> {
 	

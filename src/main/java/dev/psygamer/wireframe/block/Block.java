@@ -15,7 +15,6 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
-
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;

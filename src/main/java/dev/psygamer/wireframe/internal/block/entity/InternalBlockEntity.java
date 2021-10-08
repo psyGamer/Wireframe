@@ -30,6 +30,15 @@ public class InternalBlockEntity extends net.minecraft.tileentity.TileEntity {
 	}
 	
 	@Override
+	public void load(final BlockState blockState, final CompoundNBT compoundNBT) {
+		super.load(blockState, compoundNBT);
+		
+		this.tileEntity.loadNBT(
+				TagCompound.get(compoundNBT)
+		);
+	}
+	
+	@Override
 	public CompoundNBT save(final CompoundNBT compoundNBT) {
 		this.tileEntity.saveNBT(
 				TagCompound.get(compoundNBT)
@@ -38,13 +47,10 @@ public class InternalBlockEntity extends net.minecraft.tileentity.TileEntity {
 		return super.save(compoundNBT);
 	}
 	
+	@Nullable
 	@Override
-	public void load(final BlockState blockState, final CompoundNBT compoundNBT) {
-		super.load(blockState, compoundNBT);
-		
-		this.tileEntity.loadNBT(
-				TagCompound.get(compoundNBT)
-		);
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		return new SUpdateTileEntityPacket(getBlockPos(), -1, getUpdateTag());
 	}
 	
 	@Override
@@ -59,20 +65,14 @@ public class InternalBlockEntity extends net.minecraft.tileentity.TileEntity {
 	}
 	
 	@Override
+	public void onDataPacket(final NetworkManager net, final SUpdateTileEntityPacket pkt) {
+		handleUpdateTag(null, pkt.getTag());
+	}
+	
+	@Override
 	public void handleUpdateTag(final BlockState state, final CompoundNBT tag) {
 		this.tileEntity.handleClientSyncTag(
 				TagCompound.get(tag)
 		);
-	}
-	
-	@Nullable
-	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(getBlockPos(), -1, getUpdateTag());
-	}
-	
-	@Override
-	public void onDataPacket(final NetworkManager net, final SUpdateTileEntityPacket pkt) {
-		handleUpdateTag(null, pkt.getTag());
 	}
 }

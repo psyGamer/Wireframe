@@ -4,14 +4,13 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d;
 
 public abstract class HitResult {
 	
+	public enum Type {
+		MISS, BLOCK, ENTITY
+	}
 	protected final Vector3d location;
 	
 	protected HitResult(final Vector3d location) {
 		this.location = location;
-	}
-	
-	public enum Type {
-		MISS, BLOCK, ENTITY
 	}
 	
 	public double distanceTo(final Vector3d other) {

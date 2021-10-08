@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.data;
 
-
 import dev.psygamer.wireframe.internal.data.InternalDataGenerators;
 import net.minecraft.data.IDataProvider;
 

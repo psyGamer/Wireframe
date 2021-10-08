@@ -7,12 +7,12 @@ import dev.psygamer.wireframe.util.Identifier;
 public class ItemDisplayItem extends BlockItem {
 	
 	public ItemDisplayItem() {
-		super(new Identifier("wireframe","item_display"),
-				
-				new ItemAttributes()
-						.maxStackSize(15),
-				
-				new ItemDisplayBlock()
+		super(new Identifier("wireframe", "item_display"),
+		
+			  new ItemAttributes()
+					  .maxStackSize(15),
+		
+			  new ItemDisplayBlock()
 		);
 	}
 }

@@ -2,9 +2,8 @@ package dev.psygamer.wireframe.util.reflection;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,7 +27,8 @@ public class MethodUtil {
 	}
 	
 	public static List<Method> getStaticMethodsByName(final Class<?> clazz, final String methodName) {
-		return getMethodsByName(clazz, methodName).stream()
+		return getMethodsByName(clazz, methodName)
+				.stream()
 				.filter(method -> Modifier.isStatic(method.getModifiers()))
 				.collect(Collectors.toList());
 	}
@@ -46,7 +46,8 @@ public class MethodUtil {
 	}
 	
 	public static Method getStaticMethod(final Class<?> clazz, final String methodName, final Class<?>[] parameterTypes) {
-		final Supplier<Stream<Method>> possibleMethodsSupplier = () -> getStaticMethodsByName(clazz, methodName).stream()
+		final Supplier<Stream<Method>> possibleMethodsSupplier = () -> getStaticMethodsByName(clazz, methodName)
+				.stream()
 				.filter(method -> {
 					final Class<?>[] methodParameterTypes = method.getParameterTypes();
 					

@@ -1,9 +1,8 @@
 package dev.psygamer.wireframe.registry;
 
+import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.internal.registry.InternalItemRegistry;
 import dev.psygamer.wireframe.item.Item;
-
-import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.util.collection.FreezableArrayList;
 import dev.psygamer.wireframe.util.collection.FreezableList;
 

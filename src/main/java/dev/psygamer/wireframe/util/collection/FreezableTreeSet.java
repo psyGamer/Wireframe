@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe.util.collection;
 
-import java.util.TreeSet;
-import java.util.SortedSet;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class FreezableTreeSet <E> extends FreezableSet<E> {
 	
@@ -22,7 +22,6 @@ public class FreezableTreeSet <E> extends FreezableSet<E> {
 	public FreezableTreeSet(final Comparator<? super E> comparator) {
 		super(new TreeSet<>(comparator));
 	}
-	
 	
 	@Override
 	public FreezableSet<E> copy() {

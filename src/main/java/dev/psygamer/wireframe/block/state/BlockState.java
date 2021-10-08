@@ -1,12 +1,10 @@
 package dev.psygamer.wireframe.block.state;
 
+import com.google.common.collect.ImmutableSet;
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-
 import dev.psygamer.wireframe.internal.block.InternalBlockState;
 import dev.psygamer.wireframe.util.helper.ICloneable;
-
-import com.google.common.collect.ImmutableSet;
 import dev.psygamer.wireframe.util.helper.IFreezable;
 
 import java.util.HashSet;
@@ -67,8 +65,10 @@ public class BlockState implements IFreezable, ICloneable<BlockState> {
 	
 	public <T extends Comparable<T>> BlockProperty<T> getProperty(final String propertyName) {
 		for (final BlockProperty.ValuePair<?> valuePair : this.values) {
-			if (valuePair.getProperty().getPropertyName().equalsIgnoreCase(propertyName))
-				return (BlockProperty<T>) valuePair.getProperty();
+			if (valuePair.getProperty()
+						 .getPropertyName()
+						 .equalsIgnoreCase(propertyName)
+			) return (BlockProperty<T>) valuePair.getProperty();
 		}
 		
 		return null;
