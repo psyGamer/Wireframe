@@ -6,6 +6,7 @@ import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.attributes.Material;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.entity.Player;
+import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
@@ -26,7 +27,9 @@ public class ItemDisplayBlock extends Block {
 		super(new Identifier("wireframe", "item_display"),
 		
 			  new BlockAttributes(Material.WOOD)
-					  .harvestLevel(HarvestLevel.STONE)
+					  .harvestLevel(HarvestLevel.STONE),
+			  new ItemAttributes()
+					  .maxStackSize(15)
 		);
 
 //		registerBlockProperty(FACING);
