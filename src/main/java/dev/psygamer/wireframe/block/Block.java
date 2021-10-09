@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.block;
 
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.block.state.property.BlockProperty;
+import dev.psygamer.wireframe.block.state.BlockStateDefinition;
 import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.entity.ProjectileEntity;
@@ -13,7 +13,6 @@ import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.Hand;
-import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
@@ -33,7 +32,8 @@ public class Block {
 	protected final BlockAttributes blockAttributes;
 	protected final ItemAttributes itemAttributes;
 	
-	protected final BlockState defaultBlockState;
+	protected BlockState defaultBlockState;
+	protected BlockStateDefinition stateDefinition;
 	
 	private Block(final net.minecraft.block.Block internal) {
 		this.identifier = Identifier.get(internal.getRegistryName());
@@ -42,10 +42,9 @@ public class Block {
 		this.itemAttributes = null;
 		
 		this.internal = internal;
+		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
 		
 		this.blockItem = null;
-		
-		this.defaultBlockState = new BlockState(this);
 	}
 	
 	public Block(final Identifier identifier, final BlockAttributes blockAttributes) {
@@ -59,15 +58,14 @@ public class Block {
 		this.itemAttributes = itemAttributes;
 		
 		this.internal = new InternalBlock(this, this.blockAttributes);
+		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
 		
 		if (blockAttributes.hasItem())
 			this.blockItem = new BlockItem(identifier, itemAttributes, this);
 		else
 			this.blockItem = null;
-		
-		this.defaultBlockState = new BlockState(this);
-		
-		BlockRegistry.register(this);
+
+//		BlockRegistry.register(this);
 	}
 	
 	public static Block get(final net.minecraft.block.Block internal) {
@@ -75,6 +73,12 @@ public class Block {
 			return null;
 		
 		return new Block(internal);
+	}
+	
+	protected void registerDefaultBlockState(final BlockState blockState) {
+		if (this.internal instanceof InternalBlock) {
+			((InternalBlock) this.internal).setDefaultBlockState(blockState);
+		}
 	}
 	
 	public Identifier getIdentifier() {
@@ -85,15 +89,20 @@ public class Block {
 		return this.blockAttributes;
 	}
 	
-	public BlockState getDefaultBlockState() {
-		return this.defaultBlockState.copy();
+	public ItemAttributes getItemAttributes() {
+		return this.itemAttributes;
 	}
 	
-	protected <T extends Comparable<T>> void registerBlockProperty(final BlockProperty<T> property) {
-		if (this.defaultBlockState.containsProperty(property))
-			return;
-		
-		this.defaultBlockState.setProperty(property, property.getDefaultValue());
+	public BlockState getDefaultBlockState() {
+		return this.defaultBlockState;
+	}
+	
+	public BlockStateDefinition getStateDefinition() {
+		return this.stateDefinition;
+	}
+	
+	public Item getBlockItem() {
+		return this.blockItem;
 	}
 	
 	public net.minecraft.block.Block getInternal() {

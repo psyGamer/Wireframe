@@ -43,4 +43,9 @@ public class InternalBlockStateDefinition implements BlockStateDefinition {
 	public BlockProperty<?> getProperty(final String propertyName) {
 		return BlockProperty.get(this.stateContainer.getProperty(propertyName));
 	}
+	
+	@Override
+	public StateContainer<net.minecraft.block.Block, net.minecraft.block.BlockState> getInternal() {
+		return this.stateContainer;
+	}
 }
