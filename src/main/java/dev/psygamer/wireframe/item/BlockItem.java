@@ -22,6 +22,15 @@ public class BlockItem extends Item {
 		this.block = block;
 	}
 	
+	private static <T extends Comparable<T>> BlockState updateBlockState(final BlockState blockState,
+																		 final BlockProperty<T> property,
+																		 final String valueName
+	) {
+		return property.getValue(valueName).map(
+				(value) -> blockState.setValue(property, value)
+		).orElse(blockState);
+	}
+	
 	@Override
 	public ClickResult onItemUsedOnBlock(final ItemStack usedItemStack, final World world, final Player player,
 										 final Hand hand, final BlockHitResult hitResult
@@ -44,7 +53,7 @@ public class BlockItem extends Item {
 		
 		world.notifyNeighbours(targetPosition, placementState.getBlock());
 		
-		if (block == world.getBlock(targetPosition)) {
+		if (this.block == world.getBlock(targetPosition)) {
 			applyBlockStateTags(world, targetPosition, world.getBlockState(targetPosition), usedItemStack);
 		}
 		
@@ -68,11 +77,10 @@ public class BlockItem extends Item {
 		final TagCompound blockStateTag = itemTag.getCompound("BlockStateTag");
 		
 		for (final String key : blockStateTag.getKeys()) {
-			final BlockProperty<?> property = blockState.getProperty(key);
+			final BlockProperty<?> property = blockState.getBlock().getStateDefinition().getProperty(key);
 			
-			if (property != null) {
-				blockState.setObjectProperty(property, property.getValue(key));
-			}
+			if (property != null)
+				updateBlockState(blockState, property, blockStateTag.getString(key));
 		}
 		
 		world.setBlockState(blockState, position);
