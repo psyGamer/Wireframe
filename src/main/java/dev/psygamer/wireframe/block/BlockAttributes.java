@@ -33,6 +33,7 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	protected boolean toolRequired;
 	protected boolean fullBlock = true;
+	protected boolean opaque = false;
 	
 	protected boolean hasItem = true;
 	
@@ -133,6 +134,12 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		return this;
 	}
 	
+	public BlockAttributes opaque(final boolean opaque) {
+		this.opaque = opaque;
+		
+		return this;
+	}
+	
 	public BlockAttributes hasItem(final boolean hasItem) {
 		this.hasItem = hasItem;
 		
@@ -177,6 +184,10 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	public boolean isFullBlock() {
 		return this.fullBlock;
+	}
+	
+	public boolean isOpaque() {
+		return opaque;
 	}
 	
 	public boolean hasItem() {

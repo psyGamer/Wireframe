@@ -57,7 +57,7 @@ public class InternalBlockAttributes {
 		if (this.attributes.getSound() != null)
 			properties.sound(this.attributes.getSound());
 		
-		if (this.attributes.isFullBlock()) {
+		if (this.attributes.isFullBlock() && !this.attributes.isOpaque()) {
 			properties.isValidSpawn(InternalBlockAttributes::always);
 			properties.isSuffocating(InternalBlockAttributes::always);
 			properties.isViewBlocking(InternalBlockAttributes::always);
