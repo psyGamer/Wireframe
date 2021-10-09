@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.internal.world;
 
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.World;
@@ -9,7 +10,6 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SnowBlock;
 import net.minecraft.world.LightType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.Constants;
 
 public class InternalWorld extends InternalBlockReader implements World {
 	
@@ -33,12 +33,22 @@ public class InternalWorld extends InternalBlockReader implements World {
 	
 	@Override
 	public boolean setBlock(final dev.psygamer.wireframe.block.Block block, final BlockPosition position) {
+		return setBlock(block, position, UpdateFlags.BLOCK_UPDATE);
+	}
+	
+	@Override
+	public boolean setBlock(final Block block, final BlockPosition position, final int updateFlag) {
 		return setBlockState(block.getDefaultBlockState(), position);
 	}
 	
 	@Override
 	public boolean setBlockState(final BlockState blockState, final BlockPosition position) {
-		return this.internalWorld.setBlock(position.toInternal(), blockState.getInternal(), Constants.BlockFlags.BLOCK_UPDATE);
+		return setBlockState(blockState, position, UpdateFlags.BLOCK_UPDATE);
+	}
+	
+	@Override
+	public boolean setBlockState(final BlockState blockState, final BlockPosition position, final int updateFlag) {
+		return this.internalWorld.setBlock(position.toInternal(), blockState.getInternal(), updateFlag);
 	}
 	
 	@Override
