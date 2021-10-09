@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.block;
 
+import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Entity;
@@ -18,14 +19,13 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
-import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
 import java.util.Random;
 
 public class Block {
 	
-	protected final net.minecraft.block.Block internal;
+	protected final InternalBlock internal;
 	protected final Item blockItem;
 	
 	protected final Identifier identifier;
@@ -34,18 +34,6 @@ public class Block {
 	protected final ItemAttributes itemAttributes;
 	
 	protected final BlockState defaultBlockState;
-	
-	private Block(final net.minecraft.block.Block internal) {
-		this.identifier = Identifier.get(internal.getRegistryName());
-		this.blockItem = Item.get(internal.asItem());
-		
-		this.blockAttributes = null;
-		this.itemAttributes = null;
-		
-		this.internal = internal;
-		
-		this.defaultBlockState = new BlockState(this);
-	}
 	
 	public Block(final Identifier identifier, final BlockAttributes blockAttributes) {
 		this(identifier, blockAttributes, new ItemAttributes());
@@ -67,13 +55,6 @@ public class Block {
 		this.defaultBlockState = new BlockState(this);
 		
 		BlockRegistry.register(this);
-	}
-	
-	public static Block get(final net.minecraft.block.Block internal) {
-		if (internal == null)
-			return null;
-		
-		return new Block(internal);
 	}
 	
 	public Identifier getIdentifier() {
@@ -185,7 +166,7 @@ public class Block {
 		return false;
 	}
 	
-	public TileEntity createBlockEntity(
+	public BlockEntity createBlockEntity(
 			final BlockState blockState, final BlockReader blockReader
 	) {
 		return null;
