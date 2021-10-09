@@ -6,6 +6,9 @@ import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.entity.ProjectileEntity;
 import dev.psygamer.wireframe.internal.block.InternalBlock;
+import dev.psygamer.wireframe.item.BlockItem;
+import dev.psygamer.wireframe.item.Item;
+import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.Hand;
@@ -23,26 +26,43 @@ import java.util.Random;
 public class Block {
 	
 	protected final net.minecraft.block.Block internal;
+	protected final Item blockItem;
 	
 	protected final Identifier identifier;
 	
-	protected final BlockAttributes attributes;
+	protected final BlockAttributes blockAttributes;
+	protected final ItemAttributes itemAttributes;
+	
 	protected final BlockState defaultBlockState;
 	
-	public Block(final net.minecraft.block.Block internal) {
+	private Block(final net.minecraft.block.Block internal) {
 		this.identifier = Identifier.get(internal.getRegistryName());
-		this.attributes = null;
+		this.blockItem = Item.get(internal.asItem());
+		
+		this.blockAttributes = null;
+		this.itemAttributes = null;
 		
 		this.internal = internal;
 		
 		this.defaultBlockState = new BlockState(this);
 	}
 	
-	public Block(final Identifier identifier, final BlockAttributes attributes) {
+	public Block(final Identifier identifier, final BlockAttributes blockAttributes) {
+		this(identifier, blockAttributes, new ItemAttributes());
+	}
+	
+	public Block(final Identifier identifier, final BlockAttributes blockAttributes, final ItemAttributes itemAttributes) {
 		this.identifier = identifier;
-		this.attributes = attributes;
 		
-		this.internal = new InternalBlock(this, attributes);
+		this.blockAttributes = blockAttributes;
+		this.itemAttributes = itemAttributes;
+		
+		this.internal = new InternalBlock(this, this.blockAttributes);
+		
+		if (blockAttributes.hasItem())
+			this.blockItem = new BlockItem(identifier, itemAttributes, this);
+		else
+			this.blockItem = null;
 		
 		this.defaultBlockState = new BlockState(this);
 		
@@ -60,8 +80,8 @@ public class Block {
 		return this.identifier;
 	}
 	
-	public BlockAttributes getAttributes() {
-		return this.attributes;
+	public BlockAttributes getBlockAttributes() {
+		return this.blockAttributes;
 	}
 	
 	public BlockState getDefaultBlockState() {
