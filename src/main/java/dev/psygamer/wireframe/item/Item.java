@@ -13,40 +13,13 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.World;
 
-/*
-
-net.minecraft.item.Item;
-net.minecraft.item.ItemGroup;
-net.minecraft.item.ItemUseContext;
-net.minecraft.block.SoundType;
-net.minecraft.block.material.Material;
-
-net.minecraft.entity.Entity;
-net.minecraft.entity.player.PlayerEntity;
-net.minecraft.entity.projectile.ProjectileEntity;
-net.minecraft.entity.LivingEntity;
-net.minecraft.entity.player.PlayerEntity;
-net.minecraft.inventory.container.INamedContainerProvider;
-net.minecraft.loot.LootContext;
-net.minecraft.tileentity.TileEntity;
-net.minecraft.world.IBlockReader;
-
- */
-
 public class Item {
 	
-	protected final net.minecraft.item.Item internal;
+	protected final InternalItem internal;
 	
 	protected final Identifier identifier;
 	
 	protected final ItemAttributes itemAttributes;
-	
-	private Item(final net.minecraft.item.Item internal) {
-		this.identifier = Identifier.get(internal.getRegistryName());
-		this.itemAttributes = null;
-		
-		this.internal = internal;
-	}
 	
 	public Item(final Identifier identifier, final ItemAttributes itemAttributes) {
 		this.identifier = identifier;
@@ -55,13 +28,6 @@ public class Item {
 		this.internal = new InternalItem(this, itemAttributes);
 		
 		ItemRegistry.register(this);
-	}
-	
-	public static Item get(final net.minecraft.item.Item internal) {
-		if (internal == null)
-			return null;
-		
-		return new Item(internal);
 	}
 	
 	public ClickResultContainer<ItemStack> onItemUsed(
