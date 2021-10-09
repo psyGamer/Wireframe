@@ -1,38 +1,42 @@
 package dev.psygamer.wireframe.internal.block;
 
+import dev.psygamer.wireframe.block.Block;
+import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.Property;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
-public class InternalBlockState extends net.minecraft.state.StateContainer<Block, BlockState> {
+public class InternalBlockState implements BlockState {
 	
-	public InternalBlockState(final dev.psygamer.wireframe.block.state.BlockState blockState) {
-		super(
-				Block::defaultBlockState,
-				
-				blockState.getBlock()
-						  .getInternal(), BlockState::new,
-				
-				mapProperties(blockState.getValuePairs())
-		);
+	private final net.minecraft.block.BlockState internal;
+	
+	public InternalBlockState(final net.minecraft.block.BlockState internal) {
+		this.internal = internal;
 	}
 	
-	private static Map<String, Property<?>> mapProperties(final Set<BlockProperty.ValuePair<?>> valuePairs) {
-		final Map<String, Property<?>> properties = new LinkedHashMap<>();
-		
-		valuePairs.forEach(valuePair -> properties.put(
-								   valuePair.getProperty()
-											.getPropertyName(),
-								   valuePair.getProperty()
-											.getInternal()
-						   )
-		);
-		
-		return properties;
+	@Override
+	public Block getBlock() {
+		return Block.get(internal.getBlock());
+	}
+	
+	@Override
+	public <T extends Comparable<T>, V extends T> BlockState setValue(final BlockProperty<T> property, final V value) {
+		return BlockState.get(internal.setValue(property.getInternal(), value));
+	}
+	
+	@Override
+	public <T extends Comparable<T>> T getValue(final BlockProperty<T> property) {
+		return internal.getValue(property.getInternal());
+	}
+	
+	@Override
+	public <T extends Comparable<T>> Optional<T> getOptionalValue(final BlockProperty<T> property
+	) {
+		return internal.getOptionalValue(property.getInternal());
+	}
+	
+	@Override
+	public boolean is(final Block block) {
+		return this.getBlock().getInternal() == block.getInternal();
 	}
 }
