@@ -4,6 +4,10 @@ import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.attributes.Material;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 
 public class InternalBlockAttributes {
 	
@@ -11,6 +15,22 @@ public class InternalBlockAttributes {
 	
 	public InternalBlockAttributes(final BlockAttributes attributes) {
 		this.attributes = attributes;
+	}
+	
+	private static boolean always(BlockState blockState, IBlockReader blockReader, BlockPos pos) {
+		return true;
+	}
+	
+	private static boolean always(BlockState blockState, IBlockReader blockReader, BlockPos pos, EntityType<?> entityType) {
+		return true;
+	}
+	
+	private static boolean never(BlockState blockState, IBlockReader blockReader, BlockPos pos) {
+		return false;
+	}
+	
+	private static boolean never(BlockState blockState, IBlockReader blockReader, BlockPos pos, EntityType<?> entityType) {
+		return false;
 	}
 	
 	public AbstractBlock.Properties createProperties() {
@@ -38,9 +58,13 @@ public class InternalBlockAttributes {
 			properties.sound(this.attributes.getSound());
 		
 		if (this.attributes.isFullBlock()) {
-			properties.isValidSpawn(AbstractBlock.AbstractBlockState::isValidSpawn);
-			properties.isSuffocating(AbstractBlock.AbstractBlockState::isSuffocating);
-			properties.isViewBlocking(AbstractBlock.AbstractBlockState::isViewBlocking);
+			properties.isValidSpawn(InternalBlockAttributes::always);
+			properties.isSuffocating(InternalBlockAttributes::always);
+			properties.isViewBlocking(InternalBlockAttributes::always);
+		} else {
+			properties.isValidSpawn(InternalBlockAttributes::never);
+			properties.isSuffocating(InternalBlockAttributes::never);
+			properties.isViewBlocking(InternalBlockAttributes::never);
 		}
 		
 		if (this.attributes.getMaterial() == Material.AIR)
