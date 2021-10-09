@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.internal.item;
 
 import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.internal.block.InternalBlock;
 import dev.psygamer.wireframe.item.Item;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
@@ -103,7 +102,7 @@ public class InternalItem extends net.minecraft.item.Item {
 	public boolean mineBlock(final ItemStack itemStack, final World world, final net.minecraft.block.BlockState state,
 							 final BlockPos pos, final LivingEntity entity
 	) {
-		final BlockState blockState = InternalBlock.convertBlockState(state);
+		final BlockState blockState = BlockState.get(state);
 		
 		return this.item.onBlockMined(
 				dev.psygamer.wireframe.item.ItemStack.get(itemStack), blockState,
