@@ -33,22 +33,22 @@ public class InternalWorld extends InternalBlockReader implements World {
 	
 	@Override
 	public boolean setBlock(final dev.psygamer.wireframe.block.Block block, final BlockPosition position) {
-		return setBlock(block, position, UpdateFlags.BLOCK_UPDATE);
+		return setBlock(block, position, UpdateFlag.BLOCK_UPDATE);
 	}
 	
 	@Override
-	public boolean setBlock(final Block block, final BlockPosition position, final int updateFlag) {
+	public boolean setBlock(final Block block, final BlockPosition position, final UpdateFlag updateFlag) {
 		return setBlockState(block.getDefaultBlockState(), position);
 	}
 	
 	@Override
 	public boolean setBlockState(final BlockState blockState, final BlockPosition position) {
-		return setBlockState(blockState, position, UpdateFlags.BLOCK_UPDATE);
+		return setBlockState(blockState, position, UpdateFlag.BLOCK_UPDATE);
 	}
 	
 	@Override
-	public boolean setBlockState(final BlockState blockState, final BlockPosition position, final int updateFlag) {
-		return this.internalWorld.setBlock(position.toInternal(), blockState.getInternal(), updateFlag);
+	public boolean setBlockState(final BlockState blockState, final BlockPosition position, final UpdateFlag updateFlag) {
+		return this.internalWorld.setBlock(position.toInternal(), blockState.getInternal(), updateFlag.getInternalFlag());
 	}
 	
 	@Override
