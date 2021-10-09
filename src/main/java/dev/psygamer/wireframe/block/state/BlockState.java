@@ -24,5 +24,7 @@ public interface BlockState {
 	<T extends Comparable<T>> Optional<T> getOptionalValue(final BlockProperty<T> property);
 	
 	boolean is(final Block block);
+	
+	net.minecraft.block.BlockState getInternal();
 }
 
