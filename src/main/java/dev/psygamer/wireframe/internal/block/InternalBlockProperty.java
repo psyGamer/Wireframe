@@ -54,8 +54,6 @@ public class InternalBlockProperty <T extends Comparable<T>> extends Property<T>
 	
 	@Override
 	public Optional<T> getValue(final String valueName) {
-		final T value = this.blockProperty.getValue(valueName);
-		
-		return value == null ? Optional.empty() : Optional.of(value);
+		return this.blockProperty.getValue(valueName);
 	}
 }

@@ -17,7 +17,14 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	protected final FreezableMap<String, T> entries;
 	
 	protected T defaultValue;
-	protected InternalBlockProperty<T> internal;
+	protected net.minecraft.state.Property<T> internal;
+	
+	private BlockProperty(final net.minecraft.state.Property<T> internal) {
+		this.propertyName = internal.getName();
+		this.entries = new FreezableLinkedHashMap<>();
+		
+		this.freeze();
+	}
 	
 	public BlockProperty(final String propertyName) {
 		Objects.requireNonNull(propertyName, "The property name may not be null");
@@ -26,16 +33,23 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 		this.entries = new FreezableLinkedHashMap<>();
 	}
 	
+	public static <T extends Comparable<T>> BlockProperty<T> get(final net.minecraft.state.Property<T> internalProperty) {
+		if (internalProperty == null)
+			return null;
+		
+		return new BlockProperty<>(internalProperty);
+	}
+	
 	public String getPropertyName() {
-		if (entries.isFrozen())
-			return internal.getName();
+		if (isFrozen())
+			return this.internal.getName();
 		
 		return this.propertyName;
 	}
 	
 	public Optional<T> getValue(final String valueName) {
-		if (entries.isFrozen())
-			return internal.getValue(valueName);
+		if (isFrozen())
+			return this.internal.getValue(valueName);
 		
 		if (this.entries.containsValue(valueName))
 			return Optional.of(this.entries.get(valueName));
@@ -44,8 +58,8 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public String getValueName(final T value) {
-		if (entries.isFrozen())
-			return internal.getName(value);
+		if (isFrozen())
+			return this.internal.getName(value);
 		
 		for (final String valueName : this.entries.keySet()) {
 			if (this.entries.get(valueName)
@@ -73,8 +87,8 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public T getDefaultValue() {
-		if (entries.isFrozen()) {
-			final Optional<T> optionalDefaultValue = internal.getPossibleValues().stream().findFirst();
+		if (isFrozen()) {
+			final Optional<T> optionalDefaultValue = this.internal.getPossibleValues().stream().findFirst();
 			
 			if (!optionalDefaultValue.isPresent())
 				throw new IllegalStateException("Block property with no possible values don't have a default value.");
@@ -86,26 +100,26 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	protected void setDefaultValue(final T defaultValue) {
-		IFreezable.throwIfFrozen(entries);
+		IFreezable.throwIfFrozen(this);
 		
 		this.defaultValue = defaultValue;
 	}
 	
 	public ImmutableList<T> getPossibleValues() {
-		if (entries.isFrozen())
-			return ImmutableList.copyOf(internal.getPossibleValues());
+		if (isFrozen())
+			return ImmutableList.copyOf(this.internal.getPossibleValues());
 		
 		return ImmutableList.copyOf(this.entries.values());
 	}
 	
 	public int getValueIndex(final T value) {
-		if (entries.isFrozen())
-			return new ArrayList<>(internal.getPossibleValues()).indexOf(value);
+		if (isFrozen())
+			return new ArrayList<>(this.internal.getPossibleValues()).indexOf(value);
 		
 		return new ArrayList<>(this.entries.values()).indexOf(value);
 	}
 	
-	public InternalBlockProperty<T> getInternal() {
+	public net.minecraft.state.Property<T> getInternal() {
 		return this.internal;
 	}
 	
@@ -113,7 +127,8 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	public void freeze() {
 		this.entries.freeze();
 		
-		this.internal = new InternalBlockProperty<>(this);
+		if (this.internal == null)
+			this.internal = new InternalBlockProperty<>(this);
 	}
 	
 	@Override
