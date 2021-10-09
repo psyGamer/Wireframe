@@ -9,6 +9,7 @@ import dev.psygamer.wireframe.util.helper.IFreezable;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	
@@ -26,17 +27,26 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public String getPropertyName() {
+		if (entries.isFrozen())
+			return internal.getName();
+		
 		return this.propertyName;
 	}
 	
-	public T getValue(final String valueName) {
-		if (this.entries.containsValue(valueName))
-			return this.entries.get(valueName);
+	public Optional<T> getValue(final String valueName) {
+		if (entries.isFrozen())
+			return internal.getValue(valueName);
 		
-		return null;
+		if (this.entries.containsValue(valueName))
+			return Optional.of(this.entries.get(valueName));
+		
+		return Optional.empty();
 	}
 	
 	public String getValueName(final T value) {
+		if (entries.isFrozen())
+			return internal.getName(value);
+		
 		for (final String valueName : this.entries.keySet()) {
 			if (this.entries.get(valueName)
 							.equals(value))
@@ -63,18 +73,35 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public T getDefaultValue() {
+		if (entries.isFrozen()) {
+			final Optional<T> optionalDefaultValue = internal.getPossibleValues().stream().findFirst();
+			
+			if (!optionalDefaultValue.isPresent())
+				throw new IllegalStateException("Block property with no possible values don't have a default value.");
+			
+			return optionalDefaultValue.get();
+		}
+		
 		return this.defaultValue;
 	}
 	
 	protected void setDefaultValue(final T defaultValue) {
+		IFreezable.throwIfFrozen(entries);
+		
 		this.defaultValue = defaultValue;
 	}
 	
 	public ImmutableList<T> getPossibleValues() {
+		if (entries.isFrozen())
+			return ImmutableList.copyOf(internal.getPossibleValues());
+		
 		return ImmutableList.copyOf(this.entries.values());
 	}
 	
 	public int getValueIndex(final T value) {
+		if (entries.isFrozen())
+			return new ArrayList<>(internal.getPossibleValues()).indexOf(value);
+		
 		return new ArrayList<>(this.entries.values()).indexOf(value);
 	}
 	
