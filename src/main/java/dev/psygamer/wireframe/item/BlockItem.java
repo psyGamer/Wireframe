@@ -39,12 +39,14 @@ public class BlockItem extends Item {
 		final BlockState oldBlockState = world.getBlockState(targetPosition);
 		final BlockState placementState = this.block.getPlacementState(usedItemStack, world, player, hand, hitResult);
 		
-		if (!world.setBlockState(placementState, targetPosition))
+		if (!world.setBlockState(placementState, targetPosition, World.UpdateFlag.DEFAULT_AND_RERENDER))
 			return ClickResult.REJECTED;
 		
 		world.notifyNeighbours(targetPosition, placementState.getBlock());
 		
-		applyBlockStateTags(usedItemStack, world, world.getBlockState(targetPosition), targetPosition);
+		if (block == world.getBlock(targetPosition)) {
+			applyBlockStateTags(world, targetPosition, world.getBlockState(targetPosition), usedItemStack);
+		}
 		
 		this.block.onBlockPlaced(oldBlockState, placementState, targetPosition, world);
 		this.block.onBlockPlacedByPlayer(oldBlockState, placementState, targetPosition, world, player);
@@ -55,8 +57,8 @@ public class BlockItem extends Item {
 		return ClickResult.ACCEPTED;
 	}
 	
-	private void applyBlockStateTags(final ItemStack itemStack, final World world, final BlockState blockState,
-									 final BlockPosition position
+	private void applyBlockStateTags(final World world, final BlockPosition position,
+									 final BlockState blockState, final ItemStack itemStack
 	) {
 		final TagCompound itemTag = itemStack.getTag();
 		
@@ -75,4 +77,20 @@ public class BlockItem extends Item {
 		
 		world.setBlockState(blockState, position);
 	}
+	
+	/* private void applyBlockEntityTags(final World world, BlockPosition position,
+									  final Player player, final ItemStack itemStack
+	) {
+		final TagCompound itemTag = itemStack.getTag();
+		
+		if (itemTag == null)
+			return;
+		
+		final TagCompound blockEntityTag = itemTag.getCompound("BlockEntityTag");
+		
+		if (blockEntityTag == null)
+			return;
+		
+		BlockEntity blockEntity = world.getBlockEntity
+	} */ // TODO Include feature once BlockEntities are more developed
 }
