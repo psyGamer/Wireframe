@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 
 public class FieldUtil {
 	
-	@SuppressWarnings("unchecked")
 	public static <T, U> U getField(final Class<? super T> classToAccess, final T instance, final String fieldName) {
 		try {
 			final Field field = classToAccess.getDeclaredField(fieldName);

@@ -35,19 +35,33 @@ net.minecraft.world.IBlockReader;
 
 public class Item {
 	
-	protected final InternalItem internal;
+	protected final net.minecraft.item.Item internal;
 	
 	protected final Identifier identifier;
 	
-	protected final ItemAttributes attributes;
+	protected final ItemAttributes itemAttributes;
 	
-	public Item(final Identifier identifier, final ItemAttributes attributes) {
-		this.identifier = identifier;
-		this.attributes = attributes;
+	private Item(final net.minecraft.item.Item internal) {
+		this.identifier = Identifier.get(internal.getRegistryName());
+		this.itemAttributes = null;
 		
-		this.internal = new InternalItem(this, attributes);
+		this.internal = internal;
+	}
+	
+	public Item(final Identifier identifier, final ItemAttributes itemAttributes) {
+		this.identifier = identifier;
+		this.itemAttributes = itemAttributes;
+		
+		this.internal = new InternalItem(this, itemAttributes);
 		
 		ItemRegistry.register(this);
+	}
+	
+	public static Item get(final net.minecraft.item.Item internal) {
+		if (internal == null)
+			return null;
+		
+		return new Item(internal);
 	}
 	
 	public ClickResultContainer<ItemStack> onItemUsed(
@@ -96,11 +110,11 @@ public class Item {
 		return this.identifier;
 	}
 	
-	public ItemAttributes getAttributes() {
-		return this.attributes;
+	public ItemAttributes getItemAttributes() {
+		return this.itemAttributes;
 	}
 	
-	public InternalItem getInternal() {
+	public net.minecraft.item.Item getInternal() {
 		return this.internal;
 	}
 }

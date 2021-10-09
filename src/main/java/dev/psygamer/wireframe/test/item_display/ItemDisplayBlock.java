@@ -26,8 +26,6 @@ public class ItemDisplayBlock extends Block {
 		super(new Identifier("wireframe", "item_display"),
 		
 			  new BlockAttributes(Material.WOOD)
-					  .hardness(1.0f)
-					  .blastResistance(1.0f)
 					  .harvestLevel(HarvestLevel.STONE)
 		);
 

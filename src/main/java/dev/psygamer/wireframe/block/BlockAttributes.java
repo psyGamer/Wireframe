@@ -32,7 +32,9 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	protected int harvestLevel;
 	
 	protected boolean toolRequired;
-	protected boolean fullBlock;
+	protected boolean fullBlock = true;
+	
+	protected boolean hasItem = true;
 	
 	/**
 	 * @author psyGamer
@@ -131,6 +133,16 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		return this;
 	}
 	
+	public BlockAttributes hasItem(final boolean hasItem) {
+		this.hasItem = hasItem;
+		
+		return this;
+	}
+	
+	public BlockAttributes noItem() {
+		return hasItem(false);
+	}
+	
 	public Material getMaterial() {
 		return this.material;
 	}
@@ -165,6 +177,10 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	public boolean isFullBlock() {
 		return this.fullBlock;
+	}
+	
+	public boolean hasItem() {
+		return hasItem;
 	}
 	
 	public InternalBlockAttributes getInternal() {
