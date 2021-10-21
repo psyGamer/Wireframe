@@ -84,12 +84,11 @@ public class InternalItem extends net.minecraft.item.Item {
 	public ActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
 		final ActionResult<dev.psygamer.wireframe.item.ItemStack> result
 				= this.item.onItemUsed(
-							  dev.psygamer.wireframe.item.ItemStack.get(player.getItemInHand(hand)),
-							  dev.psygamer.wireframe.world.World.get(world),
-							  dev.psygamer.wireframe.entity.Player.get(player),
-							  dev.psygamer.wireframe.item.util.Hand.get(hand)
-					  )
-						   .toInternal();
+				dev.psygamer.wireframe.item.ItemStack.get(player.getItemInHand(hand)),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.entity.Player.get(player),
+				dev.psygamer.wireframe.item.util.Hand.get(hand)
+		).toInternal(world.isClientSide());
 		
 		return new ActionResult<>(
 				result.getResult(),
