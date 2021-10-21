@@ -20,7 +20,12 @@ public class InternalBlockState implements BlockState {
 	}
 	
 	@Override
-	public <T extends Comparable<T>, V extends T> BlockState setValue(final BlockProperty<T> property, final V value) {
+	public <T extends Comparable<T>> BlockState setComparableValue(final BlockProperty<T> property, final Comparable<?> value) {
+		return BlockState.get(this.internal.setValue(property.getInternal(), (T) value));
+	}
+	
+	@Override
+	public <T extends Comparable<T>> BlockState setValue(final BlockProperty<T> property, final T value) {
 		return BlockState.get(this.internal.setValue(property.getInternal(), value));
 	}
 	

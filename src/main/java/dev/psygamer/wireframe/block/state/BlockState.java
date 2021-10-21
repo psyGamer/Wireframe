@@ -17,7 +17,9 @@ public interface BlockState {
 	
 	Block getBlock();
 	
-	<T extends Comparable<T>, V extends T> BlockState setValue(final BlockProperty<T> property, V value);
+	<T extends Comparable<T>> BlockState setComparableValue(final BlockProperty<T> property, Comparable<?> value);
+	
+	<T extends Comparable<T>> BlockState setValue(final BlockProperty<T> property, T value);
 	
 	<T extends Comparable<T>> T getValue(final BlockProperty<T> property);
 	
