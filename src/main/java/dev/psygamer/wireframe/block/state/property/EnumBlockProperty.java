@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 
 public class EnumBlockProperty <T extends Enum<T>> extends BlockProperty<T> {
@@ -13,9 +12,7 @@ public class EnumBlockProperty <T extends Enum<T>> extends BlockProperty<T> {
 	
 	@SafeVarargs
 	public EnumBlockProperty(final String propertyName, final T... possibleValues) {
-		super(propertyName, null);
-		
-		Objects.requireNonNull(possibleValues, "The possible enum values may not be null");
+		super(propertyName, possibleValues[0]);
 		
 		if (possibleValues.length <= 0)
 			throw new ArrayIndexOutOfBoundsException("Possible values may not be empty");
