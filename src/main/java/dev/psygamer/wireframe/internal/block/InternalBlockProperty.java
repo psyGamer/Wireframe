@@ -49,7 +49,7 @@ public class InternalBlockProperty <T extends Comparable<T>> extends Property<T>
 	
 	@Override
 	public String getName(final T value) {
-		return this.blockProperty.getValueName(value);
+		return this.blockProperty.getValueName(value).toLowerCase();
 	}
 	
 	@Override
