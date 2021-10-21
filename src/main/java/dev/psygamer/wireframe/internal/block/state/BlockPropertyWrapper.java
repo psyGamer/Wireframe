@@ -14,10 +14,9 @@ public class BlockPropertyWrapper <T extends Comparable<T>> extends BlockPropert
 	private T defaultValue;
 	
 	public BlockPropertyWrapper(final Property<T> property) {
-		super(property.getName());
+		super(property.getName(), Lists.newArrayList(property.getPossibleValues()).get(0));
 		
 		this.property = property;
-		this.defaultValue = Lists.newArrayList(this.property.getPossibleValues()).get(0);
 	}
 	
 	@Override
@@ -31,30 +30,7 @@ public class BlockPropertyWrapper <T extends Comparable<T>> extends BlockPropert
 	}
 	
 	@Override
-	public T getDefaultValue() {
-		return this.defaultValue;
-	}
-	
-	@Override
-	protected void setDefaultValue(final T defaultValue) {
-		if (!getPossibleValues().contains(defaultValue))
-			throw new IllegalArgumentException("Default value does not exist in " + this.property);
-		
-		this.defaultValue = defaultValue;
-	}
-	
-	@Override
 	public ImmutableList<T> getPossibleValues() {
 		return ImmutableList.copyOf(this.property.getPossibleValues());
-	}
-	
-	@Override
-	public void freeze() {
-	
-	}
-	
-	@Override
-	public boolean isFrozen() {
-		return true; // Internal Properties are always immutable.
 	}
 }
