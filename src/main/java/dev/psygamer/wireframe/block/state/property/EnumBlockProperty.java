@@ -34,7 +34,7 @@ public class EnumBlockProperty <T extends Enum<T>> extends BlockProperty<T> {
 	
 	@Override
 	public String getValueName(final T value) {
-		return value.name();
+		return value.name().toLowerCase();
 	}
 	
 	@Override

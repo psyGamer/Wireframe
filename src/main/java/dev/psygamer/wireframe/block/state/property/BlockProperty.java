@@ -31,7 +31,7 @@ public abstract class BlockProperty <T extends Comparable<T>> {
 	}
 	
 	public String getPropertyName() {
-		return this.propertyName;
+		return this.propertyName.toLowerCase();
 	}
 	
 	public T getDefaultValue() {
