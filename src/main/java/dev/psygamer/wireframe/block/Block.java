@@ -75,6 +75,10 @@ public class Block {
 		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
 		this.defaultBlockState = this.stateDefinition.getDefaultState();
 		
+		for (final BlockProperty<?> blockProperty : blockProperties) {
+			this.defaultBlockState = this.defaultBlockState.setComparableValue(blockProperty, blockProperty.getDefaultValue());
+		}
+		
 		if (blockAttributes.hasItem())
 			this.blockItem = new BlockItem(identifier, itemAttributes, this);
 		else
