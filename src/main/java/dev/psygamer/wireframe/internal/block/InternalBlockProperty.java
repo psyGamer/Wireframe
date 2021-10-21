@@ -48,8 +48,8 @@ public class InternalBlockProperty <T extends Comparable<T>> extends Property<T>
 	}
 	
 	@Override
-	public String getName(final T p_177702_1_) {
-		return this.blockProperty.getPropertyName();
+	public String getName(final T value) {
+		return this.blockProperty.getValueName(value).toLowerCase();
 	}
 	
 	@Override

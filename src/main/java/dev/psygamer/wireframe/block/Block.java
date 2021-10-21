@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.BlockStateDefinition;
+import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.entity.ProjectileEntity;
@@ -55,12 +56,23 @@ public class Block {
 	}
 	
 	public Block(final Identifier identifier, final BlockAttributes blockAttributes, final ItemAttributes itemAttributes) {
+		this(identifier, blockAttributes, itemAttributes, new BlockProperty[0]);
+	}
+	
+	public Block(final Identifier identifier,
+				 final BlockAttributes blockAttributes, final ItemAttributes itemAttributes,
+				 final BlockProperty<?>... blockProperties
+	) {
 		this.identifier = identifier;
 		
 		this.blockAttributes = blockAttributes;
 		this.itemAttributes = itemAttributes;
 		
 		this.internal = new InternalBlock(this, this.blockAttributes);
+		
+		if (blockProperties.length > 0)
+			((InternalBlock) this.internal).registerBlockProperties(blockProperties);
+		
 		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
 		this.defaultBlockState = this.stateDefinition.getDefaultState();
 		

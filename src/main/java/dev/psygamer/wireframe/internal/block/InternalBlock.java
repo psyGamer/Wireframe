@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.internal.block;
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.state.BlockState;
+import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.internal.item.InternalItem;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
@@ -15,6 +16,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootContext;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -26,12 +28,25 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("deprecation")
 public class InternalBlock extends net.minecraft.block.Block {
+	
+	private static Field stateDefinitionField;
+	
+	static {
+		try {
+			stateDefinitionField = net.minecraft.block.Block.class.getDeclaredField("stateDefinition");
+			stateDefinitionField.setAccessible(true);
+		} catch (final NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private final Block block;
 	
@@ -52,6 +67,39 @@ public class InternalBlock extends net.minecraft.block.Block {
 	
 	public void setDefaultBlockState(final BlockState blockState) {
 		registerDefaultState(blockState.getInternal());
+	}
+	
+	public void registerBlockProperties(final BlockProperty<? extends Comparable<?>>[] blockProperties) {
+		final StateContainer.Builder<net.minecraft.block.Block, net.minecraft.block.BlockState>
+				builder = new StateContainer.Builder<>(this);
+		
+		Arrays.stream(blockProperties)
+			  .map(BlockProperty::getInternal)
+			  .forEach(builder::add);
+		
+		try {
+			stateDefinitionField
+					.set(this, builder.create(net.minecraft.block.Block::defaultBlockState,
+											  net.minecraft.block.BlockState::new
+						 )
+					);
+		} catch (final IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		net.minecraft.block.BlockState defaultState = this.stateDefinition.any();
+		
+		for (final BlockProperty<?> blockProperty : blockProperties) {
+			defaultState = setValue(blockProperty, defaultState);
+		}
+		
+		registerDefaultState(defaultState);
+	}
+	
+	private <T extends Comparable<T>> net.minecraft.block.BlockState setValue(
+			final BlockProperty<T> blockProperty, final net.minecraft.block.BlockState blockState
+	) {
+		return blockState.setValue(blockProperty.getInternal(), blockProperty.getDefaultValue());
 	}
 	
 	/* Block Events */
