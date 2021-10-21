@@ -41,14 +41,14 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public String getPropertyName() {
-		if (isFrozen())
+		if (isNonNativeInternal())
 			return this.internal.getName();
 		
 		return this.propertyName;
 	}
 	
 	public Optional<T> getValue(final String valueName) {
-		if (isFrozen())
+		if (isNonNativeInternal())
 			return this.internal.getValue(valueName);
 		
 		if (this.entries.containsValue(valueName))
@@ -58,7 +58,7 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public String getValueName(final T value) {
-		if (isFrozen())
+		if (isNonNativeInternal())
 			return this.internal.getName(value);
 		
 		for (final String valueName : this.entries.keySet()) {
@@ -87,7 +87,7 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public T getDefaultValue() {
-		if (isFrozen()) {
+		if (isNonNativeInternal()) {
 			final Optional<T> optionalDefaultValue = this.internal.getPossibleValues().stream().findFirst();
 			
 			if (!optionalDefaultValue.isPresent())
@@ -106,14 +106,14 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	}
 	
 	public ImmutableList<T> getPossibleValues() {
-		if (isFrozen())
+		if (isNonNativeInternal())
 			return ImmutableList.copyOf(this.internal.getPossibleValues());
 		
 		return ImmutableList.copyOf(this.entries.values());
 	}
 	
 	public int getValueIndex(final T value) {
-		if (isFrozen())
+		if (isNonNativeInternal())
 			return new ArrayList<>(this.internal.getPossibleValues()).indexOf(value);
 		
 		return new ArrayList<>(this.entries.values()).indexOf(value);
@@ -125,15 +125,19 @@ public class BlockProperty <T extends Comparable<T>> implements IFreezable {
 	
 	@Override
 	public void freeze() {
-		this.entries.freeze();
-		
 		if (this.internal == null)
 			this.internal = new InternalBlockProperty<>(this);
+		
+		this.entries.freeze();
 	}
 	
 	@Override
 	public boolean isFrozen() {
 		return this.entries.isFrozen();
+	}
+	
+	private boolean isNonNativeInternal() {
+		return !(this.internal == null || this.internal instanceof InternalBlockProperty);
 	}
 	
 	public static final class ValuePair <T extends Comparable<T>> implements ICloneable<ValuePair<T>> {
