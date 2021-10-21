@@ -69,7 +69,7 @@ public class InternalBlock extends net.minecraft.block.Block {
 		registerDefaultState(blockState.getInternal());
 	}
 	
-	public void registerBlockProperties(final BlockProperty<?>[] blockProperties) {
+	public void registerBlockProperties(final BlockProperty<? extends Comparable<?>>[] blockProperties) {
 		final StateContainer.Builder<net.minecraft.block.Block, net.minecraft.block.BlockState>
 				builder = new StateContainer.Builder<>(this);
 		
@@ -86,6 +86,20 @@ public class InternalBlock extends net.minecraft.block.Block {
 		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
 		}
+		
+		net.minecraft.block.BlockState defaultState = this.stateDefinition.any();
+		
+		for (final BlockProperty<?> blockProperty : blockProperties) {
+			defaultState = setValue(blockProperty, defaultState);
+		}
+		
+		registerDefaultState(defaultState);
+	}
+	
+	private <T extends Comparable<T>> net.minecraft.block.BlockState setValue(
+			final BlockProperty<T> blockProperty, final net.minecraft.block.BlockState blockState
+	) {
+		return blockState.setValue(blockProperty.getInternal(), blockProperty.getDefaultValue());
 	}
 	
 	/* Block Events */
