@@ -33,4 +33,9 @@ public class BlockPropertyWrapper <T extends Comparable<T>> extends BlockPropert
 	public ImmutableSet<T> getPossibleValues() {
 		return ImmutableSet.copyOf(this.property.getPossibleValues());
 	}
+	
+	@Override
+	public Property<T> getInternal() {
+		return this.property;
+	}
 }
