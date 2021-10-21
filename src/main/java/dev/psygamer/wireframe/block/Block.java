@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.block;
 
+import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.BlockStateDefinition;
@@ -13,6 +14,7 @@ import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.Hand;
+import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
@@ -43,6 +45,7 @@ public class Block {
 		
 		this.internal = internal;
 		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
+		this.defaultBlockState = this.stateDefinition.getDefaultState();
 		
 		this.blockItem = null;
 	}
@@ -59,13 +62,14 @@ public class Block {
 		
 		this.internal = new InternalBlock(this, this.blockAttributes);
 		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
+		this.defaultBlockState = this.stateDefinition.getDefaultState();
 		
 		if (blockAttributes.hasItem())
 			this.blockItem = new BlockItem(identifier, itemAttributes, this);
 		else
 			this.blockItem = null;
-
-//		BlockRegistry.register(this);
+		
+		BlockRegistry.register(this);
 	}
 	
 	public static Block get(final net.minecraft.block.Block internal) {
@@ -116,62 +120,56 @@ public class Block {
 		return getDefaultBlockState();
 	}
 	
-	public boolean onBlockPlaced(
+	/* Block Events */
+	
+	public void onBlockPlaced(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world
 	) {
-		return false;
 	}
 	
-	public boolean onBlockPlacedByPlayer(
+	public void onBlockPlacedByPlayer(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world, final Player player
 	) {
-		return false;
 	}
 	
-	public boolean onBlockRemoved(
+	public void onBlockRemoved(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world
 	) {
-		return false;
 	}
 	
-	public boolean onBlockRemovedByPlayer(
+	public void onBlockRemovedByPlayer(
 			final BlockState oldBlockState,
 			final BlockState newBlockState,
 			final BlockPosition blockPosition, final World world, final Player player
 	) {
-		return false;
 	}
 	
-	public boolean onTick(
+	public void onTick(
 			final BlockState blockState,
 			final BlockPosition blockPosition, final World world
 	) {
-		return false;
 	}
 	
-	public boolean onRandomTick(
+	public void onRandomTick(
 			final BlockState blockState,
 			final BlockPosition blockPosition, final World world, final Random random
 	) {
-		return false;
 	}
 	
-	public boolean onEntityStepOnBlock(
+	public void onEntityStepOnBlock(
 			final BlockPosition blockPosition, final World world, final Entity entity
 	) {
-		return false;
 	}
 	
-	public boolean onEntityFallOnBlock(
+	public void onEntityFallOnBlock(
 			final BlockPosition blockPosition, final World world, final Entity entity, final float fallDistance
 	) {
-		return false;
 	}
 	
 	public ClickResult onUsedByPlayer(
@@ -181,18 +179,16 @@ public class Block {
 		return ClickResult.PASS;
 	}
 	
-	public boolean onAttackedByPlayer(
+	public void onAttackedByPlayer(
 			final BlockState blockState,
 			final BlockPosition blockPosition, final World world, final Player player
 	) {
-		return false;
 	}
 	
-	public boolean onHitByProjectile(
+	public void onHitByProjectile(
 			final BlockState blockState,
 			final World world, final ProjectileEntity projectile
 	) {
-		return false;
 	}
 	
 	public BlockEntity createBlockEntity(
@@ -210,6 +206,6 @@ public class Block {
 	public List<ItemStack> createBlockDrops(
 			final BlockState blockState
 	) {
-		return null;
+		return Lists.newArrayList();
 	}
 }
