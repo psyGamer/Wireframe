@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.internal.block.state;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import net.minecraft.state.Property;
@@ -30,7 +30,7 @@ public class BlockPropertyWrapper <T extends Comparable<T>> extends BlockPropert
 	}
 	
 	@Override
-	public ImmutableList<T> getPossibleValues() {
-		return ImmutableList.copyOf(this.property.getPossibleValues());
+	public ImmutableSet<T> getPossibleValues() {
+		return ImmutableSet.copyOf(this.property.getPossibleValues());
 	}
 }
