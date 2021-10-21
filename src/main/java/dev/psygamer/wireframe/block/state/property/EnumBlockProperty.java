@@ -20,7 +20,7 @@ public class EnumBlockProperty <T extends Enum<T>> extends BlockProperty<T> {
 		final ImmutableMap.Builder<String, T> builder = ImmutableMap.builder();
 		
 		Arrays.stream(possibleValues)
-			  .forEach(value -> builder.put(value.name(), value));
+			  .forEach(value -> builder.put(value.name().toLowerCase(), value));
 		
 		this.possibleValuesByName = builder.build();
 		
