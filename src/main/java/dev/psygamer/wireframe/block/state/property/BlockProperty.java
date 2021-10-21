@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.block.state.property;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import dev.psygamer.wireframe.internal.block.state.BlockPropertyWrapper;
 
 import java.util.Objects;
@@ -44,7 +45,7 @@ public abstract class BlockProperty <T extends Comparable<T>> {
 	
 	public abstract String getValueName(final T value);
 	
-	public abstract ImmutableList<T> getPossibleValues();
+	public abstract ImmutableSet<T> getPossibleValues();
 	
 	public static final class NameAlreadyDefinedException extends RuntimeException {
 		
