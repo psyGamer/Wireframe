@@ -5,6 +5,7 @@ import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.attributes.Material;
 import dev.psygamer.wireframe.block.state.BlockState;
+import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty;
 import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.util.ClickResult;
@@ -20,8 +21,8 @@ import dev.psygamer.wireframe.world.World;
  */
 
 public class ItemDisplayBlock extends Block {
-
-//	public static final DirectionBlockProperty FACING = new DirectionBlockProperty("facing");
+	
+	public static final DirectionBlockProperty FACING = new DirectionBlockProperty("facing");
 	
 	public ItemDisplayBlock() {
 		super(new Identifier("wireframe", "item_display"),
@@ -29,10 +30,10 @@ public class ItemDisplayBlock extends Block {
 			  new BlockAttributes(Material.WOOD)
 					  .harvestLevel(HarvestLevel.STONE),
 			  new ItemAttributes()
-					  .maxStackSize(15)
+					  .maxStackSize(15),
+		
+			  FACING
 		);
-
-//		registerBlockProperty(FACING);
 	}
 	
 	@Override
