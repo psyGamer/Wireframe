@@ -34,4 +34,8 @@ public class ClickResultContainer <T> {
 		return new net.minecraft.util.ActionResult<>(this.result.getInternal(), this.object);
 	}
 	
+	public net.minecraft.util.ActionResult<T> toInternal(final boolean clientSide) {
+		return new net.minecraft.util.ActionResult<>(this.result.getInternal(clientSide), this.object);
+	}
+	
 }
