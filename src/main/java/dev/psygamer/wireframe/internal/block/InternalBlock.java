@@ -73,8 +73,6 @@ public class InternalBlock extends net.minecraft.block.Block {
 	public void onRemove(final net.minecraft.block.BlockState newBlockState, final World world, final BlockPos pos,
 						 final net.minecraft.block.BlockState oldBlockState, final boolean isMoving
 	) {
-		super.onRemove(newBlockState, world, pos, oldBlockState, isMoving);
-		
 		this.block.onBlockRemoved(
 				BlockState.get(oldBlockState),
 				BlockState.get(newBlockState),
@@ -82,6 +80,8 @@ public class InternalBlock extends net.minecraft.block.Block {
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world)
 		);
+		
+		super.onRemove(newBlockState, world, pos, oldBlockState, isMoving);
 	}
 	
 	@Override
@@ -221,15 +221,15 @@ public class InternalBlock extends net.minecraft.block.Block {
 	public boolean removedByPlayer(final net.minecraft.block.BlockState state, final World world, final BlockPos pos,
 								   final PlayerEntity player, final boolean willHarvest, final FluidState fluid
 	) {
-		super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
-		
-		return this.block.onBlockRemovedByPlayer(
+		this.block.onBlockRemovedByPlayer(
 				BlockState.get(state),
 				BlockState.get(state),
 				
 				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world), Player.get(player)
 		);
+		
+		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
 	}
 	
 	@Override
