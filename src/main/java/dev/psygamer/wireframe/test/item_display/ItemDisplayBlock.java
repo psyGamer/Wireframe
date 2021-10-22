@@ -12,6 +12,7 @@ import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
 /*
@@ -47,5 +48,15 @@ public class ItemDisplayBlock extends Block {
 			((ItemDisplayBlockEntity) blockEntity).addClick();
 		
 		return ClickResult.ACCEPTED;
+	}
+	
+	@Override
+	public boolean hasBlockEntity() {
+		return true;
+	}
+	
+	@Override
+	public BlockEntity createBlockEntity(final BlockState blockState, final BlockReader blockReader) {
+		return new ItemDisplayBlockEntity();
 	}
 }
