@@ -1,14 +1,11 @@
 package dev.psygamer.wireframe.registry;
 
 import com.google.common.collect.ImmutableMap;
-import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.internal.registry.InternalBlockEntityRegistry;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.collection.FreezableHashMap;
 import dev.psygamer.wireframe.util.collection.FreezableMap;
-
-import java.util.*;
 
 public class BlockEntityRegistry {
 	
@@ -32,7 +29,7 @@ public class BlockEntityRegistry {
 	}
 	
 	public static void freeze() {
-		tileEntities.freeze();
+		blockEntityDefinitions.freeze();
 	}
 	
 	public String getModID() {
