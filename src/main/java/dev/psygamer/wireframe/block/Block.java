@@ -203,6 +203,10 @@ public class Block {
 	) {
 	}
 	
+	public boolean hasBlockEntity() {
+		return false;
+	}
+	
 	public BlockEntity createBlockEntity(
 			final BlockState blockState, final BlockReader blockReader
 	) {
