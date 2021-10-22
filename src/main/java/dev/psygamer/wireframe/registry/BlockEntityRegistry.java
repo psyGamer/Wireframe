@@ -1,14 +1,18 @@
 package dev.psygamer.wireframe.registry;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.internal.registry.InternalBlockEntityRegistry;
-import dev.psygamer.wireframe.util.collection.FreezableArrayList;
-import dev.psygamer.wireframe.util.collection.FreezableList;
+import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.collection.FreezableHashMap;
+import dev.psygamer.wireframe.util.collection.FreezableMap;
+
+import java.util.*;
 
 public class BlockEntityRegistry {
 	
-	protected static FreezableList<BlockEntity> tileEntities = new FreezableArrayList<>();
+	protected static FreezableMap<Identifier, BlockEntity.Definition> blockEntityDefinitions = new FreezableHashMap<>();
 	
 	protected final String modID;
 	protected final InternalBlockEntityRegistry internal;
@@ -19,12 +23,12 @@ public class BlockEntityRegistry {
 		this.internal = new InternalBlockEntityRegistry(this);
 	}
 	
-	public static void register(final BlockEntity tileEntity) {
-		tileEntities.add(tileEntity);
+	public static void register(final BlockEntity.Definition blockEntityDefinition) {
+		blockEntityDefinitions.put(blockEntityDefinition.getIdentifier(), blockEntityDefinition);
 	}
 	
-	public static ImmutableList<BlockEntity> getTileEntities() {
-		return tileEntities.toImmutable();
+	public static ImmutableMap<Identifier, BlockEntity.Definition> getBlockEntityDefinitions() {
+		return blockEntityDefinitions.toImmutable();
 	}
 	
 	public static void freeze() {
