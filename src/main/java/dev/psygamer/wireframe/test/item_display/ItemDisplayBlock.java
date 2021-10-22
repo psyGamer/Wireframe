@@ -4,6 +4,7 @@ import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.BlockAttributes;
 import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.attributes.Material;
+import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty;
 import dev.psygamer.wireframe.entity.Player;
@@ -40,7 +41,10 @@ public class ItemDisplayBlock extends Block {
 	public ClickResult onUsedByPlayer(final BlockState blockState, final BlockPosition blockPosition, final World world,
 									  final Player player
 	) {
-		System.out.println(player.getUUID());
+		final BlockEntity blockEntity = world.getBlockEntity(blockPosition);
+		
+		if (blockEntity instanceof ItemDisplayBlockEntity)
+			((ItemDisplayBlockEntity) blockEntity).addClick();
 		
 		return ClickResult.ACCEPTED;
 	}
