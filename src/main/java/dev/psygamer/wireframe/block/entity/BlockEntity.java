@@ -2,7 +2,6 @@ package dev.psygamer.wireframe.block.entity;
 
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.internal.block.entity.InternalBlockEntity;
-import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
@@ -45,8 +44,6 @@ public class BlockEntity {
 		this.tileEntityHolders = tileEntityHolders;
 		
 		this.internal = new InternalBlockEntity(this);
-		
-		BlockEntityRegistry.register(this);
 	}
 	
 	public static BlockEntity get(final net.minecraft.tileentity.TileEntity internal) {
@@ -104,5 +101,35 @@ public class BlockEntity {
 	
 	public final net.minecraft.tileentity.TileEntity getInternal() {
 		return this.internal;
+	}
+	
+	public static final class Definition {
+		
+		private final Identifier identifier;
+		
+		private final Block[] blockEntityHolders;
+		private final Supplier<BlockEntity> blockEntitySupplier;
+		
+		public Definition(final Identifier identifier,
+						  final Supplier<BlockEntity> blockEntitySupplier,
+						  final Block[] blockEntityHolders
+		) {
+			this.identifier = identifier;
+			this.blockEntitySupplier = blockEntitySupplier;
+			this.blockEntityHolders = blockEntityHolders;
+		}
+		
+		public Identifier getIdentifier() {
+			return this.identifier;
+		}
+		
+		public Block[] getBlockEntityHolders() {
+			return this.blockEntityHolders;
+		}
+		
+		public Supplier<BlockEntity> getBlockEntitySupplier() {
+			return this.blockEntitySupplier;
+		}
+		
 	}
 }
