@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.internal.world;
 
 import dev.psygamer.wireframe.block.Block;
+import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.BlockReader;
@@ -15,6 +16,21 @@ public class InternalBlockReader implements BlockReader {
 	}
 	
 	@Override
+	public Block getBlock(final BlockPosition position) {
+		return Block.get(this.internalBlockReader.getBlockState(position.toInternal()).getBlock());
+	}
+	
+	@Override
+	public BlockState getBlockState(final BlockPosition position) {
+		return BlockState.get(this.internalBlockReader.getBlockState(position.toInternal()));
+	}
+	
+	@Override
+	public BlockEntity getBlockEntity(final BlockPosition position) {
+		return BlockEntity.get(this.internalBlockReader.getBlockEntity(position.toInternal()));
+	}
+	
+	@Override
 	public int getHighestBlockPosition() {
 		return 256;
 	}
@@ -22,15 +38,5 @@ public class InternalBlockReader implements BlockReader {
 	@Override
 	public int getLowestBlockPosition() {
 		return 0;
-	}
-	
-	@Override
-	public Block getBlock(final BlockPosition position) {
-		return getBlockState(position).getBlock();
-	}
-	
-	@Override
-	public BlockState getBlockState(final BlockPosition position) {
-		return BlockState.get(this.internalBlockReader.getBlockState(position.toInternal()));
 	}
 }
