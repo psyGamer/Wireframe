@@ -31,6 +31,10 @@ public class BlockEntityRegistry {
 		return blockEntityDefinitions.toImmutable();
 	}
 	
+	public static BlockEntity.Definition getBlockEntityDefinition(final Identifier identifier) {
+		return blockEntityDefinitions.get(identifier);
+	}
+	
 	public static void freeze() {
 		blockEntityDefinitions.freeze();
 	}

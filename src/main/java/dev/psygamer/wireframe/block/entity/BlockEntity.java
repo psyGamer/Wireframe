@@ -2,19 +2,15 @@ package dev.psygamer.wireframe.block.entity;
 
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.internal.block.entity.InternalBlockEntity;
+import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class BlockEntity {
-	
-	private static final Map<Class<? extends BlockEntity>, Supplier<? extends BlockEntity>>
-			newInstanceSupplierCache = new HashMap<>();
 	
 	private final Identifier identifier;
 	private final Block[] tileEntityHolders;
@@ -31,17 +27,11 @@ public class BlockEntity {
 		this.internal = internal;
 	}
 	
-	protected BlockEntity(final Supplier<? extends BlockEntity> newInstanceSupplier, final Block... tileEntityHolders) {
-		this(tileEntityHolders[0].getIdentifier(), newInstanceSupplier, tileEntityHolders);
-	}
-	
-	protected BlockEntity(final Identifier identifier, final Supplier<? extends BlockEntity> newInstanceSupplier,
-						  final Block... tileEntityHolders
-	) {
-		newInstanceSupplierCache.put(this.getClass(), newInstanceSupplier);
+	protected BlockEntity(final Identifier identifier) {
+		final BlockEntity.Definition definition = BlockEntityRegistry.getBlockEntityDefinition(identifier);
 		
 		this.identifier = identifier;
-		this.tileEntityHolders = tileEntityHolders;
+		this.tileEntityHolders = definition.getBlockEntityHolders();
 		
 		this.internal = new InternalBlockEntity(this);
 	}
@@ -51,13 +41,6 @@ public class BlockEntity {
 			return null;
 		
 		return new BlockEntity(internal);
-	}
-	
-	public static Supplier<? extends BlockEntity> getNewInstanceSupplier(final Class<? extends BlockEntity> clazz) {
-		if (newInstanceSupplierCache.containsValue(clazz))
-			return newInstanceSupplierCache.get(clazz);
-		
-		return null;
 	}
 	
 	public void saveNBT(final TagCompound tagCompound) {
