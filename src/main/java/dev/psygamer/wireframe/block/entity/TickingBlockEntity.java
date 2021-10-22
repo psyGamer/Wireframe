@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 public class TickingBlockEntity extends BlockEntity {
 	
-	protected TickingBlockEntity(final Identifier identifier,
-								 final Supplier<TickingBlockEntity> newInstanceSupplier, final Block... tileEntityHolders
+	protected TickingBlockEntity(final Identifier identifier, final Supplier<TickingBlockEntity> newInstanceSupplier,
+								 final Block... tileEntityHolders
 	) {
 		super(identifier, newInstanceSupplier, tileEntityHolders);
 	}
