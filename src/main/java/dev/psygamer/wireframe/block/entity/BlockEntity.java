@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.block.entity;
 
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.internal.block.entity.InternalBlockEntity;
+import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
@@ -12,17 +13,32 @@ public class BlockEntity {
 	private final Identifier identifier;
 	private final Block[] tileEntityHolders;
 	
-	private final InternalBlockEntity internal;
+	private final net.minecraft.tileentity.TileEntity internal;
 	
 	private World world;
 	private BlockPosition position;
 	
-	protected BlockEntity(final Identifier identifier, final Block... tileEntityHolders) {
+	private BlockEntity(final net.minecraft.tileentity.TileEntity internal) {
+		this.identifier = Identifier.get(internal.getType().getRegistryName());
+		this.tileEntityHolders = new Block[0];
 		
+		this.internal = internal;
+	}
+	
+	protected BlockEntity(final Identifier identifier, final Block... tileEntityHolders) {
 		this.identifier = identifier;
 		this.tileEntityHolders = tileEntityHolders;
 		
 		this.internal = new InternalBlockEntity(this);
+		
+		BlockEntityRegistry.register(this);
+	}
+	
+	public static BlockEntity get(final net.minecraft.tileentity.TileEntity internal) {
+		if (internal == null)
+			return null;
+		
+		return new BlockEntity(internal);
 	}
 	
 	public void saveNBT(final TagCompound tagCompound) {
@@ -45,7 +61,7 @@ public class BlockEntity {
 	}
 	
 	public void markChanged() {
-		this.internal.markChanged();
+		this.internal.setChanged();
 	}
 	
 	public final Identifier getIdentifier() {
@@ -64,7 +80,7 @@ public class BlockEntity {
 		return this.position;
 	}
 	
-	public final InternalBlockEntity getInternal() {
+	public final net.minecraft.tileentity.TileEntity getInternal() {
 		return this.internal;
 	}
 }
