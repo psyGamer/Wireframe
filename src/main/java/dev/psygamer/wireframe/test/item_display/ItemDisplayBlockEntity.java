@@ -9,7 +9,7 @@ public class ItemDisplayBlockEntity extends BlockEntity {
 	private int clicks = 0;
 	
 	public ItemDisplayBlockEntity() {
-		super(new Identifier("wireframe", "item_display"),
+		super(new Identifier("wireframe", "item_display"), ItemDisplayBlockEntity::new,
 			  new ItemDisplayBlock()
 		);
 	}

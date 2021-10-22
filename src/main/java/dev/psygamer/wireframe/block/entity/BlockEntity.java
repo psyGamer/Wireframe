@@ -8,6 +8,8 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
 
+import java.util.function.Supplier;
+
 public class BlockEntity {
 	
 	private final Identifier identifier;
@@ -25,11 +27,13 @@ public class BlockEntity {
 		this.internal = internal;
 	}
 	
-	protected BlockEntity(final Identifier identifier, final Block... tileEntityHolders) {
+	protected BlockEntity(final Identifier identifier, final Supplier<? extends BlockEntity> newInstanceSupplier,
+						  final Block... tileEntityHolders
+	) {
 		this.identifier = identifier;
 		this.tileEntityHolders = tileEntityHolders;
 		
-		this.internal = new InternalBlockEntity(this);
+		this.internal = new InternalBlockEntity(this, newInstanceSupplier);
 		
 		BlockEntityRegistry.register(this);
 	}
