@@ -8,9 +8,14 @@ import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class BlockEntity {
+	
+	private static final Map<Class<? extends BlockEntity>, Supplier<? extends BlockEntity>>
+			newInstanceSupplierCache = new HashMap<>();
 	
 	private final Identifier identifier;
 	private final Block[] tileEntityHolders;
@@ -27,13 +32,19 @@ public class BlockEntity {
 		this.internal = internal;
 	}
 	
+	protected BlockEntity(final Supplier<? extends BlockEntity> newInstanceSupplier, final Block... tileEntityHolders) {
+		this(tileEntityHolders[0].getIdentifier(), newInstanceSupplier, tileEntityHolders);
+	}
+	
 	protected BlockEntity(final Identifier identifier, final Supplier<? extends BlockEntity> newInstanceSupplier,
 						  final Block... tileEntityHolders
 	) {
+		newInstanceSupplierCache.put(this.getClass(), newInstanceSupplier);
+		
 		this.identifier = identifier;
 		this.tileEntityHolders = tileEntityHolders;
 		
-		this.internal = new InternalBlockEntity(this, newInstanceSupplier);
+		this.internal = new InternalBlockEntity(this);
 		
 		BlockEntityRegistry.register(this);
 	}
@@ -43,6 +54,13 @@ public class BlockEntity {
 			return null;
 		
 		return new BlockEntity(internal);
+	}
+	
+	public static Supplier<? extends BlockEntity> getNewInstanceSupplier(final Class<? extends BlockEntity> clazz) {
+		if (newInstanceSupplierCache.containsValue(clazz))
+			return newInstanceSupplierCache.get(clazz);
+		
+		return null;
 	}
 	
 	public void saveNBT(final TagCompound tagCompound) {

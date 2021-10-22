@@ -14,14 +14,13 @@ import net.minecraft.tileentity.TileEntityType;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 public class InternalBlockEntity extends TileEntity {
 	
 	protected final BlockEntity tileEntity;
 	
-	public InternalBlockEntity(final BlockEntity tileEntity, final Supplier<? extends BlockEntity> newInstanceSupplier) {
-		super(generateTileEntityType(tileEntity, newInstanceSupplier));
+	public InternalBlockEntity(final BlockEntity tileEntity) {
+		super(generateTileEntityType(tileEntity));
 		
 		this.tileEntity = tileEntity;
 		this.tileEntity.setWorldAndPosition(
@@ -30,11 +29,10 @@ public class InternalBlockEntity extends TileEntity {
 		);
 	}
 	
-	private static TileEntityType<?> generateTileEntityType(final BlockEntity tileEntity,
-															final Supplier<? extends BlockEntity> newInstanceSupplier
-	) {
+	private static TileEntityType<?> generateTileEntityType(final BlockEntity tileEntity) {
 		return TileEntityType.Builder
-				.of(() -> newInstanceSupplier.get().getInternal(),
+				.of(() -> BlockEntity.getNewInstanceSupplier(tileEntity.getClass())
+									 .get().getInternal(),
 				
 					Arrays.stream(tileEntity.getTileEntityHolders())
 						  .map(Block::getInternal)
