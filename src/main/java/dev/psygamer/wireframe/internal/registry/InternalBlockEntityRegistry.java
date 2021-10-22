@@ -25,7 +25,7 @@ public class InternalBlockEntityRegistry {
 		return new BlockEntityRegistry(modID).getInternal();
 	}
 	
-	private static TileEntityType<?> generateTileEntityType(final BlockEntity.Definition definition) {
+	public static TileEntityType<?> generateTileEntityType(final BlockEntity.Definition definition) {
 		return TileEntityType.Builder
 				.of(() -> definition.getBlockEntitySupplier().get().getInternal(),
 				
