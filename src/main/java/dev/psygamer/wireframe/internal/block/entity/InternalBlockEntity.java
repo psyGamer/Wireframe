@@ -38,7 +38,11 @@ public class InternalBlockEntity extends TileEntity {
 						  .map(Block::getInternal)
 						  .toArray(net.minecraft.block.Block[]::new)
 				)
-				.build(null);
+				.build(null)
+				.setRegistryName(
+						tileEntity.getIdentifier().getNamespace(),
+						tileEntity.getIdentifier().getPath()
+				);
 	}
 	
 	@Override
