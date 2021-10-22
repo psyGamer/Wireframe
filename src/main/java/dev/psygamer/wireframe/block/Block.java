@@ -102,7 +102,7 @@ public class Block {
 	}
 	
 	protected void registerBlockEntity(final Supplier<BlockEntity> blockEntityCreator) {
-		if (blockEntityCreator != null)
+		if (this.blockEntityDefinition != null)
 			return;
 		
 		this.blockEntityDefinition = new BlockEntity.Definition(this.identifier, blockEntityCreator, new Block[] { this });
