@@ -1,15 +1,12 @@
 package dev.psygamer.wireframe.internal.registry;
 
 import dev.psygamer.wireframe.Wireframe;
-import dev.psygamer.wireframe.block.Block;
-import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 @ModEventBusSubscriber
@@ -36,7 +33,7 @@ public class InternalBlockEntityRegistry {
 						   .forEach(tileEntity -> {
 							   event.getRegistry()
 									.register(
-											generateTileEntityType(tileEntity)
+											tileEntity.getInternal().getType()
 									);
 			
 							   Wireframe.LOGGER.info(
@@ -48,16 +45,5 @@ public class InternalBlockEntityRegistry {
 									   )
 							   );
 						   });
-	}
-	
-	private TileEntityType<?> generateTileEntityType(final BlockEntity tileEntity) {
-		return TileEntityType.Builder.of(
-									 tileEntity::getInternal,
-				
-									 Arrays.stream(tileEntity.getTileEntityHolders())
-										   .map(Block::getInternal)
-										   .toArray(net.minecraft.block.Block[]::new)
-							 )
-									 .build(null);
 	}
 }
