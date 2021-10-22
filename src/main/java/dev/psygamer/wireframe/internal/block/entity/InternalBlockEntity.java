@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.internal.block.entity;
 
+import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.TagCompound;
@@ -8,15 +9,19 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.function.Supplier;
 
-public class InternalBlockEntity extends net.minecraft.tileentity.TileEntity {
+public class InternalBlockEntity extends TileEntity {
 	
 	protected final BlockEntity tileEntity;
 	
-	public InternalBlockEntity(final BlockEntity tileEntity) {
-		super(null);
+	public InternalBlockEntity(final BlockEntity tileEntity, final Supplier<? extends BlockEntity> newInstanceSupplier) {
+		super(generateTileEntityType(tileEntity, newInstanceSupplier));
 		
 		this.tileEntity = tileEntity;
 		this.tileEntity.setWorldAndPosition(
@@ -25,8 +30,17 @@ public class InternalBlockEntity extends net.minecraft.tileentity.TileEntity {
 		);
 	}
 	
-	public void markChanged() {
-		setChanged();
+	private static TileEntityType<?> generateTileEntityType(final BlockEntity tileEntity,
+															final Supplier<? extends BlockEntity> newInstanceSupplier
+	) {
+		return TileEntityType.Builder
+				.of(() -> newInstanceSupplier.get().getInternal(),
+				
+					Arrays.stream(tileEntity.getTileEntityHolders())
+						  .map(Block::getInternal)
+						  .toArray(net.minecraft.block.Block[]::new)
+				)
+				.build(null);
 	}
 	
 	@Override

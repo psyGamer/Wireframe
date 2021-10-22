@@ -61,7 +61,7 @@ public interface World extends BlockReader {
 		}
 		
 		public int getInternalFlag() {
-			return internalFlag;
+			return this.internalFlag;
 		}
 	}
 	
