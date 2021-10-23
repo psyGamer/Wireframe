@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
+/** Extend this class to create your own blocks */
 public class Block {
 	
 	private final net.minecraft.block.Block internal;
