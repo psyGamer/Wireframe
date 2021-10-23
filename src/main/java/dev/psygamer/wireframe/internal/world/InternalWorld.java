@@ -4,12 +4,9 @@ import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.world.World;
-import net.minecraft.block.Blocks;
+
 import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.SnowBlock;
 import net.minecraft.world.LightType;
-import net.minecraftforge.common.IPlantable;
 
 public class InternalWorld extends InternalBlockReader implements World {
 	
@@ -57,14 +54,7 @@ public class InternalWorld extends InternalBlockReader implements World {
 		final net.minecraft.block.Block block = blockState.getBlock();
 		
 		return blockState.getMaterial()
-						 .isReplaceable() ||
-				
-				block instanceof IPlantable ||
-				block instanceof LeavesBlock ||
-				block instanceof FlowingFluidBlock ||
-				block instanceof SnowBlock ||
-				
-				block == Blocks.SNOW_BLOCK;
+						 .isReplaceable() || block instanceof FlowingFluidBlock;
 	}
 	
 	@Override
