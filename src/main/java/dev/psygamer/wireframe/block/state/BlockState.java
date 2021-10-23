@@ -50,11 +50,7 @@ public interface BlockState {
 	 */
 	<T extends Comparable<T>> Optional<T> getOptionalValue(final BlockProperty<T> property);
 	
-	/**
-	 * @param block The {@link Block} to which it should get compared.
-	 *
-	 * @return Weather the specified {@link Block} is the same as the {@link BlockState}'s owner.
-	 */
+	/** @return Weather the specified {@link Block} is the same as the {@link BlockState}'s owner. */
 	boolean is(final Block block);
 	
 	/** Internal, do not use! */

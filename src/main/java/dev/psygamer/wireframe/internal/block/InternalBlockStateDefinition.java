@@ -25,7 +25,7 @@ public class InternalBlockStateDefinition implements BlockStateDefinition {
 	}
 	
 	@Override
-	public BlockState getDefaultState() {
+	public BlockState getDefaultBlockState() {
 		return getPossibleStates().get(0);
 	}
 	

@@ -52,7 +52,7 @@ public class Block {
 		
 		this.internal = internal;
 		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
-		this.defaultBlockState = this.stateDefinition.getDefaultState();
+		this.defaultBlockState = this.stateDefinition.getDefaultBlockState();
 		
 		this.blockItem = null;
 	}
@@ -122,7 +122,7 @@ public class Block {
 			((InternalBlock) this.internal).registerBlockProperties(blockProperties);
 		
 		this.stateDefinition = BlockStateDefinition.get(getInternal().getStateDefinition());
-		this.defaultBlockState = this.stateDefinition.getDefaultState();
+		this.defaultBlockState = this.stateDefinition.getDefaultBlockState();
 		
 		if (blockAttributes.hasItem())
 			this.blockItem = new BlockItem(identifier, itemAttributes, this);
