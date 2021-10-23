@@ -36,6 +36,8 @@ public class BlockEntityRegistry {
 	}
 	
 	public static void freeze() {
+		mergeDefinitions();
+		
 		blockEntityDefinitions.freeze();
 	}
 	
