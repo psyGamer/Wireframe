@@ -20,4 +20,27 @@ public class Identifier {
 	public String getPath() {
 		return this.path;
 	}
+	
+	@Override
+	public int hashCode() {
+		return 31 * this.namespace.hashCode() + this.path.hashCode();
+	}
+	
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other)
+			return true;
+		
+		if (other == null || getClass() != other.getClass())
+			return false;
+		
+		final Identifier that = (Identifier) other;
+		
+		return this.namespace.equals(that.namespace) && this.path.equals(that.path);
+	}
+	
+	@Override
+	public String toString() {
+		return this.namespace + ":" + this.path;
+	}
 }

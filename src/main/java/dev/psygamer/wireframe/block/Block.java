@@ -15,6 +15,7 @@ import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.item.ItemStack;
 import dev.psygamer.wireframe.item.util.ClickResult;
 import dev.psygamer.wireframe.item.util.Hand;
+import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.registry.BlockRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
@@ -24,6 +25,7 @@ import dev.psygamer.wireframe.world.World;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class Block {
 	
@@ -37,6 +39,8 @@ public class Block {
 	
 	protected BlockState defaultBlockState;
 	protected BlockStateDefinition stateDefinition;
+	
+	protected BlockEntity.Definition blockEntityDefinition;
 	
 	private Block(final net.minecraft.block.Block internal) {
 		this.identifier = Identifier.get(internal.getRegistryName());
@@ -95,6 +99,15 @@ public class Block {
 		if (this.internal instanceof InternalBlock) {
 			((InternalBlock) this.internal).setDefaultBlockState(blockState);
 		}
+	}
+	
+	protected void registerBlockEntity(final Supplier<BlockEntity> blockEntityCreator) {
+		if (this.blockEntityDefinition != null)
+			return;
+		
+		this.blockEntityDefinition = new BlockEntity.Definition(this.identifier, blockEntityCreator, new Block[] { this });
+		
+		BlockEntityRegistry.register(this.blockEntityDefinition);
 	}
 	
 	public Identifier getIdentifier() {
@@ -203,10 +216,15 @@ public class Block {
 	) {
 	}
 	
-	public BlockEntity createBlockEntity(
-			final BlockState blockState, final BlockReader blockReader
-	) {
-		return null;
+	public boolean hasBlockEntity() {
+		return this.blockEntityDefinition != null;
+	}
+	
+	public BlockEntity createBlockEntity() {
+		if (this.blockEntityDefinition == null)
+			return null;
+		
+		return this.blockEntityDefinition.getBlockEntitySupplier().get();
 	}
 	
 	public ItemStack createPickBlockStack(

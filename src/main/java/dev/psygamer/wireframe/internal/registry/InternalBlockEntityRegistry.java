@@ -5,6 +5,9 @@ import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.BlockEntityRegistry;
+import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.collection.FreezableHashMap;
+import dev.psygamer.wireframe.util.collection.FreezableMap;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,49 +18,61 @@ import java.util.Objects;
 @ModEventBusSubscriber
 public class InternalBlockEntityRegistry {
 	
+	private static final FreezableMap<Identifier, TileEntityType<?>> tileEntityTypeCache = new FreezableHashMap<>();
+	
 	private final BlockEntityRegistry registry;
 	
 	public InternalBlockEntityRegistry(final BlockEntityRegistry registry) {
 		this.registry = registry;
 	}
 	
+	public static TileEntityType<?> getTileEntityType(final Identifier identifier) {
+		return tileEntityTypeCache.get(identifier);
+	}
+	
 	public static InternalBlockEntityRegistry createInstance(final String modID) {
 		return new BlockEntityRegistry(modID).getInternal();
+	}
+	
+	public static TileEntityType<?> generateTileEntityType(final BlockEntity.Definition definition) {
+		return TileEntityType.Builder
+				.of(() -> definition.getBlockEntitySupplier().get().getInternal(),
+				
+					Arrays.stream(definition.getBlockEntityHolders())
+						  .map(Block::getInternal)
+						  .toArray(net.minecraft.block.Block[]::new)
+				)
+				.build(null)
+				.setRegistryName(
+						definition.getIdentifier().getNamespace(),
+						definition.getIdentifier().getPath()
+				);
 	}
 	
 	@SubscribeEvent
 	public void onBlockRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
 		BlockEntityRegistry.freeze();
-		BlockEntityRegistry.getTileEntities()
+		BlockEntityRegistry.getBlockEntityDefinitions().values()
 						   .stream()
-						   .filter(tileEntity -> Objects.equals(
-								   tileEntity.getIdentifier()
+						   .filter(definition -> Objects.equals(
+								   definition.getIdentifier()
 											 .getNamespace(), this.registry.getModID()))
-						   .forEach(tileEntity -> {
+						   .forEach(definition -> {
+							   final TileEntityType<?> tileEntityType = generateTileEntityType(definition);
+			
+							   tileEntityTypeCache.put(definition.getIdentifier(), tileEntityType);
+			
 							   event.getRegistry()
-									.register(
-											generateTileEntityType(tileEntity)
-									);
+									.register(tileEntityType);
 			
 							   Wireframe.LOGGER.info(
 									   String.format("Successfully registered tile entity %s:%s",
-													 tileEntity.getIdentifier()
+													 definition.getIdentifier()
 															   .getNamespace(),
-													 tileEntity.getIdentifier()
+													 definition.getIdentifier()
 															   .getPath()
 									   )
 							   );
 						   });
-	}
-	
-	private TileEntityType<?> generateTileEntityType(final BlockEntity tileEntity) {
-		return TileEntityType.Builder.of(
-									 tileEntity::getInternal,
-				
-									 Arrays.stream(tileEntity.getTileEntityHolders())
-										   .map(Block::getInternal)
-										   .toArray(net.minecraft.block.Block[]::new)
-							 )
-									 .build(null);
 	}
 }
