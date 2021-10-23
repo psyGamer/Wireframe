@@ -6,10 +6,15 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
 import java.util.Optional;
 
+/** An {@link BlockProperty} implementation for enums. */
 public class EnumBlockProperty <T extends Enum<T>> extends BlockProperty<T> {
 	
 	private final ImmutableMap<String, T> possibleValuesByName;
 	
+	/**
+	 * @param propertyName   The {@link BlockProperty}'s name.
+	 * @param possibleValues All enum values which should be included.
+	 */
 	@SafeVarargs
 	public EnumBlockProperty(final String propertyName, final T... possibleValues) {
 		super(propertyName, possibleValues[0]);

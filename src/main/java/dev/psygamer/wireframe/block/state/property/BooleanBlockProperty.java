@@ -4,8 +4,12 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.Optional;
 
+/** An {@link BlockProperty} implementation for booleans. */
 public class BooleanBlockProperty extends BlockProperty<Boolean> {
 	
+	/**
+	 * @param propertyName The {@link BlockProperty}'s name.
+	 */
 	public BooleanBlockProperty(final String propertyName) {
 		super(propertyName, false);
 	}

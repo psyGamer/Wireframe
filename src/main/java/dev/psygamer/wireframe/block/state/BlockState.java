@@ -45,8 +45,7 @@ public interface BlockState {
 	 * @param property The {@link BlockProperty} of which the value should be returned.
 	 * @param <T>      The object type of the {@link BlockProperty}.
 	 *
-	 * @return The value of the specified {@link BlockProperty} in an {@link Optional}
-	 * which will be empty if the specified {@link BlockProperty} does not exist on the {@link Block}.
+	 * @return The value of the specified {@link BlockProperty} or {@link Optional#empty()} if it doesn't exist.
 	 */
 	<T extends Comparable<T>> Optional<T> getOptionalValue(final BlockProperty<T> property);
 	
