@@ -1,18 +1,18 @@
 package dev.psygamer.wireframe.item.util;
 
 public enum ClickResult {
-	ACCEPTED, REJECTED, PASS;
+	SUCCESS, FAIL, IGNORE;
 	
 	public static ClickResult get(final net.minecraft.util.ActionResultType internal) {
 		switch (internal) {
 			default:
 			case SUCCESS:
 			case CONSUME:
-				return ACCEPTED;
+				return SUCCESS;
 			case FAIL:
-				return REJECTED;
+				return FAIL;
 			case PASS:
-				return PASS;
+				return IGNORE;
 		}
 	}
 	
@@ -22,13 +22,13 @@ public enum ClickResult {
 	
 	public net.minecraft.util.ActionResultType getInternal(final boolean clientSide) {
 		switch (this) {
-			case ACCEPTED:
+			case SUCCESS:
 				return clientSide
 						? net.minecraft.util.ActionResultType.SUCCESS
 						: net.minecraft.util.ActionResultType.CONSUME;
-			case REJECTED:
+			case FAIL:
 				return net.minecraft.util.ActionResultType.FAIL;
-			case PASS:
+			case IGNORE:
 				return net.minecraft.util.ActionResultType.PASS;
 		}
 		

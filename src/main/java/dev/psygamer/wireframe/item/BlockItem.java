@@ -45,13 +45,13 @@ public class BlockItem extends Item {
 						   .offset(hitResult.getDirection());
 		
 		if (!world.isReplaceable(targetPosition))
-			return ClickResult.REJECTED;
+			return ClickResult.FAIL;
 		
 		final BlockState oldBlockState = world.getBlockState(targetPosition);
 		final BlockState placementState = this.block.getPlacementState(usedItemStack, world, player, hand, hitResult);
 		
 		if (!world.setBlockState(placementState, targetPosition, World.UpdateFlag.DEFAULT_AND_RERENDER))
-			return ClickResult.REJECTED;
+			return ClickResult.FAIL;
 		
 		world.notifyNeighbours(targetPosition, placementState.getBlock());
 		
@@ -65,7 +65,7 @@ public class BlockItem extends Item {
 		if (player != null && !player.isCreative())
 			usedItemStack.shrink(1);
 		
-		return ClickResult.ACCEPTED;
+		return ClickResult.SUCCESS;
 	}
 	
 	private void applyBlockStateTags(

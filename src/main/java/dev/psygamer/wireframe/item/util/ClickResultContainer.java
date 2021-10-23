@@ -11,15 +11,15 @@ public class ClickResultContainer <T> {
 	}
 	
 	public static <T> ClickResultContainer<T> accept(final T object) {
-		return new ClickResultContainer<>(object, ClickResult.ACCEPTED);
+		return new ClickResultContainer<>(object, ClickResult.SUCCESS);
 	}
 	
 	public static <T> ClickResultContainer<T> reject(final T object) {
-		return new ClickResultContainer<>(object, ClickResult.REJECTED);
+		return new ClickResultContainer<>(object, ClickResult.FAIL);
 	}
 	
 	public static <T> ClickResultContainer<T> pass(final T object) {
-		return new ClickResultContainer<>(object, ClickResult.PASS);
+		return new ClickResultContainer<>(object, ClickResult.IGNORE);
 	}
 	
 	public T getObject() {

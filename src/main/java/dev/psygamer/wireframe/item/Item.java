@@ -55,14 +55,14 @@ public class Item {
 			final ItemStack usedItemStack,
 			final World world, final Player player, final Hand hand, final BlockHitResult hitResult
 	) {
-		return ClickResult.PASS;
+		return ClickResult.IGNORE;
 	}
 	
 	public ClickResult onItemUsedOnEntity(
 			final ItemStack usedItemStack,
 			final World world, final Player player, final LivingEntity entity, final Hand hand
 	) {
-		return ClickResult.PASS;
+		return ClickResult.IGNORE;
 	}
 	
 	public boolean onEntityAttacked(

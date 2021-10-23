@@ -48,6 +48,6 @@ public class ItemDisplayBlock extends Block {
 		if (blockEntity instanceof ItemDisplayBlockEntity)
 			((ItemDisplayBlockEntity) blockEntity).addClick();
 		
-		return ClickResult.ACCEPTED;
+		return ClickResult.SUCCESS;
 	}
 }
