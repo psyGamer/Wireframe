@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.event;
 import dev.psygamer.wireframe.event.api.Event;
 import dev.psygamer.wireframe.event.api.EventSubscriber;
 import dev.psygamer.wireframe.event.api.IEventBus;
+
 import io.netty.util.internal.ConcurrentSet;
 import net.jodah.typetools.TypeResolver;
 

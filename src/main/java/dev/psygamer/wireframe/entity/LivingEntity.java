@@ -11,11 +11,15 @@ public interface LivingEntity extends Entity {
 		return new InternalLivingEntity(internalEntity);
 	}
 	
+	/* Health */
+	
 	int getMaxHealthLevel();
 	
 	int getHealthLevel();
 	
 	void setHealthLevel(final int healthLevel);
+	
+	/* Leashing */
 	
 	boolean canBeLeashedTo(Player player);
 	
@@ -26,6 +30,8 @@ public interface LivingEntity extends Entity {
 	void setLeashHolder(Player player);
 	
 	void unleash();
+	
+	/* Internal */
 	
 	@Override
 	net.minecraft.entity.LivingEntity getInternal();

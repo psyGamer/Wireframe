@@ -1,11 +1,12 @@
 package dev.psygamer.wireframe;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.event.EventBus;
 import dev.psygamer.wireframe.event.EventBusRegistrator;
 import dev.psygamer.wireframe.event.api.IEventBus;
 import dev.psygamer.wireframe.test.item_display.ItemDisplayBlock;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +14,9 @@ import java.util.List;
 
 public class Wireframe {
 	
-	public static final String MODID = "wireframe";
+	public static final String
+			NAME = "Wireframe", MODID = "wireframe", VERSION = "1.0";
+	
 	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
 	public static final IEventBus EVENT_BUS = new EventBus();
 	
@@ -103,7 +106,7 @@ public class Wireframe {
 	private static final class InternalMod extends Mod {
 		
 		private InternalMod() {
-			super("wireframe", "Wireframe", "1.0");
+			super(Wireframe.MODID, Wireframe.NAME, Wireframe.VERSION);
 		}
 	}
 }

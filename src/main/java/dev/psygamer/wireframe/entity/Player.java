@@ -14,6 +14,8 @@ public interface Player extends LivingEntity {
 		return new InternalPlayer(internalPlayer);
 	}
 	
+	/* Food */
+	
 	int getFoodLevel();
 	
 	void setFoodLevel(int foodLevel);
@@ -22,15 +24,21 @@ public interface Player extends LivingEntity {
 	
 	void setSaturationLevel(float saturationLevel);
 	
+	/* Held Item */
+	
 	ItemStack getHeldItem(Hand hand);
 	
 	void setHeldItem(ItemStack item, Hand hand);
+	
+	/* Miscellaneous */
 	
 	Vector3d getMovementVector();
 	
 	boolean isCrouching();
 	
 	boolean isCreative();
+	
+	/* Internal */
 	
 	@Override
 	net.minecraft.entity.player.PlayerEntity getInternal();
