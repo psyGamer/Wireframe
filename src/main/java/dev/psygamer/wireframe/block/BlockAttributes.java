@@ -4,8 +4,10 @@ import dev.psygamer.wireframe.block.attributes.HarvestLevel;
 import dev.psygamer.wireframe.block.attributes.Material;
 import dev.psygamer.wireframe.internal.block.InternalBlockAttributes;
 import dev.psygamer.wireframe.util.helper.ICloneable;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.item.ItemGroup;
+
 import net.minecraftforge.common.ToolType;
 
 /**
@@ -18,24 +20,24 @@ import net.minecraftforge.common.ToolType;
  */
 public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
-	protected InternalBlockAttributes internal;
+	private InternalBlockAttributes internal;
 	
-	protected Material material;
+	private Material material;
 	
-	protected SoundType sound;
-	protected ItemGroup group;
+	private SoundType sound;
+	private ItemGroup group;
 	
-	protected float hardness;
-	protected float blastResistance;
+	private float hardness;
+	private float blastResistance;
 	
-	protected ToolType correctTool;
-	protected int harvestLevel;
+	private ToolType correctTool;
+	private int harvestLevel;
 	
-	protected boolean toolRequired;
-	protected boolean fullBlock = true;
-	protected boolean opaque = false;
+	private boolean toolRequired;
+	private boolean fullBlock = true;
+	private boolean opaque = false;
 	
-	protected boolean hasItem = true;
+	private boolean hasItem = true;
 	
 	/**
 	 * @author psyGamer
@@ -187,11 +189,11 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	}
 	
 	public boolean isOpaque() {
-		return opaque;
+		return this.opaque;
 	}
 	
 	public boolean hasItem() {
-		return hasItem;
+		return this.hasItem;
 	}
 	
 	public InternalBlockAttributes getInternal() {
