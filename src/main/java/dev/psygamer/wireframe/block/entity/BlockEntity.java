@@ -40,6 +40,9 @@ public class BlockEntity {
 		if (internal == null)
 			return null;
 		
+		if (internal instanceof InternalBlockEntity)
+			return ((InternalBlockEntity) internal).getBlockEntity();
+		
 		return new BlockEntity(internal);
 	}
 	

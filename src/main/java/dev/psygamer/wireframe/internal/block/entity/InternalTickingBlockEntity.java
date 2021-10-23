@@ -11,6 +11,6 @@ public class InternalTickingBlockEntity extends InternalBlockEntity implements I
 	
 	@Override
 	public void tick() {
-		((TickingBlockEntity) this.tileEntity).tick();
+		((TickingBlockEntity) this.blockEntity).tick();
 	}
 }
