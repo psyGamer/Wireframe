@@ -1,9 +1,10 @@
 package dev.psygamer.wireframe.util;
 
+import net.minecraft.nbt.CompoundNBT;
+
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-import net.minecraft.nbt.CompoundNBT;
 
 import java.util.Collection;
 import java.util.Set;
