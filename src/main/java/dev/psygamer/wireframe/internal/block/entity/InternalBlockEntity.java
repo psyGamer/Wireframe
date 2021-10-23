@@ -2,7 +2,6 @@ package dev.psygamer.wireframe.internal.block.entity;
 
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.internal.registry.InternalBlockEntityRegistry;
-import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
@@ -18,14 +17,12 @@ public class InternalBlockEntity extends TileEntity {
 	
 	protected final BlockEntity tileEntity;
 	
-	public InternalBlockEntity(final BlockEntity tileEntity) {
+	public InternalBlockEntity(final BlockEntity blockEntity) {
 		super(
-				InternalBlockEntityRegistry.generateTileEntityType(
-						BlockEntityRegistry.getBlockEntityDefinition(tileEntity.getIdentifier())
-				)
+				InternalBlockEntityRegistry.getTileEntityType(blockEntity.getIdentifier())
 		);
 		
-		this.tileEntity = tileEntity;
+		this.tileEntity = blockEntity;
 		this.tileEntity.setWorldAndPosition(
 				World.get(getLevel()),
 				BlockPosition.get(getBlockPos())

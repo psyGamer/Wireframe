@@ -5,6 +5,9 @@ import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.event.api.ModEventBusSubscriber;
 import dev.psygamer.wireframe.registry.BlockEntityRegistry;
+import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.collection.FreezableHashMap;
+import dev.psygamer.wireframe.util.collection.FreezableMap;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,10 +18,16 @@ import java.util.Objects;
 @ModEventBusSubscriber
 public class InternalBlockEntityRegistry {
 	
+	private static final FreezableMap<Identifier, TileEntityType<?>> tileEntityTypeCache = new FreezableHashMap<>();
+	
 	private final BlockEntityRegistry registry;
 	
 	public InternalBlockEntityRegistry(final BlockEntityRegistry registry) {
 		this.registry = registry;
+	}
+	
+	public static TileEntityType<?> getTileEntityType(final Identifier identifier) {
+		return tileEntityTypeCache.get(identifier);
 	}
 	
 	public static InternalBlockEntityRegistry createInstance(final String modID) {
@@ -49,10 +58,12 @@ public class InternalBlockEntityRegistry {
 								   definition.getIdentifier()
 											 .getNamespace(), this.registry.getModID()))
 						   .forEach(definition -> {
+							   final TileEntityType<?> tileEntityType = generateTileEntityType(definition);
+			
+							   tileEntityTypeCache.put(definition.getIdentifier(), tileEntityType);
+			
 							   event.getRegistry()
-									.register(
-											generateTileEntityType(definition)
-									);
+									.register(tileEntityType);
 			
 							   Wireframe.LOGGER.info(
 									   String.format("Successfully registered tile entity %s:%s",
