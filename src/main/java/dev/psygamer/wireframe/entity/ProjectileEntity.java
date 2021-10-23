@@ -11,9 +11,13 @@ public interface ProjectileEntity extends Entity {
 		return new InternalProjectileEntity(internalEntity);
 	}
 	
+	/* Owner */
+	
 	Entity getOwner();
 	
 	void setOwner(Entity owner);
+	
+	/* Internal */
 	
 	@Override
 	net.minecraft.entity.projectile.ProjectileEntity getInternal();
