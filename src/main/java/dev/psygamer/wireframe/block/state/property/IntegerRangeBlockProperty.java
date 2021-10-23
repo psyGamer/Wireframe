@@ -18,8 +18,6 @@ public class IntegerRangeBlockProperty extends BlockProperty<Integer> {
 		
 		this.min = min;
 		this.max = max;
-		
-		setDefaultValue(min);
 	}
 	
 	@Override
