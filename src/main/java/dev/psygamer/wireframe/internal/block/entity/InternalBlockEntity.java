@@ -15,32 +15,36 @@ import javax.annotation.Nullable;
 
 public class InternalBlockEntity extends TileEntity {
 	
-	protected final BlockEntity tileEntity;
+	protected final BlockEntity blockEntity;
 	
 	public InternalBlockEntity(final BlockEntity blockEntity) {
 		super(
 				InternalBlockEntityRegistry.getTileEntityType(blockEntity.getIdentifier())
 		);
 		
-		this.tileEntity = blockEntity;
-		this.tileEntity.setWorldAndPosition(
+		this.blockEntity = blockEntity;
+		this.blockEntity.setWorldAndPosition(
 				World.get(getLevel()),
 				BlockPosition.get(getBlockPos())
 		);
+	}
+	
+	public BlockEntity getBlockEntity() {
+		return this.blockEntity;
 	}
 	
 	@Override
 	public void load(final BlockState blockState, final CompoundNBT compoundNBT) {
 		super.load(blockState, compoundNBT);
 		
-		this.tileEntity.loadNBT(
+		this.blockEntity.loadNBT(
 				TagCompound.get(compoundNBT)
 		);
 	}
 	
 	@Override
 	public CompoundNBT save(final CompoundNBT compoundNBT) {
-		this.tileEntity.saveNBT(
+		this.blockEntity.saveNBT(
 				TagCompound.get(compoundNBT)
 		);
 		
@@ -57,7 +61,7 @@ public class InternalBlockEntity extends TileEntity {
 	public CompoundNBT getUpdateTag() {
 		final CompoundNBT updateTag = super.getUpdateTag();
 		
-		this.tileEntity.getClientSyncTag(
+		this.blockEntity.getClientSyncTag(
 				TagCompound.get(updateTag)
 		);
 		
@@ -71,7 +75,7 @@ public class InternalBlockEntity extends TileEntity {
 	
 	@Override
 	public void handleUpdateTag(final BlockState state, final CompoundNBT tag) {
-		this.tileEntity.handleClientSyncTag(
+		this.blockEntity.handleClientSyncTag(
 				TagCompound.get(tag)
 		);
 	}
