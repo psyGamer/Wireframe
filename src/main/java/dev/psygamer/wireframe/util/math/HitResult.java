@@ -7,6 +7,7 @@ public abstract class HitResult {
 	public enum Type {
 		MISS, BLOCK, ENTITY
 	}
+	
 	protected final Vector3d location;
 	
 	protected HitResult(final Vector3d location) {
