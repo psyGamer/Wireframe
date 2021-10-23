@@ -23,8 +23,6 @@ public class EnumBlockProperty <T extends Enum<T>> extends BlockProperty<T> {
 			  .forEach(value -> builder.put(value.name().toLowerCase(), value));
 		
 		this.possibleValuesByName = builder.build();
-		
-		setDefaultValue(possibleValues[0]);
 	}
 	
 	@Override

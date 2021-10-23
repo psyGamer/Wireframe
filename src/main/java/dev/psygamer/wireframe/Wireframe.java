@@ -15,7 +15,9 @@ import java.util.List;
 /** The main class of the Wireframe Framework */
 public class Wireframe {
 	
-	public static final String MODID = "wireframe";
+	public static final String
+			NAME = "Wireframe", MODID = "wireframe", VERSION = "1.0";
+	
 	public static final Logger LOGGER = LogManager.getLogger("Wireframe");
 	public static final IEventBus EVENT_BUS = new EventBus();
 	
@@ -117,7 +119,7 @@ public class Wireframe {
 	private static final class InternalMod extends Mod {
 		
 		private InternalMod() {
-			super("wireframe", "Wireframe", "1.0");
+			super(Wireframe.MODID, Wireframe.NAME, Wireframe.VERSION);
 		}
 	}
 }

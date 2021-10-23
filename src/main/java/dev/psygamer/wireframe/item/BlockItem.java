@@ -14,7 +14,7 @@ import dev.psygamer.wireframe.world.World;
 
 public class BlockItem extends Item {
 	
-	protected final Block block;
+	private final Block block;
 	
 	public BlockItem(final Identifier identifier, final ItemAttributes attributes, final Block block) {
 		super(identifier, attributes);
@@ -22,9 +22,10 @@ public class BlockItem extends Item {
 		this.block = block;
 	}
 	
-	private static <T extends Comparable<T>> BlockState updateBlockState(final BlockState blockState,
-																		 final BlockProperty<T> property,
-																		 final String valueName
+	private static <T extends Comparable<T>> BlockState updateBlockState(
+			final BlockState blockState,
+			final BlockProperty<T> property,
+			final String valueName
 	) {
 		return property.getValue(valueName).map(
 				(value) -> blockState.setValue(property, value)
@@ -32,8 +33,9 @@ public class BlockItem extends Item {
 	}
 	
 	@Override
-	public ClickResult onItemUsedOnBlock(final ItemStack usedItemStack, final World world, final Player player,
-										 final Hand hand, final BlockHitResult hitResult
+	public ClickResult onItemUsedOnBlock(
+			final ItemStack usedItemStack, final World world, final Player player,
+			final Hand hand, final BlockHitResult hitResult
 	) {
 		final BlockPosition targetPosition = world.isReplaceable(
 				hitResult.getBlockPosition()
@@ -66,8 +68,9 @@ public class BlockItem extends Item {
 		return ClickResult.ACCEPTED;
 	}
 	
-	private void applyBlockStateTags(final World world, final BlockPosition position,
-									 final BlockState blockState, final ItemStack itemStack
+	private void applyBlockStateTags(
+			final World world, final BlockPosition position,
+			final BlockState blockState, final ItemStack itemStack
 	) {
 		final TagCompound itemTag = itemStack.getTag();
 		
@@ -85,20 +88,4 @@ public class BlockItem extends Item {
 		
 		world.setBlockState(blockState, position);
 	}
-	
-	/* private void applyBlockEntityTags(final World world, BlockPosition position,
-									  final Player player, final ItemStack itemStack
-	) {
-		final TagCompound itemTag = itemStack.getTag();
-		
-		if (itemTag == null)
-			return;
-		
-		final TagCompound blockEntityTag = itemTag.getCompound("BlockEntityTag");
-		
-		if (blockEntityTag == null)
-			return;
-		
-		BlockEntity blockEntity = world.getBlockEntity
-	} */ // TODO Include feature once BlockEntities are more developed
 }

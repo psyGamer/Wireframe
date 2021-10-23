@@ -27,7 +27,7 @@ public class BlockEntity {
 		this.internal = internal;
 	}
 	
-	protected BlockEntity(final Identifier identifier) {
+	public BlockEntity(final Identifier identifier) {
 		final BlockEntity.Definition definition = BlockEntityRegistry.getBlockEntityDefinition(identifier);
 		
 		this.identifier = identifier;
@@ -116,6 +116,5 @@ public class BlockEntity {
 		public Supplier<BlockEntity> getBlockEntitySupplier() {
 			return this.blockEntitySupplier;
 		}
-		
 	}
 }

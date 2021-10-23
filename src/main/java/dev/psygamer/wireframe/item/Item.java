@@ -15,11 +15,18 @@ import dev.psygamer.wireframe.world.World;
 
 public class Item {
 	
-	protected final InternalItem internal;
+	protected final net.minecraft.item.Item internal;
 	
 	protected final Identifier identifier;
 	
 	protected final ItemAttributes itemAttributes;
+	
+	private Item(final net.minecraft.item.Item internal) {
+		this.identifier = Identifier.get(internal.getRegistryName());
+		this.itemAttributes = null;
+		
+		this.internal = internal;
+	}
 	
 	public Item(final Identifier identifier, final ItemAttributes itemAttributes) {
 		this.identifier = identifier;
@@ -28,6 +35,13 @@ public class Item {
 		this.internal = new InternalItem(this, itemAttributes);
 		
 		ItemRegistry.register(this);
+	}
+	
+	public static Item get(final net.minecraft.item.Item internal) {
+		if (internal == null)
+			return null;
+		
+		return new Item(internal);
 	}
 	
 	public ClickResultContainer<ItemStack> onItemUsed(

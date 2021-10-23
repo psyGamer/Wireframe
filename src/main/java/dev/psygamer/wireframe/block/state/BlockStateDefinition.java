@@ -1,9 +1,10 @@
 package dev.psygamer.wireframe.block.state;
 
-import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.block.Block;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 import dev.psygamer.wireframe.internal.block.InternalBlockStateDefinition;
+
+import com.google.common.collect.ImmutableList;
 
 public interface BlockStateDefinition {
 	

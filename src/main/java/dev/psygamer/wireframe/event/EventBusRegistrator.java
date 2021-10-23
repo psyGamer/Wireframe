@@ -19,20 +19,7 @@ public class EventBusRegistrator {
 				)
 				.forEach(clazz -> {
 					try {
-						Wireframe.getMods()
-								 .forEach(mod -> {
-									 final net.minecraftforge.eventbus.api.IEventBus modEventBus = mod.getInternalModEventBus();
-							
-									 try {
-										 final Method creatorMethod = clazz.getDeclaredMethod("createInstance", String.class);
-										 final Object classInstance = creatorMethod.invoke(null, mod.getModID());
-								
-										 modEventBus.register(classInstance);
-								
-									 } catch (final NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-										 throw new IllegalStateException(); // Break out of the forEach loop
-									 }
-								 });
+						registerClassToInternalModEventBusses(clazz);
 					} catch (final IllegalStateException ignored) {
 					} // A hacky way of breaking from Stream#forEach()
 					
@@ -47,6 +34,23 @@ public class EventBusRegistrator {
 					Wireframe.EVENT_BUS.register(clazz);
 					Wireframe.LOGGER.info("Added " + clazz + " to the Wireframe event bus");
 				});
+	}
+	
+	private static void registerClassToInternalModEventBusses(final Class<?> clazz) {
+		Wireframe.getMods()
+				 .forEach(mod -> {
+					 final net.minecraftforge.eventbus.api.IEventBus modEventBus = mod.getInternalModEventBus();
+			
+					 try {
+						 final Method creatorMethod = clazz.getDeclaredMethod("createInstance", String.class);
+						 final Object classInstance = creatorMethod.invoke(null, mod.getModID());
+				
+						 modEventBus.register(classInstance);
+				
+					 } catch (final NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+						 throw new IllegalStateException(); // Break out of the forEach loop
+					 }
+				 });
 	}
 	
 	private static Stream<Class<?>> getEventClassStream() {
