@@ -5,9 +5,9 @@ import dev.psygamer.wireframe.util.TagCompound;
 
 public class ItemStack {
 	
-	protected final net.minecraft.item.ItemStack internal;
+	private final net.minecraft.item.ItemStack internal;
 	
-	protected Item item;
+	private Item item;
 	
 	public ItemStack(final Item item) {
 		this(item, 1);

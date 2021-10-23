@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.internal.item.InternalItemAttributes;
 import dev.psygamer.wireframe.item.util.Rarity;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
