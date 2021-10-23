@@ -12,9 +12,9 @@ public class BooleanBlockProperty extends BlockProperty<Boolean> {
 	
 	@Override
 	public Optional<Boolean> getValue(final String valueName) {
-		if (valueName.equalsIgnoreCase("true"))
+		if (valueName.equals("true"))
 			return Optional.of(true);
-		if (valueName.equalsIgnoreCase("false"))
+		if (valueName.equals("false"))
 			return Optional.of(false);
 		
 		return Optional.empty();
@@ -22,7 +22,7 @@ public class BooleanBlockProperty extends BlockProperty<Boolean> {
 	
 	@Override
 	public String getValueName(final Boolean value) {
-		return value ? "true" : "false";
+		return value.toString();
 	}
 	
 	@Override
