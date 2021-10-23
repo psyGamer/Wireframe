@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.block;
 
-import com.google.common.collect.Lists;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.BlockStateDefinition;
@@ -23,24 +22,26 @@ import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.BlockReader;
 import dev.psygamer.wireframe.world.World;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
 public class Block {
 	
-	protected final net.minecraft.block.Block internal;
-	protected final Item blockItem;
+	private final net.minecraft.block.Block internal;
+	private final Item blockItem;
 	
-	protected final Identifier identifier;
+	private final Identifier identifier;
 	
-	protected final BlockAttributes blockAttributes;
-	protected final ItemAttributes itemAttributes;
+	private final BlockAttributes blockAttributes;
+	private final ItemAttributes itemAttributes;
 	
-	protected BlockState defaultBlockState;
-	protected BlockStateDefinition stateDefinition;
+	private BlockState defaultBlockState;
+	private BlockStateDefinition stateDefinition;
 	
-	protected BlockEntity.Definition blockEntityDefinition;
+	private BlockEntity.Definition blockEntityDefinition;
 	
 	private Block(final net.minecraft.block.Block internal) {
 		this.identifier = Identifier.get(internal.getRegistryName());
@@ -110,33 +111,7 @@ public class Block {
 		BlockEntityRegistry.register(this.blockEntityDefinition);
 	}
 	
-	public Identifier getIdentifier() {
-		return this.identifier;
-	}
-	
-	public BlockAttributes getBlockAttributes() {
-		return this.blockAttributes;
-	}
-	
-	public ItemAttributes getItemAttributes() {
-		return this.itemAttributes;
-	}
-	
-	public BlockState getDefaultBlockState() {
-		return this.defaultBlockState;
-	}
-	
-	public BlockStateDefinition getStateDefinition() {
-		return this.stateDefinition;
-	}
-	
-	public Item getBlockItem() {
-		return this.blockItem;
-	}
-	
-	public net.minecraft.block.Block getInternal() {
-		return this.internal;
-	}
+	/* Placement State */
 	
 	public BlockState getPlacementState(
 			final ItemStack usedItemStack,
@@ -216,6 +191,8 @@ public class Block {
 	) {
 	}
 	
+	/* Block Entity */
+	
 	public boolean hasBlockEntity() {
 		return this.blockEntityDefinition != null;
 	}
@@ -227,15 +204,49 @@ public class Block {
 		return this.blockEntityDefinition.getBlockEntitySupplier().get();
 	}
 	
+	/* Pick Block */
+	
 	public ItemStack createPickBlockStack(
 			final BlockState blockState, final BlockPosition pos, final BlockReader blockReader
 	) {
 		return null;
 	}
 	
+	/* Drops */
+	
 	public List<ItemStack> createBlockDrops(
 			final BlockState blockState
 	) {
 		return Lists.newArrayList();
+	}
+	
+	/* Getters */
+	
+	public Identifier getIdentifier() {
+		return this.identifier;
+	}
+	
+	public BlockAttributes getBlockAttributes() {
+		return this.blockAttributes;
+	}
+	
+	public ItemAttributes getItemAttributes() {
+		return this.itemAttributes;
+	}
+	
+	public BlockState getDefaultBlockState() {
+		return this.defaultBlockState;
+	}
+	
+	public BlockStateDefinition getStateDefinition() {
+		return this.stateDefinition;
+	}
+	
+	public Item getBlockItem() {
+		return this.blockItem;
+	}
+	
+	public net.minecraft.block.Block getInternal() {
+		return this.internal;
 	}
 }
