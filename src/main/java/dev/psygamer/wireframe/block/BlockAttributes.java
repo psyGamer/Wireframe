@@ -50,26 +50,14 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	/**
 	 * @param material For sound, hardness, etc.
-	 *
-	 * @author psyGamer
-	 * @version 1.0 | Minecraft 1.16 +
-	 * @since 1.0 | Minecraft 1.16
-	 */
-	public BlockAttributes(final Material material) {
-		this(material, null);
-	}
-	
-	/**
-	 * @param material For sound, hardness, etc.
 	 * @param group    Creative Tab for the Block
 	 *
 	 * @author psyGamer
 	 * @version 1.0 | Minecraft 1.16 +
 	 * @since 1.0 | Minecraft 1.16
 	 */
-	public BlockAttributes(final Material material, final ItemGroup group) {
+	public BlockAttributes(final Material material) {
 		this.material = material;
-		this.group = group;
 		
 		this.internal = new InternalBlockAttributes(this);
 		
@@ -78,12 +66,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	
 	public BlockAttributes material(final Material material) {
 		this.material = material;
-		
-		return this;
-	}
-	
-	public BlockAttributes group(final ItemGroup group) {
-		this.group = group;
 		
 		return this;
 	}
@@ -160,10 +142,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 		return this.sound;
 	}
 	
-	public ItemGroup getGroup() {
-		return this.group;
-	}
-	
 	public float getHardness() {
 		return this.hardness;
 	}
@@ -204,7 +182,6 @@ public class BlockAttributes implements ICloneable<BlockAttributes> {
 	public BlockAttributes copy() {
 		return new BlockAttributes()
 				.material(this.material)
-				.group(this.group)
 				.hardness(this.hardness)
 				.blastResistance(this.blastResistance)
 				.correctTool(this.correctTool)
