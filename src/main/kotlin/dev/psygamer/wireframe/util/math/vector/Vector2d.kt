@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.util.math.vector
 
 import kotlin.math.*
 
-data class Vector2d(val x: Double, val y: Double) {
+open class Vector2d(val x: Double, val y: Double) {
 	operator fun plus(other: Vector2d): Vector2d {
 		return Vector2d(this.x + other.x, this.y + other.y)
 	}
