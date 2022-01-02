@@ -4,7 +4,7 @@ import kotlin.math.acos
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
-data class Vector2i(val x: Int, val y: Int) {
+open class Vector2i(val x: Int, val y: Int) {
 	operator fun plus(other: Vector2i): Vector2i {
 		return Vector2i(this.x + other.x, this.y + other.y)
 	}
