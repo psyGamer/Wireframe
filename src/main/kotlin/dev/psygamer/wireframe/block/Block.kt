@@ -24,35 +24,63 @@ import dev.psygamer.wireframe.world.BlockReader
 import dev.psygamer.wireframe.world.World
 import java.util.*
 
-open class Block constructor(
-	val identifier: Identifier?,
-	
-	val blockAttributes: BlockAttributes? = null,
-	val itemAttributes: ItemAttributes? = null,
-	
-	vararg blockProperties: BlockProperty<*>,
+open class Block {
 	
 	internal val mcNative: net.minecraft.block.Block
-) {
 	
+	val identifier: Identifier?
+	
+	val blockAttributes: BlockAttributes?
+	val itemAttributes: ItemAttributes?
+	
+	val blockProperties: Array<out BlockProperty<*>>
 	val blockItem: Item?
 	
-	val stateDefinition: BlockStateDefinition = BlockStateDefinition.get(mcNative.stateDefinition)
-	val defaultBlockState: BlockState = this.stateDefinition.defaultState
+	val stateDefinition: BlockStateDefinition
+	val defaultBlockState: BlockState
 	
 	private var blockEntityDefinition: Definition? = null
 	
-	constructor(mcNative: net.minecraft.block.Block)
-			: this(
-		identifier = mcNative.registryName?.wfWrapped,
-		mcNative = mcNative
-	)
+	constructor(mcNative: net.minecraft.block.Block) {
+		this.mcNative = mcNative
+		
+		this.identifier = mcNative.registryName?.wfWrapped
+		
+		this.blockAttributes = null
+		this.itemAttributes = null
+		
+		this.blockProperties = emptyArray()
+		
+		this.stateDefinition = BlockStateDefinition.get(mcNative.stateDefinition)
+		this.defaultBlockState = this.stateDefinition.defaultState
+		
+		this.blockItem = null
+	}
 	
-	init {
-		if (mcNative is InternalBlock && blockProperties.isNotEmpty())
+	constructor(
+		identifier: Identifier?,
+		
+		blockAttributes: BlockAttributes? = null,
+		itemAttributes: ItemAttributes? = null,
+		
+		vararg blockProperties: BlockProperty<*>,
+	) {
+		this.mcNative = InternalBlock(this, blockAttributes)
+		
+		this.identifier = identifier
+		
+		this.blockAttributes = blockAttributes
+		this.itemAttributes = itemAttributes
+		
+		this.blockProperties = blockProperties
+		
+		this.stateDefinition = BlockStateDefinition.get(mcNative.stateDefinition)
+		this.defaultBlockState = this.stateDefinition.defaultState
+		
+		if (blockProperties.isNotEmpty())
 			mcNative.registerBlockProperties(blockProperties)
 		
-		if (blockAttributes?.hasItem() == true)
+		if (blockAttributes?.hasItem == true)
 			this.blockItem = BlockItem(identifier, itemAttributes, this)
 		else
 			this.blockItem = null
@@ -72,7 +100,7 @@ open class Block constructor(
 	}
 	
 	/* Placement State */
-	fun getPlacementState(
+	open fun getPlacementState(
 		world: World, player: Player, hand: Hand,
 		usedItemStack: ItemStack, hitResult: BlockHitResult
 	): BlockState {
@@ -80,82 +108,83 @@ open class Block constructor(
 	}
 	
 	/* Block Events */
-	fun onBlockPlaced(
+	open fun onBlockPlaced(
 		world: World, blockPosition: BlockPosition,
 		oldBlockState: BlockState, newBlockState: BlockState,
 	) {
 	}
 	
-	fun onBlockPlacedByPlayer(
+	open fun onBlockPlacedByPlayer(
 		world: World, blockPosition: BlockPosition,
 		oldBlockState: BlockState, newBlockState: BlockState, player: Player
 	) {
 	}
 	
-	fun onBlockRemoved(
+	open fun onBlockRemoved(
 		world: World, blockPosition: BlockPosition,
 		oldBlockState: BlockState, newBlockState: BlockState,
 	) {
 	}
 	
-	fun onBlockRemovedByPlayer(
+	open fun onBlockRemovedByPlayer(
 		world: World, blockPosition: BlockPosition,
 		oldBlockState: BlockState, newBlockState: BlockState, player: Player
 	) {
 	}
 	
-	fun onTick(
+	open fun onTick(
 		world: World, blockPosition: BlockPosition, blockState: BlockState
 	) {
 	}
 	
-	fun onRandomTick(
+	open fun onRandomTick(
 		world: World, blockPosition: BlockPosition, blockState: BlockState, random: Random
 	) {
 	}
 	
-	fun onEntityStepOnBlock(
+	open fun onEntityStepOnBlock(
 		world: World, blockPosition: BlockPosition, blockState: BlockState, entity: Entity
 	) {
 	}
 	
-	fun onEntityFallOnBlock(
+	open fun onEntityFallOnBlock(
 		world: World, blockPosition: BlockPosition, blockState: BlockState, entity: Entity, fallDistance: Float
 	) {
 	}
 	
-	fun onUsedByPlayer(
+	open fun onUsedByPlayer(
 		world: World, blockPosition: BlockPosition, blockState: BlockState, player: Player
-	): ClickResult? {
+	): ClickResult {
 		return ClickResult.PASS
 	}
 	
-	fun onAttackedByPlayer(
+	open fun onAttackedByPlayer(
 		world: World, blockPosition: BlockPosition, blockState: BlockState, player: Player
 	) {
 	}
 	
-	fun onHitByProjectile(
+	open fun onHitByProjectile(
 		world: World, blockPosition: BlockPosition, blockState: BlockState, projectile: ProjectileEntity
 	) {
 	}
 	
 	/* Block Entity */
+	@get:JvmName("hasBlockEntity")
 	val hasBlockEntity: Boolean
 		get() = blockEntityDefinition != null
 	
-	fun createBlockEntity(): BlockEntity? {
+	open fun createBlockEntity(): BlockEntity? {
 		return blockEntityDefinition?.blockEntitySupplier?.get()
 	}
 	
-	fun createPickBlockStack(
+	open fun createPickBlockStack(
 		world: BlockReader, blockPosition: BlockPosition, blockState: BlockState
 	): ItemStack {
 		return ItemStack.get(net.minecraft.item.ItemStack.EMPTY)
 	}
 	
-	fun createBlockDrops(
-		world: World, blockPosition: BlockPosition, blockState: BlockState
+	open fun createBlockDrops(
+		blockState: BlockState
 	): List<ItemStack> {
 		return emptyList()
 	}

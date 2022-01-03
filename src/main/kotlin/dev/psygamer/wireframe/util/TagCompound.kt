@@ -7,8 +7,9 @@ import com.google.common.primitives.Longs
 import java.util.*
 
 class TagCompound(
-	private val mcNative: net.minecraft.nbt.CompoundNBT = net.minecraft.nbt.CompoundNBT()
+	internal val mcNative: net.minecraft.nbt.CompoundNBT = net.minecraft.nbt.CompoundNBT()
 ) {
+	
 	val allKeys: Set<String> = this.mcNative.allKeys
 	val isEmpty: Boolean = this.mcNative.isEmpty
 	

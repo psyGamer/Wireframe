@@ -8,6 +8,7 @@ import dev.psygamer.wireframe.entity.Player;
 import dev.psygamer.wireframe.internal.item.InternalItem;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.BlockReader;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -51,7 +52,7 @@ public class InternalBlock extends net.minecraft.block.Block {
 	private final Block block;
 	
 	public InternalBlock(final Block block, final BlockAttributes attributes) {
-		super(attributes.getInternal()
+		super(attributes.getMcNative$wireframe()
 						.createProperties()
 		);
 		
@@ -109,11 +110,11 @@ public class InternalBlock extends net.minecraft.block.Block {
 						final net.minecraft.block.BlockState oldBlockState, final boolean isMoving
 	) {
 		this.block.onBlockPlaced(
-				BlockState.get(oldBlockState),
-				BlockState.get(newBlockState),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world)
+				BlockState.get(oldBlockState),
+				BlockState.get(newBlockState)
 		);
 	}
 	
@@ -122,11 +123,11 @@ public class InternalBlock extends net.minecraft.block.Block {
 						 final net.minecraft.block.BlockState oldBlockState, final boolean isMoving
 	) {
 		this.block.onBlockRemoved(
-				BlockState.get(oldBlockState),
-				BlockState.get(newBlockState),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world)
+				BlockState.get(oldBlockState),
+				BlockState.get(newBlockState)
 		);
 		
 		super.onRemove(newBlockState, world, pos, oldBlockState, isMoving);
@@ -137,10 +138,10 @@ public class InternalBlock extends net.minecraft.block.Block {
 								final PlayerEntity player, final Hand hand, final BlockRayTraceResult p_225533_6_
 	) {
 		return this.block.onUsedByPlayer(
-						   BlockState.get(state),
+						   dev.psygamer.wireframe.world.World.get(world),
+						   dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-						   dev.psygamer.wireframe.util.BlockPosition.get(pos),
-						   dev.psygamer.wireframe.world.World.get(world), Player.get(player)
+						   BlockState.get(state), Player.get(player)
 				   )
 						 .getInternal();
 	}
@@ -160,10 +161,10 @@ public class InternalBlock extends net.minecraft.block.Block {
 						   final ServerWorld world, final BlockPos pos, final Random random
 	) {
 		this.block.onRandomTick(
-				BlockState.get(state),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), random
+				BlockState.get(state), random
 		);
 	}
 	
@@ -172,10 +173,10 @@ public class InternalBlock extends net.minecraft.block.Block {
 					 final ServerWorld world, final BlockPos pos, final Random random
 	) {
 		this.block.onTick(
-				BlockState.get(state),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world)
+				BlockState.get(state)
 		);
 	}
 	
@@ -184,10 +185,10 @@ public class InternalBlock extends net.minecraft.block.Block {
 					   final World world, final BlockPos pos, final PlayerEntity player
 	) {
 		this.block.onAttackedByPlayer(
-				BlockState.get(state),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), Player.get(player)
+				BlockState.get(state), Player.get(player)
 		);
 	}
 	
@@ -196,19 +197,20 @@ public class InternalBlock extends net.minecraft.block.Block {
 								final BlockRayTraceResult hitResult, final ProjectileEntity projectile
 	) {
 		this.block.onHitByProjectile(
-				BlockState.get(state),
-				
 				dev.psygamer.wireframe.world.World.get(world),
-				dev.psygamer.wireframe.entity.ProjectileEntity.get(projectile)
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(hitResult.getBlockPos()),
+				
+				BlockState.get(state), dev.psygamer.wireframe.entity.ProjectileEntity.get(projectile)
 		);
 	}
 	
 	@Override
 	public void stepOn(final World world, final BlockPos pos, final Entity entity) {
 		this.block.onEntityStepOnBlock(
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world),
-				dev.psygamer.wireframe.entity.Entity.get(entity)
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
+				
+				BlockState.get(world.getBlockState(pos)), dev.psygamer.wireframe.entity.Entity.get(entity)
 		);
 	}
 	
@@ -217,16 +219,16 @@ public class InternalBlock extends net.minecraft.block.Block {
 	public net.minecraft.block.BlockState getStateForPlacement(final BlockItemUseContext context) {
 		try {
 			return this.block.getPlacementState(
-							   dev.psygamer.wireframe.item.ItemStack.get(context.getItemInHand()),
 							   dev.psygamer.wireframe.world.World.get(context.getLevel()),
 							   Player.get(context.getPlayer()),
 							   dev.psygamer.wireframe.item.util.Hand.get(context.getHand()),
+							   dev.psygamer.wireframe.item.ItemStack.get(context.getItemInHand()),
 							   BlockHitResult.get((BlockRayTraceResult) InternalItem.hitResultField.get(context))
 					   )
 							 .getInternal();
 			
 		} catch (final IllegalAccessException e) {
-			return this.block.getInternal()
+			return this.block.getMcNative$wireframe()
 							 .defaultBlockState();
 		}
 	}
@@ -237,11 +239,11 @@ public class InternalBlock extends net.minecraft.block.Block {
 	) {
 		if (placer instanceof PlayerEntity) {
 			this.block.onBlockPlacedByPlayer(
-					BlockState.get(blockState),
-					BlockState.get(blockState),
+					dev.psygamer.wireframe.world.World.get(world),
+					dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 					
-					dev.psygamer.wireframe.util.BlockPosition.get(pos),
-					dev.psygamer.wireframe.world.World.get(world), Player.get((PlayerEntity) placer)
+					BlockState.get(world.getBlockState(pos)),
+					BlockState.get(blockState), Player.get((PlayerEntity) placer)
 			);
 		}
 	}
@@ -251,9 +253,10 @@ public class InternalBlock extends net.minecraft.block.Block {
 		super.fallOn(world, pos, entity, distance);
 		
 		this.block.onEntityFallOnBlock(
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
 				dev.psygamer.wireframe.world.World.get(world),
-				dev.psygamer.wireframe.entity.Entity.get(entity), distance
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
+				
+				BlockState.get(world.getBlockState(pos)), dev.psygamer.wireframe.entity.Entity.get(entity), distance
 		);
 	}
 	
@@ -273,11 +276,11 @@ public class InternalBlock extends net.minecraft.block.Block {
 								   final PlayerEntity player, final boolean willHarvest, final FluidState fluid
 	) {
 		this.block.onBlockRemovedByPlayer(
-				BlockState.get(state),
-				BlockState.get(state),
+				dev.psygamer.wireframe.world.World.get(world),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				dev.psygamer.wireframe.world.World.get(world), Player.get(player)
+				BlockState.get(world.getBlockState(pos)),
+				BlockState.get(state), Player.get(player)
 		);
 		
 		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
@@ -288,9 +291,9 @@ public class InternalBlock extends net.minecraft.block.Block {
 								  final IBlockReader blockReader, final BlockPos pos, final PlayerEntity player
 	) {
 		final dev.psygamer.wireframe.item.ItemStack pickBlock = this.block.createPickBlockStack(
-				BlockState.get(state),
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
-				BlockReader.get(blockReader)
+				BlockReader.get(blockReader),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
+				BlockState.get(state)
 		);
 		
 		return pickBlock == null ? ItemStack.EMPTY : pickBlock.getInternal();

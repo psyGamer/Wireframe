@@ -5,6 +5,7 @@ import dev.psygamer.wireframe.internal.block.entity.InternalBlockEntity;
 import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.IdentifierKt;
 import dev.psygamer.wireframe.util.TagCompound;
 import dev.psygamer.wireframe.world.World;
 
@@ -21,7 +22,8 @@ public class BlockEntity {
 	private BlockPosition position;
 	
 	private BlockEntity(final net.minecraft.tileentity.TileEntity internal) {
-		this.identifier = Identifier.get(internal.getType().getRegistryName());
+//		this.identifier = Identifier.get(internal.getType().getRegistryName());
+		this.identifier = IdentifierKt.getWfWrapped(internal.getType().getRegistryName());
 		this.tileEntityHolders = new Block[0];
 		
 		this.internal = internal;

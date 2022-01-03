@@ -1,21 +1,24 @@
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = "1.6.10"
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = "https://maven.minecraftforge.net" }
+        maven { url = "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "4.1.+", changing: true
+        classpath group: "com.github.jengelman.gradle.plugins", name: "shadow", version: "6.1.0"
+        classpath group: "org.jetbrains.kotlin", name: "kotlin-gradle-plugin", version: kotlin_version
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'kotlin'
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "kotlin"
 
-group = 'dev.psygamer'
-archivesBaseName = 'wireframe'
-version = '0.1'
+group = "dev.psygamer"
+archivesBaseName = "wireframe"
+version = "0.1"
 
 java {
     withSourcesJar()
@@ -25,14 +28,14 @@ java {
 }
 
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: "official", version: "1.16.5"
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file("run")
 
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property "forge.logging.markers", "REGISTRIES"
+            property "forge.logging.console.level", "debug"
 
             mods {
                 wireframe {
@@ -42,10 +45,10 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file("run")
 
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property "forge.logging.markers", "REGISTRIES"
+            property "forge.logging.console.level", "debug"
 
             mods {
                 wireframe {
@@ -55,15 +58,15 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory project.file("run")
 
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property "forge.logging.markers", "REGISTRIES"
+            property "forge.logging.console.level", "debug"
 
-            args '--mod', 'templetribes', '--all',
-                    '--existing', file('src/main/resources/').toString(),
-                    '--existing', file('src/generated/resources/').toString(),
-                    '--output', file('src/generated/resources/')
+            args "--mod", "wireframe", "--all",
+                    "--existing", file("src/main/resources/").toString(),
+                    "--existing", file("src/generated/resources/").toString(),
+                    "--output", file("src/generated/resources/")
 
             mods {
                 wireframe {
@@ -74,15 +77,28 @@ minecraft {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.resources { srcDir "src/generated/resources" }
 
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+configurations {
+    shadow
+
+    compile.extendsFrom shadow
 }
 
-jar {
-    from sourceSets.main.allSource
+repositories {
+    mavenCentral()
+}
+dependencies {
+    minecraft "net.minecraftforge:forge:1.16.5-36.1.0"
+
+    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+
+    classifier ""
+    finalizedBy "reobfJar"
 
     manifest {
         attributes([
@@ -95,16 +111,26 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar')
-repositories {
-    mavenCentral()
-}
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
+jar {
+    classifier "standalone"
+    finalizedBy "reobfJar"
+
+    manifest {
+        attributes([
+                "Specification-Title"     : "wireframe",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.version,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
-compileTestKotlin {
+
+reobf {
+    shadowJar {}
+}
+
+compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
