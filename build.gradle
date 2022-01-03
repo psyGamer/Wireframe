@@ -1,5 +1,7 @@
 buildscript {
     ext.kotlin_version = "1.6.10"
+    ext.kotlin_reflect_version = "1.6.0"
+
     repositories {
         maven { url = "https://maven.minecraftforge.net" }
         maven { url = "https://plugins.gradle.org/m2/" }
@@ -92,6 +94,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.16.5-36.1.0"
 
     shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    shadow "org.jetbrains.kotlin:kotlin-reflect:$kotlin_reflect_version"
 }
 
 shadowJar {

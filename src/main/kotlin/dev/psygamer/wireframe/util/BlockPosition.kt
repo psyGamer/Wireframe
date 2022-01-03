@@ -22,8 +22,8 @@ class BlockPosition(x: Int, y: Int, z: Int) : Vector3i(x, y, z) {
 	}
 }
 
-val net.minecraft.util.math.BlockPos.wfWrapped: BlockPosition
+internal val net.minecraft.util.math.BlockPos.wfWrapped: BlockPosition
 	get() = BlockPosition(this.x, this.y, this.z)
 
-val BlockPosition.mcNative: net.minecraft.util.math.BlockPos
+internal val BlockPosition.mcNative: net.minecraft.util.math.BlockPos
 	get() = net.minecraft.util.math.BlockPos(this.x, this.y, this.z)

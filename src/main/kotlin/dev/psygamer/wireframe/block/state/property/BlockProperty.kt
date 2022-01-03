@@ -4,10 +4,10 @@ import dev.psygamer.wireframe.internal.block.InternalBlockProperty
 import dev.psygamer.wireframe.internal.block.state.BlockPropertyWrapper
 import java.util.*
 
-abstract class BlockProperty<T : Comparable<T>>(propertyName: String, defaultValue: T?) {
+abstract class BlockProperty<T : Comparable<T>>(propertyName: String, defaultValue: T) {
 	
-	protected val propertyName: String
-	protected val defaultValue: T?
+	val propertyName: String
+	val defaultValue: T
 	
 	internal var mcNative: net.minecraft.state.Property<T>
 	
