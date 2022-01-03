@@ -26,5 +26,7 @@ abstract class BlockProperty<T : Comparable<T>>(propertyName: String, defaultVal
 	abstract val possibleValues: Set<T>
 }
 
-internal val <T : Comparable<T>> net.minecraft.state.Property<T>.wfWrapped: BlockProperty<T>
+//internal val <T : Comparable<T>> net.minecraft.state.Property<T>.wfWrapped: BlockProperty<T>
+//	get() = BlockPropertyWrapper(this)
+internal val net.minecraft.state.Property<*>.wfWrapped: BlockProperty<*>
 	get() = BlockPropertyWrapper(this)

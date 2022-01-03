@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.block.state
 
 import dev.psygamer.wireframe.block.Block
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.internal.block.InternalBlockStateDefinition
+import dev.psygamer.wireframe.internal.block.NativeBlockStateDefinition
 
 interface BlockStateDefinition {
 	
@@ -12,8 +12,8 @@ interface BlockStateDefinition {
 	
 	val mcNative: net.minecraft.state.StateContainer<net.minecraft.block.Block, net.minecraft.block.BlockState>
 	
-	fun getProperty(propertyName: String?): BlockProperty<*>
+	fun getProperty(propertyName: String): BlockProperty<*>?
 }
 
 internal val net.minecraft.state.StateContainer<net.minecraft.block.Block, net.minecraft.block.BlockState>.wfWrapped: BlockStateDefinition
-	get() = InternalBlockStateDefinition(this)
+	get() = NativeBlockStateDefinition(this)
