@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.block
 
 import dev.psygamer.wireframe.block.attributes.HarvestLevel
 import dev.psygamer.wireframe.block.attributes.Material
-import dev.psygamer.wireframe.internal.block.InternalBlockAttributes
+import dev.psygamer.wireframe.internal.block.NativeBlockAttributes
 import net.minecraft.block.SoundType
 import net.minecraftforge.common.ToolType
 
@@ -43,7 +43,7 @@ open class BlockAttributes(
 	var hasItem = true
 		private set
 	
-	internal val mcNative: InternalBlockAttributes
+	internal val mcNative: NativeBlockAttributes
 	
 	init {
 		// Set default values based on the material
@@ -53,7 +53,7 @@ open class BlockAttributes(
 		toolRequired(material.hardness > 0)
 		correctTool(material.correctTool)
 		
-		mcNative = InternalBlockAttributes(this)
+		mcNative = NativeBlockAttributes(this)
 	}
 	
 	fun hardness(hardness: Float): BlockAttributes {
