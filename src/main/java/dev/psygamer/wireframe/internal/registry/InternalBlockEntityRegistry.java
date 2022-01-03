@@ -8,7 +8,9 @@ import dev.psygamer.wireframe.registry.BlockEntityRegistry;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.collection.FreezableHashMap;
 import dev.psygamer.wireframe.util.collection.FreezableMap;
+
 import net.minecraft.tileentity.TileEntityType;
+
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -36,7 +38,7 @@ public class InternalBlockEntityRegistry {
 	
 	public static TileEntityType<?> generateTileEntityType(final BlockEntity.Definition definition) {
 		return TileEntityType.Builder
-				.of(() -> definition.getBlockEntitySupplier().get().getInternal(),
+				.of(() -> definition.getBlockEntitySupplier().invoke().getMcNative(),
 				
 					Arrays.stream(definition.getBlockEntityHolders())
 						  .map(Block::getMcNative$wireframe)
