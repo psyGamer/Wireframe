@@ -39,7 +39,7 @@ public class EventBusRegistrator {
 	private static void registerClassToInternalModEventBusses(final Class<?> clazz) {
 		Wireframe.getMods()
 				 .forEach(mod -> {
-					 final net.minecraftforge.eventbus.api.IEventBus modEventBus = mod.getInternalModEventBus();
+					 final net.minecraftforge.eventbus.api.IEventBus modEventBus = mod.getNativeEventBus();
 			
 					 try {
 						 final Method creatorMethod = clazz.getDeclaredMethod("createInstance", String.class);

@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.internal.block;
 
 import dev.psygamer.wireframe.block.Block;
+import dev.psygamer.wireframe.block.BlockKt;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
 
@@ -16,7 +17,7 @@ public class InternalBlockState implements BlockState {
 	
 	@Override
 	public Block getBlock() {
-		return Block.get(this.internal.getBlock());
+		return BlockKt.getWfWrapped(this.internal.getBlock());
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public class InternalBlockState implements BlockState {
 	
 	@Override
 	public boolean is(final Block block) {
-		return this.getBlock().getInternal() == block.getInternal();
+		return this.getBlock().getMcNative$wireframe() == block.getMcNative$wireframe();
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.internal.block;
 
 import com.google.common.collect.ImmutableList;
 import dev.psygamer.wireframe.block.Block;
+import dev.psygamer.wireframe.block.BlockKt;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.block.state.BlockStateDefinition;
 import dev.psygamer.wireframe.block.state.property.BlockProperty;
@@ -21,7 +22,7 @@ public class InternalBlockStateDefinition implements BlockStateDefinition {
 	
 	@Override
 	public Block getBlock() {
-		return Block.get(this.stateContainer.getOwner());
+		return BlockKt.getWfWrapped(this.stateContainer.getOwner());
 	}
 	
 	@Override

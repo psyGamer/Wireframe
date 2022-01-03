@@ -105,7 +105,7 @@ public class InternalItem extends net.minecraft.item.Item {
 		
 		return this.item.onBlockMined(
 				dev.psygamer.wireframe.item.ItemStack.get(itemStack), blockState,
-				dev.psygamer.wireframe.util.BlockPosition.get(pos),
+				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
 				dev.psygamer.wireframe.world.World.get(world),
 				dev.psygamer.wireframe.entity.LivingEntity.get(entity)
 		);

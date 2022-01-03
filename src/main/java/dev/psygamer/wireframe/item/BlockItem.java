@@ -48,7 +48,8 @@ public class BlockItem extends Item {
 			return ClickResult.REJECTED;
 		
 		final BlockState oldBlockState = world.getBlockState(targetPosition);
-		final BlockState placementState = this.block.getPlacementState(usedItemStack, world, player, hand, hitResult);
+//		final BlockState placementState = this.block.getPlacementState(usedItemStack, world, player, hand, hitResult);
+		final BlockState placementState = this.block.getPlacementState(world, player, hand, usedItemStack, hitResult);
 		
 		if (!world.setBlockState(placementState, targetPosition, World.UpdateFlag.DEFAULT_AND_RERENDER))
 			return ClickResult.REJECTED;
@@ -59,8 +60,8 @@ public class BlockItem extends Item {
 			applyBlockStateTags(world, targetPosition, world.getBlockState(targetPosition), usedItemStack);
 		}
 		
-		this.block.onBlockPlaced(oldBlockState, placementState, targetPosition, world);
-		this.block.onBlockPlacedByPlayer(oldBlockState, placementState, targetPosition, world, player);
+		this.block.onBlockPlaced(world, targetPosition, oldBlockState, placementState);
+		this.block.onBlockPlacedByPlayer(world, targetPosition, oldBlockState, placementState, player);
 		
 		if (player != null && !player.isCreative())
 			usedItemStack.shrink(1);
@@ -79,7 +80,7 @@ public class BlockItem extends Item {
 		
 		final TagCompound blockStateTag = itemTag.getCompound("BlockStateTag");
 		
-		for (final String key : blockStateTag.getKeys()) {
+		for (final String key : blockStateTag.getAllKeys()) {
 			final BlockProperty<?> property = blockState.getBlock().getStateDefinition().getProperty(key);
 			
 			if (property != null)

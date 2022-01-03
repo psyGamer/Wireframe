@@ -2,7 +2,9 @@ package dev.psygamer.wireframe.internal.entity;
 
 import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.util.BlockPosition;
+import dev.psygamer.wireframe.util.BlockPositionKt;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
+import dev.psygamer.wireframe.util.math.vector.Vector3dKt;
 import dev.psygamer.wireframe.world.World;
 import net.minecraft.util.DamageSource;
 
@@ -35,7 +37,7 @@ public class InternalEntity implements Entity {
 	
 	@Override
 	public Vector3d getPosition() {
-		return Vector3d.get(this.internalEntity.position());
+		return Vector3dKt.getWfWrapped(this.internalEntity.position());
 	}
 	
 	@Override
@@ -58,12 +60,12 @@ public class InternalEntity implements Entity {
 	
 	@Override
 	public BlockPosition getBlockPosition() {
-		return BlockPosition.get(this.internalEntity.blockPosition());
+		return BlockPositionKt.getWfWrapped(this.internalEntity.blockPosition());
 	}
 	
 	@Override
 	public Vector3d getVelocity() {
-		return Vector3d.get(this.internalEntity.getDeltaMovement());
+		return Vector3dKt.getWfWrapped(this.internalEntity.getDeltaMovement());
 	}
 	
 	@Override

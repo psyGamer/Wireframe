@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe;
 
 import dev.psygamer.wireframe.event.EventBusRegistrator;
-import dev.psygamer.wireframe.test.item_display.ItemDisplayBlock;
 
+@net.minecraftforge.fml.common.Mod(Wireframe.MODID)
 public class Main {
 	
 	public Main() {
@@ -14,7 +14,7 @@ public class Main {
 		
 		modEventBus.addListener(this::onModConstruct);
 		
-		new ItemDisplayBlock();
+		//new ItemDisplayBlock();
 	}
 	
 	private void onModConstruct(final net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent event) {

@@ -32,7 +32,7 @@ public class InternalBlockRegistry {
 								  .getNamespace(), this.registry.getModID()))
 					 .forEach(block -> {
 						 event.getRegistry()
-							  .register(block.getInternal());
+							  .register(block.getMcNative$wireframe());
 			
 						 Wireframe.LOGGER.info(
 								 String.format("Successfully registered block %s:%s",

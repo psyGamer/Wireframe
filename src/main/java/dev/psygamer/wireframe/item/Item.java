@@ -10,6 +10,7 @@ import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
+import dev.psygamer.wireframe.util.IdentifierKt;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.World;
 
@@ -22,7 +23,7 @@ public class Item {
 	protected final ItemAttributes itemAttributes;
 	
 	private Item(final net.minecraft.item.Item internal) {
-		this.identifier = Identifier.get(internal.getRegistryName());
+		this.identifier = IdentifierKt.getWfWrapped(internal.getRegistryName());
 		this.itemAttributes = null;
 		
 		this.internal = internal;

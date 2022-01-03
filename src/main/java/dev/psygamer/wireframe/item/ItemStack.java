@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.item;
 
 import dev.psygamer.wireframe.internal.item.InternalItem;
 import dev.psygamer.wireframe.util.TagCompound;
+import dev.psygamer.wireframe.util.TagCompoundKt;
 
 public class ItemStack {
 	
@@ -20,7 +21,7 @@ public class ItemStack {
 	public ItemStack(final Item item, final int count, final TagCompound tagData) {
 		this.item = item;
 		
-		this.internal = new net.minecraft.item.ItemStack(item.getInternal(), count, tagData.getInternal());
+		this.internal = new net.minecraft.item.ItemStack(item.getInternal(), count, tagData.getMcNative$wireframe());
 	}
 	
 	private ItemStack(final net.minecraft.item.ItemStack internal) {
@@ -53,7 +54,7 @@ public class ItemStack {
 	}
 	
 	public TagCompound getTag() {
-		return TagCompound.get(this.internal.getTag());
+		return TagCompoundKt.getWfWrapped(this.internal.getTag());
 	}
 	
 	public net.minecraft.item.ItemStack getInternal() {

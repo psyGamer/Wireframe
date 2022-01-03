@@ -31,8 +31,12 @@ open class BlockAttributes(
 	
 	var toolRequired = false
 		private set
+	
+	@get:JvmName("isFullBlock")
 	var fullBlock = true
 		private set
+	
+	@get:JvmName("isOpaque")
 	var opaque = false
 		private set
 	

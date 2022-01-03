@@ -39,7 +39,7 @@ public class InternalBlockEntityRegistry {
 				.of(() -> definition.getBlockEntitySupplier().get().getInternal(),
 				
 					Arrays.stream(definition.getBlockEntityHolders())
-						  .map(Block::getInternal)
+						  .map(Block::getMcNative$wireframe)
 						  .toArray(net.minecraft.block.Block[]::new)
 				)
 				.build(null)

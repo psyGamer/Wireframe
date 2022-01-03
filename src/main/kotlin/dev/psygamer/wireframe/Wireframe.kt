@@ -14,7 +14,10 @@ object Wireframe {
 	const val MODID = "wireframe"
 	const val VERSION = "1.0"
 	
+	@JvmField
 	val LOGGER: Logger = LogManager.getLogger(NAME)
+	
+	@JvmField
 	val EVENT_BUS: IEventBus = EventBus()
 	
 	@JvmStatic

@@ -20,7 +20,7 @@ public class ItemDisplayBlockEntity extends BlockEntity {
 	
 	@Override
 	public void saveNBT(final TagCompound tagCompound) {
-		tagCompound.putInt("clicks", this.clicks);
+		tagCompound.setInt("clicks", this.clicks);
 	}
 	
 	@Override

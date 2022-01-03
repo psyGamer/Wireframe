@@ -14,6 +14,9 @@ import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.world.World;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /*
  * This class is an example of how to create blocks in Wireframe.
  * The goal is to use as few classes from net.minecraft or net.minecraftforge as possible.
@@ -39,9 +42,11 @@ public class ItemDisplayBlock extends Block {
 		registerBlockEntity(ItemDisplayBlockEntity::new);
 	}
 	
+	@NotNull
 	@Override
-	public ClickResult onUsedByPlayer(final BlockState blockState, final BlockPosition blockPosition, final World world,
-									  final Player player
+	public ClickResult onUsedByPlayer(@NotNull final World world, @NotNull final BlockPosition blockPosition,
+									  @NotNull final BlockState blockState,
+									  @NotNull final Player player
 	) {
 		final BlockEntity blockEntity = world.getBlockEntity(blockPosition);
 		
