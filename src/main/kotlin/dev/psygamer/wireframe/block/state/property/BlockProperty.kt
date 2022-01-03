@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.block.state.property
 
-import dev.psygamer.wireframe.internal.block.InternalBlockProperty
+import dev.psygamer.wireframe.internal.block.NativeBlockProperty
 import dev.psygamer.wireframe.internal.block.state.BlockPropertyWrapper
 import java.util.*
 
@@ -17,7 +17,7 @@ abstract class BlockProperty<T : Comparable<T>>(propertyName: String, defaultVal
 		this.propertyName = propertyName
 		this.defaultValue = defaultValue
 		
-		this.mcNative = InternalBlockProperty(this)
+		this.mcNative = NativeBlockProperty(this)
 	}
 	
 	abstract fun getValue(valueName: String): Optional<T>
