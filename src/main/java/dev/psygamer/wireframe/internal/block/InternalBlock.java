@@ -268,7 +268,7 @@ public class InternalBlock extends net.minecraft.block.Block {
 	@Nullable
 	@Override
 	public TileEntity createTileEntity(final net.minecraft.block.BlockState state, final IBlockReader blockReader) {
-		return this.block.createBlockEntity().getInternal();
+		return this.block.createBlockEntity().getMcNative();
 	}
 	
 	@Override
