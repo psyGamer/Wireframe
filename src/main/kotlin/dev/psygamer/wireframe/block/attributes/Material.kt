@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.block.attributes
 import net.minecraftforge.common.ToolType
 
 enum class Material(
-	val internal: net.minecraft.block.material.Material,
+	val mcNative: net.minecraft.block.material.Material,
 	val correctTool: ToolType? = null, val hardness: Float = 0.0f, val blastResistance: Float = 0.0f
 ) {
 	
