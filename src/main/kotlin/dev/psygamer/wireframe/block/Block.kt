@@ -5,10 +5,11 @@ import dev.psygamer.wireframe.block.entity.BlockEntity.Definition
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.BlockStateDefinition
 import dev.psygamer.wireframe.block.state.property.BlockProperty
+import dev.psygamer.wireframe.block.state.wfWrapped
 import dev.psygamer.wireframe.entity.Entity
 import dev.psygamer.wireframe.entity.Player
 import dev.psygamer.wireframe.entity.ProjectileEntity
-import dev.psygamer.wireframe.internal.block.InternalBlock
+import dev.psygamer.wireframe.internal.block.NativeBlock
 import dev.psygamer.wireframe.item.BlockItem
 import dev.psygamer.wireframe.item.Item
 import dev.psygamer.wireframe.item.ItemAttributes
@@ -28,7 +29,7 @@ open class Block {
 	
 	internal val mcNative: net.minecraft.block.Block
 	
-	val identifier: Identifier?
+	val identifier: Identifier
 	
 	val blockAttributes: BlockAttributes?
 	val itemAttributes: ItemAttributes?
@@ -44,28 +45,28 @@ open class Block {
 	constructor(mcNative: net.minecraft.block.Block) {
 		this.mcNative = mcNative
 		
-		this.identifier = mcNative.registryName?.wfWrapped
+		this.identifier = mcNative.registryName!!.wfWrapped
 		
 		this.blockAttributes = null
 		this.itemAttributes = null
 		
 		this.blockProperties = emptyArray()
 		
-		this.stateDefinition = BlockStateDefinition.get(mcNative.stateDefinition)
+		this.stateDefinition = mcNative.stateDefinition.wfWrapped
 		this.defaultBlockState = this.stateDefinition.defaultState
 		
 		this.blockItem = null
 	}
 	
 	constructor(
-		identifier: Identifier?,
+		identifier: Identifier,
 		
-		blockAttributes: BlockAttributes? = null,
-		itemAttributes: ItemAttributes? = null,
+		blockAttributes: BlockAttributes,
+		itemAttributes: ItemAttributes = ItemAttributes(),
 		
 		vararg blockProperties: BlockProperty<*>,
 	) {
-		this.mcNative = InternalBlock(this, blockAttributes)
+		this.mcNative = NativeBlock(this, blockAttributes)
 		
 		this.identifier = identifier
 		
@@ -74,20 +75,20 @@ open class Block {
 		
 		this.blockProperties = blockProperties
 		
-		this.stateDefinition = BlockStateDefinition.get(mcNative.stateDefinition)
+		this.stateDefinition = mcNative.stateDefinition.wfWrapped
 		this.defaultBlockState = this.stateDefinition.defaultState
 		
 		if (blockProperties.isNotEmpty())
 			mcNative.registerBlockProperties(blockProperties)
 		
-		if (blockAttributes?.hasItem == true)
+		if (blockAttributes.hasItem)
 			this.blockItem = BlockItem(identifier, itemAttributes, this)
 		else
 			this.blockItem = null
 	}
 	
 	protected fun registerDefaultBlockState(blockState: BlockState) {
-		if (mcNative is InternalBlock)
+		if (mcNative is NativeBlock)
 			mcNative.setDefaultBlockState(blockState)
 	}
 	
@@ -174,7 +175,7 @@ open class Block {
 		get() = blockEntityDefinition != null
 	
 	open fun createBlockEntity(): BlockEntity? {
-		return blockEntityDefinition?.blockEntitySupplier?.get()
+		return blockEntityDefinition?.blockEntitySupplier?.invoke()
 	}
 	
 	open fun createPickBlockStack(
@@ -190,5 +191,5 @@ open class Block {
 	}
 }
 
-internal val net.minecraft.block.Block.wfWrapped: Block
+val net.minecraft.block.Block.wfWrapped: Block
 	get() = Block(this)
