@@ -5,7 +5,6 @@ import dev.psygamer.wireframe.block.entity.BlockEntity.Definition
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.BlockStateDefinition
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.block.state.wfWrapped
 import dev.psygamer.wireframe.entity.Entity
 import dev.psygamer.wireframe.entity.Player
 import dev.psygamer.wireframe.entity.ProjectileEntity
@@ -20,7 +19,7 @@ import dev.psygamer.wireframe.registry.BlockEntityRegistry
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.math.BlockHitResult
-import dev.psygamer.wireframe.util.wfWrapped
+import dev.psygamer.wireframe.wfWrapped
 import dev.psygamer.wireframe.world.BlockReader
 import dev.psygamer.wireframe.world.World
 import java.util.*
@@ -58,7 +57,7 @@ open class Block {
 		this.blockItem = null
 	}
 	
-	constructor(
+	protected constructor(
 		identifier: Identifier,
 		
 		blockAttributes: BlockAttributes,
@@ -190,6 +189,3 @@ open class Block {
 		return emptyList()
 	}
 }
-
-val net.minecraft.block.Block.wfWrapped: Block
-	get() = Block(this)

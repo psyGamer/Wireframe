@@ -12,7 +12,7 @@ import net.minecraftforge.common.ToolType
  * @param material Used for sound, hardness, etc.
  * @see Block
  */
-open class BlockAttributes(
+class BlockAttributes(
 	val material: Material
 ) : Cloneable {
 	

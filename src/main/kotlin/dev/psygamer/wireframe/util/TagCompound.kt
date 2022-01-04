@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.util
 import com.google.common.primitives.Bytes
 import com.google.common.primitives.Ints
 import com.google.common.primitives.Longs
+import dev.psygamer.wireframe.wfWrapped
 
 import java.util.*
 
@@ -137,8 +138,3 @@ class TagCompound(
 		return this.mcNative.contains(key)
 	}
 }
-
-val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
-	get() {
-		return TagCompound(this)
-	}

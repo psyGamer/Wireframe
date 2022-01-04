@@ -2,7 +2,6 @@ package dev.psygamer.wireframe.block.state
 
 import dev.psygamer.wireframe.block.Block
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.internal.block.NativeBlockState
 import java.util.*
 
 interface BlockState {
@@ -18,6 +17,3 @@ interface BlockState {
 	
 	fun `is`(block: Block): Boolean
 }
-
-internal val net.minecraft.block.BlockState.wfWrapped: BlockState
-	get() = NativeBlockState(this)
