@@ -9,7 +9,7 @@ import dev.psygamer.wireframe.world.World
 import net.minecraft.util.DamageSource
 import java.util.*
 
-open class NativeEntity(protected val mcNative: net.minecraft.entity.Entity) : Entity {
+open class NativeEntity(protected open val mcNative: net.minecraft.entity.Entity) : Entity {
 	
 	override val ticks: Long
 		get() = mcNative.tickCount.toLong()
