@@ -1,12 +1,11 @@
 package dev.psygamer.wireframe.internal.world;
 
+import dev.psygamer.wireframe.McNativeKt;
+import dev.psygamer.wireframe.WfWrappedKt;
 import dev.psygamer.wireframe.block.Block;
-import dev.psygamer.wireframe.block.BlockKt;
 import dev.psygamer.wireframe.block.entity.BlockEntity;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.util.BlockPosition;
-import dev.psygamer.wireframe.util.BlockPositionKt;
-import dev.psygamer.wireframe.util.math.vector.Vector3dKt;
 import dev.psygamer.wireframe.world.BlockReader;
 import net.minecraft.world.IBlockReader;
 
@@ -20,17 +19,17 @@ public class InternalBlockReader implements BlockReader {
 	
 	@Override
 	public Block getBlock(final BlockPosition position) {
-		return BlockKt.getWfWrapped(this.internalBlockReader.getBlockState(BlockPositionKt.getMcNative(position)).getBlock());
+		return WfWrappedKt.getWfWrapped(this.internalBlockReader.getBlockState(McNativeKt.getMcNative(position)).getBlock());
 	}
 	
 	@Override
 	public BlockState getBlockState(final BlockPosition position) {
-		return BlockState.get(this.internalBlockReader.getBlockState(BlockPositionKt.getMcNative(position)));
+		return WfWrappedKt.getWfWrapped(this.internalBlockReader.getBlockState(McNativeKt.getMcNative(position)));
 	}
 	
 	@Override
 	public BlockEntity getBlockEntity(final BlockPosition position) {
-		return BlockEntity.get(this.internalBlockReader.getBlockEntity(BlockPositionKt.getMcNative(position)));
+		return WfWrappedKt.getWfWrapped(this.internalBlockReader.getBlockEntity(McNativeKt.getMcNative(position)));
 	}
 	
 	@Override

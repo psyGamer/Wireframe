@@ -1,11 +1,9 @@
 package dev.psygamer.wireframe.util.math;
 
+import dev.psygamer.wireframe.WfWrappedKt;
 import dev.psygamer.wireframe.util.BlockPosition;
-import dev.psygamer.wireframe.util.BlockPositionKt;
 import dev.psygamer.wireframe.util.Direction;
-import dev.psygamer.wireframe.util.DirectionKt;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
-import dev.psygamer.wireframe.util.math.vector.Vector3dKt;
 
 import net.minecraft.util.math.RayTraceResult;
 
@@ -35,9 +33,9 @@ public class BlockHitResult extends HitResult {
 	
 	public static BlockHitResult get(final net.minecraft.util.math.BlockRayTraceResult internal) {
 		return new BlockHitResult(
-				Vector3dKt.getWfWrapped(internal.getLocation()),
-				DirectionKt.getWfWrapped(internal.getDirection()),
-				BlockPositionKt.getWfWrapped(internal.getBlockPos()),
+				WfWrappedKt.getWfWrapped(internal.getLocation()),
+				WfWrappedKt.getWfWrapped(internal.getDirection()),
+				WfWrappedKt.getWfWrapped(internal.getBlockPos()),
 				
 				internal.getType() == RayTraceResult.Type.MISS,
 				internal.isInside()

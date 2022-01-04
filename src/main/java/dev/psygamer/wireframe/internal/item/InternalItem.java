@@ -1,9 +1,11 @@
 package dev.psygamer.wireframe.internal.item;
 
+import dev.psygamer.wireframe.WfWrappedKt;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.item.Item;
 import dev.psygamer.wireframe.item.ItemAttributes;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -101,11 +103,11 @@ public class InternalItem extends net.minecraft.item.Item {
 	public boolean mineBlock(final ItemStack itemStack, final World world, final net.minecraft.block.BlockState state,
 							 final BlockPos pos, final LivingEntity entity
 	) {
-		final BlockState blockState = BlockState.get(state);
+		final BlockState blockState = WfWrappedKt.getWfWrapped(state);
 		
 		return this.item.onBlockMined(
 				dev.psygamer.wireframe.item.ItemStack.get(itemStack), blockState,
-				dev.psygamer.wireframe.util.BlockPositionKt.getWfWrapped(pos),
+				WfWrappedKt.getWfWrapped(pos),
 				dev.psygamer.wireframe.world.World.get(world),
 				dev.psygamer.wireframe.entity.LivingEntity.get(entity)
 		);
