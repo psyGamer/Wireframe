@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe;
 
-import dev.psygamer.wireframe.entity.Entity;
 import dev.psygamer.wireframe.event.EventBusRegistrator;
 
 @net.minecraftforge.fml.common.Mod(Wireframe.MODID)
@@ -14,7 +13,6 @@ public class Main {
 																		  .getModEventBus();
 		
 		modEventBus.addListener(this::onModConstruct);
-		Entity entity = null;
 		
 		//new ItemDisplayBlock();
 	}

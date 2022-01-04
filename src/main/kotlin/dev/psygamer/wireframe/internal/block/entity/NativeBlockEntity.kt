@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.internal.block.entity
 
 import dev.psygamer.wireframe.block.entity.BlockEntity
-import dev.psygamer.wireframe.internal.registry.InternalBlockEntityRegistry
+import dev.psygamer.wireframe.internal.registry.NativeBlockEntityRegistry
 import dev.psygamer.wireframe.wfWrapped
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.CompoundNBT
@@ -10,7 +10,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket
 import net.minecraft.tileentity.TileEntity
 
 open class NativeBlockEntity(open val blockEntity: BlockEntity) :
-	TileEntity(InternalBlockEntityRegistry.getTileEntityType(blockEntity.identifier)) {
+	TileEntity(NativeBlockEntityRegistry.getTileEntityType(blockEntity.identifier)) {
 	
 	override fun load(blockState: BlockState, compoundNBT: CompoundNBT) {
 		super.load(blockState, compoundNBT)

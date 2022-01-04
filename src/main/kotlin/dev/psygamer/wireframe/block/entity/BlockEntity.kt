@@ -11,7 +11,14 @@ import dev.psygamer.wireframe.world.World
 
 open class BlockEntity {
 	
-	val identifier: Identifier?
+	class Definition(
+		val identifier: Identifier,
+		
+		val blockEntitySupplier: () -> BlockEntity,
+		val blockEntityHolders: Array<Block>
+	)
+	
+	val identifier: Identifier
 	val holders: Array<Block>
 	
 	val mcNative: net.minecraft.tileentity.TileEntity
@@ -23,13 +30,16 @@ open class BlockEntity {
 	
 	internal constructor(internal: net.minecraft.tileentity.TileEntity) {
 		this.identifier = internal.type.registryName?.wfWrapped
+						  ?: throw IllegalArgumentException("Tried to wrap native block without registry name!")
+		
 		this.holders = emptyArray()
 		
 		this.mcNative = internal
 	}
 	
 	protected constructor(identifier: Identifier) {
-		val definition = BlockEntityRegistry.getBlockEntityDefinition(identifier)
+		val definition = BlockEntityRegistry.getDefinition(identifier)
+						 ?: throw IllegalStateException("Tried to create unregistered BlockEntity!")
 		
 		this.identifier = identifier
 		this.holders = definition.blockEntityHolders
@@ -51,11 +61,4 @@ open class BlockEntity {
 	fun markChanged() {
 		mcNative.setChanged()
 	}
-	
-	class Definition(
-		val identifier: Identifier,
-		
-		val blockEntitySupplier: () -> BlockEntity,
-		val blockEntityHolders: Array<Block>
-	)
 }
