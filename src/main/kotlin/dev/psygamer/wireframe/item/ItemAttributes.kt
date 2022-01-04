@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.item
 
-import dev.psygamer.wireframe.internal.item.InternalItemAttributes
+import dev.psygamer.wireframe.internal.item.NativeItemAttributes
 import dev.psygamer.wireframe.item.util.Rarity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -24,7 +24,7 @@ class ItemAttributes @JvmOverloads constructor(var itemGroup: ItemGroup? = null)
 	var rarity = Rarity.COMMON
 		private set
 	
-	internal val internal: InternalItemAttributes = InternalItemAttributes(this)
+	internal val mcNative: NativeItemAttributes = NativeItemAttributes(this)
 	
 	fun maxStackSize(maxStackSize: Int): ItemAttributes {
 		this.maxStackSize = maxStackSize
