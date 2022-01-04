@@ -6,7 +6,6 @@ import dev.psygamer.wireframe.block.Block
 import dev.psygamer.wireframe.block.BlockAttributes
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.entity.Player
 import dev.psygamer.wireframe.internal.item.NativeItem
 import dev.psygamer.wireframe.mcNative
 import dev.psygamer.wireframe.util.math.BlockHitResult
@@ -130,7 +129,7 @@ class NativeBlock(
 			dev.psygamer.wireframe.world.World.get(world),
 			pos.wfWrapped,
 			state.wfWrapped,
-			Player.get(player)
+			player.wfWrapped
 		).mcNative
 	}
 	
@@ -171,7 +170,7 @@ class NativeBlock(
 			dev.psygamer.wireframe.world.World.get(world),
 			pos.wfWrapped,
 			state.wfWrapped,
-			Player.get(player)
+			player.wfWrapped
 		)
 	}
 	
@@ -182,7 +181,8 @@ class NativeBlock(
 		block.onHitByProjectile(
 			dev.psygamer.wireframe.world.World.get(world),
 			hitResult.blockPos.wfWrapped,
-			state.wfWrapped, dev.psygamer.wireframe.entity.ProjectileEntity.get(projectile)
+			state.wfWrapped,
+			projectile.wfWrapped
 		)
 	}
 	
@@ -190,14 +190,15 @@ class NativeBlock(
 		block.onEntityStepOnBlock(
 			dev.psygamer.wireframe.world.World.get(world),
 			pos.wfWrapped,
-			world.getBlockState(pos).wfWrapped, dev.psygamer.wireframe.entity.Entity.get(entity)
+			world.getBlockState(pos).wfWrapped,
+			entity.wfWrapped
 		)
 	}
 	
 	override fun getStateForPlacement(context: BlockItemUseContext): net.minecraft.block.BlockState {
 		return block.getPlacementState(
 			dev.psygamer.wireframe.world.World.get(context.level),
-			Player.get(context.player),
+			context.player?.wfWrapped,
 			context.hand.wfWrapped,
 			context.itemInHand.wfWrapped,
 			BlockHitResult.get(NativeItem.hitResultField[context] as BlockRayTraceResult)
@@ -212,7 +213,8 @@ class NativeBlock(
 				dev.psygamer.wireframe.world.World.get(world),
 				pos.wfWrapped,
 				world.getBlockState(pos).wfWrapped,
-				blockState.wfWrapped, Player.get(placer as PlayerEntity?)
+				blockState.wfWrapped,
+				placer.wfWrapped
 			)
 		}
 	}
@@ -222,7 +224,9 @@ class NativeBlock(
 		block.onEntityFallOnBlock(
 			dev.psygamer.wireframe.world.World.get(world),
 			pos.wfWrapped,
-			world.getBlockState(pos).wfWrapped, dev.psygamer.wireframe.entity.Entity.get(entity), distance
+			world.getBlockState(pos).wfWrapped,
+			entity.wfWrapped,
+			distance
 		)
 	}
 	
@@ -242,7 +246,8 @@ class NativeBlock(
 			dev.psygamer.wireframe.world.World.get(world),
 			pos.wfWrapped,
 			world.getBlockState(pos).wfWrapped,
-			state.wfWrapped, Player.get(player)
+			state.wfWrapped,
+			player.wfWrapped
 		)
 		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid)
 	}

@@ -32,7 +32,7 @@ public class InternalItemRegistry {
 								.getNamespace(), this.itemRegistry.getModID()))
 					.forEach(item -> {
 						event.getRegistry()
-							 .register(item.getInternal());
+							 .register(item.getMcNative$Wireframe_main());
 			
 						Wireframe.LOGGER.info(
 								String.format("Successfully registered item %s:%s",

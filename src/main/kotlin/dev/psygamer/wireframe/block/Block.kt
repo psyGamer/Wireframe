@@ -101,7 +101,7 @@ open class Block {
 	
 	/* Placement State */
 	open fun getPlacementState(
-		world: World, player: Player, hand: Hand,
+		world: World, player: Player?, hand: Hand,
 		usedItemStack: ItemStack, hitResult: BlockHitResult
 	): BlockState {
 		return defaultBlockState
