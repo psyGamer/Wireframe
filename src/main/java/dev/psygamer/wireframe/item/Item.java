@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.item;
 
+import dev.psygamer.wireframe.WfWrappedKt;
 import dev.psygamer.wireframe.block.state.BlockState;
 import dev.psygamer.wireframe.entity.LivingEntity;
 import dev.psygamer.wireframe.entity.Player;
@@ -10,7 +11,6 @@ import dev.psygamer.wireframe.item.util.Hand;
 import dev.psygamer.wireframe.registry.ItemRegistry;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
-import dev.psygamer.wireframe.util.IdentifierKt;
 import dev.psygamer.wireframe.util.math.BlockHitResult;
 import dev.psygamer.wireframe.world.World;
 
@@ -23,7 +23,7 @@ public class Item {
 	protected final ItemAttributes itemAttributes;
 	
 	private Item(final net.minecraft.item.Item internal) {
-		this.identifier = IdentifierKt.getWfWrapped(internal.getRegistryName());
+		this.identifier = WfWrappedKt.getWfWrapped(internal.getRegistryName());
 		this.itemAttributes = null;
 		
 		this.internal = internal;

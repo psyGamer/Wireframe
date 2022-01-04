@@ -24,11 +24,11 @@ public class BlockItem extends Item {
 	
 	private static <T extends Comparable<T>> BlockState updateBlockState(
 			final BlockState blockState,
-			final BlockProperty<T> property,
+			final BlockProperty<?> property,
 			final String valueName
 	) {
 		return property.getValue(valueName).map(
-				(value) -> blockState.setValue(property, value)
+				(value) -> blockState.setValue((BlockProperty<T>) property, (T) value)
 		).orElse(blockState);
 	}
 	
