@@ -2,9 +2,7 @@ package dev.psygamer.wireframe.internal.block
 
 import dev.psygamer.wireframe.block.state.BlockStateDefinition
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.block.state.property.wfWrapped
-import dev.psygamer.wireframe.block.state.wfWrapped
-import dev.psygamer.wireframe.block.wfWrapped
+import dev.psygamer.wireframe.wfWrapped
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.state.StateContainer
