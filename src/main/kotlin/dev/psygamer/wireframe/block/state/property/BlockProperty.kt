@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.block.state.property
 
 import dev.psygamer.wireframe.internal.block.NativeBlockProperty
-import dev.psygamer.wireframe.internal.block.state.BlockPropertyWrapper
 import java.util.*
 
 abstract class BlockProperty<T : Comparable<T>>(propertyName: String, defaultValue: T) {
@@ -25,8 +24,3 @@ abstract class BlockProperty<T : Comparable<T>>(propertyName: String, defaultVal
 	
 	abstract val possibleValues: Set<T>
 }
-
-//internal val <T : Comparable<T>> net.minecraft.state.Property<T>.wfWrapped: BlockProperty<T>
-//	get() = BlockPropertyWrapper(this)
-internal val net.minecraft.state.Property<*>.wfWrapped: BlockProperty<*>
-	get() = BlockPropertyWrapper(this)

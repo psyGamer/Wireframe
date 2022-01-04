@@ -5,6 +5,7 @@ import kotlin.math.atan2
 import kotlin.math.sqrt
 
 open class Vector3d(val x: Double, val y: Double, val z: Double) {
+	
 	operator fun plus(other: Vector3d): Vector3d {
 		return Vector3d(this.x + other.x, this.y + other.y, this.z + other.z)
 	}
@@ -61,9 +62,3 @@ open class Vector3d(val x: Double, val y: Double, val z: Double) {
 		return acos(this dot other / (this.magnitude * other.magnitude))
 	}
 }
-
-val net.minecraft.util.math.vector.Vector3d.wfWrapped: Vector3d
-	get() = Vector3d(this.x, this.y, this.z)
-
-val Vector3d.mcNative: net.minecraft.util.math.vector.Vector3d
-	get() = net.minecraft.util.math.vector.Vector3d(this.x, this.y, this.z)

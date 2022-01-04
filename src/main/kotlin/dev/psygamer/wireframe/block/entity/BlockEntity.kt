@@ -6,7 +6,7 @@ import dev.psygamer.wireframe.registry.BlockEntityRegistry
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.TagCompound
-import dev.psygamer.wireframe.util.wfWrapped
+import dev.psygamer.wireframe.wfWrapped
 import dev.psygamer.wireframe.world.World
 
 open class BlockEntity {
@@ -59,6 +59,3 @@ open class BlockEntity {
 		val blockEntityHolders: Array<Block>
 	)
 }
-
-internal val net.minecraft.tileentity.TileEntity.wfWrapped: BlockEntity
-	get() = BlockEntity(this)

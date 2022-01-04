@@ -5,6 +5,7 @@ import kotlin.math.atan2
 import kotlin.math.sqrt
 
 open class Vector3i(val x: Int, val y: Int, val z: Int) {
+	
 	operator fun plus(other: Vector3i): Vector3i {
 		return Vector3i(this.x + other.x, this.y + other.y, this.z + other.z)
 	}
@@ -69,9 +70,3 @@ open class Vector3i(val x: Int, val y: Int, val z: Int) {
 		return acos((this dot other / (this.magnitude * other.magnitude).toInt()).toFloat())
 	}
 }
-
-val net.minecraft.util.math.vector.Vector3i.wfWrapped: Vector3i
-	get() = Vector3i(this.x, this.y, this.z)
-
-val Vector3i.mcNative: net.minecraft.util.math.vector.Vector3i
-	get() = net.minecraft.util.math.vector.Vector3i(this.x, this.y, this.z)
