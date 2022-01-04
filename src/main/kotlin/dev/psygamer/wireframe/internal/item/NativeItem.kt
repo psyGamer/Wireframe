@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.internal.item
 
 import dev.psygamer.wireframe.getNative
-import dev.psygamer.wireframe.item.Item
 import dev.psygamer.wireframe.item.ItemAttributes
 import dev.psygamer.wireframe.mcNative
 import dev.psygamer.wireframe.util.math.BlockHitResult
@@ -9,6 +8,7 @@ import dev.psygamer.wireframe.wfWrapped
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUseContext
 import net.minecraft.util.ActionResult
@@ -20,10 +20,10 @@ import net.minecraft.world.World
 import java.lang.reflect.Field
 
 class NativeItem(
-	private val item: Item,
+	private val item: dev.psygamer.wireframe.item.Item,
 	
 	attributes: ItemAttributes
-) : net.minecraft.item.Item(attributes.mcNative.createProperties()) {
+) : Item(attributes.mcNative.createProperties()) {
 	
 	companion object {
 		
@@ -51,17 +51,18 @@ class NativeItem(
 			context.itemInHand.wfWrapped,
 			context.player!!.wfWrapped,
 			context.hand.wfWrapped,
-			dev.psygamer.wireframe.world.World.get(context.level),
+			context.level.wfWrapped,
+			
 			BlockHitResult.get(hitResultField[context] as BlockRayTraceResult)
 		).mcNative
 	}
 	
 	override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
-		val result: ActionResult<dev.psygamer.wireframe.item.ItemStack> = item.onItemUsed(
+		val result = item.onItemUsed(
 			player.getItemInHand(hand).wfWrapped,
 			player.wfWrapped,
 			hand.wfWrapped,
-			dev.psygamer.wireframe.world.World.get(world)
+			world.wfWrapped
 		).getNative(world.isClientSide())
 		
 		return ActionResult(
@@ -70,37 +71,17 @@ class NativeItem(
 		)
 	}
 	
-	override fun mineBlock(
-		itemStack: ItemStack, world: World, state: BlockState,
-		pos: BlockPos, entity: LivingEntity
-	): Boolean {
-		return item.onBlockMined(
-			itemStack.wfWrapped,
-			entity.wfWrapped,
-			dev.psygamer.wireframe.world.World.get(world),
-			pos.wfWrapped,
-			state.wfWrapped
-		)
+	override fun mineBlock(itemStack: ItemStack, world: World, state: BlockState, pos: BlockPos, entity: LivingEntity): Boolean {
+		return item.onBlockMined(itemStack.wfWrapped, entity.wfWrapped, world.wfWrapped, pos.wfWrapped, state.wfWrapped)
 	}
 	
-	override fun interactLivingEntity(
-		item: ItemStack, player: PlayerEntity, entity: LivingEntity,
-		hand: Hand
-	): ActionResultType {
+	override fun interactLivingEntity(item: ItemStack, player: PlayerEntity, entity: LivingEntity, hand: Hand): ActionResultType {
 		return this.item.onItemUsedOnEntity(
-			player.getItemInHand(hand).wfWrapped,
-			player.wfWrapped,
-			hand.wfWrapped,
-			dev.psygamer.wireframe.world.World.get(player.level),
-			entity.wfWrapped
+			player.getItemInHand(hand).wfWrapped, player.wfWrapped, hand.wfWrapped, player.level.wfWrapped, entity.wfWrapped
 		).mcNative
 	}
 	
 	override fun onCraftedBy(itemStack: ItemStack, world: World, player: PlayerEntity) {
-		item.onItemCrafted(
-			itemStack.wfWrapped,
-			player.wfWrapped,
-			dev.psygamer.wireframe.world.World.get(world)
-		)
+		item.onItemCrafted(itemStack.wfWrapped, player.wfWrapped, world.wfWrapped)
 	}
 }
