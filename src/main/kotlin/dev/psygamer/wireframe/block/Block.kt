@@ -180,7 +180,7 @@ open class Block {
 	open fun createPickBlockStack(
 		world: BlockReader, blockPosition: BlockPosition, blockState: BlockState
 	): ItemStack {
-		return ItemStack.get(net.minecraft.item.ItemStack.EMPTY)
+		return net.minecraft.item.ItemStack.EMPTY.wfWrapped
 	}
 	
 	open fun createBlockDrops(
