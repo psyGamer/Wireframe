@@ -2,15 +2,14 @@ package dev.psygamer.wireframe.internal.block
 
 import com.google.common.collect.ImmutableMap
 import com.mojang.serialization.MapCodec
-import dev.psygamer.wireframe.block.Block
 import dev.psygamer.wireframe.block.BlockAttributes
-import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.property.BlockProperty
 import dev.psygamer.wireframe.internal.item.NativeItem
 import dev.psygamer.wireframe.mcNative
 import dev.psygamer.wireframe.util.math.BlockHitResult
 import dev.psygamer.wireframe.wfWrapped
-import dev.psygamer.wireframe.world.BlockReader
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -35,10 +34,10 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class NativeBlock(
-	private val block: Block,
+	private val block: dev.psygamer.wireframe.block.Block,
 	
 	blockAttributes: BlockAttributes
-) : net.minecraft.block.Block(blockAttributes.mcNative.createProperties()) {
+) : Block(blockAttributes.mcNative.createProperties()) {
 	
 	companion object {
 		
@@ -56,23 +55,23 @@ class NativeBlock(
 		)
 	}
 	
-	fun setDefaultBlockState(blockState: BlockState) {
+	fun setDefaultBlockState(blockState: dev.psygamer.wireframe.block.state.BlockState) {
 		registerDefaultState(blockState.mcNative)
 	}
 	
 	fun registerBlockProperties(blockProperties: Array<out BlockProperty<*>>) {
-		val builder = StateContainer.Builder<net.minecraft.block.Block, net.minecraft.block.BlockState>(this)
+		val builder = StateContainer.Builder<Block, BlockState>(this)
 		blockProperties.forEach { builder.add(it.mcNative) }
 		
 		val stateDefinition =
 			builder.create(
-				net.minecraft.block.Block::defaultBlockState
-			) { block: net.minecraft.block.Block,
+				Block::defaultBlockState
+			) { block: Block,
 				properties: ImmutableMap<Property<*>, Comparable<*>>,
-				codec: MapCodec<net.minecraft.block.BlockState> ->
+				codec: MapCodec<BlockState> ->
 				
-				net.minecraft.block.BlockState(block, properties, codec)
-			} // @Kotlin: Why can't I just use `net.minecraft.block.Block::new`???
+				BlockState(block, properties, codec)
+			} // @Kotlin: Why can't I just use `Block::new`???
 		
 		var defaultState = stateDefinition.any()
 		
@@ -84,120 +83,60 @@ class NativeBlock(
 		registerDefaultState(defaultState)
 	}
 	
-	private fun <T : Comparable<T>, S : T> setValue(
-		blockProperty: BlockProperty<T>,
-		blockState: net.minecraft.block.BlockState
-	): net.minecraft.block.BlockState {
+	private fun <T : Comparable<T>, S : T> setValue(blockProperty: BlockProperty<T>, blockState: BlockState): BlockState {
 		return blockState.setValue(blockProperty.mcNative, blockProperty.defaultValue)
 	}
 	
 	/* Block Events */
 	
 	override fun onPlace(
-		newBlockState: net.minecraft.block.BlockState, world: World, pos: BlockPos,
-		oldBlockState: net.minecraft.block.BlockState, isMoving: Boolean
+		newBlockState: BlockState, world: World, pos: BlockPos,
+		oldBlockState: BlockState, isMoving: Boolean
 	) {
-		block.onBlockPlaced(
-			dev.psygamer.wireframe.world.World.get(world),
-			
-			pos.wfWrapped,
-			oldBlockState.wfWrapped,
-			newBlockState.wfWrapped
-		)
+		block.onBlockPlaced(world.wfWrapped, pos.wfWrapped, oldBlockState.wfWrapped, newBlockState.wfWrapped)
 	}
 	
-	override fun onRemove(
-		newBlockState: net.minecraft.block.BlockState, world: World, pos: BlockPos,
-		oldBlockState: net.minecraft.block.BlockState, isMoving: Boolean
-	) {
+	override fun onRemove(newBlockState: BlockState, world: World, pos: BlockPos, oldBlockState: BlockState, isMoving: Boolean) {
 		block.onBlockRemoved(
-			dev.psygamer.wireframe.world.World.get(world),
-			
-			pos.wfWrapped,
-			oldBlockState.wfWrapped,
-			newBlockState.wfWrapped
+			world.wfWrapped, pos.wfWrapped, oldBlockState.wfWrapped, newBlockState.wfWrapped
 		)
 		
 		super.onRemove(newBlockState, world, pos, oldBlockState, isMoving)
 	}
 	
 	override fun use(
-		state: net.minecraft.block.BlockState, world: World, pos: BlockPos,
-		player: PlayerEntity, hand: Hand, hitResult: BlockRayTraceResult
+		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hitResult: BlockRayTraceResult
 	): ActionResultType {
-		return block.onUsedByPlayer(
-			dev.psygamer.wireframe.world.World.get(world),
-			pos.wfWrapped,
-			state.wfWrapped,
-			player.wfWrapped
-		).mcNative
+		return block.onUsedByPlayer(world.wfWrapped, pos.wfWrapped, state.wfWrapped, player.wfWrapped).mcNative
 	}
 	
-	override fun getDrops(state: net.minecraft.block.BlockState, builder: LootContext.Builder): List<ItemStack> {
-		return block.createBlockDrops(
-			state.wfWrapped
-		).map { it.mcNative }
+	override fun getDrops(state: BlockState, builder: LootContext.Builder): List<ItemStack> {
+		return block.createBlockDrops(state.wfWrapped).map { it.mcNative }
 	}
 	
-	override fun randomTick(
-		state: net.minecraft.block.BlockState,
-		world: ServerWorld, pos: BlockPos, random: Random
-	) {
-		block.onRandomTick(
-			dev.psygamer.wireframe.world.World.get(world),
-			pos.wfWrapped,
-			state.wfWrapped,
-			random
-		)
+	override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+		block.onRandomTick(world.wfWrapped, pos.wfWrapped, state.wfWrapped, random)
 	}
 	
-	override fun tick(
-		state: net.minecraft.block.BlockState,
-		world: ServerWorld, pos: BlockPos, random: Random
-	) {
-		block.onTick(
-			dev.psygamer.wireframe.world.World.get(world),
-			pos.wfWrapped,
-			state.wfWrapped
-		)
+	override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+		block.onTick(world.wfWrapped, pos.wfWrapped, state.wfWrapped)
 	}
 	
-	override fun attack(
-		state: net.minecraft.block.BlockState,
-		world: World, pos: BlockPos, player: PlayerEntity
-	) {
-		block.onAttackedByPlayer(
-			dev.psygamer.wireframe.world.World.get(world),
-			pos.wfWrapped,
-			state.wfWrapped,
-			player.wfWrapped
-		)
+	override fun attack(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity) {
+		block.onAttackedByPlayer(world.wfWrapped, pos.wfWrapped, state.wfWrapped, player.wfWrapped)
 	}
 	
-	override fun onProjectileHit(
-		world: World, state: net.minecraft.block.BlockState,
-		hitResult: BlockRayTraceResult, projectile: ProjectileEntity
-	) {
-		block.onHitByProjectile(
-			dev.psygamer.wireframe.world.World.get(world),
-			hitResult.blockPos.wfWrapped,
-			state.wfWrapped,
-			projectile.wfWrapped
-		)
+	override fun onProjectileHit(world: World, state: BlockState, hitResult: BlockRayTraceResult, projectile: ProjectileEntity) {
+		block.onHitByProjectile(world.wfWrapped, hitResult.blockPos.wfWrapped, state.wfWrapped, projectile.wfWrapped)
 	}
 	
 	override fun stepOn(world: World, pos: BlockPos, entity: Entity) {
-		block.onEntityStepOnBlock(
-			dev.psygamer.wireframe.world.World.get(world),
-			pos.wfWrapped,
-			world.getBlockState(pos).wfWrapped,
-			entity.wfWrapped
-		)
+		block.onEntityStepOnBlock(world.wfWrapped, pos.wfWrapped, world.getBlockState(pos).wfWrapped, entity.wfWrapped)
 	}
 	
-	override fun getStateForPlacement(context: BlockItemUseContext): net.minecraft.block.BlockState {
+	override fun getStateForPlacement(context: BlockItemUseContext): BlockState {
 		return block.getPlacementState(
-			dev.psygamer.wireframe.world.World.get(context.level),
+			context.level.wfWrapped,
 			context.player?.wfWrapped,
 			context.hand.wfWrapped,
 			context.itemInHand.wfWrapped,
@@ -205,24 +144,24 @@ class NativeBlock(
 		).mcNative
 	}
 	
-	override fun setPlacedBy(
-		world: World, pos: BlockPos, blockState: net.minecraft.block.BlockState, placer: LivingEntity?, itemStack: ItemStack
-	) {
-		if (placer is PlayerEntity) {
-			block.onBlockPlacedByPlayer(
-				dev.psygamer.wireframe.world.World.get(world),
-				pos.wfWrapped,
-				world.getBlockState(pos).wfWrapped,
-				blockState.wfWrapped,
-				placer.wfWrapped
-			)
-		}
+	override fun setPlacedBy(world: World, pos: BlockPos, blockState: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
+		if (placer !is PlayerEntity)
+			return
+		
+		block.onBlockPlacedByPlayer(
+			world.wfWrapped,
+			pos.wfWrapped,
+			world.getBlockState(pos).wfWrapped,
+			blockState.wfWrapped,
+			placer.wfWrapped
+		)
 	}
 	
 	override fun fallOn(world: World, pos: BlockPos, entity: Entity, distance: Float) {
 		super.fallOn(world, pos, entity, distance)
+		
 		block.onEntityFallOnBlock(
-			dev.psygamer.wireframe.world.World.get(world),
+			world.wfWrapped,
 			pos.wfWrapped,
 			world.getBlockState(pos).wfWrapped,
 			entity.wfWrapped,
@@ -230,36 +169,31 @@ class NativeBlock(
 		)
 	}
 	
-	override fun hasTileEntity(state: net.minecraft.block.BlockState): Boolean {
+	override fun hasTileEntity(state: BlockState): Boolean {
 		return block.hasBlockEntity
 	}
 	
-	override fun createTileEntity(state: net.minecraft.block.BlockState, blockReader: IBlockReader): TileEntity? {
+	override fun createTileEntity(state: BlockState, blockReader: IBlockReader): TileEntity? {
 		return block.createBlockEntity()?.mcNative
 	}
 	
 	override fun removedByPlayer(
-		state: net.minecraft.block.BlockState, world: World, pos: BlockPos,
-		player: PlayerEntity, willHarvest: Boolean, fluid: FluidState
+		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, willHarvest: Boolean, fluid: FluidState
 	): Boolean {
 		block.onBlockRemovedByPlayer(
-			dev.psygamer.wireframe.world.World.get(world),
+			world.wfWrapped,
 			pos.wfWrapped,
 			world.getBlockState(pos).wfWrapped,
 			state.wfWrapped,
 			player.wfWrapped
 		)
+		
 		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid)
 	}
 	
 	override fun getPickBlock(
-		state: net.minecraft.block.BlockState, target: RayTraceResult,
-		blockReader: IBlockReader, pos: BlockPos, player: PlayerEntity
+		state: BlockState, target: RayTraceResult, blockReader: IBlockReader, pos: BlockPos, player: PlayerEntity
 	): ItemStack {
-		return block.createPickBlockStack(
-			BlockReader.get(blockReader),
-			pos.wfWrapped,
-			state.wfWrapped
-		).mcNative
+		return block.createPickBlockStack(blockReader.wfWrapped, pos.wfWrapped, state.wfWrapped).mcNative
 	}
 }
