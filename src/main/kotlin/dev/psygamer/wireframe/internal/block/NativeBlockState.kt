@@ -3,8 +3,7 @@ package dev.psygamer.wireframe.internal.block
 import dev.psygamer.wireframe.block.Block
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.block.state.wfWrapped
-import dev.psygamer.wireframe.block.wfWrapped
+import dev.psygamer.wireframe.wfWrapped
 import java.util.*
 
 class NativeBlockState(override val mcNative: net.minecraft.block.BlockState) : BlockState {

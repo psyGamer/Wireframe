@@ -6,11 +6,10 @@ import dev.psygamer.wireframe.block.Block
 import dev.psygamer.wireframe.block.BlockAttributes
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.property.BlockProperty
-import dev.psygamer.wireframe.block.state.wfWrapped
 import dev.psygamer.wireframe.entity.Player
 import dev.psygamer.wireframe.internal.item.InternalItem
 import dev.psygamer.wireframe.util.math.BlockHitResult
-import dev.psygamer.wireframe.util.wfWrapped
+import dev.psygamer.wireframe.wfWrapped
 import dev.psygamer.wireframe.world.BlockReader
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity

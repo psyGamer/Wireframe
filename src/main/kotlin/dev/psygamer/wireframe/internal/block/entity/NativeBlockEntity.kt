@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.internal.block.entity
 
 import dev.psygamer.wireframe.block.entity.BlockEntity
 import dev.psygamer.wireframe.internal.registry.InternalBlockEntityRegistry
-import dev.psygamer.wireframe.util.wfWrapped
+import dev.psygamer.wireframe.wfWrapped
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.network.NetworkManager
