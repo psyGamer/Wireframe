@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.internal.item
 
-import dev.psygamer.wireframe.entity.Player
 import dev.psygamer.wireframe.getNative
 import dev.psygamer.wireframe.item.Item
 import dev.psygamer.wireframe.item.ItemAttributes
@@ -45,9 +44,12 @@ class NativeItem(
 	}
 	
 	override fun useOn(context: ItemUseContext): ActionResultType {
+		if (context.player == null)
+			return ActionResultType.FAIL
+		
 		return item.onItemUsedOnBlock(
 			context.itemInHand.wfWrapped,
-			Player.get(context.player),
+			context.player!!.wfWrapped,
 			context.hand.wfWrapped,
 			dev.psygamer.wireframe.world.World.get(context.level),
 			BlockHitResult.get(hitResultField[context] as BlockRayTraceResult)
@@ -57,7 +59,7 @@ class NativeItem(
 	override fun use(world: World, player: PlayerEntity, hand: Hand): ActionResult<ItemStack> {
 		val result: ActionResult<dev.psygamer.wireframe.item.ItemStack> = item.onItemUsed(
 			player.getItemInHand(hand).wfWrapped,
-			Player.get(player),
+			player.wfWrapped,
 			hand.wfWrapped,
 			dev.psygamer.wireframe.world.World.get(world)
 		).getNative(world.isClientSide())
@@ -74,7 +76,7 @@ class NativeItem(
 	): Boolean {
 		return item.onBlockMined(
 			itemStack.wfWrapped,
-			dev.psygamer.wireframe.entity.LivingEntity.get(entity),
+			entity.wfWrapped,
 			dev.psygamer.wireframe.world.World.get(world),
 			pos.wfWrapped,
 			state.wfWrapped
@@ -87,17 +89,17 @@ class NativeItem(
 	): ActionResultType {
 		return this.item.onItemUsedOnEntity(
 			player.getItemInHand(hand).wfWrapped,
-			Player.get(player),
+			player.wfWrapped,
 			hand.wfWrapped,
 			dev.psygamer.wireframe.world.World.get(player.level),
-			dev.psygamer.wireframe.entity.LivingEntity.get(entity)
+			entity.wfWrapped
 		).mcNative
 	}
 	
 	override fun onCraftedBy(itemStack: ItemStack, world: World, player: PlayerEntity) {
 		item.onItemCrafted(
 			itemStack.wfWrapped,
-			Player.get(player),
+			player.wfWrapped,
 			dev.psygamer.wireframe.world.World.get(world)
 		)
 	}

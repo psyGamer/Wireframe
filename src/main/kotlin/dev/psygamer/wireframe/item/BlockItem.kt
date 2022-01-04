@@ -13,7 +13,7 @@ import dev.psygamer.wireframe.world.World
 
 class BlockItem(
 	identifier: Identifier,
-	attributes: ItemAttributes?,
+	attributes: ItemAttributes = ItemAttributes(),
 	
 	private val block: Block
 ) : Item(identifier, attributes) {
@@ -44,9 +44,10 @@ class BlockItem(
 		}
 		
 		block.onBlockPlaced(world, targetPosition, oldBlockState, placementState)
-		block.onBlockPlacedByPlayer(world, targetPosition, oldBlockState, placementState, player)
+		if (player != null)
+			block.onBlockPlacedByPlayer(world, targetPosition, oldBlockState, placementState, player)
 		
-		if (!player.isCreative)
+		if (!player?.isCreative)
 			itemStack.shrink(1)
 		
 		return ClickResult.ACCEPTED
