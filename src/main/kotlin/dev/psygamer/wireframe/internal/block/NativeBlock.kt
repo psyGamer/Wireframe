@@ -7,7 +7,7 @@ import dev.psygamer.wireframe.block.BlockAttributes
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.property.BlockProperty
 import dev.psygamer.wireframe.entity.Player
-import dev.psygamer.wireframe.internal.item.InternalItem
+import dev.psygamer.wireframe.internal.item.NativeItem
 import dev.psygamer.wireframe.mcNative
 import dev.psygamer.wireframe.util.math.BlockHitResult
 import dev.psygamer.wireframe.wfWrapped
@@ -200,7 +200,7 @@ class NativeBlock(
 			Player.get(context.player),
 			context.hand.wfWrapped,
 			context.itemInHand.wfWrapped,
-			BlockHitResult.get(InternalItem.hitResultField[context] as BlockRayTraceResult)
+			BlockHitResult.get(NativeItem.hitResultField[context] as BlockRayTraceResult)
 		).mcNative
 	}
 	

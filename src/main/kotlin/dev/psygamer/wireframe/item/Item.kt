@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.item
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.entity.LivingEntity
 import dev.psygamer.wireframe.entity.Player
-import dev.psygamer.wireframe.internal.item.InternalItem
+import dev.psygamer.wireframe.internal.item.NativeItem
 import dev.psygamer.wireframe.item.util.ClickResult
 import dev.psygamer.wireframe.item.util.ClickResultContainer
 import dev.psygamer.wireframe.item.util.Hand
@@ -28,11 +28,11 @@ open class Item {
 		this.mcNative = internal
 	}
 	
-	protected constructor(identifier: Identifier, itemAttributes: ItemAttributes?) {
+	protected constructor(identifier: Identifier, itemAttributes: ItemAttributes = ItemAttributes()) {
 		this.identifier = identifier
 		this.itemAttributes = itemAttributes
 		
-		this.mcNative = InternalItem(this, itemAttributes)
+		this.mcNative = NativeItem(this, itemAttributes)
 		
 		ItemRegistry.register(this)
 	}
