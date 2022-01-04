@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.block.entity
 
 import dev.psygamer.wireframe.block.Block
-import dev.psygamer.wireframe.internal.block.entity.InternalBlockEntity
+import dev.psygamer.wireframe.internal.block.entity.NativeBlockEntity
 import dev.psygamer.wireframe.registry.BlockEntityRegistry
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Identifier
@@ -34,7 +34,7 @@ open class BlockEntity {
 		this.identifier = identifier
 		this.holders = definition.blockEntityHolders
 		
-		this.mcNative = InternalBlockEntity(this)
+		this.mcNative = NativeBlockEntity(this)
 	}
 	
 	open fun saveNBT(tagCompound: TagCompound) {}
