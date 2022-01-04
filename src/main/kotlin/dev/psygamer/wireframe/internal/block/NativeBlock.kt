@@ -140,6 +140,7 @@ class NativeBlock(
 			context.player?.wfWrapped,
 			context.hand.wfWrapped,
 			context.itemInHand.wfWrapped,
+			
 			BlockHitResult.get(NativeItem.hitResultField[context] as BlockRayTraceResult)
 		).mcNative
 	}

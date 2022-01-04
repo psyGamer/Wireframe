@@ -17,7 +17,7 @@ open class NativeEntity(protected open val mcNative: net.minecraft.entity.Entity
 		get() = mcNative.uuid
 	
 	override val world: World
-		get() = World.get(mcNative.level)
+		get() = mcNative.level.wfWrapped
 	override val position: Vector3d
 		get() = mcNative.position().wfWrapped
 	override val previousPosition: Vector3d
