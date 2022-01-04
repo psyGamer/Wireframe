@@ -18,7 +18,7 @@ public class Main {
 	}
 	
 	private void onModConstruct(final net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent event) {
-		EventBusRegistrator.registerModLoadingEventBuses();
-		EventBusRegistrator.registerWireframeEventBuses();
+		EventBusRegistrator.registerModEventBusses();
+		EventBusRegistrator.registerWireframeEventBusses();
 	}
 }
