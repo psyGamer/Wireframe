@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.item
 
-import dev.psygamer.wireframe.internal.item.InternalItem
 import dev.psygamer.wireframe.util.TagCompound
 import dev.psygamer.wireframe.wfWrapped
 
@@ -23,7 +22,7 @@ class ItemStack {
 	}
 	
 	internal constructor(internal: net.minecraft.item.ItemStack) {
-		item = InternalItem.convertItem(internal.item)
+		item = Item(internal.item)
 		this.mcNative = internal
 	}
 	
