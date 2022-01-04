@@ -5,7 +5,7 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.world.World
 import java.util.*
 
-sealed interface Entity {
+interface Entity {
 	
 	val ticks: Long
 	
@@ -29,7 +29,7 @@ sealed interface Entity {
 	val passengerCount: Int
 	val passengers: List<Entity>
 	
-	var riding: Entity
+	var riding: Entity?
 	
 	fun isPassenger(passenger: Entity): Boolean
 	fun addPassenger(passenger: Entity)

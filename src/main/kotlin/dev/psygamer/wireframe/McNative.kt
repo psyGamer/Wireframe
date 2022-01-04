@@ -1,5 +1,13 @@
 package dev.psygamer.wireframe
 
+import dev.psygamer.wireframe.entity.Entity
+import dev.psygamer.wireframe.entity.LivingEntity
+import dev.psygamer.wireframe.entity.Player
+import dev.psygamer.wireframe.entity.ProjectileEntity
+import dev.psygamer.wireframe.internal.entity.NativeEntity
+import dev.psygamer.wireframe.internal.entity.NativeLivingEntity
+import dev.psygamer.wireframe.internal.entity.NativePlayer
+import dev.psygamer.wireframe.internal.entity.NativeProjectileEntity
 import dev.psygamer.wireframe.item.util.ClickResult
 import dev.psygamer.wireframe.item.util.ClickResultContainer
 import dev.psygamer.wireframe.item.util.Hand
@@ -12,6 +20,7 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.util.math.vector.Vector3f
 import dev.psygamer.wireframe.util.math.vector.Vector3i
 
+// Item
 internal val ClickResult.mcNative: net.minecraft.util.ActionResultType
 	get() = getNative(true)
 
@@ -48,6 +57,20 @@ internal val Rarity.mcNative: net.minecraft.item.Rarity
 		Rarity.EPIC -> net.minecraft.item.Rarity.EPIC
 	}
 
+// Entity
+internal val Entity.mcNative: net.minecraft.entity.Entity
+	get() = (this as NativeEntity).mcNative // This SHOULD be safe since NativeEntity SHOULD be the only implementor
+
+internal val LivingEntity.mcNative: net.minecraft.entity.LivingEntity
+	get() = (this as NativeLivingEntity).mcNative
+
+internal val Player.mcNative: net.minecraft.entity.player.PlayerEntity
+	get() = (this as NativePlayer).mcNative
+
+internal val ProjectileEntity.mcNative: net.minecraft.entity.projectile.ProjectileEntity
+	get() = (this as NativeProjectileEntity).mcNative
+
+// Util
 internal val Identifier.mcNative: net.minecraft.util.ResourceLocation
 	get() = net.minecraft.util.ResourceLocation(this.namespace, this.path)
 

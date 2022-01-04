@@ -5,9 +5,17 @@ import dev.psygamer.wireframe.block.entity.BlockEntity
 import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.BlockStateDefinition
 import dev.psygamer.wireframe.block.state.property.BlockProperty
+import dev.psygamer.wireframe.entity.Entity
+import dev.psygamer.wireframe.entity.LivingEntity
+import dev.psygamer.wireframe.entity.Player
+import dev.psygamer.wireframe.entity.ProjectileEntity
 import dev.psygamer.wireframe.internal.block.NativeBlockState
 import dev.psygamer.wireframe.internal.block.NativeBlockStateDefinition
 import dev.psygamer.wireframe.internal.block.state.BlockPropertyWrapper
+import dev.psygamer.wireframe.internal.entity.NativeEntity
+import dev.psygamer.wireframe.internal.entity.NativeLivingEntity
+import dev.psygamer.wireframe.internal.entity.NativePlayer
+import dev.psygamer.wireframe.internal.entity.NativeProjectileEntity
 import dev.psygamer.wireframe.item.Item
 import dev.psygamer.wireframe.item.ItemStack
 import dev.psygamer.wireframe.item.util.ClickResult
@@ -22,6 +30,7 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.util.math.vector.Vector3f
 import dev.psygamer.wireframe.util.math.vector.Vector3i
 
+// Block
 internal val net.minecraft.block.Block.wfWrapped: Block
 	get() = Block(this)
 
@@ -37,6 +46,7 @@ internal val net.minecraft.state.Property<*>.wfWrapped: BlockProperty<*>
 internal val net.minecraft.tileentity.TileEntity.wfWrapped: BlockEntity
 	get() = BlockEntity(this)
 
+// Item
 internal val net.minecraft.item.Item.wfWrapped: Item
 	get() = Item(this)
 
@@ -64,6 +74,20 @@ internal val net.minecraft.item.Rarity.wfWrapped: Rarity
 		net.minecraft.item.Rarity.EPIC -> Rarity.EPIC
 	}
 
+// Entity
+internal val net.minecraft.entity.Entity.wfWrapped: Entity
+	get() = NativeEntity(this)
+
+internal val net.minecraft.entity.LivingEntity.wfWrapped: LivingEntity
+	get() = NativeLivingEntity(this)
+
+internal val net.minecraft.entity.player.PlayerEntity.wfWrapped: Player
+	get() = NativePlayer(this)
+
+internal val net.minecraft.entity.projectile.ProjectileEntity.wfWrapped: ProjectileEntity
+	get() = NativeProjectileEntity(this)
+
+// Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
 	get() = TagCompound(this)
 
@@ -80,7 +104,7 @@ internal val net.minecraft.util.Direction.wfWrapped: Direction
 		net.minecraft.util.Direction.DOWN -> Direction.DOWN
 	}
 
-internal val net.minecraft.util.math.BlockPos.wfWrapped: BlockPosition
+val net.minecraft.util.math.BlockPos.wfWrapped: BlockPosition
 	get() = BlockPosition(this.x, this.y, this.z)
 
 val net.minecraft.util.math.vector.Vector2f.wfWrapped: Vector2f
