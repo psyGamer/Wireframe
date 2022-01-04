@@ -44,10 +44,9 @@ class BlockItem(
 		}
 		
 		block.onBlockPlaced(world, targetPosition, oldBlockState, placementState)
-		if (player != null)
-			block.onBlockPlacedByPlayer(world, targetPosition, oldBlockState, placementState, player)
+		block.onBlockPlacedByPlayer(world, targetPosition, oldBlockState, placementState, player)
 		
-		if (!player?.isCreative)
+		if (!player.isCreative)
 			itemStack.shrink(1)
 		
 		return ClickResult.ACCEPTED
