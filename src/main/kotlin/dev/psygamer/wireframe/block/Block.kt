@@ -39,7 +39,7 @@ open class Block {
 	val stateDefinition: BlockStateDefinition
 	val defaultBlockState: BlockState
 	
-	private var blockEntityDefinition: Definition? = null
+	private var definition: Definition? = null
 	
 	constructor(mcNative: net.minecraft.block.Block) {
 		this.mcNative = mcNative
@@ -92,11 +92,11 @@ open class Block {
 	}
 	
 	protected fun registerBlockEntity(blockEntityCreator: () -> BlockEntity) {
-		if (blockEntityDefinition != null)
+		if (definition != null)
 			return
 		
-		blockEntityDefinition = Definition(identifier, blockEntityCreator, arrayOf(this))
-		BlockEntityRegistry.register(blockEntityDefinition)
+		definition = Definition(identifier, blockEntityCreator, arrayOf(this))
+		BlockEntityRegistry.register(definition!!)
 	}
 	
 	/* Placement State */
@@ -171,10 +171,10 @@ open class Block {
 	/* Block Entity */
 	@get:JvmName("hasBlockEntity")
 	val hasBlockEntity: Boolean
-		get() = blockEntityDefinition != null
+		get() = definition != null
 	
 	open fun createBlockEntity(): BlockEntity? {
-		return blockEntityDefinition?.blockEntitySupplier?.invoke()
+		return definition?.blockEntitySupplier?.invoke()
 	}
 	
 	open fun createPickBlockStack(
