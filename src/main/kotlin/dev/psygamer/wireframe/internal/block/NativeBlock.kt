@@ -8,6 +8,7 @@ import dev.psygamer.wireframe.block.state.BlockState
 import dev.psygamer.wireframe.block.state.property.BlockProperty
 import dev.psygamer.wireframe.entity.Player
 import dev.psygamer.wireframe.internal.item.InternalItem
+import dev.psygamer.wireframe.mcNative
 import dev.psygamer.wireframe.util.math.BlockHitResult
 import dev.psygamer.wireframe.wfWrapped
 import dev.psygamer.wireframe.world.BlockReader
@@ -130,13 +131,13 @@ class NativeBlock(
 			pos.wfWrapped,
 			state.wfWrapped,
 			Player.get(player)
-		).internal
+		).mcNative
 	}
 	
 	override fun getDrops(state: net.minecraft.block.BlockState, builder: LootContext.Builder): List<ItemStack> {
 		return block.createBlockDrops(
 			state.wfWrapped
-		).map { it.internal }
+		).map { it.mcNative }
 	}
 	
 	override fun randomTick(
@@ -197,8 +198,8 @@ class NativeBlock(
 		return block.getPlacementState(
 			dev.psygamer.wireframe.world.World.get(context.level),
 			Player.get(context.player),
-			dev.psygamer.wireframe.item.util.Hand.get(context.hand),
-			dev.psygamer.wireframe.item.ItemStack.get(context.itemInHand),
+			context.hand.wfWrapped,
+			context.itemInHand.wfWrapped,
 			BlockHitResult.get(InternalItem.hitResultField[context] as BlockRayTraceResult)
 		).mcNative
 	}
@@ -254,6 +255,6 @@ class NativeBlock(
 			BlockReader.get(blockReader),
 			pos.wfWrapped,
 			state.wfWrapped
-		).internal
+		).mcNative
 	}
 }
