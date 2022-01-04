@@ -8,6 +8,11 @@ import dev.psygamer.wireframe.block.state.property.BlockProperty
 import dev.psygamer.wireframe.internal.block.NativeBlockState
 import dev.psygamer.wireframe.internal.block.NativeBlockStateDefinition
 import dev.psygamer.wireframe.internal.block.state.BlockPropertyWrapper
+import dev.psygamer.wireframe.item.Item
+import dev.psygamer.wireframe.item.ItemStack
+import dev.psygamer.wireframe.item.util.ClickResult
+import dev.psygamer.wireframe.item.util.Hand
+import dev.psygamer.wireframe.item.util.Rarity
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Direction
 import dev.psygamer.wireframe.util.Identifier
@@ -32,7 +37,34 @@ internal val net.minecraft.state.Property<*>.wfWrapped: BlockProperty<*>
 internal val net.minecraft.tileentity.TileEntity.wfWrapped: BlockEntity
 	get() = BlockEntity(this)
 
-internal val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
+internal val net.minecraft.item.Item.wfWrapped: Item
+	get() = Item(this)
+
+internal val net.minecraft.item.ItemStack.wfWrapped: ItemStack
+	get() = ItemStack(this)
+
+internal val net.minecraft.util.ActionResultType.wfWrapped: ClickResult
+	get() = when (this) {
+		net.minecraft.util.ActionResultType.SUCCESS, net.minecraft.util.ActionResultType.CONSUME -> ClickResult.ACCEPTED
+		net.minecraft.util.ActionResultType.FAIL -> ClickResult.REJECTED
+		net.minecraft.util.ActionResultType.PASS -> ClickResult.PASS
+	}
+
+internal val net.minecraft.util.Hand.wfWrapped: Hand
+	get() = when (this) {
+		net.minecraft.util.Hand.MAIN_HAND -> Hand.MAIN_HAND
+		net.minecraft.util.Hand.OFF_HAND -> Hand.OFF_HAND
+	}
+
+internal val net.minecraft.item.Rarity.wfWrapped: Rarity
+	get() = when (this) {
+		net.minecraft.item.Rarity.COMMON -> Rarity.COMMON
+		net.minecraft.item.Rarity.UNCOMMON -> Rarity.UNCOMMON
+		net.minecraft.item.Rarity.RARE -> Rarity.RARE
+		net.minecraft.item.Rarity.EPIC -> Rarity.EPIC
+	}
+
+val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
 	get() = TagCompound(this)
 
 internal val net.minecraft.util.ResourceLocation.wfWrapped: Identifier

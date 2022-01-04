@@ -1,5 +1,9 @@
 package dev.psygamer.wireframe
 
+import dev.psygamer.wireframe.item.util.ClickResult
+import dev.psygamer.wireframe.item.util.ClickResultContainer
+import dev.psygamer.wireframe.item.util.Hand
+import dev.psygamer.wireframe.item.util.Rarity
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Direction
 import dev.psygamer.wireframe.util.Identifier
@@ -7,6 +11,42 @@ import dev.psygamer.wireframe.util.math.vector.Vector2f
 import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.util.math.vector.Vector3f
 import dev.psygamer.wireframe.util.math.vector.Vector3i
+
+internal val ClickResult.mcNative: net.minecraft.util.ActionResultType
+	get() = getNative(true)
+
+internal fun ClickResult.getNative(clientSide: Boolean): net.minecraft.util.ActionResultType {
+	return when (this) {
+		ClickResult.ACCEPTED ->
+			if (clientSide)
+				net.minecraft.util.ActionResultType.SUCCESS
+			else
+				net.minecraft.util.ActionResultType.CONSUME
+		ClickResult.REJECTED -> net.minecraft.util.ActionResultType.FAIL
+		ClickResult.PASS -> net.minecraft.util.ActionResultType.PASS
+	}
+}
+
+internal val <T> ClickResultContainer<T>.mcNative: net.minecraft.util.ActionResult<T>
+	get() = getNative(true)
+
+internal fun <T> ClickResultContainer<T>.getNative(clientSide: Boolean): net.minecraft.util.ActionResult<T> {
+	return net.minecraft.util.ActionResult(this.result.getNative(clientSide), this.obj)
+}
+
+internal val Hand.mcNative: net.minecraft.util.Hand
+	get() = when (this) {
+		Hand.MAIN_HAND -> net.minecraft.util.Hand.MAIN_HAND
+		Hand.OFF_HAND -> net.minecraft.util.Hand.OFF_HAND
+	}
+
+internal val Rarity.mcNative: net.minecraft.item.Rarity
+	get() = when (this) {
+		Rarity.COMMON -> net.minecraft.item.Rarity.COMMON
+		Rarity.UNCOMMON -> net.minecraft.item.Rarity.UNCOMMON
+		Rarity.RARE -> net.minecraft.item.Rarity.RARE
+		Rarity.EPIC -> net.minecraft.item.Rarity.EPIC
+	}
 
 internal val Identifier.mcNative: net.minecraft.util.ResourceLocation
 	get() = net.minecraft.util.ResourceLocation(this.namespace, this.path)

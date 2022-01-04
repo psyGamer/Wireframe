@@ -45,9 +45,7 @@ public class InternalItem extends net.minecraft.item.Item {
 	/* Item Events */
 	
 	public InternalItem(final Item item, final ItemAttributes attributes) {
-		super(attributes.getInternal()
-						.createProperties()
-		);
+		super(attributes.getInternal$Wireframe_main().createProperties());
 		
 		this.item = item;
 		
@@ -76,7 +74,7 @@ public class InternalItem extends net.minecraft.item.Item {
 					
 							   BlockHitResult.get((BlockRayTraceResult) hitResultField.get(context))
 					   )
-							.getInternal();
+							.getMcNative();
 		} catch (final IllegalAccessException e) {
 			return ActionResultType.PASS;
 		}
@@ -124,7 +122,7 @@ public class InternalItem extends net.minecraft.item.Item {
 						   dev.psygamer.wireframe.entity.LivingEntity.get(entity),
 						   dev.psygamer.wireframe.item.util.Hand.get(hand)
 				   )
-						.getInternal();
+						.getMcNative();
 	}
 	
 	@Override
