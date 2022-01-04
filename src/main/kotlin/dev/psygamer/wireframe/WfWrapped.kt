@@ -16,6 +16,8 @@ import dev.psygamer.wireframe.internal.entity.NativeEntity
 import dev.psygamer.wireframe.internal.entity.NativeLivingEntity
 import dev.psygamer.wireframe.internal.entity.NativePlayer
 import dev.psygamer.wireframe.internal.entity.NativeProjectileEntity
+import dev.psygamer.wireframe.internal.world.NativeBlockReader
+import dev.psygamer.wireframe.internal.world.NativeWorld
 import dev.psygamer.wireframe.item.Item
 import dev.psygamer.wireframe.item.ItemStack
 import dev.psygamer.wireframe.item.util.ClickResult
@@ -29,6 +31,8 @@ import dev.psygamer.wireframe.util.math.vector.Vector2f
 import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.util.math.vector.Vector3f
 import dev.psygamer.wireframe.util.math.vector.Vector3i
+import dev.psygamer.wireframe.world.BlockReader
+import dev.psygamer.wireframe.world.World
 
 // Block
 internal val net.minecraft.block.Block.wfWrapped: Block
@@ -86,6 +90,13 @@ internal val net.minecraft.entity.player.PlayerEntity.wfWrapped: Player
 
 internal val net.minecraft.entity.projectile.ProjectileEntity.wfWrapped: ProjectileEntity
 	get() = NativeProjectileEntity(this)
+
+// World
+internal val net.minecraft.world.World.wfWrapped: World
+	get() = NativeWorld(this)
+
+internal val net.minecraft.world.IBlockReader.wfWrapped: BlockReader
+	get() = NativeBlockReader(this)
 
 // Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound

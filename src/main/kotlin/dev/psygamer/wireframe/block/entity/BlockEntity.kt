@@ -24,7 +24,7 @@ open class BlockEntity {
 	val mcNative: net.minecraft.tileentity.TileEntity
 	
 	val world: World
-		get() = World.get(this.mcNative.level)
+		get() = this.mcNative.level!!.wfWrapped
 	val position: BlockPosition
 		get() = this.mcNative.blockPos.wfWrapped
 	
