@@ -84,6 +84,8 @@ open class Block {
 			this.blockItem = BlockItem(identifier, itemAttributes, this)
 		else
 			this.blockItem = null
+		
+		BlockRegistry.register(this)
 	}
 	
 	protected fun registerDefaultBlockState(blockState: BlockState) {

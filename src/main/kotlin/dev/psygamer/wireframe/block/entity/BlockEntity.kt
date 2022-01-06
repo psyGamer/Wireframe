@@ -31,7 +31,6 @@ open class BlockEntity {
 	internal constructor(internal: net.minecraft.tileentity.TileEntity) {
 		this.identifier = internal.type.registryName?.wfWrapped
 						  ?: throw IllegalArgumentException("Tried to wrap native block without registry name!")
-		
 		this.holders = emptyArray()
 		
 		this.mcNative = internal
@@ -45,6 +44,8 @@ open class BlockEntity {
 		this.holders = definition.blockEntityHolders
 		
 		this.mcNative = NativeBlockEntity(this)
+		
+		BlockEntityRegistry.register(definition)
 	}
 	
 	open fun saveNBT(tagCompound: TagCompound) {}
