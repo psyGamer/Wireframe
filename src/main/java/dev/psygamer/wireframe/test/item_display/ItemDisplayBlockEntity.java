@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.test.item_display;
 
-import dev.psygamer.wireframe.block.entity.BlockEntity;
+import dev.psygamer.wireframe.api.block.entity.BlockEntity;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 
@@ -20,7 +20,7 @@ public class ItemDisplayBlockEntity extends BlockEntity {
 	
 	@Override
 	public void saveNBT(final TagCompound tagCompound) {
-		tagCompound.putInt("clicks", this.clicks);
+		tagCompound.setInt("clicks", this.clicks);
 	}
 	
 	@Override
