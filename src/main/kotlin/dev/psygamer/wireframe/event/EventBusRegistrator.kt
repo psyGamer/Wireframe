@@ -41,16 +41,15 @@ object EventBusRegistrator {
 				val modEventBus = it.nativeEventBus
 				
 				try {
-					val createInstanceMethod = clazz.getDeclaredMethod("createInstance", String::class.java)
-					createInstanceMethod.isAccessible = true
+					val constructor = clazz.getDeclaredConstructor(String::class.java)
+					constructor.isAccessible = true
 					
-					val classInstance = createInstanceMethod(null, it.modID)
-					modEventBus.register(classInstance)
+					modEventBus.register(constructor.newInstance(it.modID))
 				} catch (ex: Exception) {
 					when (ex) {
 						is NoSuchMethodException,
 						is IllegalAccessException,
-						is InvocationTargetException -> Unit // Ignore
+						is InvocationTargetException -> Unit
 						
 						else -> throw ex
 					}
