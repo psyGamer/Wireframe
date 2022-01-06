@@ -1,11 +1,11 @@
 package dev.psygamer.wireframe.test
 
-import dev.psygamer.wireframe.block.Block
-import dev.psygamer.wireframe.block.BlockAttributes
-import dev.psygamer.wireframe.block.attributes.HarvestLevel
-import dev.psygamer.wireframe.block.attributes.Material
-import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty
-import dev.psygamer.wireframe.item.ItemAttributes
+import dev.psygamer.wireframe.api.block.Block
+import dev.psygamer.wireframe.api.block.BlockAttributes
+import dev.psygamer.wireframe.api.block.attributes.HarvestLevel
+import dev.psygamer.wireframe.api.block.attributes.Material
+import dev.psygamer.wireframe.api.block.state.property.DirectionBlockProperty
+import dev.psygamer.wireframe.api.item.ItemAttributes
 import dev.psygamer.wireframe.util.Identifier
 
 class BlockTest : Block(

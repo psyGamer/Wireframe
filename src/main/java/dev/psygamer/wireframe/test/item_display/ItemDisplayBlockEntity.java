@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.test.item_display;
 
-import dev.psygamer.wireframe.block.entity.BlockEntity;
+import dev.psygamer.wireframe.api.block.entity.BlockEntity;
 import dev.psygamer.wireframe.util.Identifier;
 import dev.psygamer.wireframe.util.TagCompound;
 
