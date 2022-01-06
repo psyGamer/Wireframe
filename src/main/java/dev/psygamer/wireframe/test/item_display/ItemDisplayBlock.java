@@ -1,21 +1,20 @@
 package dev.psygamer.wireframe.test.item_display;
 
-import dev.psygamer.wireframe.block.Block;
-import dev.psygamer.wireframe.block.BlockAttributes;
-import dev.psygamer.wireframe.block.attributes.HarvestLevel;
-import dev.psygamer.wireframe.block.attributes.Material;
-import dev.psygamer.wireframe.block.entity.BlockEntity;
-import dev.psygamer.wireframe.block.state.BlockState;
-import dev.psygamer.wireframe.block.state.property.DirectionBlockProperty;
-import dev.psygamer.wireframe.entity.Player;
-import dev.psygamer.wireframe.item.ItemAttributes;
-import dev.psygamer.wireframe.item.util.ClickResult;
+import dev.psygamer.wireframe.api.block.Block;
+import dev.psygamer.wireframe.api.block.BlockAttributes;
+import dev.psygamer.wireframe.api.block.attributes.HarvestLevel;
+import dev.psygamer.wireframe.api.block.attributes.Material;
+import dev.psygamer.wireframe.api.block.entity.BlockEntity;
+import dev.psygamer.wireframe.api.block.state.BlockState;
+import dev.psygamer.wireframe.api.block.state.property.DirectionBlockProperty;
+import dev.psygamer.wireframe.api.entity.Player;
+import dev.psygamer.wireframe.api.item.ItemAttributes;
+import dev.psygamer.wireframe.api.item.util.ClickResult;
+import dev.psygamer.wireframe.api.world.World;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Identifier;
-import dev.psygamer.wireframe.world.World;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /*
  * This class is an example of how to create blocks in Wireframe.

@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.util
 import com.google.common.primitives.Bytes
 import com.google.common.primitives.Ints
 import com.google.common.primitives.Longs
-import dev.psygamer.wireframe.wfWrapped
+import dev.psygamer.wireframe.nativeapi.wfWrapped
 
 import java.util.*
 

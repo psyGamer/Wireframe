@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.util.math;
 
-import dev.psygamer.wireframe.WfWrappedKt;
+import dev.psygamer.wireframe.nativeapi.WfWrappedKt;
 import dev.psygamer.wireframe.util.BlockPosition;
 import dev.psygamer.wireframe.util.Direction;
 import dev.psygamer.wireframe.util.math.vector.Vector3d;
