@@ -1,7 +1,5 @@
-package dev.psygamer.wireframe.api.block.state
+package dev.psygamer.wireframe.api.block
 
-import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty
 import java.util.*
 
 interface BlockState {

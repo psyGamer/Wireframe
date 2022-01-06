@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.block.state.property
+package dev.psygamer.wireframe.api.block
 
 import dev.psygamer.wireframe.nativeapi.block.NativeBlockProperty
 import java.util.*

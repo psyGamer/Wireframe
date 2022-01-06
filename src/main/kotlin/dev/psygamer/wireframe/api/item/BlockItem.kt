@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.api.item
 
 import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.state.BlockState
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty
+import dev.psygamer.wireframe.api.block.BlockState
+import dev.psygamer.wireframe.api.block.BlockProperty
 import dev.psygamer.wireframe.api.entity.Player
 import dev.psygamer.wireframe.api.item.util.ClickResult
 import dev.psygamer.wireframe.api.item.util.Hand

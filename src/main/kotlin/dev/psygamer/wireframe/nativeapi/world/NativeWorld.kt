@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.nativeapi.world
 
 import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.state.BlockState
+import dev.psygamer.wireframe.api.block.BlockState
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.api.world.World

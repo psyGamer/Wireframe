@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.nativeapi.block
 
 import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.state.BlockState
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty
+import dev.psygamer.wireframe.api.block.BlockState
+import dev.psygamer.wireframe.api.block.BlockProperty
 import dev.psygamer.wireframe.nativeapi.wfWrapped
 import java.util.*
 
