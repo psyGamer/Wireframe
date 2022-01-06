@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.nativeapi.block
 import com.google.common.collect.ImmutableMap
 import com.mojang.serialization.MapCodec
 import dev.psygamer.wireframe.api.block.BlockAttributes
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty
+import dev.psygamer.wireframe.api.block.BlockProperty
 import dev.psygamer.wireframe.nativeapi.item.NativeItem
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.nativeapi.wfWrapped
@@ -56,7 +56,7 @@ class NativeBlock(
 		)
 	}
 	
-	fun setDefaultBlockState(blockState: dev.psygamer.wireframe.api.block.state.BlockState) {
+	fun setDefaultBlockState(blockState: dev.psygamer.wireframe.api.block.BlockState) {
 		registerDefaultState(blockState.mcNative)
 	}
 	

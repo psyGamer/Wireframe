@@ -1,7 +1,4 @@
-package dev.psygamer.wireframe.api.block.state
-
-import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty
+package dev.psygamer.wireframe.api.block
 
 interface BlockStateDefinition {
 	

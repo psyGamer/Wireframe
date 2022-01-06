@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.api.item
 
-import dev.psygamer.wireframe.api.block.state.BlockState
+import dev.psygamer.wireframe.api.block.BlockState
 import dev.psygamer.wireframe.api.entity.LivingEntity
 import dev.psygamer.wireframe.api.entity.Player
 import dev.psygamer.wireframe.api.item.util.ClickResult

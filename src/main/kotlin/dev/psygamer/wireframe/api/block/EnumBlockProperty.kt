@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.block.state.property
+package dev.psygamer.wireframe.api.block
 
 import java.util.*
 

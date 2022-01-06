@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.nativeapi.block
 
-import dev.psygamer.wireframe.api.block.state.property.BlockProperty
+import dev.psygamer.wireframe.api.block.BlockProperty
 import net.minecraft.state.Property
 import java.util.*
 
