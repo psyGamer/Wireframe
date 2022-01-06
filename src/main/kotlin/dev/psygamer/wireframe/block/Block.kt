@@ -16,6 +16,7 @@ import dev.psygamer.wireframe.item.ItemStack
 import dev.psygamer.wireframe.item.util.ClickResult
 import dev.psygamer.wireframe.item.util.Hand
 import dev.psygamer.wireframe.registry.BlockEntityRegistry
+import dev.psygamer.wireframe.registry.BlockRegistry
 import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.math.BlockHitResult
@@ -42,14 +43,14 @@ open class Block {
 	private var definition: Definition? = null
 	
 	constructor(mcNative: net.minecraft.block.Block) {
-		this.mcNative = mcNative
-		
 		this.identifier = mcNative.registryName!!.wfWrapped
 		
 		this.blockAttributes = null
 		this.itemAttributes = null
 		
 		this.blockProperties = emptyArray()
+		
+		this.mcNative = mcNative
 		
 		this.stateDefinition = mcNative.stateDefinition.wfWrapped
 		this.defaultBlockState = this.stateDefinition.defaultState
@@ -65,8 +66,6 @@ open class Block {
 		
 		vararg blockProperties: BlockProperty<*>,
 	) {
-		this.mcNative = NativeBlock(this, blockAttributes)
-		
 		this.identifier = identifier
 		
 		this.blockAttributes = blockAttributes
@@ -74,11 +73,13 @@ open class Block {
 		
 		this.blockProperties = blockProperties
 		
-		this.stateDefinition = mcNative.stateDefinition.wfWrapped
-		this.defaultBlockState = this.stateDefinition.defaultState
+		this.mcNative = NativeBlock(this, blockAttributes)
 		
 		if (blockProperties.isNotEmpty())
 			mcNative.registerBlockProperties(blockProperties)
+		
+		this.stateDefinition = mcNative.stateDefinition.wfWrapped
+		this.defaultBlockState = this.stateDefinition.defaultState
 		
 		if (blockAttributes.hasItem)
 			this.blockItem = BlockItem(identifier, itemAttributes, this)
