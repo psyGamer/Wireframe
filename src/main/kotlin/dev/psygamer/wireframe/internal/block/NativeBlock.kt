@@ -29,7 +29,7 @@ import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import net.minecraft.world.server.ServerWorld
-import java.lang.reflect.Field
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -41,7 +41,8 @@ class NativeBlock(
 	
 	companion object {
 		
-		val stateDefinitionField: Field = Block::class.java.getDeclaredField("stateDefinition")
+		// Get the Block#stateDefinition field
+		val stateDefinitionField = ObfuscationReflectionHelper.findField(Block::class.java, "field_176227_L")
 		
 		init {
 			stateDefinitionField.isAccessible = true
