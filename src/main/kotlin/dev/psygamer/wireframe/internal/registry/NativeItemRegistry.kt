@@ -18,14 +18,14 @@ class NativeItemRegistry(private val modID: String) {
 	}
 	
 	@SubscribeEvent
-	fun onBlockRegistry(event: Register<Item?>) {
+	fun onBlockRegistry(event: Register<Item>) {
 		ItemRegistry.freeze()
 		ItemRegistry.elements
 			.filter { it.identifier.namespace == modID }
 			.forEach {
 				event.registry.register(it.mcNative)
 				
-				Wireframe.LOGGER.info("Successfully registered block ${it.identifier.namespace}:${it.identifier.path}")
+				Wireframe.LOGGER.info("Successfully registered item ${it.identifier}")
 			}
 	}
 }

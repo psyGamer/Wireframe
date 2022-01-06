@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.internal.registry
 
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.block.entity.BlockEntity
+import dev.psygamer.wireframe.event.api.ModEventBusSubscriber
 import dev.psygamer.wireframe.mcNative
 import dev.psygamer.wireframe.registry.BlockEntityRegistry
 import dev.psygamer.wireframe.util.Identifier
@@ -11,14 +12,15 @@ import net.minecraft.tileentity.TileEntityType
 import net.minecraftforge.event.RegistryEvent.Register
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
+@ModEventBusSubscriber
 class NativeBlockEntityRegistry(private val modID: String) {
 	
 	companion object {
 		
 		private val tileEntityTypeCache: FreezableMap<Identifier, TileEntityType<*>> = FreezableHashMap()
 		
-		fun getTileEntityType(identifier: Identifier): TileEntityType<*>? {
-			return tileEntityTypeCache[identifier]
+		fun getTileEntityType(identifier: Identifier): TileEntityType<*> {
+			return tileEntityTypeCache[identifier]!!
 		}
 		
 		fun generateTileEntityType(definition: BlockEntity.Definition): TileEntityType<*> {
@@ -34,7 +36,7 @@ class NativeBlockEntityRegistry(private val modID: String) {
 	}
 	
 	@SubscribeEvent
-	fun onBlockRegistry(event: Register<TileEntityType<*>?>) {
+	fun onBlockRegistry(event: Register<TileEntityType<*>>) {
 		BlockEntityRegistry.freeze()
 		BlockEntityRegistry.definitions.values
 			.filter { it.identifier.namespace == this.modID }

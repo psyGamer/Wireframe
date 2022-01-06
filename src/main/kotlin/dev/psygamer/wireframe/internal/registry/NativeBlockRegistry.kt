@@ -10,13 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 @ModEventBusSubscriber
 class NativeBlockRegistry(private val modID: String) {
 	
-	companion object {
-		
-		fun createInstance(modID: String): NativeBlockRegistry {
-			return NativeBlockRegistry(modID)
-		}
-	}
-	
 	@SubscribeEvent
 	fun onBlockRegistry(event: Register<Block>) {
 		BlockRegistry.freeze()
@@ -25,7 +18,7 @@ class NativeBlockRegistry(private val modID: String) {
 			.forEach {
 				event.registry.register(it.mcNative)
 				
-				Wireframe.LOGGER.info("Successfully registered block ${it.identifier.namespace}:${it.identifier.path}")
+				Wireframe.LOGGER.info("Successfully registered block ${it.identifier}")
 			}
 	}
 }
