@@ -2,12 +2,12 @@ package dev.psygamer.wireframe.nativeapi.registry
 
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.registry.BlockRegistry
-import dev.psygamer.wireframe.event.api.ModEventBusSubscriber
+import dev.psygamer.wireframe.event.nativeapi.NativeModEventBusSubscriber
 import net.minecraft.block.Block
 import net.minecraftforge.event.RegistryEvent.Register
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-@ModEventBusSubscriber
+@NativeModEventBusSubscriber
 class NativeBlockRegistry(private val modID: String) {
 	
 	@SubscribeEvent
