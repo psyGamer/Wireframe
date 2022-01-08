@@ -1,10 +1,10 @@
 package dev.psygamer.wireframe.nativeapi
 
 import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.entity.BlockEntity
+import dev.psygamer.wireframe.api.block.BlockProperty
 import dev.psygamer.wireframe.api.block.BlockState
 import dev.psygamer.wireframe.api.block.BlockStateDefinition
-import dev.psygamer.wireframe.api.block.BlockProperty
+import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.entity.Entity
 import dev.psygamer.wireframe.api.entity.LivingEntity
 import dev.psygamer.wireframe.api.entity.Player
@@ -14,11 +14,12 @@ import dev.psygamer.wireframe.api.item.ItemStack
 import dev.psygamer.wireframe.api.item.util.ClickResult
 import dev.psygamer.wireframe.api.item.util.Hand
 import dev.psygamer.wireframe.api.item.util.Rarity
+import dev.psygamer.wireframe.api.network.PacketBuffer
 import dev.psygamer.wireframe.api.world.BlockReader
 import dev.psygamer.wireframe.api.world.World
+import dev.psygamer.wireframe.nativeapi.block.BlockPropertyWrapper
 import dev.psygamer.wireframe.nativeapi.block.NativeBlockState
 import dev.psygamer.wireframe.nativeapi.block.NativeBlockStateDefinition
-import dev.psygamer.wireframe.nativeapi.block.BlockPropertyWrapper
 import dev.psygamer.wireframe.nativeapi.entity.NativeEntity
 import dev.psygamer.wireframe.nativeapi.entity.NativeLivingEntity
 import dev.psygamer.wireframe.nativeapi.entity.NativePlayer
@@ -97,6 +98,10 @@ internal val net.minecraft.world.World.wfWrapped: World
 
 internal val net.minecraft.world.IBlockReader.wfWrapped: BlockReader
 	get() = NativeBlockReader(this)
+
+// Event
+internal val net.minecraft.network.PacketBuffer.wfWrapped: PacketBuffer
+	get() = PacketBuffer(this)
 
 // Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
