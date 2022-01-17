@@ -10,7 +10,7 @@ object EventBusRegistrator {
 	
 	val eventClasses: List<Class<*>>
 		get() = buildList {
-			mods.forEach { addAll(ClassUtil.getClasses(it.rootPackage)) }
+			mods.forEach { addAll(ClassUtil.getClasses(it.rootPackage, false, this.javaClass.classLoader)) }
 		}
 	
 	fun register() {
