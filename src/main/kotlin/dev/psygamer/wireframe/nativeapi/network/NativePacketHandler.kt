@@ -26,7 +26,7 @@ object NativePacketHandler {
 	}
 	
 	fun sendToAllClients(packet: Packet) {
-		mcNative.sendToServer(packet)
+		mcNative.send(PacketDistributor.ALL.noArg(), packet)
 	}
 	
 	fun sendToClient(packet: Packet, client: Player) {
@@ -39,7 +39,7 @@ object NativePacketHandler {
 		
 		encodeFunc: (T, PacketBuffer) -> Unit, decodeFunc: (PacketBuffer) -> Packet,
 		handleFunc: (Packet, Supplier<NetworkEvent.Context>) -> Unit
-	) {								  /* This is fine since PacketRegistry enforces it. vvvv */
+	) {                                  /* This is fine since PacketRegistry enforces it. vvvv */
 		mcNative.registerMessage(channelID++, packetClass, encodeFunc, { decodeFunc(it) as T }, handleFunc)
 	}
 }
