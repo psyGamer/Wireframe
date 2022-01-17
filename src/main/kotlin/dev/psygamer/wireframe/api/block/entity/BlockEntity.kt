@@ -37,7 +37,7 @@ open class BlockEntity {
 	}
 	
 	protected constructor(identifier: Identifier) {
-		val definition = BlockEntityRegistry.getDefinition(identifier)
+		val definition = BlockEntityRegistry.getValue(identifier)
 						 ?: throw IllegalStateException("Tried to create unregistered BlockEntity!")
 		
 		this.identifier = identifier
