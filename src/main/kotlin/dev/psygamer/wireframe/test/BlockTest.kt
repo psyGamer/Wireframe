@@ -2,10 +2,14 @@ package dev.psygamer.wireframe.test
 
 import dev.psygamer.wireframe.api.block.Block
 import dev.psygamer.wireframe.api.block.BlockAttributes
+import dev.psygamer.wireframe.api.block.BlockState
+import dev.psygamer.wireframe.api.block.DirectionBlockProperty
 import dev.psygamer.wireframe.api.block.attributes.HarvestLevel
 import dev.psygamer.wireframe.api.block.attributes.Material
-import dev.psygamer.wireframe.api.block.DirectionBlockProperty
 import dev.psygamer.wireframe.api.item.ItemAttributes
+import dev.psygamer.wireframe.api.network.PacketHandler
+import dev.psygamer.wireframe.api.world.World
+import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Identifier
 
 class BlockTest : Block(
@@ -22,5 +26,19 @@ class BlockTest : Block(
 	companion object {
 		
 		val FACING = DirectionBlockProperty("facing")
+	}
+	
+	override fun onBlockPlaced(world: World, blockPosition: BlockPosition, oldBlockState: BlockState, newBlockState: BlockState) {
+		runCatching {
+			PacketHandler.sendToServer(
+				TestPacket("Moin, Server, Moin!")
+			)
+		}
+		
+		runCatching {
+			PacketHandler.sendToAllClients(
+				TestPacket("Moin, Client, Moin!")
+			)
+		}
 	}
 }

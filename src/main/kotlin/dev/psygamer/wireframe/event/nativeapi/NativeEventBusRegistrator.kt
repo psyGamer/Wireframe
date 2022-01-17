@@ -42,7 +42,7 @@ object NativeEventBusRegistrator {
 			constructor.isAccessible = true
 			
 			mods.forEach {
-				it.eventBus.register(constructor.newInstance(it.modID))
+				it.nativeEventBus.register(constructor.newInstance(it.modID))
 			}
 		} catch (ex: Exception) {
 			when (ex) {
