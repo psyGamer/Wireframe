@@ -10,13 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 @NativeModEventBusSubscriber
 class NativeItemRegistry(private val modID: String) {
 	
-	companion object {
-		
-		fun createInstance(modID: String): NativeItemRegistry {
-			return NativeItemRegistry(modID)
-		}
-	}
-	
 	@SubscribeEvent
 	fun onBlockRegistry(event: Register<Item>) {
 		ItemRegistry.freeze()
