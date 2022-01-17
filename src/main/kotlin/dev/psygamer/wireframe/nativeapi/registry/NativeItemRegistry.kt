@@ -1,13 +1,13 @@
 package dev.psygamer.wireframe.nativeapi.registry
 
 import dev.psygamer.wireframe.Wireframe
-import dev.psygamer.wireframe.event.api.ModEventBusSubscriber
 import dev.psygamer.wireframe.api.registry.ItemRegistry
+import dev.psygamer.wireframe.event.nativeapi.NativeModEventBusSubscriber
 import net.minecraft.item.Item
 import net.minecraftforge.event.RegistryEvent.Register
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-@ModEventBusSubscriber
+@NativeModEventBusSubscriber
 class NativeItemRegistry(private val modID: String) {
 	
 	companion object {

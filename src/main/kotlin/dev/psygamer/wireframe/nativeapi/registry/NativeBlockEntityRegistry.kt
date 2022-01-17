@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.nativeapi.registry
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.registry.BlockEntityRegistry
-import dev.psygamer.wireframe.event.api.ModEventBusSubscriber
+import dev.psygamer.wireframe.event.nativeapi.NativeModEventBusSubscriber
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.collection.FreezableHashMap
@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntityType
 import net.minecraftforge.event.RegistryEvent.Register
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-@ModEventBusSubscriber
+@NativeModEventBusSubscriber
 class NativeBlockEntityRegistry(private val modID: String) {
 	
 	companion object {
@@ -38,7 +38,7 @@ class NativeBlockEntityRegistry(private val modID: String) {
 	@SubscribeEvent
 	fun onBlockRegistry(event: Register<TileEntityType<*>>) {
 		BlockEntityRegistry.freeze()
-		BlockEntityRegistry.definitions.values
+		BlockEntityRegistry.elements.values
 			.filter { it.identifier.namespace == this.modID }
 			.forEach { definition ->
 				val tileEntityType = generateTileEntityType(definition)

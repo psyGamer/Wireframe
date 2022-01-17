@@ -1,10 +1,12 @@
 package dev.psygamer.wireframe
 
+import dev.psygamer.wireframe.api.registry.PacketRegistry
 import dev.psygamer.wireframe.event.EventBus
 import dev.psygamer.wireframe.event.EventBusRegistrator
 import dev.psygamer.wireframe.event.api.IEventBus
 import dev.psygamer.wireframe.test.BlockTest
-import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent
+import dev.psygamer.wireframe.test.TestPacket
+import dev.psygamer.wireframe.test.TestPacketDecoder
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
@@ -47,20 +49,16 @@ object Wireframe {
 		
 		init {
 			nativeModImplementation = this
-			MOD_BUS.addListener(this::onModConstruct)
-			
-			BlockTest()
 			
 			/* Force-init the internal implementation.
 			 * This will probably cause issues with child mods which don't have this way of force-init-ing their extension class.
 			 *
 			 * TODO Do this automatically
 			 */ WireframeMod
-		}
-		
-		private fun onModConstruct(event: FMLConstructModEvent) {
-			EventBusRegistrator.registerModEventBusses()
-			EventBusRegistrator.registerWireframeEventBusses()
+			
+			BlockTest()
+			EventBusRegistrator.register()
+			PacketRegistry.register(TestPacket::class.java, TestPacketDecoder)
 		}
 	}
 }

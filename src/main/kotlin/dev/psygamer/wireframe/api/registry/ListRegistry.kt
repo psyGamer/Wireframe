@@ -3,11 +3,11 @@ package dev.psygamer.wireframe.api.registry
 import dev.psygamer.wireframe.util.collection.FreezableHashSet
 import dev.psygamer.wireframe.util.collection.FreezableSet
 
-open class BaseRegistry<T> {
+open class ListRegistry<E> {
 	
-	val elements: Set<T> = FreezableHashSet()
+	val elements: Set<E> = FreezableHashSet()
 	
-	fun register(element: T) {
+	fun register(element: E) {
 		(this.elements as FreezableSet).add(element)
 	}
 	
