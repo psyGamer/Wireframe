@@ -8,9 +8,9 @@ import dev.psygamer.wireframe.util.reflection.ClassUtil
 
 object EventBusRegistrator {
 	
-	val eventClasses: List<Class<*>>
+	internal val eventClasses: List<Class<*>>
 		get() = buildList {
-			mods.forEach { addAll(ClassUtil.getClasses(it.rootPackage)) }
+			mods.forEach { addAll(ClassUtil.getClasses(it.rootPackage, false, this@EventBusRegistrator.javaClass.classLoader)) }
 		}
 	
 	fun register() {

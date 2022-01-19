@@ -2,16 +2,11 @@ package dev.psygamer.wireframe.event.nativeapi
 
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.Wireframe.mods
-import dev.psygamer.wireframe.util.reflection.ClassUtil
+import dev.psygamer.wireframe.event.EventBusRegistrator
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import java.lang.reflect.InvocationTargetException
 
 object NativeEventBusRegistrator {
-	
-	private val eventClasses: List<Class<*>>
-		get() = buildList {
-			mods.forEach { addAll(ClassUtil.getClasses(it.rootPackage)) }
-		}
 	
 	fun register() {
 		registerNativeModEventBusses()
@@ -19,7 +14,7 @@ object NativeEventBusRegistrator {
 	}
 	
 	private fun registerNativeModEventBusses() {
-		eventClasses
+		EventBusRegistrator.eventClasses
 			.filter { it.isAnnotationPresent(NativeModEventBusSubscriber::class.java) }
 			.forEach {
 				registerClassToNativeModEventBus(it)
@@ -28,7 +23,7 @@ object NativeEventBusRegistrator {
 	}
 	
 	private fun registerNativeForgeEventBusses() {
-		eventClasses
+		EventBusRegistrator.eventClasses
 			.filter { it.isAnnotationPresent(NativeForgeEventBusSubscriber::class.java) }
 			.forEach {
 				FORGE_BUS.register(it) // Does this work with Java?
