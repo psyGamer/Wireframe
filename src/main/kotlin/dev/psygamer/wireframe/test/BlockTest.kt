@@ -6,7 +6,10 @@ import dev.psygamer.wireframe.api.block.BlockState
 import dev.psygamer.wireframe.api.block.DirectionBlockProperty
 import dev.psygamer.wireframe.api.block.attributes.HarvestLevel
 import dev.psygamer.wireframe.api.block.attributes.Material
+import dev.psygamer.wireframe.api.client.screen.ScreenManager.open
+import dev.psygamer.wireframe.api.entity.Player
 import dev.psygamer.wireframe.api.item.ItemAttributes
+import dev.psygamer.wireframe.api.item.util.ClickResult
 import dev.psygamer.wireframe.api.network.PacketHandler
 import dev.psygamer.wireframe.api.world.World
 import dev.psygamer.wireframe.util.BlockPosition
@@ -28,7 +31,7 @@ class BlockTest : Block(
 		val FACING = DirectionBlockProperty("facing")
 	}
 	
-	override fun onBlockPlaced(world: World, blockPosition: BlockPosition, oldBlockState: BlockState, newBlockState: BlockState) {
+	override fun onUsedByPlayer(world: World, blockPosition: BlockPosition, blockState: BlockState, player: Player): ClickResult {
 		runCatching {
 			PacketHandler.sendToServer(
 				TestPacket("Moin, Server, Moin!")
@@ -40,5 +43,11 @@ class BlockTest : Block(
 				TestPacket("Moin, Client, Moin!")
 			)
 		}
+		
+		runCatching {
+			TestScreen.open()
+		}
+		
+		return ClickResult.ACCEPTED
 	}
 }

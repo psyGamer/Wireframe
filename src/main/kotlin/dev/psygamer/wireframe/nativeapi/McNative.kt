@@ -13,12 +13,15 @@ import dev.psygamer.wireframe.nativeapi.entity.NativeLivingEntity
 import dev.psygamer.wireframe.nativeapi.entity.NativePlayer
 import dev.psygamer.wireframe.nativeapi.entity.NativeProjectileEntity
 import dev.psygamer.wireframe.util.BlockPosition
+import dev.psygamer.wireframe.util.Color
 import dev.psygamer.wireframe.util.Direction
 import dev.psygamer.wireframe.util.Identifier
+import dev.psygamer.wireframe.util.math.clamp
 import dev.psygamer.wireframe.util.math.vector.Vector2f
 import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.util.math.vector.Vector3f
 import dev.psygamer.wireframe.util.math.vector.Vector3i
+import kotlin.math.roundToInt
 
 // Item
 internal val ClickResult.mcNative: net.minecraft.util.ActionResultType
@@ -82,6 +85,20 @@ internal val Direction.mcNative: net.minecraft.util.Direction
 		Direction.WEST -> net.minecraft.util.Direction.WEST
 		Direction.UP -> net.minecraft.util.Direction.UP
 		Direction.DOWN -> net.minecraft.util.Direction.DOWN
+	}
+
+internal val Color.mcNative: Int
+	get() {
+		// Minecraft's Format: ARGB
+		
+		var color = 0x00000000
+		
+		color = color shl 0 or (alpha * 255).roundToInt().clamp(max = 255)
+		color = color shl 8 or (red * 255).roundToInt().clamp(max = 255)
+		color = color shl 8 or (green * 255).roundToInt().clamp(max = 255)
+		color = color shl 8 or (blue * 255).roundToInt().clamp(max = 255)
+		
+		return color
 	}
 
 internal val BlockPosition.mcNative: net.minecraft.util.math.BlockPos
