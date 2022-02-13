@@ -1,10 +1,12 @@
 package dev.psygamer.wireframe.util
 
 data class Color(
-	val red: Float, val green: Float, val blue: Float, val alpha: Float = 1.0f
+	val red: Float, val green: Float, val blue: Float, val alpha: Float = 1.0f,
 ) {
 	
 	companion object {
+		
+		val TRANSPARENT = Color(0x000000, 0x00)
 		
 		val BLACK = Color(0x000000, 0xFF)
 		
