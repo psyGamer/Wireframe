@@ -5,11 +5,7 @@ import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.clamp
-import dev.psygamer.wireframe.util.math.vector.Vector2f
-import dev.psygamer.wireframe.util.math.vector.Vector3d
-import dev.psygamer.wireframe.util.math.vector.Vector3f
-import dev.psygamer.wireframe.util.math.vector.Vector3i
-import kotlin.math.roundToInt
+import dev.psygamer.wireframe.util.math.vector.*
 
 // Item
 internal val ClickResult.mcNative: net.minecraft.util.ActionResultType
@@ -103,3 +99,6 @@ internal val Vector3f.mcNative: net.minecraft.util.math.vector.Vector3f
 
 internal val Vector3i.mcNative: net.minecraft.util.math.vector.Vector3i
 	get() = net.minecraft.util.math.vector.Vector3i(this.x, this.y, this.z)
+
+internal val Quaternion.mcNative: net.minecraft.util.math.vector.Quaternion
+	get() = net.minecraft.util.math.vector.Quaternion(this.x, this.y, this.z, this.w)

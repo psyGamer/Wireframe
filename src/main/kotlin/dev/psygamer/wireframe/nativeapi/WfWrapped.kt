@@ -123,3 +123,6 @@ val net.minecraft.util.math.vector.Vector3f.wfWrapped: Vector3f
 
 val net.minecraft.util.math.vector.Vector3i.wfWrapped: Vector3i
 	get() = Vector3i(this.x, this.y, this.z)
+
+val net.minecraft.util.math.vector.Quaternion.wfWrapped: Quaternion
+	get() = Quaternion(this.i(), this.j(), this.k(), this.r())
