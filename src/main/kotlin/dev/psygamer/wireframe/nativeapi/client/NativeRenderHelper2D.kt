@@ -1,6 +1,11 @@
-package dev.psygamer.wireframe.nativeapi.client.screen
+package dev.psygamer.wireframe.nativeapi.client
 
 import com.mojang.blaze3d.matrix.MatrixStack
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.AbstractGui
+import org.lwjgl.opengl.GL11.GL_BLEND
+import org.lwjgl.opengl.GL11.GL_TEXTURE_2D
+import javax.imageio.ImageIO
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.client.OpenGL
 import dev.psygamer.wireframe.nativeapi.mcNative
@@ -8,13 +13,8 @@ import dev.psygamer.wireframe.util.Color
 import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.debug
 import dev.psygamer.wireframe.util.using
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.AbstractGui
-import org.lwjgl.opengl.GL11.GL_BLEND
-import org.lwjgl.opengl.GL11.GL_TEXTURE_2D
-import javax.imageio.ImageIO
 
-object NativeScreenRenderHelper {
+object NativeRenderHelper2D {
 	
 	internal val IDENTITY_MATRIX = MatrixStack()
 	
