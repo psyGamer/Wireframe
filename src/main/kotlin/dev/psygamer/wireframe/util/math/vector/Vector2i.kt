@@ -5,6 +5,16 @@ import kotlin.math.atan2
 import kotlin.math.sqrt
 
 open class Vector2i(val x: Int, val y: Int) {
+	
+	companion object {
+		
+		@JvmStatic
+		val ZERO = Vector2i(0, 0)
+		
+		@JvmStatic
+		val ONE = Vector2i(1, 1)
+	}
+	
 	operator fun plus(other: Vector2i): Vector2i {
 		return Vector2i(this.x + other.x, this.y + other.y)
 	}
