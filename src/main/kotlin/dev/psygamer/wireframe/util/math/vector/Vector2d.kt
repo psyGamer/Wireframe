@@ -1,8 +1,20 @@
 package dev.psygamer.wireframe.util.math.vector
 
-import kotlin.math.*
+import kotlin.math.acos
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 open class Vector2d(val x: Double, val y: Double) {
+	
+	companion object {
+		
+		@JvmStatic
+		val ZERO = Vector2d(0.0, 0.0)
+		
+		@JvmStatic
+		val ONE = Vector2d(1.0, 1.0)
+	}
+	
 	operator fun plus(other: Vector2d): Vector2d {
 		return Vector2d(this.x + other.x, this.y + other.y)
 	}
