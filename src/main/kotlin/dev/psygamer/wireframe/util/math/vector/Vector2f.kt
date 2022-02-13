@@ -6,6 +6,15 @@ import kotlin.math.sqrt
 
 open class Vector2f(val x: Float, val y: Float) {
 	
+	companion object {
+		
+		@JvmStatic
+		val ZERO = Vector2f(0.0f, 0.0f)
+		
+		@JvmStatic
+		val ONE = Vector2f(1.0f, 1.0f)
+	}
+	
 	operator fun plus(other: Vector2f): Vector2f {
 		return Vector2f(this.x + other.x, this.y + other.y)
 	}

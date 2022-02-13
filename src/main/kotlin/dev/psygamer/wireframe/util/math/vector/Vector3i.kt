@@ -6,6 +6,15 @@ import kotlin.math.sqrt
 
 open class Vector3i(val x: Int, val y: Int, val z: Int) {
 	
+	companion object {
+		
+		@JvmStatic
+		val ZERO = Vector3i(0, 0, 0)
+		
+		@JvmStatic
+		val ONE = Vector3i(1, 1, 1)
+	}
+	
 	operator fun plus(other: Vector3i): Vector3i {
 		return Vector3i(this.x + other.x, this.y + other.y, this.z + other.z)
 	}
