@@ -30,10 +30,7 @@ import dev.psygamer.wireframe.util.BlockPosition
 import dev.psygamer.wireframe.util.Direction
 import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.TagCompound
-import dev.psygamer.wireframe.util.math.vector.Vector2f
-import dev.psygamer.wireframe.util.math.vector.Vector3d
-import dev.psygamer.wireframe.util.math.vector.Vector3f
-import dev.psygamer.wireframe.util.math.vector.Vector3i
+import dev.psygamer.wireframe.util.math.vector.*
 
 // Block
 internal val net.minecraft.block.Block.wfWrapped: Block
@@ -134,3 +131,6 @@ val net.minecraft.util.math.vector.Vector3f.wfWrapped: Vector3f
 
 val net.minecraft.util.math.vector.Vector3i.wfWrapped: Vector3i
 	get() = Vector3i(this.x, this.y, this.z)
+
+val net.minecraft.util.math.vector.Quaternion.wfWrapped: Quaternion
+	get() = Quaternion(this.i(), this.j(), this.k(), this.r())
