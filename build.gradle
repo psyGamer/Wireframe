@@ -24,9 +24,7 @@ apply plugin: "com.github.johnrengelman.shadow"
 
 group = "dev.psygamer"
 archivesBaseName = "wireframe"
-version = "0.2"
-
-def gitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
+version = "0.1"
 
 java {
     withSourcesJar()
@@ -155,6 +153,8 @@ compileKotlin {
         jvmTarget = "1.8"
     }
 }
+
+def gitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
 
 publishing {
     publications {
