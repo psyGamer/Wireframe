@@ -1,5 +1,7 @@
 package dev.psygamer.wireframe.nativeapi
 
+import kotlin.math.roundToInt
+import dev.psygamer.wireframe.api.client.render.MatrixStack
 import dev.psygamer.wireframe.api.entity.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.nativeapi.entity.*
@@ -56,6 +58,10 @@ internal val Player.mcNative: net.minecraft.entity.player.PlayerEntity
 
 internal val ProjectileEntity.mcNative: net.minecraft.entity.projectile.ProjectileEntity
 	get() = (this as NativeProjectileEntity).mcNative
+
+// Render
+internal val MatrixStack.mcNative: com.mojang.blaze3d.matrix.MatrixStack
+	get() = this.mcNative
 
 // Util
 internal val Identifier.mcNative: net.minecraft.util.ResourceLocation
