@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.util
+package dev.psygamer.wireframe.util.helper
 
 /*
  * NOTE: The reason why the JVM names are so 'odd',
