@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.util
+package dev.psygamer.wireframe.util.helper
 
 /**
  * Can be used to run debug-only code.
