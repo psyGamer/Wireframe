@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.api.client.model
 
-class Vertex(
-	val x: Float, val y: Float, val z: Float,
+class Vertex internal constructor(
+	val x: Float, val y: Float, val z: Float = 0.0f,
 ) {
 	
 	var hasNormal = false
@@ -30,6 +30,7 @@ class Vertex(
 		private set
 	
 	fun withNormal(x: Float, y: Float, z: Float): Vertex {
+		this.hasNormal = true
 		this.nx = x
 		this.ny = y
 		this.nz = z
@@ -37,12 +38,14 @@ class Vertex(
 	}
 	
 	fun withTexCoord(u: Float, v: Float): Vertex {
+		this.hasTexCoord = true
 		this.u = u
 		this.v = v
 		return this
 	}
 	
 	fun withColor(r: Float, g: Float, b: Float): Vertex {
+		this.hasColor = true
 		this.r = r
 		this.g = g
 		this.b = b
