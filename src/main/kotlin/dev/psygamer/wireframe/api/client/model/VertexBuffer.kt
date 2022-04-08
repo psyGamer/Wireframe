@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.api.client.model
 
-class VertexBuffer(data: FloatArray?, val size: Int, hasNormals: Boolean, hasTexCoords: Boolean, hasColors: Boolean) {
+class VertexBuffer(data: FloatArray?, val size: Int, val hasNormals: Boolean, val hasTexCoords: Boolean, val hasColors: Boolean) {
 	
 	val data = run {
 		if (data != null)
@@ -9,6 +9,7 @@ class VertexBuffer(data: FloatArray?, val size: Int, hasNormals: Boolean, hasTex
 	}
 	
 	val stride: Int =
+		3 + // Position
 		(if (hasNormals) 3 else 0) +
 		(if (hasTexCoords) 2 else 0) +
 		(if (hasColors) 3 else 0)
@@ -22,10 +23,9 @@ class VertexBuffer(data: FloatArray?, val size: Int, hasNormals: Boolean, hasTex
 		
 		private val vertices = emptyList<Vertex>().toMutableList()
 		
-		fun addVertex(x: Float, y: Float, z: Float): Vertex {
-			val vertex = Vertex(x, y, z)
+		fun add(vertex: Vertex): Builder {
 			vertices.add(vertex)
-			return vertex
+			return this
 		}
 		
 		fun build(): VertexBuffer {
