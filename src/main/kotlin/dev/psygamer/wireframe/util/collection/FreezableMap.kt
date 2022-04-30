@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.collection
 
 import com.google.common.collect.ImmutableMap
-import dev.psygamer.wireframe.util.helper.IFreezable
+import dev.psygamer.wireframe.util.IFreezable
 
 abstract class FreezableMap<K, V> protected constructor(private val map: MutableMap<K, V>) : MutableMap<K, V>, IFreezable {
 	

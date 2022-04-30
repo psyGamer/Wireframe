@@ -1,18 +1,15 @@
 package dev.psygamer.wireframe.nativeapi.client.screen
 
 import com.mojang.blaze3d.matrix.MatrixStack
-import dev.psygamer.wireframe.Wireframe
-import dev.psygamer.wireframe.api.client.OpenGL
-import dev.psygamer.wireframe.nativeapi.mcNative
-import dev.psygamer.wireframe.util.Color
-import dev.psygamer.wireframe.util.Identifier
-import dev.psygamer.wireframe.util.debug
-import dev.psygamer.wireframe.util.using
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
-import org.lwjgl.opengl.GL11.GL_BLEND
-import org.lwjgl.opengl.GL11.GL_TEXTURE_2D
+import org.lwjgl.opengl.GL11.*
 import javax.imageio.ImageIO
+import dev.psygamer.wireframe.Wireframe
+import dev.psygamer.wireframe.api.client.OpenGL
+import dev.psygamer.wireframe.debug.debug
+import dev.psygamer.wireframe.nativeapi.mcNative
+import dev.psygamer.wireframe.util.*
 
 object NativeScreenRenderHelper {
 	
@@ -52,7 +49,7 @@ object NativeScreenRenderHelper {
 	fun drawTexturedRect(
 		minX: Int, minY: Int, maxX: Int, maxY: Int,
 		minU: Int, minV: Int, maxU: Int, maxV: Int,
-		texture: Identifier, color: Color
+		texture: Identifier, color: Color,
 	) {
 		debug {
 			if (maxX < minX)
@@ -97,7 +94,7 @@ object NativeScreenRenderHelper {
 				else
 					getTextureSize()
 			
- 			AbstractGui.blit(
+			AbstractGui.blit(
 				MatrixStack(), minX, minY, maxX - minX, maxY - minY,
 				minU.toFloat(), minV.toFloat(), maxU - minU, maxV - minV, textureWidth, textureHeight
 			)

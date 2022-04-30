@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.util.collection
 
 import com.google.common.collect.ImmutableList
 import java.util.function.UnaryOperator
-import dev.psygamer.wireframe.util.helper.IFreezable
+import dev.psygamer.wireframe.util.IFreezable
 
 abstract class FreezableList<E> protected constructor(private val list: MutableList<E>) : MutableList<E>, IFreezable {
 	
