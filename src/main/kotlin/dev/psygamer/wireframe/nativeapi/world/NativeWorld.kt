@@ -1,13 +1,12 @@
 package dev.psygamer.wireframe.nativeapi.world
 
-import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.BlockState
-import dev.psygamer.wireframe.nativeapi.mcNative
-import dev.psygamer.wireframe.util.BlockPosition
-import dev.psygamer.wireframe.api.world.World
-import dev.psygamer.wireframe.api.world.World.UpdateFlag
 import net.minecraft.block.FlowingFluidBlock
 import net.minecraft.world.LightType
+import dev.psygamer.wireframe.api.block.*
+import dev.psygamer.wireframe.api.world.World
+import dev.psygamer.wireframe.api.world.World.UpdateFlag
+import dev.psygamer.wireframe.nativeapi.mcNative
+import dev.psygamer.wireframe.util.BlockPosition
 
 class NativeWorld(private val mcNative: net.minecraft.world.World) :
 	NativeBlockReader(mcNative), World {
@@ -73,11 +72,11 @@ class NativeWorld(private val mcNative: net.minecraft.world.World) :
 		return mcNative.getBlockState(position.mcNative).block == block.mcNative
 	}
 	
-	override fun getBlockLightLevel(position: BlockPosition): Float {
-		return mcNative.getBrightness(LightType.BLOCK, position.mcNative).toFloat()
+	override fun getBlockLightLevel(position: BlockPosition): Int {
+		return mcNative.getBrightness(LightType.BLOCK, position.mcNative)
 	}
 	
-	override fun getSkyLightLevel(position: BlockPosition): Float {
-		return mcNative.getBrightness(LightType.SKY, position.mcNative).toFloat()
+	override fun getSkyLightLevel(position: BlockPosition): Int {
+		return mcNative.getBrightness(LightType.SKY, position.mcNative)
 	}
 }
