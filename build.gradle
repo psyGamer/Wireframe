@@ -1,6 +1,6 @@
 buildscript {
-    ext.kotlin_version = "1.6.10"
-    ext.kotlin_reflect_version = "1.6.0"
+    ext.kotlin_version = "1.6.20"
+    ext.kotlin_reflect_version = "1.6.20"
 
     repositories {
         maven { url = "https://maven.minecraftforge.net" }
@@ -33,9 +33,7 @@ java {
 }
 
 minecraft {
-    //mappings channel: "official", version: "1.16.5"
-//    mappings channel: "yarn", version: "1.16.5+build.9"
-    mappings channel: "parchment", version: "2021.10.17-1.16.5"
+    mappings channel: "parchment", version: "2022.03.06-1.16.5"
 
     runs {
         client {
@@ -104,7 +102,7 @@ repositories {
     }
 }
 dependencies {
-    minecraft "net.minecraftforge:forge:1.16.5-36.1.0"
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.0"
 
 //    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 //    shadow "org.jetbrains.kotlin:kotlin-reflect:$kotlin_reflect_version"

@@ -1,23 +1,9 @@
 package dev.psygamer.wireframe.nativeapi
 
-import kotlin.math.roundToInt
-import dev.psygamer.wireframe.api.client.render.PoseStack
-import dev.psygamer.wireframe.api.entity.Entity
-import dev.psygamer.wireframe.api.entity.LivingEntity
-import dev.psygamer.wireframe.api.entity.Player
-import dev.psygamer.wireframe.api.entity.ProjectileEntity
-import dev.psygamer.wireframe.api.item.util.ClickResult
-import dev.psygamer.wireframe.api.item.util.ClickResultContainer
-import dev.psygamer.wireframe.api.item.util.Hand
-import dev.psygamer.wireframe.api.item.util.Rarity
-import dev.psygamer.wireframe.nativeapi.entity.NativeEntity
-import dev.psygamer.wireframe.nativeapi.entity.NativeLivingEntity
-import dev.psygamer.wireframe.nativeapi.entity.NativePlayer
-import dev.psygamer.wireframe.nativeapi.entity.NativeProjectileEntity
-import dev.psygamer.wireframe.util.BlockPosition
-import dev.psygamer.wireframe.util.Color
-import dev.psygamer.wireframe.util.Direction
-import dev.psygamer.wireframe.util.Identifier
+import dev.psygamer.wireframe.api.entity.*
+import dev.psygamer.wireframe.api.item.util.*
+import dev.psygamer.wireframe.nativeapi.entity.*
+import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.clamp
 import dev.psygamer.wireframe.util.math.vector.*
 

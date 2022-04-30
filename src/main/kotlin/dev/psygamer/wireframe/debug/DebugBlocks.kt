@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/kotlin/dev/psygamer/wireframe/util/helper/Debug.kt
-package dev.psygamer.wireframe.util.helper
-========
 package dev.psygamer.wireframe.debug
->>>>>>>> dev:src/main/kotlin/dev/psygamer/wireframe/debug/DebugBlocks.kt
 
 /**
  * Can be used to run debug-only code.
