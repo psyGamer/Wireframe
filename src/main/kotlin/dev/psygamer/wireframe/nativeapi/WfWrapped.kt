@@ -9,7 +9,6 @@ import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.api.network.PacketBuffer
 import dev.psygamer.wireframe.api.world.*
 import dev.psygamer.wireframe.nativeapi.block.*
-import dev.psygamer.wireframe.nativeapi.client.render.RenderBuffer
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.nativeapi.world.*
 import dev.psygamer.wireframe.util.*
@@ -83,9 +82,6 @@ internal val net.minecraft.world.IBlockReader.wfWrapped: BlockReader
 // Event
 internal val net.minecraft.network.PacketBuffer.wfWrapped: PacketBuffer
 	get() = PacketBuffer(this)
-
-internal val com.mojang.blaze3d.vertex.IVertexBuilder.wfWrapped: RenderBuffer
-	get() = RenderBuffer(this)
 
 // Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
