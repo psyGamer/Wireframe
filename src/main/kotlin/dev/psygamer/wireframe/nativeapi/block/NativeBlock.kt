@@ -2,41 +2,31 @@ package dev.psygamer.wireframe.nativeapi.block
 
 import com.google.common.collect.ImmutableMap
 import com.mojang.serialization.MapCodec
-import dev.psygamer.wireframe.api.block.BlockAttributes
-import dev.psygamer.wireframe.api.block.BlockProperty
-import dev.psygamer.wireframe.nativeapi.item.NativeItem
-import dev.psygamer.wireframe.nativeapi.mcNative
-import dev.psygamer.wireframe.nativeapi.wfWrapped
-import dev.psygamer.wireframe.util.math.BlockHitResult
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.*
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.item.BlockItemUseContext
-import net.minecraft.item.ItemStack
+import net.minecraft.item.*
 import net.minecraft.loot.LootContext
-import net.minecraft.state.Property
-import net.minecraft.state.StateContainer
+import net.minecraft.state.*
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
-import net.minecraft.util.math.RayTraceResult
-import net.minecraft.world.IBlockReader
-import net.minecraft.world.World
+import net.minecraft.util.*
+import net.minecraft.util.math.*
+import net.minecraft.world.*
 import net.minecraft.world.server.ServerWorld
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper
 import java.util.*
+import dev.psygamer.wireframe.api.block.*
+import dev.psygamer.wireframe.nativeapi.*
+import dev.psygamer.wireframe.nativeapi.item.NativeItem
 
 @Suppress("DEPRECATION")
 class NativeBlock(
 	private val block: dev.psygamer.wireframe.api.block.Block,
 	
-	blockAttributes: BlockAttributes
+	blockAttributes: BlockAttributes,
 ) : Block(blockAttributes.mcNative.createProperties()) {
 	
 	companion object {
@@ -67,9 +57,11 @@ class NativeBlock(
 		val stateDefinition =
 			builder.create(
 				Block::defaultBlockState
-			) { block: Block,
-				properties: ImmutableMap<Property<*>, Comparable<*>>,
-				codec: MapCodec<BlockState> ->
+			) {
+					block: Block,
+					properties: ImmutableMap<Property<*>, Comparable<*>>,
+					codec: MapCodec<BlockState>,
+				->
 				
 				BlockState(block, properties, codec)
 			} // @Kotlin: Why can't I just use `Block::new`???
@@ -92,7 +84,7 @@ class NativeBlock(
 	
 	override fun onPlace(
 		newBlockState: BlockState, world: World, pos: BlockPos,
-		oldBlockState: BlockState, isMoving: Boolean
+		oldBlockState: BlockState, isMoving: Boolean,
 	) {
 		block.onBlockPlaced(world.wfWrapped, pos.wfWrapped, oldBlockState.wfWrapped, newBlockState.wfWrapped)
 	}
@@ -106,7 +98,7 @@ class NativeBlock(
 	}
 	
 	override fun use(
-		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hitResult: BlockRayTraceResult
+		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hitResult: BlockRayTraceResult,
 	): ActionResultType {
 		return block.onUsedByPlayer(world.wfWrapped, pos.wfWrapped, state.wfWrapped, player.wfWrapped).mcNative
 	}
@@ -142,7 +134,7 @@ class NativeBlock(
 			context.hand.wfWrapped,
 			context.itemInHand.wfWrapped,
 			
-			BlockHitResult.get(NativeItem.hitResultField[context] as BlockRayTraceResult)
+			(NativeItem.hitResultField[context] as BlockRayTraceResult).wfWrapped
 		).mcNative
 	}
 	
@@ -180,7 +172,7 @@ class NativeBlock(
 	}
 	
 	override fun removedByPlayer(
-		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, willHarvest: Boolean, fluid: FluidState
+		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, willHarvest: Boolean, fluid: FluidState,
 	): Boolean {
 		block.onBlockRemovedByPlayer(
 			world.wfWrapped,
@@ -194,7 +186,7 @@ class NativeBlock(
 	}
 	
 	override fun getPickBlock(
-		state: BlockState, target: RayTraceResult, blockReader: IBlockReader, pos: BlockPos, player: PlayerEntity
+		state: BlockState, target: RayTraceResult, blockReader: IBlockReader, pos: BlockPos, player: PlayerEntity,
 	): ItemStack {
 		return block.createPickBlockStack(blockReader.wfWrapped, pos.wfWrapped, state.wfWrapped).mcNative
 	}
