@@ -1,16 +1,15 @@
 package dev.psygamer.wireframe.nativeapi.registry
 
+import net.minecraft.tileentity.TileEntityType
+import net.minecraftforge.event.RegistryEvent.Register
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.registry.BlockEntityRegistry
 import dev.psygamer.wireframe.event.nativeapi.NativeModEventBusSubscriber
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Identifier
-import dev.psygamer.wireframe.util.collection.FreezableHashMap
-import dev.psygamer.wireframe.util.collection.FreezableMap
-import net.minecraft.tileentity.TileEntityType
-import net.minecraftforge.event.RegistryEvent.Register
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import dev.psygamer.wireframe.util.collection.*
 
 @NativeModEventBusSubscriber
 class NativeBlockEntityRegistry(private val modID: String) {

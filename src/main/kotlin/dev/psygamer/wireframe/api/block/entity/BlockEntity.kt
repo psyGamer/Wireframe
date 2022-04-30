@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.api.block.entity
 
 import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.registry.BlockEntityRegistry
 import dev.psygamer.wireframe.api.world.World
 import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
 import dev.psygamer.wireframe.nativeapi.wfWrapped
@@ -15,12 +14,10 @@ open class BlockEntity {
 		val identifier: Identifier,
 		
 		val blockEntitySupplier: () -> BlockEntity,
-		val blockEntityHolders: Array<Block>
+		val blockEntityHolders: Array<Block>,
 	)
 	
 	val identifier: Identifier
-	val holders: Array<Block>
-	
 	val mcNative: net.minecraft.tileentity.TileEntity
 	
 	val world: World
@@ -28,24 +25,15 @@ open class BlockEntity {
 	val position: BlockPosition
 		get() = this.mcNative.blockPos.wfWrapped
 	
-	internal constructor(internal: net.minecraft.tileentity.TileEntity) {
-		this.identifier = internal.type.registryName?.wfWrapped
-						  ?: throw IllegalArgumentException("Tried to wrap native block without registry name!")
-		this.holders = emptyArray()
-		
-		this.mcNative = internal
+	internal constructor(mcNative: net.minecraft.tileentity.TileEntity) {
+		this.identifier = mcNative.type.registryName?.wfWrapped
+						  ?: throw IllegalArgumentException("Tried to wrap block entity without registry name!")
+		this.mcNative = mcNative
 	}
 	
 	protected constructor(identifier: Identifier) {
-		val definition = BlockEntityRegistry.getValue(identifier)
-						 ?: throw IllegalStateException("Tried to create unregistered BlockEntity!")
-		
 		this.identifier = identifier
-		this.holders = definition.blockEntityHolders
-		
 		this.mcNative = NativeBlockEntity(this)
-		
-		BlockEntityRegistry.register(definition)
 	}
 	
 	open fun saveNBT(tagCompound: TagCompound) {}

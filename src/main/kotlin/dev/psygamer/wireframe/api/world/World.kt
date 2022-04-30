@@ -77,6 +77,6 @@ interface World : BlockReader {
 	fun isLoaded(position: BlockPosition): Boolean
 	fun isBlock(position: BlockPosition, block: Block): Boolean
 	
-	fun getBlockLightLevel(position: BlockPosition): Float
-	fun getSkyLightLevel(position: BlockPosition): Float
+	fun getBlockLightLevel(position: BlockPosition): Int
+	fun getSkyLightLevel(position: BlockPosition): Int
 }
