@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.util
+package dev.psygamer.wireframe.debug
 
 /**
  * Can be used to run debug-only code.
@@ -8,5 +8,9 @@ package dev.psygamer.wireframe.util
 inline fun debug(block: () -> Unit) {
 	// When compiling for a release this can just be commented out to avoid having debug tools in the release build.
 	
+	block()
+}
+
+inline fun nonDebug(block: () -> Unit) {
 	block()
 }
