@@ -1,10 +1,9 @@
-package dev.psygamer.wireframe.api.client
+package dev.psygamer.wireframe.api.client.render
 
 import org.lwjgl.opengl.GL11.*
 import java.io.Closeable
 import dev.psygamer.wireframe.nativeapi.client.NativeOpenGL
-import dev.psygamer.wireframe.util.Color
-import dev.psygamer.wireframe.util.Identifier
+import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 /**
@@ -147,4 +146,10 @@ object OpenGL {
 	 */
 	fun texture(id: Int): Closeable =
 		NativeOpenGL.texture(id)
+	
+	// move to native
+	fun createTexture(): Closeable {
+		val texture = glGenTextures()
+		return Closeable { glDeleteTextures(texture) }
+	}
 }
