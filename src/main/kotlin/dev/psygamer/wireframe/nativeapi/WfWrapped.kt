@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.nativeapi
 
+import net.minecraft.util.math.RayTraceResult
 import dev.psygamer.wireframe.api.block.*
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.entity.*
@@ -12,10 +13,8 @@ import dev.psygamer.wireframe.nativeapi.client.render.RenderBuffer
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.nativeapi.world.*
 import dev.psygamer.wireframe.util.*
-import dev.psygamer.wireframe.util.math.vector.Vector2f
-import dev.psygamer.wireframe.util.math.vector.Vector3d
-import dev.psygamer.wireframe.util.math.vector.Vector3f
-import dev.psygamer.wireframe.util.math.vector.Vector3i
+import dev.psygamer.wireframe.util.math.BlockHitResult
+import dev.psygamer.wireframe.util.math.vector.*
 
 // Block
 internal val net.minecraft.block.Block.wfWrapped: Block
@@ -108,6 +107,15 @@ internal val net.minecraft.util.Direction.wfWrapped: Direction
 		net.minecraft.util.Direction.UP -> Direction.UP
 		net.minecraft.util.Direction.DOWN -> Direction.DOWN
 	}
+
+internal val net.minecraft.util.math.BlockRayTraceResult.wfWrapped: BlockHitResult
+	get() = BlockHitResult(
+		this.location.wfWrapped,
+		this.direction.wfWrapped,
+		this.blockPos.wfWrapped,
+		this.type == RayTraceResult.Type.MISS,
+		this.isInside
+	)
 
 val net.minecraft.util.math.BlockPos.wfWrapped: BlockPosition
 	get() = BlockPosition(this.x, this.y, this.z)
