@@ -1,35 +1,17 @@
 package dev.psygamer.wireframe.nativeapi
 
-import dev.psygamer.wireframe.api.block.Block
-import dev.psygamer.wireframe.api.block.BlockProperty
-import dev.psygamer.wireframe.api.block.BlockState
-import dev.psygamer.wireframe.api.block.BlockStateDefinition
+import dev.psygamer.wireframe.api.block.*
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
-import dev.psygamer.wireframe.api.entity.Entity
-import dev.psygamer.wireframe.api.entity.LivingEntity
-import dev.psygamer.wireframe.api.entity.Player
-import dev.psygamer.wireframe.api.entity.ProjectileEntity
-import dev.psygamer.wireframe.api.item.Item
-import dev.psygamer.wireframe.api.item.ItemStack
-import dev.psygamer.wireframe.api.item.util.ClickResult
-import dev.psygamer.wireframe.api.item.util.Hand
-import dev.psygamer.wireframe.api.item.util.Rarity
+import dev.psygamer.wireframe.api.entity.*
+import dev.psygamer.wireframe.api.item.*
+import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.api.network.PacketBuffer
-import dev.psygamer.wireframe.api.world.BlockReader
-import dev.psygamer.wireframe.api.world.World
-import dev.psygamer.wireframe.nativeapi.block.BlockPropertyWrapper
-import dev.psygamer.wireframe.nativeapi.block.NativeBlockState
-import dev.psygamer.wireframe.nativeapi.block.NativeBlockStateDefinition
-import dev.psygamer.wireframe.nativeapi.entity.NativeEntity
-import dev.psygamer.wireframe.nativeapi.entity.NativeLivingEntity
-import dev.psygamer.wireframe.nativeapi.entity.NativePlayer
-import dev.psygamer.wireframe.nativeapi.entity.NativeProjectileEntity
-import dev.psygamer.wireframe.nativeapi.world.NativeBlockReader
-import dev.psygamer.wireframe.nativeapi.world.NativeWorld
-import dev.psygamer.wireframe.util.BlockPosition
-import dev.psygamer.wireframe.util.Direction
-import dev.psygamer.wireframe.util.Identifier
-import dev.psygamer.wireframe.util.TagCompound
+import dev.psygamer.wireframe.api.world.*
+import dev.psygamer.wireframe.nativeapi.block.*
+import dev.psygamer.wireframe.nativeapi.client.render.RenderBuffer
+import dev.psygamer.wireframe.nativeapi.entity.*
+import dev.psygamer.wireframe.nativeapi.world.*
+import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.vector.Vector2f
 import dev.psygamer.wireframe.util.math.vector.Vector3d
 import dev.psygamer.wireframe.util.math.vector.Vector3f
@@ -102,6 +84,9 @@ internal val net.minecraft.world.IBlockReader.wfWrapped: BlockReader
 // Event
 internal val net.minecraft.network.PacketBuffer.wfWrapped: PacketBuffer
 	get() = PacketBuffer(this)
+
+internal val com.mojang.blaze3d.vertex.IVertexBuilder.wfWrapped: RenderBuffer
+	get() = RenderBuffer(this)
 
 // Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound
