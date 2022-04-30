@@ -1,8 +1,15 @@
 package dev.psygamer.wireframe
 
-import dev.psygamer.wireframe.api.registry.PacketRegistry
-import dev.psygamer.wireframe.event.EventBus
-import dev.psygamer.wireframe.event.EventBusRegistrator
+import net.minecraft.tileentity.TileEntityType
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.client.registry.ClientRegistry
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import org.apache.logging.log4j.*
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import dev.psygamer.wireframe.api.registry.*
+import dev.psygamer.wireframe.debug.WireframeDebugger
+import dev.psygamer.wireframe.debug.logging.*
+import dev.psygamer.wireframe.event.*
 import dev.psygamer.wireframe.event.api.IEventBus
 import dev.psygamer.wireframe.test.BlockTest
 import dev.psygamer.wireframe.test.TestPacket
@@ -19,6 +26,13 @@ object Wireframe {
 	
 	@JvmField
 	val LOGGER: Logger = LogManager.getLogger(NAME)
+	
+	@JvmField
+	val CHAT_LOGGER: SimpleLogger =
+		if (WireframeDebugger.ENABLED)
+			ChatLogger(name = NAME, consoleLogger = LOGGER)
+		else // We only want to use the ChatLogger in a debug environment.
+			VoidLogger
 	
 	@JvmField
 	val EVENT_BUS: IEventBus = EventBus()
