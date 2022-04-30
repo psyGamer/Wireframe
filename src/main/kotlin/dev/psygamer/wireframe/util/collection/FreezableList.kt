@@ -7,7 +7,8 @@ import dev.psygamer.wireframe.util.helper.IFreezable
 abstract class FreezableList<E> protected constructor(private val list: MutableList<E>) : MutableList<E>, IFreezable {
 	
 	@Volatile
-	private var frozen = false
+	final override var frozen = false
+		private set
 	
 	override val size
 		get() = list.size
@@ -100,8 +101,6 @@ abstract class FreezableList<E> protected constructor(private val list: MutableL
 	override fun freeze() {
 		frozen = true
 	}
-	
-	override fun isFrozen() = frozen
 	
 	fun toImmutable(): ImmutableList<E> {
 		return ImmutableList.copyOf(this)

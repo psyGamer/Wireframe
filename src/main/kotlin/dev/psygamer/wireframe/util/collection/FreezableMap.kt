@@ -6,7 +6,8 @@ import dev.psygamer.wireframe.util.helper.IFreezable
 abstract class FreezableMap<K, V> protected constructor(private val map: MutableMap<K, V>) : MutableMap<K, V>, IFreezable {
 	
 	@Volatile
-	private var frozen = false
+	final override var frozen = false
+		private set
 	
 	override val size
 		get() = map.size
@@ -55,8 +56,6 @@ abstract class FreezableMap<K, V> protected constructor(private val map: Mutable
 	override fun freeze() {
 		frozen = true
 	}
-	
-	override fun isFrozen() = frozen
 	
 	fun toImmutable(): ImmutableMap<K, V> {
 		return ImmutableMap.copyOf(this)
