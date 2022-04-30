@@ -8,15 +8,11 @@ import dev.psygamer.wireframe.util.math.clamp
 
 object VectorUtil {
 	
-	fun eulerToQuaternion(v: Vector3f): Quaternion {
-		return Quaternion(
-			x = sin(v.z / 2.0f) * cos(v.y / 2.0f) * cos(v.x / 2.0f) - cos(v.z / 2.0f) * sin(v.y / 2.0f) * sin(v.x / 2.0f),
-			y = cos(v.z / 2.0f) * sin(v.y / 2.0f) * cos(v.x / 2.0f) + sin(v.z / 2.0f) * cos(v.y / 2.0f) * sin(v.x / 2.0f),
-			z = cos(v.z / 2.0f) * cos(v.y / 2.0f) * sin(v.x / 2.0f) - sin(v.z / 2.0f) * sin(v.y / 2.0f) * cos(v.x / 2.0f),
-			w = cos(v.z / 2.0f) * cos(v.y / 2.0f) * cos(v.x / 2.0f) + sin(v.z / 2.0f) * sin(v.y / 2.0f) * sin(v.x / 2.0f)
-		)
-	}
+	@JvmStatic
+	fun eulerToQuaternion(v: Vector3f) =
+		eulerToQuaternion(v.x, v.y, v.z)
 	
+	@JvmStatic
 	fun eulerToQuaternion(x: Float, y: Float, z: Float): Quaternion {
 		return Quaternion(
 			x = sin(z / 2.0f) * cos(y / 2.0f) * cos(x / 2.0f) - cos(z / 2.0f) * sin(y / 2.0f) * sin(x / 2.0f),

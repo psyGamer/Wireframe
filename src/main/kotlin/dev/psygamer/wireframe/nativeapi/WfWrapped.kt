@@ -5,7 +5,7 @@ import dev.psygamer.wireframe.api.block.BlockProperty
 import dev.psygamer.wireframe.api.block.BlockState
 import dev.psygamer.wireframe.api.block.BlockStateDefinition
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
-import dev.psygamer.wireframe.api.client.render.MatrixStack
+import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.entity.Entity
 import dev.psygamer.wireframe.api.entity.LivingEntity
 import dev.psygamer.wireframe.api.entity.Player
@@ -102,8 +102,8 @@ internal val net.minecraft.network.PacketBuffer.wfWrapped: PacketBuffer
 	get() = PacketBuffer(this)
 
 // Render
-internal val com.mojang.blaze3d.matrix.MatrixStack.wfWrapped: MatrixStack
-	get() = MatrixStack(this)
+internal val com.mojang.blaze3d.matrix.MatrixStack.wfWrapped: PoseStack
+	get() = PoseStack(this)
 
 // Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound

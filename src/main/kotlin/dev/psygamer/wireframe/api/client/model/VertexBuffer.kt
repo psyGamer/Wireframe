@@ -2,17 +2,17 @@ package dev.psygamer.wireframe.api.client.model
 
 class VertexBuffer(data: FloatArray?, val size: Int, val hasNormals: Boolean, val hasTexCoords: Boolean, val hasColors: Boolean) {
 	
-	val data = run {
-		if (data != null)
-			return@run data
-		return@run FloatArray(size * this.stride)
-	}
-	
 	val stride: Int =
 		3 + // Position
 		(if (hasNormals) 3 else 0) +
 		(if (hasTexCoords) 2 else 0) +
 		(if (hasColors) 3 else 0)
+	
+	val data = run {
+		if (data != null)
+			return@run data
+		return@run FloatArray(size * this.stride)
+	}
 	
 	val vertexOffset: Int = 0
 	val normalOffset: Int = if (hasNormals) vertexOffset + 3 else vertexOffset
@@ -42,7 +42,7 @@ class VertexBuffer(data: FloatArray?, val size: Int, val hasNormals: Boolean, va
 			val buffer = VertexBuffer(data = null, size = this.vertices.size,
 									  hasNormals, hasTexCoords, hasColors)
 			
-			for (i in 0..this.vertices.size) {
+			for (i in 0 until this.vertices.size) {
 				val vertex = vertices[i]
 				
 				buffer.data[i * buffer.stride + buffer.vertexOffset] = vertex.x
