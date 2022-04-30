@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.collection
 
 import com.google.common.collect.ImmutableSet
-import dev.psygamer.wireframe.util.helper.IFreezable
+import dev.psygamer.wireframe.util.IFreezable
 
 abstract class FreezableSet<E> protected constructor(private val set: MutableSet<E>) : MutableSet<E>, IFreezable {
 	
