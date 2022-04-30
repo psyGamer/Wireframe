@@ -26,6 +26,10 @@ class BlockTest : Block(
 	FACING
 ) {
 	
+	init {
+		registerBlockEntity { TestBlockEntity(identifier) }
+	}
+	
 	companion object {
 		
 		val FACING = DirectionBlockProperty("facing")

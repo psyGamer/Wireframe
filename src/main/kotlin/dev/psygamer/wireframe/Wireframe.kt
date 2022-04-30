@@ -17,6 +17,14 @@ import dev.psygamer.wireframe.test.TestPacketDecoder
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import dev.psygamer.wireframe.api.registry.*
+import dev.psygamer.wireframe.debug.WireframeDebugger
+import dev.psygamer.wireframe.debug.logging.*
+import dev.psygamer.wireframe.event.*
+import dev.psygamer.wireframe.event.api.IEventBus
+import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
+import dev.psygamer.wireframe.nativeapi.registry.NativeBlockEntityRegistry
+import dev.psygamer.wireframe.test.*
 
 object Wireframe {
 	
@@ -58,6 +66,8 @@ object Wireframe {
 	
 	private object WireframeMod : Mod(MODID, NAME, VERSION)
 	
+	lateinit var blockTest: BlockTest
+	
 	@net.minecraftforge.fml.common.Mod(MODID)
 	object NativeMod {
 		
@@ -70,9 +80,21 @@ object Wireframe {
 			 * TODO Do this automatically
 			 */ WireframeMod
 			
-			BlockTest()
+			MOD_BUS.addListener(::clientSetup)
+			
+			blockTest = BlockTest()
 			EventBusRegistrator.register()
 			PacketRegistry.register(TestPacket::class.java, TestPacketDecoder)
+		}
+		
+		@SubscribeEvent
+		fun clientSetup(event: FMLClientSetupEvent) {
+			val def = BlockEntityRegistry.getValue(blockTest.identifier)
+			
+			@Suppress("UNCHECKED_CAST")
+			ClientRegistry.bindTileEntityRenderer(
+				NativeBlockEntityRegistry.getTileEntityType(def!!.identifier) as TileEntityType<NativeBlockEntity>,
+				::TestTESR)
 		}
 	}
 }
