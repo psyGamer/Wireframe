@@ -1,28 +1,20 @@
 package dev.psygamer.wireframe.nativeapi.item
 
-import dev.psygamer.wireframe.api.item.ItemAttributes
-import dev.psygamer.wireframe.nativeapi.getNative
-import dev.psygamer.wireframe.nativeapi.mcNative
-import dev.psygamer.wireframe.nativeapi.wfWrapped
-import dev.psygamer.wireframe.util.math.BlockHitResult
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemUseContext
-import net.minecraft.util.ActionResult
-import net.minecraft.util.ActionResultType
-import net.minecraft.util.Hand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.BlockRayTraceResult
+import net.minecraft.item.*
+import net.minecraft.util.*
+import net.minecraft.util.math.*
 import net.minecraft.world.World
 import java.lang.reflect.Field
+import dev.psygamer.wireframe.api.item.ItemAttributes
+import dev.psygamer.wireframe.nativeapi.*
 
 class NativeItem(
 	private val item: dev.psygamer.wireframe.api.item.Item,
 	
-	attributes: ItemAttributes
+	attributes: ItemAttributes,
 ) : Item(attributes.mcNative.createProperties()) {
 	
 	companion object {
@@ -53,7 +45,7 @@ class NativeItem(
 			context.hand.wfWrapped,
 			context.level.wfWrapped,
 			
-			BlockHitResult.get(hitResultField[context] as BlockRayTraceResult)
+			(hitResultField[context] as BlockRayTraceResult).wfWrapped
 		).mcNative
 	}
 	
