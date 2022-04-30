@@ -1,5 +1,7 @@
 package dev.psygamer.wireframe.nativeapi
 
+import kotlin.math.roundToInt
+import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.entity.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.nativeapi.entity.*
