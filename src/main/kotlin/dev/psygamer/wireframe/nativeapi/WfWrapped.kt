@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.nativeapi
 import net.minecraft.util.math.RayTraceResult
 import dev.psygamer.wireframe.api.block.*
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
-import dev.psygamer.wireframe.api.client.render.MatrixStack
+import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.entity.*
 import dev.psygamer.wireframe.api.item.*
 import dev.psygamer.wireframe.api.item.util.*
@@ -85,8 +85,8 @@ internal val net.minecraft.network.PacketBuffer.wfWrapped: PacketBuffer
 	get() = PacketBuffer(this)
 
 // Render
-internal val com.mojang.blaze3d.matrix.MatrixStack.wfWrapped: MatrixStack
-	get() = MatrixStack(this)
+internal val com.mojang.blaze3d.matrix.MatrixStack.wfWrapped: PoseStack
+	get() = PoseStack(this)
 
 // Util
 val net.minecraft.nbt.CompoundNBT.wfWrapped: TagCompound

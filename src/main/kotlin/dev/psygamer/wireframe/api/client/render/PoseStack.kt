@@ -2,13 +2,10 @@ package dev.psygamer.wireframe.api.client.render
 
 import java.io.Closeable
 import dev.psygamer.wireframe.nativeapi.mcNative
-import dev.psygamer.wireframe.util.math.vector.Vector3d
-import dev.psygamer.wireframe.util.math.vector.Vector3f
-import dev.psygamer.wireframe.util.math.vector.Vector3i
-import dev.psygamer.wireframe.util.math.vector.VectorUtil
+import dev.psygamer.wireframe.util.math.vector.*
 import dev.psygamer.wireframe.util.math.vector.VectorUtil.asQuaternion
 
-class MatrixStack {
+class PoseStack {
 	
 	internal val mcNative: com.mojang.blaze3d.matrix.MatrixStack
 	
@@ -22,32 +19,47 @@ class MatrixStack {
 	
 	fun push(): Closeable {
 		this.mcNative.pushPose()
-		
-		return Closeable {
-			this.mcNative.popPose()
-		}
+		return Closeable { this.mcNative.popPose() }
 	}
 	
 	fun pop() =
 		this.mcNative.popPose()
 	
-	fun translate(x: Int, y: Int, z: Int) =
+	fun translate(x: Int, y: Int, z: Int): Closeable {
 		this.mcNative.translate(x.toDouble(), y.toDouble(), z.toDouble())
+		return Closeable { this.mcNative.translate(-x.toDouble(), -y.toDouble(), -z.toDouble()) }
+	}
 	
-	fun translate(x: Float, y: Float, z: Float) =
+	fun translate(x: Float, y: Float, z: Float): Closeable {
 		this.mcNative.translate(x.toDouble(), y.toDouble(), z.toDouble())
+		return Closeable { this.mcNative.translate(-x.toDouble(), -y.toDouble(), -z.toDouble()) }
+	}
 	
-	fun translate(x: Double, y: Double, z: Double) =
+	fun translate(x: Double, y: Double, z: Double): Closeable {
 		this.mcNative.translate(x, y, z)
+		return Closeable { this.mcNative.translate(-x, -y, -z) }
+	}
 	
-	fun translate(translation: Vector3i) =
+	fun translate(translation: Vector3i): Closeable {
 		this.mcNative.translate(translation.x.toDouble(), translation.y.toDouble(), translation.z.toDouble())
+		return Closeable {
+			this.mcNative.translate(-translation.x.toDouble(), -translation.y.toDouble(), -translation.z.toDouble())
+		}
+	}
 	
-	fun translate(translation: Vector3f) =
+	fun translate(translation: Vector3f): Closeable {
 		this.mcNative.translate(translation.x.toDouble(), translation.y.toDouble(), translation.z.toDouble())
+		return Closeable {
+			this.mcNative.translate(-translation.x.toDouble(), -translation.y.toDouble(), -translation.z.toDouble())
+		}
+	}
 	
-	fun translate(translation: Vector3d) =
+	fun translate(translation: Vector3d): Closeable {
 		this.mcNative.translate(translation.x, translation.y, translation.z)
+		return Closeable {
+			this.mcNative.translate(-translation.x, -translation.y, -translation.z)
+		}
+	}
 	
 	fun rotate(x: Float, y: Float, z: Float) =
 		this.mcNative.mulPose(VectorUtil.eulerToQuaternion(x, y, z).mcNative)
@@ -78,5 +90,4 @@ class MatrixStack {
 	
 	fun scale(scale: Vector3d) =
 		this.mcNative.scale(scale.x.toFloat(), scale.y.toFloat(), scale.z.toFloat())
-	
 }
