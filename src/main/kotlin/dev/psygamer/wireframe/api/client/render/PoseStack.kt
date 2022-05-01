@@ -61,33 +61,55 @@ class PoseStack {
 		}
 	}
 	
-	fun rotate(x: Float, y: Float, z: Float) =
+	fun rotate(x: Float, y: Float, z: Float): Closeable {
 		this.mcNative.mulPose(VectorUtil.eulerToQuaternion(x, y, z).mcNative)
+		return Closeable { this.mcNative.mulPose(VectorUtil.eulerToQuaternion(-x, -y, -z).mcNative) }
+	}
 	
-	fun rotate(x: Double, y: Double, z: Double) =
+	fun rotate(x: Double, y: Double, z: Double): Closeable {
 		this.mcNative.mulPose(VectorUtil.eulerToQuaternion(x.toFloat(), y.toFloat(), z.toFloat()).mcNative)
+		return Closeable {
+			this.mcNative.mulPose(VectorUtil.eulerToQuaternion(-x.toFloat(), -y.toFloat(), -z.toFloat()).mcNative)
+		}
+	}
 	
-	fun rotate(rotation: Vector3f) =
+	fun rotate(rotation: Vector3f): Closeable {
 		this.mcNative.mulPose(rotation.asQuaternion().mcNative)
+		return Closeable { this.mcNative.mulPose(rotation.inverted.asQuaternion().mcNative) }
+	}
 	
-	fun rotate(rotation: Vector3d) =
+	fun rotate(rotation: Vector3d): Closeable {
 		this.mcNative.mulPose(rotation.asQuaternion().mcNative)
+		return Closeable { this.mcNative.mulPose(rotation.inverted.asQuaternion().mcNative) }
+	}
 	
-	fun scale(x: Int, y: Int, z: Int) =
+	fun scale(x: Int, y: Int, z: Int): Closeable {
 		this.mcNative.scale(x.toFloat(), y.toFloat(), z.toFloat())
+		return Closeable { this.mcNative.scale(-x.toFloat(), -y.toFloat(), -z.toFloat()) }
+	}
 	
-	fun scale(x: Float, y: Float, z: Float) =
+	fun scale(x: Float, y: Float, z: Float): Closeable {
 		this.mcNative.scale(x, y, z)
+		return Closeable { this.mcNative.scale(-x, -y, -z) }
+	}
 	
-	fun scale(x: Double, y: Double, z: Double) =
+	fun scale(x: Double, y: Double, z: Double): Closeable {
 		this.mcNative.scale(x.toFloat(), y.toFloat(), z.toFloat())
+		return Closeable { this.mcNative.scale(-x.toFloat(), -y.toFloat(), -z.toFloat()) }
+	}
 	
-	fun scale(scale: Vector3i) =
+	fun scale(scale: Vector3i): Closeable {
 		this.mcNative.scale(scale.x.toFloat(), scale.y.toFloat(), scale.z.toFloat())
+		return Closeable { this.mcNative.scale(-scale.x.toFloat(), -scale.y.toFloat(), -scale.z.toFloat()) }
+	}
 	
-	fun scale(scale: Vector3f) =
+	fun scale(scale: Vector3f): Closeable {
 		this.mcNative.scale(scale.x, scale.y, scale.z)
+		return Closeable { this.mcNative.scale(-scale.x, -scale.y, -scale.z) }
+	}
 	
-	fun scale(scale: Vector3d) =
+	fun scale(scale: Vector3d): Closeable {
 		this.mcNative.scale(scale.x.toFloat(), scale.y.toFloat(), scale.z.toFloat())
+		return Closeable { this.mcNative.scale(-scale.x.toFloat(), -scale.y.toFloat(), -scale.z.toFloat()) }
+	}
 }
