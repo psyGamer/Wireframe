@@ -1,8 +1,6 @@
 package dev.psygamer.wireframe.util.math.vector
 
-import kotlin.math.acos
-import kotlin.math.atan2
-import kotlin.math.sqrt
+import kotlin.math.*
 
 open class Vector2f(val x: Float, val y: Float) {
 	
@@ -70,4 +68,7 @@ open class Vector2f(val x: Float, val y: Float) {
 	fun angleBetween(other: Vector2f): Float {
 		return acos(this dot other / (this.magnitude * other.magnitude))
 	}
+	
+	val inverted
+		get() = Vector2f(-this.x, -this.y)
 }
