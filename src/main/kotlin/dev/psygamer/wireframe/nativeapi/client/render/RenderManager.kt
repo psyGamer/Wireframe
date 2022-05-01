@@ -1,33 +1,28 @@
 package dev.psygamer.wireframe.nativeapi.client.render
 
-import net.minecraft.client.renderer.IRenderTypeBuffer
-import dev.psygamer.wireframe.api.client.render.PoseStack
-import dev.psygamer.wireframe.nativeapi.wfWrapped
+import dev.psygamer.wireframe.nativeapi.client.render.context.RenderingContext
 
 object RenderManager {
 	
-	var currentPoseStack: PoseStack? = null
-		private set
-	private var currentRenderBuffer: IRenderTypeBuffer? = null
+	val currentContext: RenderingContext
+		get() {
+			if (_currentContext == null)
+				throw IllegalStateException("Cannot access rendering context whilst not rendering!")
+			return _currentContext!!
+		}
 	
-	fun isRendering() =
-		currentPoseStack != null && currentRenderBuffer != null
+	val rendering
+		get() = _currentContext != null
 	
-	fun startBatch(poseStack: PoseStack, renderBuffer: IRenderTypeBuffer) {
-		if (currentPoseStack != null || currentRenderBuffer != null)
+	private var _currentContext: RenderingContext? = null
+	
+	fun startContext(context: RenderingContext) {
+		if (_currentContext != null)
 			throw IllegalStateException("Cannot start another batch before ending the previous one!")
-		currentPoseStack = poseStack
-		currentRenderBuffer = renderBuffer
+		_currentContext = context
 	}
 	
-	fun endBatch() {
-		currentPoseStack = null
-		currentRenderBuffer = null
-	}
-	
-	fun getRenderBuffer(type: RenderBuffer.Type): RenderBuffer {
-		if (currentRenderBuffer == null)
-			throw IllegalStateException("Cannot get RenderBuffer while not rendering!")
-		return currentRenderBuffer!!.getBuffer(type.mcNative).wfWrapped
+	fun endContext() {
+		_currentContext = null
 	}
 }
