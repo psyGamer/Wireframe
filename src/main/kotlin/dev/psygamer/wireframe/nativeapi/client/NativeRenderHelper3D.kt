@@ -7,7 +7,7 @@ import dev.psygamer.wireframe.api.client.render.RenderingContext
 import dev.psygamer.wireframe.api.item.ItemStack
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Color
-import dev.psygamer.wireframe.util.using
+import dev.psygamer.wireframe.util.helper.using
 
 object NativeRenderHelper3D {
 	
@@ -17,16 +17,16 @@ object NativeRenderHelper3D {
 	) {
 		val font = Minecraft.getInstance().font
 		
-		using(context.matrixStack.push()) {
-			context.matrixStack.scale(-1 / 16.0f, -1 / 16.0f, -1 / 16.0f) // Ensure that 1 font pixel = 1 block pixel
+		using(context.poseStack.push()) {
+			context.poseStack.scale(-1 / 16.0f, -1 / 16.0f, -1 / 16.0f) // Ensure that 1 font pixel = 1 block pixel
 			
-			context.matrixStack.rotate(context.rotation)
-			context.matrixStack.scale(context.scale)
+			context.poseStack.rotate(context.rotation)
+			context.poseStack.scale(context.scale)
 			
 			val transparent = textColor.alpha < 1.0f
 			val xOffset = if (centered) font.width(text) / -2.0f else 0.0f
 			// FIXME: Ba
-			font.drawInBatch(text, xOffset, 0.0f, textColor.mcNative, dropShadow, context.matrixStack.mcNative.last().pose(),
+			font.drawInBatch(text, xOffset, 0.0f, textColor.mcNative, dropShadow, context.poseStack.mcNative.last().pose(),
 							 context.renderBuffer, transparent, backgroundColor.mcNative, context.packedLight, rightToLeft)
 		}
 	}
@@ -35,11 +35,11 @@ object NativeRenderHelper3D {
 		val itemRenderer = Minecraft.getInstance().itemRenderer
 		val itemModel = itemRenderer.getModel(itemStack.mcNative, null, null)
 		
-		using(context.matrixStack.push()) {
-			context.matrixStack.rotate(context.rotation)
-			context.matrixStack.scale(context.scale)
+		using(context.poseStack.push()) {
+			context.poseStack.rotate(context.rotation)
+			context.poseStack.scale(context.scale)
 			
-			itemRenderer.render(itemStack.mcNative, ItemCameraTransforms.TransformType.GROUND, true, context.matrixStack.mcNative,
+			itemRenderer.render(itemStack.mcNative, ItemCameraTransforms.TransformType.GROUND, true, context.poseStack.mcNative,
 								context.renderBuffer, context.packedLight, OverlayTexture.NO_OVERLAY, itemModel)
 		}
 	}

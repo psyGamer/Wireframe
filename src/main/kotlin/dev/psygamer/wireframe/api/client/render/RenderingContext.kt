@@ -10,6 +10,6 @@ data class RenderingContext(
 	val skyLight: Int,
 	val blockLight: Int,
 	
-	val matrixStack: MatrixStack,
+	val poseStack: PoseStack,
 	val renderBuffer: net.minecraft.client.renderer.IRenderTypeBuffer,
 )

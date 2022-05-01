@@ -3,12 +3,14 @@ package dev.psygamer.wireframe.nativeapi
 import net.minecraft.util.math.RayTraceResult
 import dev.psygamer.wireframe.api.block.*
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
+import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.entity.*
 import dev.psygamer.wireframe.api.item.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.api.network.PacketBuffer
 import dev.psygamer.wireframe.api.world.*
 import dev.psygamer.wireframe.nativeapi.block.*
+import dev.psygamer.wireframe.nativeapi.client.render.RenderBuffer
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.nativeapi.world.*
 import dev.psygamer.wireframe.util.*
@@ -130,9 +132,6 @@ val net.minecraft.util.math.vector.Vector3f.wfWrapped: Vector3f
 
 val net.minecraft.util.math.vector.Vector3i.wfWrapped: Vector3i
 	get() = Vector3i(this.x, this.y, this.z)
-<<<<<<< HEAD
 
 val net.minecraft.util.math.vector.Quaternion.wfWrapped: Quaternion
 	get() = Quaternion(this.i(), this.j(), this.k(), this.r())
-=======
->>>>>>> dev
