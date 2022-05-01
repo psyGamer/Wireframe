@@ -13,15 +13,24 @@ object VectorUtil {
 		eulerToQuaternion(v.x, v.y, v.z)
 	
 	@JvmStatic
+			/** See: [EuclideanSpace - Conversion Euler to Quaternion](http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm) */
 	fun eulerToQuaternion(x: Float, y: Float, z: Float): Quaternion {
+		val sinX = sin(x / 2.0f)
+		val cosX = cos(x / 2.0f)
+		val sinY = sin(y / 2.0f)
+		val cosY = cos(y / 2.0f)
+		val sinZ = sin(z / 2.0f)
+		val cosZ = cos(z / 2.0f)
+		
 		return Quaternion(
-			x = sin(z / 2.0f) * cos(y / 2.0f) * cos(x / 2.0f) - cos(z / 2.0f) * sin(y / 2.0f) * sin(x / 2.0f),
-			y = cos(z / 2.0f) * sin(y / 2.0f) * cos(x / 2.0f) + sin(z / 2.0f) * cos(y / 2.0f) * sin(x / 2.0f),
-			z = cos(z / 2.0f) * cos(y / 2.0f) * sin(x / 2.0f) - sin(z / 2.0f) * sin(y / 2.0f) * cos(x / 2.0f),
-			w = cos(z / 2.0f) * cos(y / 2.0f) * cos(x / 2.0f) + sin(z / 2.0f) * sin(y / 2.0f) * sin(x / 2.0f)
+			x = sinZ * cosY * cosX - cosZ * sinY * sinX,
+			y = cosZ * sinY * cosX + sinZ * cosY * sinX,
+			z = cosZ * cosY * sinX - sinZ * sinY * cosX,
+			w = cosZ * cosY * cosX + sinZ * sinY * sinX
 		)
 	}
 	
+	@JvmStatic
 	fun quaternionToEuler(q: Quaternion): Vector3f {
 		val x0 = 2.0f * (q.w * q.z + q.w * q.y)
 		val x1 = 1.0f - 2.0f * (q.y * q.y + q.z * q.z)
