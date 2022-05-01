@@ -8,7 +8,8 @@ import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.client.model.*
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
-import dev.psygamer.wireframe.nativeapi.client.render.*
+import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
+import dev.psygamer.wireframe.nativeapi.wfWrapped
 import dev.psygamer.wireframe.util.helper.using
 
 class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<NativeBlockEntity>(dispatcher) {
@@ -23,9 +24,9 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 			.add(Vertex(1.0f, 1.0f))
 			.build()
 	
-	fun rend(blockEntity: BlockEntity, poseStack: PoseStack, partialTicks: Float, renderBuffer: RenderBuffer) {
+	fun rend(blockEntity: BlockEntity, poseStack: PoseStack, partialTicks: Float) {
 		using(poseStack.translate(0, 1, 0)) {
-			quadMesh.render(poseStack, renderBuffer)
+			quadMesh.render()
 		}
 	}
 	
@@ -34,7 +35,12 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 		pBlockEntity: NativeBlockEntity, pPartialTicks: Float, pMatrixStack: MatrixStack, pBuffer: IRenderTypeBuffer,
 		pCombinedLight: Int, pCombinedOverlay: Int,
 	) {
-		RenderStateHolder.startBatch(pBuffer)
+		val poseStack = pMatrixStack.wfWrapped
+		RenderManager.startBatch(poseStack, pBuffer)
+		rend(pBlockEntity.blockEntity, poseStack, pPartialTicks)
+		RenderManager.endBatch()
+		
+		return
 //		glPushMatrix()
 //
 //		RenderSystem.enableDepthTest()
@@ -170,6 +176,7 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //		RenderSystem.disableBlend()
 //		RenderSystem.disableDepthTest()
 //		glPopMatrix()
+		RenderManager.endBatch()
 	}
 
 //	private fun oldRenderFunc() {
