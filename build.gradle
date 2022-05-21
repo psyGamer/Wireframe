@@ -118,7 +118,7 @@ publish {
             name = "repsy.io"
             url = "https://repo.repsy.io/mvn/psygamer/wireframe"
             credentials {
-                username = psygamer
+                username = "psygamer"
                 password = System.getenv("REPSY_PASSWORDD")
             }
         }
