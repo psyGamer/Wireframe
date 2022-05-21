@@ -34,26 +34,25 @@ jobs:
           name: wireframe
           path: build/libs
       
-  publish-repsy:
-    name: Publish artifacts to repsy.io
-    needs: build
-    
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts
-          
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-          
-      - name: Publish package
-        run: ./gradlew publish
-        env:
-          RESPY_PASSWORD: ${{ secrets.RESPY_PASSWORD }}
-    
+#  publish-repsy:
+#    name: Publish artifacts to repsy.io
+#    needs: build
+#    
+#    runs-on: ubuntu-latest
+#    
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Download Artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          path: artifacts
+#          
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#          
+#      - name: Publish package
+#        run: ./gradlew publish
+#        env:
+#          RESPY_PASSWORD: ${{ secrets.RESPY_PASSWORD }}
