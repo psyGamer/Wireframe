@@ -16,14 +16,17 @@ buildscript {
     }
 }
 
+apply plugin: "kotlin"
+apply plugin: "maven-publish"
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "org.parchmentmc.librarian.forgegradle"
 apply plugin: "com.github.johnrengelman.shadow"
-apply plugin: "kotlin"
 
 group = "dev.psygamer"
 archivesBaseName = "wireframe"
-version = "0.1"
+version = "0.2"
+
+def gitHash = 'git rev-parse --verify --short HEAD'.execute().text.trim()
 
 java {
     withSourcesJar()
@@ -69,9 +72,9 @@ minecraft {
             property "forge.logging.console.level", "debug"
 
             args "--mod", "wireframe", "--all",
-                    "--existing", file("src/main/resources/").toString(),
-                    "--existing", file("src/generated/resources/").toString(),
-                    "--output", file("src/generated/resources/")
+                 "--existing", file("src/main/resources/").toString(),
+                 "--existing", file("src/generated/resources/").toString(),
+                 "--output", file("src/generated/resources/")
 
             mods {
                 wireframe {
@@ -119,7 +122,7 @@ shadowJar {
 
     manifest {
         attributes([
-                "Specification-Title"     : "wireframe",
+                "Specification-Title"     : project.archivesBaseName,
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.version,
@@ -134,7 +137,7 @@ jar {
 
     manifest {
         attributes([
-                "Specification-Title"     : "wireframe",
+                "Specification-Title"     : project.archivesBaseName,
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.version,
@@ -150,5 +153,31 @@ reobf {
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+publishing {
+    publications {
+        dev(MavenPublication) {
+            artifactId = archivesBaseName
+            version = version
+            from components.java
+        }
+        release(MavenPublication) {
+            artifactId = "${archivesBaseName}-dev"
+            version = "${version}-${gitHash}"
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "repsy"
+            url = "https://repo.repsy.io/mvn/psygamer/wireframe"
+            credentials {
+                username = "psygamer"
+                password = System.getenv("REPSY_PASSWORD")
+            }
+        }
     }
 }
