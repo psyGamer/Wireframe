@@ -13,8 +13,8 @@ internal object WidgetCompiler {
 				throw IllegalStateException("Cannot compile widgets while other widgets are being compiled!")
 		}
 
-		currentWidgets.clear()
-		widgetFn() // In this call the constructors will be called, which than calls newWidgetCallback and adds the widget.
+		// In this call the constructors will be called, which than calls newWidgetCallback and adds the widgets.
+		widgetFn()
 
 		val widgets = currentWidgets.toList() // Copy
 		currentWidgets.clear()

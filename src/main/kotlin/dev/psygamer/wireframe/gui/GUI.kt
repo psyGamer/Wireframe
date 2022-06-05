@@ -9,7 +9,7 @@ abstract class GUI {
 
 	init {
 		this.widgets = WidgetCompiler.compileWidgets(this::setup)
-		this.widgets.forEach { it.compileChildren() }
+		this.widgets.forEach(Widget::compileChildren)
 	}
 
 	abstract fun setup()
