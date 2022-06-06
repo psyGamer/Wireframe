@@ -2,8 +2,14 @@ package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.WidgetCompiler
+import dev.psygamer.wireframe.gui.modifier.Modifier
 
-abstract class Widget(private val childrenFn: (() -> Unit)? = null) {
+abstract class Widget(
+	private val modifier: Modifier? = null,
+	private val childrenFn: (() -> Unit)? = null,
+) {
+
+	constructor(childrenFn: (() -> Unit)?) : this(null, childrenFn)
 
 	protected var children = emptyList<Widget>()
 		private set
