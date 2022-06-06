@@ -12,7 +12,7 @@ import dev.psygamer.wireframe.util.*
 object TestGUI : GUI() {
 
 	override fun setup() {
-		TestButton(modifier = Modifier.padding(2)) {
+		TestButton(modifier = Modifier.margin(2)) {
 			TestText(
 				text = "Abc",
 				modifier = Modifier.align(Alignment.CENTER)
