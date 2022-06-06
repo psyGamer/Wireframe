@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.gui.modifier
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
 
-class MarginModifier(private val size: Int) : Modifier {
+private class MarginModifier(private val size: Int) : Modifier() {
 
 	override fun apply(poseStack: PoseStack, width: Int, height: Int, parentWidth: Int, parentHeight: Int): Pair<Int, Int> {
 		poseStack.translate(size, size, 0)
@@ -10,4 +10,4 @@ class MarginModifier(private val size: Int) : Modifier {
 	}
 }
 
-fun Modifier.Companion.margin(size: Int): MarginModifier = MarginModifier(size)
+fun Modifier.margin(size: Int) = this and MarginModifier(size)

@@ -7,15 +7,19 @@ import dev.psygamer.wireframe.gui.GUI
 import dev.psygamer.wireframe.gui.modifier.*
 import dev.psygamer.wireframe.gui.widget.*
 import dev.psygamer.wireframe.nativeapi.mcNative
-import dev.psygamer.wireframe.util.*
+import dev.psygamer.wireframe.util.Color
 
 object TestGUI : GUI() {
 
 	override fun setup() {
-		TestButton(modifier = Modifier.margin(2)) {
+		TestButton(
+			modifier = Modifier
+				.align(Alignment.CENTER)
+				.margin(5)
+		) {
 			TestText(
 				text = "Abc",
-				modifier = Modifier.align(Alignment.CENTER)
+				modifier = Modifier.align(Alignment.TOP_RIGHT)
 			)
 		}
 	}
@@ -24,13 +28,13 @@ object TestGUI : GUI() {
 private class TestButton(modifier: Modifier, children: () -> Unit) : Widget(modifier, children) {
 
 	override fun render(poseStack: PoseStack) {
-		ScreenRenderHelper.drawTexturedQuad(100, 0, 200, 100, 0, 0, 16, 16, Identifier(path = "textures/block/stone.png"))
+		ScreenRenderHelper.drawQuad(poseStack, children.width, children.height, Color.DARK_GRAY)
 		children.render(poseStack)
 	}
 
-	override val width: Int
+	override val contentWidth: Int
 		get() = children.width
-	override val height: Int
+	override val contentHeight: Int
 		get() = children.height
 }
 
@@ -40,6 +44,6 @@ private class TestText(val text: String, modifier: Modifier) : Widget(modifier) 
 		Minecraft.getInstance().font.draw(poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)
 	}
 
-	override val width = Minecraft.getInstance().font.width(text)
-	override val height = Minecraft.getInstance().font.lineHeight
+	override val contentWidth = Minecraft.getInstance().font.width(text)
+	override val contentHeight = Minecraft.getInstance().font.lineHeight
 }

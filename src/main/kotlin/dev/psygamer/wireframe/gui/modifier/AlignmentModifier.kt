@@ -14,7 +14,7 @@ enum class Alignment {
 	BOTTOM_RIGHT,
 }
 
-class AlignmentModifier(private val alignment: Alignment) : Modifier {
+private class AlignmentModifier(private val alignment: Alignment) : Modifier() {
 
 	override fun apply(poseStack: PoseStack, width: Int, height: Int, parentWidth: Int, parentHeight: Int): Pair<Int, Int> {
 		val centerX = parentWidth / 2 - width / 2
@@ -41,4 +41,4 @@ class AlignmentModifier(private val alignment: Alignment) : Modifier {
 	}
 }
 
-fun Modifier.Companion.align(alignment: Alignment) = AlignmentModifier(alignment)
+fun Modifier.align(alignment: Alignment) = this and AlignmentModifier(alignment)
