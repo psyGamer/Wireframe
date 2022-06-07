@@ -6,7 +6,7 @@ import dev.psygamer.wireframe.gui.widget.Widget
 
 abstract class GUI {
 
-	private val widgets: List<Widget>
+	private var widgets: List<Widget>
 
 	init {
 		this.widgets = WidgetCompiler.compileWidgets(this::setup)
@@ -22,5 +22,10 @@ abstract class GUI {
 		this.widgets.forEach {
 			it.render()
 		}
+	}
+
+	internal fun recompile() {
+		this.widgets = WidgetCompiler.compileWidgets(this::setup)
+		this.widgets.forEach(Widget::compileChildren)
 	}
 }
