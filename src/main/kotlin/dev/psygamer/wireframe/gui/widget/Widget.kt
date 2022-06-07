@@ -29,8 +29,12 @@ abstract class Widget(
 	protected abstract val contentHeight: Int
 
 	internal fun applyModifiers(poseStack: PoseStack, parentWidth: Int, parentHeight: Int) {
-		if (modifier == null) return
-		val (newWidth, newHeight) = this.modifier.apply(poseStack, this.contentWidth, this.contentHeight, parentWidth, parentHeight)
+		val (newWidth, newHeight) =
+			if (modifier != null && modifier != Modifier)
+				this.modifier.apply(poseStack, this.contentWidth, this.contentHeight, parentWidth, parentHeight)
+			else
+				contentWidth to contentHeight
+
 		this.actualWidth = newWidth
 		this.actualHeight = newHeight
 	}
