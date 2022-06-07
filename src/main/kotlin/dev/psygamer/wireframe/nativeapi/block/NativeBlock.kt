@@ -25,35 +25,35 @@ import dev.psygamer.wireframe.nativeapi.item.NativeItem
 @Suppress("DEPRECATION")
 class NativeBlock(
 	private val block: dev.psygamer.wireframe.api.block.Block,
-	
+
 	blockAttributes: BlockAttributes,
 ) : Block(blockAttributes.mcNative.createProperties()) {
-	
+
 	companion object {
-		
+
 		// Get the Block#stateDefinition field
 		val stateDefinitionField = ObfuscationReflectionHelper.findField(Block::class.java, "field_176227_L")
-		
+
 		init {
 			stateDefinitionField.isAccessible = true
 		}
 	}
-	
+
 	init {
 		this.setRegistryName(
 			block.identifier.namespace,
 			block.identifier.path
 		)
 	}
-	
+
 	fun setDefaultBlockState(blockState: dev.psygamer.wireframe.api.block.BlockState) {
 		registerDefaultState(blockState.mcNative)
 	}
-	
+
 	fun registerBlockProperties(blockProperties: Array<out BlockProperty<*>>) {
 		val builder = StateContainer.Builder<Block, BlockState>(this)
 		blockProperties.forEach { builder.add(it.mcNative) }
-		
+
 		val stateDefinition =
 			builder.create(
 				Block::defaultBlockState
@@ -62,86 +62,86 @@ class NativeBlock(
 					properties: ImmutableMap<Property<*>, Comparable<*>>,
 					codec: MapCodec<BlockState>,
 				->
-				
+
 				BlockState(block, properties, codec)
 			} // @Kotlin: Why can't I just use `Block::new`???
-		
+
 		var defaultState = stateDefinition.any()
-		
+
 		blockProperties.forEach {
 			defaultState = setValue(it, defaultState)
 		}
-		
+
 		stateDefinitionField.set(this, stateDefinition)
 		registerDefaultState(defaultState)
 	}
-	
+
 	private fun <T : Comparable<T>, S : T> setValue(blockProperty: BlockProperty<T>, blockState: BlockState): BlockState {
 		return blockState.setValue(blockProperty.mcNative, blockProperty.defaultValue)
 	}
-	
+
 	/* Block Events */
-	
+
 	override fun onPlace(
 		newBlockState: BlockState, world: World, pos: BlockPos,
 		oldBlockState: BlockState, isMoving: Boolean,
 	) {
 		block.onBlockPlaced(world.wfWrapped, pos.wfWrapped, oldBlockState.wfWrapped, newBlockState.wfWrapped)
 	}
-	
+
 	override fun onRemove(newBlockState: BlockState, world: World, pos: BlockPos, oldBlockState: BlockState, isMoving: Boolean) {
 		block.onBlockRemoved(
 			world.wfWrapped, pos.wfWrapped, oldBlockState.wfWrapped, newBlockState.wfWrapped
 		)
-		
+
 		super.onRemove(newBlockState, world, pos, oldBlockState, isMoving)
 	}
-	
+
 	override fun use(
 		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hitResult: BlockRayTraceResult,
 	): ActionResultType {
 		return block.onUsedByPlayer(world.wfWrapped, pos.wfWrapped, state.wfWrapped, player.wfWrapped).mcNative
 	}
-	
+
 	override fun getDrops(state: BlockState, builder: LootContext.Builder): List<ItemStack> {
 		return block.createBlockDrops(state.wfWrapped).map { it.mcNative }
 	}
-	
+
 	override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
 		block.onRandomTick(world.wfWrapped, pos.wfWrapped, state.wfWrapped, random)
 	}
-	
+
 	override fun tick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
 		block.onTick(world.wfWrapped, pos.wfWrapped, state.wfWrapped)
 	}
-	
+
 	override fun attack(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity) {
 		block.onAttackedByPlayer(world.wfWrapped, pos.wfWrapped, state.wfWrapped, player.wfWrapped)
 	}
-	
+
 	override fun onProjectileHit(world: World, state: BlockState, hitResult: BlockRayTraceResult, projectile: ProjectileEntity) {
 		block.onHitByProjectile(world.wfWrapped, hitResult.blockPos.wfWrapped, state.wfWrapped, projectile.wfWrapped)
 	}
-	
+
 	override fun stepOn(world: World, pos: BlockPos, entity: Entity) {
 		block.onEntityStepOnBlock(world.wfWrapped, pos.wfWrapped, world.getBlockState(pos).wfWrapped, entity.wfWrapped)
 	}
-	
+
 	override fun getStateForPlacement(context: BlockItemUseContext): BlockState {
 		return block.getPlacementState(
 			context.level.wfWrapped,
 			context.player?.wfWrapped,
 			context.hand.wfWrapped,
 			context.itemInHand.wfWrapped,
-			
+
 			(NativeItem.hitResultField[context] as BlockRayTraceResult).wfWrapped
 		).mcNative
 	}
-	
+
 	override fun setPlacedBy(world: World, pos: BlockPos, blockState: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
 		if (placer !is PlayerEntity)
 			return
-		
+
 		block.onBlockPlacedByPlayer(
 			world.wfWrapped,
 			pos.wfWrapped,
@@ -150,10 +150,10 @@ class NativeBlock(
 			placer.wfWrapped
 		)
 	}
-	
+
 	override fun fallOn(world: World, pos: BlockPos, entity: Entity, distance: Float) {
 		super.fallOn(world, pos, entity, distance)
-		
+
 		block.onEntityFallOnBlock(
 			world.wfWrapped,
 			pos.wfWrapped,
@@ -162,15 +162,15 @@ class NativeBlock(
 			distance
 		)
 	}
-	
+
 	override fun hasTileEntity(state: BlockState): Boolean {
 		return block.hasBlockEntity
 	}
-	
+
 	override fun createTileEntity(state: BlockState, blockReader: IBlockReader): TileEntity? {
 		return block.createBlockEntity()?.mcNative
 	}
-	
+
 	override fun removedByPlayer(
 		state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, willHarvest: Boolean, fluid: FluidState,
 	): Boolean {
@@ -181,10 +181,10 @@ class NativeBlock(
 			state.wfWrapped,
 			player.wfWrapped
 		)
-		
+
 		return super.removedByPlayer(state, world, pos, player, willHarvest, fluid)
 	}
-	
+
 	override fun getPickBlock(
 		state: BlockState, target: RayTraceResult, blockReader: IBlockReader, pos: BlockPos, player: PlayerEntity,
 	): ItemStack {

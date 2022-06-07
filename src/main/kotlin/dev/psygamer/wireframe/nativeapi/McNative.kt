@@ -1,15 +1,12 @@
 package dev.psygamer.wireframe.nativeapi
 
+import kotlin.math.roundToInt
 import dev.psygamer.wireframe.api.entity.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.clamp
-import dev.psygamer.wireframe.util.math.vector.Vector2f
-import dev.psygamer.wireframe.util.math.vector.Vector3d
-import dev.psygamer.wireframe.util.math.vector.Vector3f
-import dev.psygamer.wireframe.util.math.vector.Vector3i
-import kotlin.math.roundToInt
+import dev.psygamer.wireframe.util.math.vector.*
 
 // Item
 internal val ClickResult.mcNative: net.minecraft.util.ActionResultType
@@ -78,14 +75,14 @@ internal val Direction.mcNative: net.minecraft.util.Direction
 internal val Color.mcNative: Int
 	get() {
 		// Minecraft's Format: ARGB
-		
+
 		var color = 0x00000000
-		
+
 		color = color shl 0 or (alpha * 255).roundToInt().clamp(max = 255)
 		color = color shl 8 or (red * 255).roundToInt().clamp(max = 255)
 		color = color shl 8 or (green * 255).roundToInt().clamp(max = 255)
 		color = color shl 8 or (blue * 255).roundToInt().clamp(max = 255)
-		
+
 		return color
 	}
 
