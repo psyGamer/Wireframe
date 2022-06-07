@@ -18,8 +18,10 @@ abstract class GUI {
 	fun render(poseStack: PoseStack) {
 		poseStack.translate(0.5f, 0f, 0f)
 		this.widgets.forEach {
+			poseStack.push()
 			it.applyModifiers(poseStack, ScreenRenderHelper.screenWidth, ScreenRenderHelper.screenHeight)
 			it.render(poseStack)
+			poseStack.pop()
 		}
 	}
 }
