@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.gui
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
+import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
 import dev.psygamer.wireframe.gui.widget.Widget
 
 abstract class GUI {
@@ -15,6 +16,10 @@ abstract class GUI {
 	abstract fun setup()
 
 	fun render(poseStack: PoseStack) {
-		this.widgets.forEach { it.render(poseStack) }
+		poseStack.translate(0.5f, 0f, 0f)
+		this.widgets.forEach {
+			it.applyModifiers(poseStack, ScreenRenderHelper.screenWidth, ScreenRenderHelper.screenHeight)
+			it.render(poseStack)
+		}
 	}
 }

@@ -20,8 +20,20 @@ abstract class Widget(
 
 	abstract fun render(poseStack: PoseStack)
 
-	abstract val width: Int
-	abstract val height: Int
+	var actualWidth: Int = contentWidth
+		private set
+	var actualHeight: Int = contentHeight
+		private set
+
+	protected abstract val contentWidth: Int
+	protected abstract val contentHeight: Int
+
+	internal fun applyModifiers(poseStack: PoseStack, parentWidth: Int, parentHeight: Int) {
+		if (modifier == null) return
+		val (newWidth, newHeight) = this.modifier.apply(poseStack, this.contentWidth, this.contentHeight, parentWidth, parentHeight)
+		this.actualWidth = newWidth
+		this.actualHeight = newHeight
+	}
 
 	internal fun compileChildren() {
 		if (childrenFn != null) {
@@ -39,7 +51,7 @@ val Collection<Widget>.width: Int
 	get() {
 		var maxWidth = 0
 		this.forEach {
-			maxWidth = maxWidth.coerceAtLeast(it.width)
+			maxWidth = maxWidth.coerceAtLeast(it.actualWidth)
 		}
 		return maxWidth
 	}
@@ -48,7 +60,7 @@ val Collection<Widget>.height: Int
 	get() {
 		var maxHeight = 0
 		this.forEach {
-			maxHeight = maxHeight.coerceAtLeast(it.height)
+			maxHeight = maxHeight.coerceAtLeast(it.actualHeight)
 		}
 		return maxHeight
 	}
@@ -58,8 +70,8 @@ val Collection<Widget>.widthHeight: Pair<Int, Int>
 		var maxWidth = 0
 		var maxHeight = 0
 		this.forEach {
-			maxWidth = maxWidth.coerceAtLeast(it.width)
-			maxHeight = maxHeight.coerceAtLeast(it.height)
+			maxWidth = maxWidth.coerceAtLeast(it.actualWidth)
+			maxHeight = maxHeight.coerceAtLeast(it.actualHeight)
 		}
 		return maxWidth to maxHeight
 	}
