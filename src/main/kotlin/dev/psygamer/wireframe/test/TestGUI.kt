@@ -27,9 +27,9 @@ object TestGUI : GUI() {
 
 private class TestButton(modifier: Modifier, children: () -> Unit) : Widget(modifier, children) {
 
-	override fun render(poseStack: PoseStack) {
+	override fun render() {
 		ScreenRenderHelper.drawQuad(poseStack, children.width, children.height, Color.DARK_GRAY)
-		children.render(poseStack)
+		children.render()
 	}
 
 	override val contentWidth: Int
@@ -40,7 +40,7 @@ private class TestButton(modifier: Modifier, children: () -> Unit) : Widget(modi
 
 private class TestText(val text: String, modifier: Modifier) : Widget(modifier) {
 
-	override fun render(poseStack: PoseStack) {
+	override fun render() {
 		Minecraft.getInstance().font.draw(poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)
 	}
 

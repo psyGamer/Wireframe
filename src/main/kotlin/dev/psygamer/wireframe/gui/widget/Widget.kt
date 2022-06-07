@@ -9,6 +9,9 @@ abstract class Widget(
 	private val childrenFn: (() -> Unit)? = null,
 ) {
 
+	protected lateinit var poseStack: PoseStack
+		private set
+
 	constructor(childrenFn: (() -> Unit)?) : this(null, childrenFn)
 
 	protected var children = emptyList<Widget>()
@@ -18,7 +21,7 @@ abstract class Widget(
 		WidgetCompiler.newWidgetCallback(this)
 	}
 
-	abstract fun render(poseStack: PoseStack)
+	abstract fun render()
 
 	var actualWidth: Int = contentWidth
 		private set
@@ -37,6 +40,7 @@ abstract class Widget(
 
 		this.actualWidth = newWidth
 		this.actualHeight = newHeight
+		this.poseStack = poseStack.clone()
 
 		this.children.forEach {
 			poseStack.push()
@@ -53,8 +57,8 @@ abstract class Widget(
 	}
 }
 
-fun Collection<Widget>.render(poseStack: PoseStack) {
-	this.forEach { it.render(poseStack) }
+fun Collection<Widget>.render() {
+	this.forEach { it.render() }
 }
 
 val Collection<Widget>.width: Int

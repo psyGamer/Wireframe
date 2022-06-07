@@ -10,18 +10,17 @@ abstract class GUI {
 
 	init {
 		this.widgets = WidgetCompiler.compileWidgets(this::setup)
-		this.widgets.forEach(Widget::compileChildren)
+		this.widgets.forEach {
+			it.compileChildren()
+			it.applyModifiers(PoseStack(), ScreenRenderHelper.screenWidth, ScreenRenderHelper.screenHeight)
+		}
 	}
 
 	abstract fun setup()
 
-	fun render(poseStack: PoseStack) {
-		poseStack.translate(0.5f, 0f, 0f)
+	fun render() {
 		this.widgets.forEach {
-			poseStack.push()
-			it.applyModifiers(poseStack, ScreenRenderHelper.screenWidth, ScreenRenderHelper.screenHeight)
-			it.render(poseStack)
-			poseStack.pop()
+			it.render()
 		}
 	}
 }
