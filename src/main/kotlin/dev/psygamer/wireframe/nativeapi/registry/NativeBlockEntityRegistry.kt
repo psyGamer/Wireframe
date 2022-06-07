@@ -13,15 +13,15 @@ import dev.psygamer.wireframe.util.collection.*
 
 @NativeModEventBusSubscriber
 class NativeBlockEntityRegistry(private val modID: String) {
-	
+
 	companion object {
-		
+
 		private val tileEntityTypeCache: FreezableMap<Identifier, TileEntityType<*>> = FreezableHashMap()
-		
+
 		fun getTileEntityType(identifier: Identifier): TileEntityType<*> {
 			return tileEntityTypeCache[identifier]!!
 		}
-		
+
 		fun generateTileEntityType(definition: BlockEntity.Definition): TileEntityType<*> {
 			@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS") // It's fine
 			return TileEntityType.Builder
@@ -33,7 +33,7 @@ class NativeBlockEntityRegistry(private val modID: String) {
 				.setRegistryName(definition.identifier.mcNative)
 		}
 	}
-	
+
 	@SubscribeEvent
 	fun onBlockRegistry(event: Register<TileEntityType<*>>) {
 		BlockEntityRegistry.freeze()
@@ -41,10 +41,10 @@ class NativeBlockEntityRegistry(private val modID: String) {
 			.filter { it.identifier.namespace == this.modID }
 			.forEach { definition ->
 				val tileEntityType = generateTileEntityType(definition)
-				
+
 				tileEntityTypeCache[definition.identifier] = tileEntityType
 				event.registry.register(tileEntityType)
-				
+
 				Wireframe.LOGGER.info("Successfully registered tile entity ${definition.identifier}")
 			}
 	}

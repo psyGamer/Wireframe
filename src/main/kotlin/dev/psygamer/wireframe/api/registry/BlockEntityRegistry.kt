@@ -5,7 +5,7 @@ import dev.psygamer.wireframe.util.Identifier
 import dev.psygamer.wireframe.util.collection.FreezableMap
 
 object BlockEntityRegistry : MapRegistry<Identifier, Definition>() {
-	
+
 	@JvmStatic
 	fun register(definition: Definition) {
 		(elements as FreezableMap)[definition.identifier] = definition

@@ -7,18 +7,18 @@ import dev.psygamer.wireframe.event.nativeapi.NativeEventBusRegistrator
 import dev.psygamer.wireframe.util.reflection.ClassUtil
 
 object EventBusRegistrator {
-	
+
 	internal val eventClasses: List<Class<*>>
 		get() = buildList {
 			mods.forEach { addAll(ClassUtil.getClasses(it.rootPackage, false, this@EventBusRegistrator.javaClass.classLoader)) }
 		}
-	
+
 	fun register() {
 		registerWireframeEventBusses()
-		
+
 		NativeEventBusRegistrator.register()
 	}
-	
+
 	private fun registerWireframeEventBusses() {
 		eventClasses
 			.filter { it.isAnnotationPresent(EventBusSubscriber::class.java) }

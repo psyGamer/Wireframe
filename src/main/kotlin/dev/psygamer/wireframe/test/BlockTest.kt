@@ -17,7 +17,7 @@ class BlockTest : Block(
 	BlockAttributes(Material.WOOD)
 			.harvestLevel(HarvestLevel.STONE),
 	ItemAttributes()
-			.maxStackSize(15),
+		.maxStackSize(15),
 
 	FACING
 ) {
@@ -39,7 +39,7 @@ class BlockTest : Block(
 				TestPacket("Moin, Client, Moin!")
 			)
 		}
-
+		
 		runCatching {
 			TestScreen.open()
 		}

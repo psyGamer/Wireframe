@@ -1,7 +1,6 @@
 package dev.psygamer.wireframe.util.math
 
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.*
 
 fun Int.clamp(min: Int = 1, max: Int): Int {
 	return min(max, max(min, this))
