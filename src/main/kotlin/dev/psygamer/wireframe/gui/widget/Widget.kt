@@ -37,6 +37,10 @@ abstract class Widget(
 
 		this.actualWidth = newWidth
 		this.actualHeight = newHeight
+
+		this.children.forEach {
+			it.applyModifiers(poseStack, this.actualWidth, this.actualHeight)
+		}
 	}
 
 	internal fun compileChildren() {
