@@ -17,8 +17,10 @@ object NativeScreenRenderHelper {
 
 	internal val IDENTITY_MATRIX = MatrixStack()
 
-	val screenWidth: Int = Minecraft.getInstance().screen!!.width
-	val screenHeight: Int = Minecraft.getInstance().screen!!.height
+	val screenWidth: Int
+		get() = Minecraft.getInstance().screen?.width ?: 0
+	val screenHeight: Int
+		get() = Minecraft.getInstance().screen?.height ?: 0
 
 	fun getStringWidth(text: String): Int {
 		return font.width(text)
