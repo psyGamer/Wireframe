@@ -17,6 +17,7 @@ internal object WidgetCompiler {
 		widgetFn()
 
 		val widgets = currentWidgets.toList() // Copy
+		widgets.forEach { it.compileChildren() }
 		currentWidgets.clear()
 		return widgets
 	}

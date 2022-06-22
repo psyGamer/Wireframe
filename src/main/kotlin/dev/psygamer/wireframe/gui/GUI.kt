@@ -11,7 +11,6 @@ abstract class GUI {
 	init {
 		this.widgets = WidgetCompiler.compileWidgets(this::setup)
 		this.widgets.forEach {
-			it.compileChildren()
 			it.applyModifiers(PoseStack(), ScreenRenderHelper.screenWidth, ScreenRenderHelper.screenHeight)
 		}
 	}
@@ -26,6 +25,8 @@ abstract class GUI {
 
 	internal fun recompile() {
 		this.widgets = WidgetCompiler.compileWidgets(this::setup)
-		this.widgets.forEach(Widget::compileChildren)
+		this.widgets.forEach {
+			it.applyModifiers(PoseStack(), ScreenRenderHelper.screenWidth, ScreenRenderHelper.screenHeight)
+		}
 	}
 }

@@ -50,9 +50,7 @@ abstract class Widget(
 	}
 
 	internal fun compileChildren() {
-		if (childrenFn != null) {
+		if (childrenFn != null)
 			this.children = WidgetCompiler.compileWidgets(childrenFn)
-			this.children.forEach { it.compileChildren() }
-		}
 	}
 }
