@@ -56,36 +56,3 @@ abstract class Widget(
 		}
 	}
 }
-
-fun Collection<Widget>.render() {
-	this.forEach { it.render() }
-}
-
-val Collection<Widget>.width: Int
-	get() {
-		var maxWidth = 0
-		this.forEach {
-			maxWidth = maxWidth.coerceAtLeast(it.actualWidth)
-		}
-		return maxWidth
-	}
-
-val Collection<Widget>.height: Int
-	get() {
-		var maxHeight = 0
-		this.forEach {
-			maxHeight = maxHeight.coerceAtLeast(it.actualHeight)
-		}
-		return maxHeight
-	}
-
-val Collection<Widget>.widthHeight: Pair<Int, Int>
-	get() {
-		var maxWidth = 0
-		var maxHeight = 0
-		this.forEach {
-			maxWidth = maxWidth.coerceAtLeast(it.actualWidth)
-			maxHeight = maxHeight.coerceAtLeast(it.actualHeight)
-		}
-		return maxWidth to maxHeight
-	}
