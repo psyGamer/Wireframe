@@ -61,31 +61,6 @@ fun Collection<Widget>.render() {
 	this.forEach { it.render() }
 }
 
-data class BoxModel(
-	val contentWidth: Int,
-	val contentHeight: Int,
-
-	val paddingTop: Int,
-	val paddingRight: Int,
-	val paddingBottom: Int,
-	val paddingLeft: Int,
-
-	val outlineTop: Int,
-	val outlineRight: Int,
-	val outlineBottom: Int,
-	val outlineLeft: Int,
-
-	val borderTop: Int,
-	val borderRight: Int,
-	val borderBottom: Int,
-	val borderLeft: Int,
-
-	val marginTop: Int,
-	val marginRight: Int,
-	val marginBottom: Int,
-	val marginLeft: Int,
-)
-
 val Collection<Widget>.width: Int
 	get() {
 		var maxWidth = 0
