@@ -9,7 +9,7 @@ abstract class Widget(
 	private val childrenFn: (() -> Unit),
 ) {
 
-	protected val boxModel: BoxModelStack.Entry
+	private lateinit var boxModel: BoxModelStack.Entry
 
 	constructor(childrenFn: (() -> Unit)) : this(null, childrenFn)
 
@@ -22,11 +22,25 @@ abstract class Widget(
 
 	abstract fun setup()
 
+	internal fun compileChildren() {
+		this.children = WidgetCompiler.compileWidgets(childrenFn)
+	}
+
+	internal fun applyModifiers(boxModelStack: BoxModelStack) {
+		boxModelStack.push()
+		boxModel = boxModelStack.last
+		boxModel.contentSize = computeDimensions()
+		modifiers?.applyAll(boxModel)
+		children.forEach { it.applyModifiers(boxModelStack) }
+		boxModelStack.pop()
+	}
+
 	internal fun computeDimensions(): Dimension2I {
 		if (children.isEmpty() && this is CanvasWidget)
 			return Dimension2I(contentWidth, contentHeight)
 
 		val currentDimensions = MutableDimension2I(0, 0)
+
 		children.forEach {
 			val dimensions = it.computeDimensions()
 			if (dimensions.width > currentDimensions.width)
@@ -35,19 +49,5 @@ abstract class Widget(
 				currentDimensions.height = dimensions.height
 		}
 		return currentDimensions.asImmutable()
-	}
-
-	internal fun applyModifiers(boxModelStack: BoxModelStack) {
-		boxModelStack.push()
-
-
-
-		modifiers?.applyAll(boxModelStack.last)
-		this.children.forEach { it.applyModifiers(boxModelStack) }
-		boxModelStack.pop()
-	}
-
-	internal fun compileChildren() {
-		this.children = WidgetCompiler.compileWidgets(childrenFn)
 	}
 }
