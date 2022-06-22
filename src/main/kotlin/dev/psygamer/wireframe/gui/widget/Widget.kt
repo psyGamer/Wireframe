@@ -1,16 +1,15 @@
 package dev.psygamer.wireframe.gui.widget
 
-import dev.psygamer.wireframe.api.client.render.PoseStack
-import dev.psygamer.wireframe.gui.WidgetCompiler
-import dev.psygamer.wireframe.gui.modifier.Modifier
+import dev.psygamer.wireframe.gui.*
+import dev.psygamer.wireframe.gui.modifier.*
+import dev.psygamer.wireframe.util.math.*
 
 abstract class Widget(
-	private val modifier: Modifier? = null,
+	private val modifiers: Modifier? = null,
 	private val childrenFn: (() -> Unit)? = null,
 ) {
 
-	protected lateinit var poseStack: PoseStack
-		private set
+	protected val boxModel: BoxModelStack.Entry
 
 	constructor(childrenFn: (() -> Unit)?) : this(null, childrenFn)
 
@@ -21,32 +20,31 @@ abstract class Widget(
 		WidgetCompiler.newWidgetCallback(this)
 	}
 
-	abstract fun render()
+	abstract fun setup()
 
-	var actualWidth: Int = contentWidth
-		private set
-	var actualHeight: Int = contentHeight
-		private set
+	internal fun computeDimensions(): Dimension2I {
+		if (children.isEmpty() && this is CanvasWidget)
+			return Dimension2I(contentWidth, contentHeight)
 
-	protected abstract val contentWidth: Int
-	protected abstract val contentHeight: Int
-
-	internal fun applyModifiers(poseStack: PoseStack, parentWidth: Int, parentHeight: Int) {
-		val (newWidth, newHeight) =
-			if (modifier != null && modifier != Modifier)
-				this.modifier.apply(poseStack, this.contentWidth, this.contentHeight, parentWidth, parentHeight)
-			else
-				contentWidth to contentHeight
-
-		this.actualWidth = newWidth
-		this.actualHeight = newHeight
-		this.poseStack = poseStack.clone()
-
-		this.children.forEach {
-			poseStack.push()
-			it.applyModifiers(poseStack, this.actualWidth, this.actualHeight)
-			poseStack.pop()
+		val currentDimensions = MutableDimension2I(0, 0)
+		children.forEach {
+			val dimensions = it.computeDimensions()
+			if (dimensions.width > currentDimensions.width)
+				currentDimensions.width = dimensions.width
+			if (dimensions.height > currentDimensions.height)
+				currentDimensions.height = dimensions.height
 		}
+		return currentDimensions.asImmutable()
+	}
+
+	internal fun applyModifiers(boxModelStack: BoxModelStack) {
+		boxModelStack.push()
+
+
+
+		modifiers?.applyAll(boxModelStack.last)
+		this.children.forEach { it.applyModifiers(boxModelStack) }
+		boxModelStack.pop()
 	}
 
 	internal fun compileChildren() {
