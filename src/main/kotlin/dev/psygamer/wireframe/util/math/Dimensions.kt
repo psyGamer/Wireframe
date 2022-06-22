@@ -1,20 +1,20 @@
 package dev.psygamer.wireframe.util.math
 
-data class Dimension2I(val width: Int, val height: Int)
-data class Dimension2F(val width: Float, val height: Float)
-data class Dimension2D(val width: Double, val height: Double)
+open class Dimension2I(open val width: Int, open val height: Int)
+open class Dimension2F(open val width: Float, open val height: Float)
+open class Dimension2D(open val width: Double, open val height: Double)
 
-data class Dimension3I(val width: Int, val height: Int, val depth: Int)
-data class Dimension3F(val width: Float, val height: Float, val depth: Float)
-data class Dimension3D(val width: Double, val height: Double, val depth: Double)
+open class Dimension3I(open val width: Int, open val height: Int, open val depth: Int)
+open class Dimension3F(open val width: Float, open val height: Float, open val depth: Float)
+open class Dimension3D(open val width: Double, open val height: Double, open val depth: Double)
 
-data class MutableDimension2I(var width: Int, var height: Int)
-data class MutableDimension2F(var width: Float, var height: Float)
-data class MutableDimension2D(var width: Double, var height: Double)
+data class MutableDimension2I(override var width: Int, override var height: Int) : Dimension2I(width, height)
+data class MutableDimension2F(override var width: Float, override var height: Float) : Dimension2F(width, height)
+data class MutableDimension2D(override var width: Double, override var height: Double) : Dimension2D(width, height)
 
-data class MutableDimension3I(var width: Int, var height: Int, var depth: Int)
-data class MutableDimension3F(var width: Float, var height: Float, var depth: Float)
-data class MutableDimension3D(var width: Double, var height: Double, var depth: Double)
+data class MutableDimension3I(override var width: Int, override var height: Int, override var depth: Int) : Dimension3I(width, height, depth)
+data class MutableDimension3F(override var width: Float, override var height: Float, override var depth: Float) : Dimension3F(width, height, depth)
+data class MutableDimension3D(override var width: Double, override var height: Double, override var depth: Double) : Dimension3D(width, height, depth)
 
 fun MutableDimension2I.asImmutable(): Dimension2I = Dimension2I(width, height)
 fun MutableDimension2F.asImmutable(): Dimension2F = Dimension2F(width, height)
