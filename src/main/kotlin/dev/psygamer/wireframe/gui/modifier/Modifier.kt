@@ -1,35 +1,31 @@
 package dev.psygamer.wireframe.gui.modifier
 
-import dev.psygamer.wireframe.api.client.render.PoseStack
+import dev.psygamer.wireframe.gui.BoxModelStack
 
 abstract class Modifier {
 
 	companion object : Modifier() {
 
-		override fun apply(poseStack: PoseStack, width: Int, height: Int, parentWidth: Int, parentHeight: Int): Pair<Int, Int> {
-			var currentWidth = width
-			var currentHeight = height
+		private val modifierStack = mutableListOf<Modifier>()
 
-			modifierStack.forEach {
-				val (newWidth, newHeight) = it.apply(poseStack, width, height, parentWidth, parentHeight)
-				currentWidth = newWidth
-				currentHeight = newHeight
-			}
-
-			return currentWidth to currentHeight
-		}
+		override fun apply(boxModel: BoxModelStack.Entry) = Unit
 	}
 
-	internal val modifierStack = mutableListOf<Modifier>()
+	internal var parent: Modifier = Modifier
+		private set
 
-	abstract fun apply(poseStack: PoseStack, width: Int, height: Int, parentWidth: Int, parentHeight: Int): Pair<Int, Int>
+	abstract fun apply(boxModel: BoxModelStack.Entry)
 
-	infix fun and(other: Modifier): Modifier {
-		// If we and the base modifier with something we want that something to be our new base.
-		if (this == Modifier)
-			return other
+	fun and(other: Modifier): Modifier {
+		other.parent = this
+		return other
+	}
+}
 
-		modifierStack.add(other)
-		return this
+fun Modifier.applyAll(boxModel: BoxModelStack.Entry) {
+	var current = this
+	while (current != Modifier) {
+		current.apply(boxModel)
+		current = current.parent
 	}
 }
