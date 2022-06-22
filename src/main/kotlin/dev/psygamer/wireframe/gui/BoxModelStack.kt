@@ -1,13 +1,11 @@
 package dev.psygamer.wireframe.gui
 
-class BoxModelStack(
-	val contentWidth: Int,
-	val contentHeight: Int,
-) {
+class BoxModelStack(contentWidth: Int, contentHeight: Int) {
 
 	val stack = ArrayDeque<Entry>().apply {
 		add(
 			Entry(
+				contentWidth, contentHeight,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
@@ -17,6 +15,9 @@ class BoxModelStack(
 	}
 
 	data class Entry(
+		val contentWidth: Int,
+		val contentHeight: Int,
+
 		var paddingTop: Int,
 		var paddingRight: Int,
 		var paddingBottom: Int,
