@@ -6,12 +6,12 @@ import dev.psygamer.wireframe.util.math.*
 
 abstract class Widget(
 	private val modifiers: Modifier? = null,
-	private val childrenFn: (() -> Unit)? = null,
+	private val childrenFn: (() -> Unit),
 ) {
 
 	protected val boxModel: BoxModelStack.Entry
 
-	constructor(childrenFn: (() -> Unit)?) : this(null, childrenFn)
+	constructor(childrenFn: (() -> Unit)) : this(null, childrenFn)
 
 	protected var children = emptyList<Widget>()
 		private set
@@ -48,7 +48,6 @@ abstract class Widget(
 	}
 
 	internal fun compileChildren() {
-		if (childrenFn != null)
-			this.children = WidgetCompiler.compileWidgets(childrenFn)
+		this.children = WidgetCompiler.compileWidgets(childrenFn)
 	}
 }
