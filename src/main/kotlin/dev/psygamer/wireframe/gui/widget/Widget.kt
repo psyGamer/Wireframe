@@ -1,21 +1,23 @@
 package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
-import dev.psygamer.wireframe.gui.*
-import dev.psygamer.wireframe.gui.modifier.*
+import dev.psygamer.wireframe.gui.WidgetCompiler
+import dev.psygamer.wireframe.gui.modifier.Modifier
 import dev.psygamer.wireframe.util.math.Dimension2I
 
 abstract class Widget(
-	private val modifiers: Modifier? = null,
+	internal val modifiers: Modifier? = null,
 	private val childrenFn: (() -> Unit),
 ) {
 
-	private lateinit var boxModel: BoxModelStack.Entry
-
 	constructor(childrenFn: (() -> Unit)) : this(null, childrenFn)
 
-	protected var children = emptyList<Widget>()
+	var parent: Widget? = WidgetCompiler.currentParent
 		private set
+	var children = emptyList<Widget>()
+		private set
+
+	val poseStack: PoseStack = this.parent?.poseStack ?: PoseStack()
 
 	init {
 		WidgetCompiler.newWidgetCallback(this)
@@ -34,7 +36,7 @@ abstract class Widget(
 	private val _height = lazy { children.maxOf { it.height } }
 
 	internal fun compileChildren() {
-		this.children = WidgetCompiler.compileWidgets(childrenFn)
+		this.children = WidgetCompiler.compileWidgets(this, childrenFn)
 	}
 
 	internal fun applyModifiers(boxModelStack: BoxModelStack) {
