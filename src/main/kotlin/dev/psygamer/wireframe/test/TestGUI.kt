@@ -80,7 +80,7 @@ private class Stack(
 
 private class Button(
 	modifier: Modifier? = null, children: () -> Unit,
-) : Widget(modifier, children) {
+) : DeclarativeWidget(modifier, children) {
 
 	private class ButtonBackground : Widget({ }) {
 

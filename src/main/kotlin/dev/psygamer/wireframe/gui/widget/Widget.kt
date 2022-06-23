@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.gui.widget
 
+import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.*
 import dev.psygamer.wireframe.gui.modifier.*
 import dev.psygamer.wireframe.util.math.*
@@ -20,7 +21,7 @@ abstract class Widget(
 		WidgetCompiler.newWidgetCallback(this)
 	}
 
-	abstract fun setup()
+	abstract fun render(poseStack: PoseStack)
 
 	internal fun compileChildren() {
 		this.children = WidgetCompiler.compileWidgets(childrenFn)
