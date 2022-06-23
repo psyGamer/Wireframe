@@ -41,41 +41,18 @@ object TestGUI : GUI() {
 
 private class Stack(
 	modifier: Modifier? = null, children: () -> Unit,
-) : CanvasWidget(modifier, children) {
+) : Widget(modifier, children) {
 
 	override fun render(poseStack: PoseStack) {
 		children.forEach {
 			poseStack.push()
-			val dimensions = it.computeDimensions()
-			val posX = (contentWidth - dimensions.width) / 2
-			val posY = (contentHeight - dimensions.height) / 2
+			val posX = (this.width - it.width) / 2
+			val posY = (this.height - it.height) / 2
 			poseStack.translate(posX, posY, 0)
 			it.render(poseStack)
 			poseStack.pop()
 		}
 	}
-
-	override val contentWidth: Int
-		get() = run {
-			var currentWidth = 0
-			children.forEach {
-				val dimensions = it.computeDimensions()
-				if (dimensions.width > currentWidth)
-					currentWidth = dimensions.width
-			}
-			currentWidth
-		}
-	override val contentHeight: Int
-		get() = run {
-			var currentHeight = 0
-			children.forEach {
-				val dimensions = it.computeDimensions()
-				if (dimensions.height > currentHeight)
-					currentHeight = dimensions.height
-			}
-			currentHeight
-		}
-
 }
 
 private class Button(
@@ -85,7 +62,7 @@ private class Button(
 	private class ButtonBackground : Widget({ }) {
 
 		override fun render(poseStack: PoseStack) {
-			ScreenRenderHelper.drawQuad(poseStack, this.contentWidth, this.contentHeight)
+			ScreenRenderHelper.drawQuad(poseStack, this.width, this.height)
 		}
 	}
 

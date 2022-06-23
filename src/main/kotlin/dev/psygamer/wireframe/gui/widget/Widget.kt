@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.gui.widget
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.*
 import dev.psygamer.wireframe.gui.modifier.*
-import dev.psygamer.wireframe.util.math.*
+import dev.psygamer.wireframe.util.math.Dimension2I
 
 abstract class Widget(
 	private val modifiers: Modifier? = null,
@@ -23,6 +23,16 @@ abstract class Widget(
 
 	abstract fun render(poseStack: PoseStack)
 
+	val width: Int
+		get() = _width.value
+	val height: Int
+		get() = _height.value
+	val size
+		get() = Dimension2I(width, height)
+
+	private val _width = lazy { children.maxOf { it.width } }
+	private val _height = lazy { children.maxOf { it.height } }
+
 	internal fun compileChildren() {
 		this.children = WidgetCompiler.compileWidgets(childrenFn)
 	}
@@ -30,25 +40,9 @@ abstract class Widget(
 	internal fun applyModifiers(boxModelStack: BoxModelStack) {
 		boxModelStack.push()
 		boxModel = boxModelStack.last
-		boxModel.contentSize = computeDimensions()
+		boxModel.contentSize = size
 		modifiers?.applyAll(boxModel)
 		children.forEach { it.applyModifiers(boxModelStack) }
 		boxModelStack.pop()
-	}
-
-	internal fun computeDimensions(): Dimension2I {
-		if (children.isEmpty() && this is CanvasWidget)
-			return Dimension2I(contentWidth, contentHeight)
-
-		val currentDimensions = MutableDimension2I(0, 0)
-
-		children.forEach {
-			val dimensions = it.computeDimensions()
-			if (dimensions.width > currentDimensions.width)
-				currentDimensions.width = dimensions.width
-			if (dimensions.height > currentDimensions.height)
-				currentDimensions.height = dimensions.height
-		}
-		return currentDimensions.asImmutable()
 	}
 }
