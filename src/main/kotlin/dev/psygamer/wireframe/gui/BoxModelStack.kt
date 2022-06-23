@@ -1,5 +1,7 @@
 package dev.psygamer.wireframe.gui
 
+import dev.psygamer.wireframe.util.math.Dimension2I
+
 class BoxModelStack(contentWidth: Int, contentHeight: Int) {
 
 	val stack = ArrayDeque<Entry>().apply {
@@ -8,35 +10,23 @@ class BoxModelStack(contentWidth: Int, contentHeight: Int) {
 				contentWidth, contentHeight,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
-				0, 0, 0, 0,
-				0, 0, 0, 0,
 			)
 		)
 	}
 
 	data class Entry(
-		val contentWidth: Int,
-		val contentHeight: Int,
-
-		var paddingTop: Int,
-		var paddingRight: Int,
-		var paddingBottom: Int,
-		var paddingLeft: Int,
-
-		var outlineTop: Int,
-		var outlineRight: Int,
-		var outlineBottom: Int,
-		var outlineLeft: Int,
-
-		var borderTop: Int,
-		var borderRight: Int,
-		var borderBottom: Int,
-		var borderLeft: Int,
+		var contentWidth: Int,
+		var contentHeight: Int,
 
 		var marginTop: Int,
 		var marginRight: Int,
 		var marginBottom: Int,
 		var marginLeft: Int,
+
+		var borderTop: Int,
+		var borderRight: Int,
+		var borderBottom: Int,
+		var borderLeft: Int,
 	)
 
 	fun push() {
@@ -50,23 +40,21 @@ class BoxModelStack(contentWidth: Int, contentHeight: Int) {
 	val last = stack.last()
 }
 
-var BoxModelStack.Entry.padding
-	set(padding) {
-		paddingTop = padding
-		paddingRight = padding
-		paddingBottom = padding
-		paddingLeft = padding
+var BoxModelStack.Entry.contentSize
+	set(size) {
+		contentWidth = size.width
+		contentHeight = size.height
 	}
-	get() = maxOf(paddingTop, paddingRight, paddingBottom, paddingLeft)
+	get() = Dimension2I(contentWidth, contentHeight)
 
-var BoxModelStack.Entry.outline
+var BoxModelStack.Entry.margin
 	set(margin) {
-		outlineTop = margin
-		outlineRight = margin
-		outlineBottom = margin
-		outlineLeft = margin
+		marginTop = margin
+		marginRight = margin
+		marginBottom = margin
+		marginLeft = margin
 	}
-	get() = maxOf(outlineTop, outlineRight, outlineBottom, outlineLeft)
+	get() = maxOf(marginTop, marginRight, marginBottom, marginLeft)
 
 var BoxModelStack.Entry.border
 	set(margin) {
