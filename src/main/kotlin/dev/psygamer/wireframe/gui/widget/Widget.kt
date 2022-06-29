@@ -19,6 +19,9 @@ abstract class Widget(internal val modifiers: Modifier? = null) {
 
 	abstract fun render(poseStack: PoseStack)
 
+	fun renderForeground(poseStack: PoseStack) {}
+	fun renderBackground(poseStack: PoseStack) {}
+
 	val width: Int
 		get() = modifiedWidth.orElseGet { lazyWidth.value }
 	val height: Int
