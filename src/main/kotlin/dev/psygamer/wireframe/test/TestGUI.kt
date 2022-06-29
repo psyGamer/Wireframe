@@ -11,7 +11,7 @@ import dev.psygamer.wireframe.util.Color
 
 object TestGUI : GUI() {
 
-	val state = ref(true)
+	val state = reactive(true)
 
 	override fun setup() {
 //		TestButton {

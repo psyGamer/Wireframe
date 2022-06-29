@@ -3,9 +3,9 @@ package dev.psygamer.wireframe.gui
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
 import dev.psygamer.wireframe.gui.widget.Widget
-import dev.psygamer.wireframe.util.types.Reactive
+import dev.psygamer.wireframe.util.types.Observable
 
-abstract class GUI : Reactive.Subscriber<Any> {
+abstract class GUI : Observable.Subscriber<Any> {
 
 	private var widgets: List<Widget>
 
@@ -24,8 +24,8 @@ abstract class GUI : Reactive.Subscriber<Any> {
 		}
 	}
 
-	protected fun <T : Any> ref(value: T): Reactive<T> {
-		val ref = Reactive(value)
+	protected fun <T : Any> reactive(value: T): Observable<T> {
+		val ref = Observable(value)
 		ref.subscribe(this)
 	}
 

@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.util.types
 
-class Reactive<T : Any> {
+class Observable<T : Any> {
 
 	interface Subscriber<T : Any> {
 
