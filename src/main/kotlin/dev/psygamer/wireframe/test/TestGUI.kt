@@ -8,8 +8,11 @@ import dev.psygamer.wireframe.gui.modifier.Modifier
 import dev.psygamer.wireframe.gui.widget.*
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Color
+import dev.psygamer.wireframe.util.types.ref
 
 object TestGUI : GUI() {
+
+	val state = true.ref
 
 	override fun setup() {
 //		TestButton {
@@ -33,8 +36,11 @@ object TestGUI : GUI() {
 //				.align(Alignment.CENTER)
 //				.padding(3)
 //		)
-		Button {
-			Text("Hello, world!")
+		Button(onPressed = { state.value = !state.value }) {
+			if (state.value)
+				Text("Hello, world!")
+			else
+				Text("Moin, Servus, Moin!")
 		}
 	}
 }
@@ -56,6 +62,7 @@ private class Stack(
 }
 
 private class Button(
+	onPressed: (() -> Unit)?,
 	modifier: Modifier? = null, children: () -> Unit,
 ) : DeclarativeWidget(modifier, children) {
 
