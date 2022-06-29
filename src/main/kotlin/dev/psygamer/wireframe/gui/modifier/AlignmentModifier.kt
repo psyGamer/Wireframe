@@ -1,7 +1,5 @@
 package dev.psygamer.wireframe.gui.modifier
 
-import dev.psygamer.wireframe.api.client.render.PoseStack
-
 enum class Alignment {
 	CENTER,
 	LEFT,
@@ -14,31 +12,29 @@ enum class Alignment {
 	BOTTOM_RIGHT,
 }
 
-private class AlignmentModifier(private val alignment: Alignment) : Modifier() {
+class AlignmentModifier(private val alignment: Alignment) : Modifier() {
 
-	override fun apply(poseStack: PoseStack, width: Int, height: Int, parentWidth: Int, parentHeight: Int): Pair<Int, Int> {
-		val centerX = parentWidth / 2 - width / 2
-		val centerY = parentHeight / 2 - height / 2
+	override fun apply(context: Context) {
+		val centerX = context.parentWidth / 2 - context.widgetWidth / 2
+		val centerY = context.parentHeight / 2 - context.widgetHeight / 2
 
 		val left = 0
-		val right = parentWidth - width
+		val right = context.parentWidth - context.widgetWidth
 		val top = 0
-		val bottom = parentHeight - height
+		val bottom = context.parentHeight - context.widgetHeight
 
 		when (alignment) {
-			Alignment.CENTER -> poseStack.translate(centerX, centerY, 0)
-			Alignment.LEFT -> poseStack.translate(left, centerY, 0)
-			Alignment.RIGHT -> poseStack.translate(right, centerY, 0)
-			Alignment.TOP -> poseStack.translate(centerX, top, 0)
-			Alignment.BOTTOM -> poseStack.translate(centerX, bottom, 0)
-			Alignment.TOP_LEFT -> poseStack.translate(left, top, 0)
-			Alignment.TOP_RIGHT -> poseStack.translate(right, top, 0)
-			Alignment.BOTTOM_LEFT -> poseStack.translate(left, bottom, 0)
-			Alignment.BOTTOM_RIGHT -> poseStack.translate(right, bottom, 0)
+			Alignment.CENTER -> context.poseStack.translate(centerX, centerY, 0)
+			Alignment.LEFT -> context.poseStack.translate(left, centerY, 0)
+			Alignment.RIGHT -> context.poseStack.translate(right, centerY, 0)
+			Alignment.TOP -> context.poseStack.translate(centerX, top, 0)
+			Alignment.BOTTOM -> context.poseStack.translate(centerX, bottom, 0)
+			Alignment.TOP_LEFT -> context.poseStack.translate(left, top, 0)
+			Alignment.TOP_RIGHT -> context.poseStack.translate(right, top, 0)
+			Alignment.BOTTOM_LEFT -> context.poseStack.translate(left, bottom, 0)
+			Alignment.BOTTOM_RIGHT -> context.poseStack.translate(right, bottom, 0)
 		}
-
-		return width to height
 	}
 }
 
-fun Modifier.align(alignment: Alignment) = this and AlignmentModifier(alignment)
+fun Modifier.align(alignment: Alignment) = and(AlignmentModifier(alignment))
