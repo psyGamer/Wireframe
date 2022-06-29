@@ -46,7 +46,7 @@ object TestGUI : GUI() {
 
 private class Stack(
 	modifier: Modifier? = null, children: () -> Unit,
-) : Widget(modifier, children) {
+) : ParentWidget(modifier, children) {
 
 	override fun render(poseStack: PoseStack) {
 		children.forEach {
@@ -106,7 +106,7 @@ private class Button(
 //	}
 //}
 //
-private class Text(val text: String, modifier: Modifier? = null) : CanvasWidget(modifier) {
+private class Text(val text: String, modifier: Modifier? = null) : Widget(modifier) {
 
 	override fun render(poseStack: PoseStack) {
 		Minecraft.getInstance().font.draw(poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)

@@ -6,16 +6,9 @@ import dev.psygamer.wireframe.gui.WidgetCompiler
 import dev.psygamer.wireframe.gui.modifier.Modifier
 import dev.psygamer.wireframe.util.math.Dimension2I
 
-abstract class Widget(
-	internal val modifiers: Modifier? = null,
-	private val childrenFn: (() -> Unit),
-) {
-
-	constructor(childrenFn: (() -> Unit)) : this(null, childrenFn)
+abstract class Widget(internal val modifiers: Modifier? = null) {
 
 	var parent: Widget? = WidgetCompiler.currentParent
-		private set
-	var children = emptyList<Widget>()
 		private set
 
 	val poseStack: PoseStack = this.parent?.poseStack ?: PoseStack()
@@ -27,19 +20,18 @@ abstract class Widget(
 	abstract fun render(poseStack: PoseStack)
 
 	val width: Int
-		get() = modifiedWidth.orElseGet { _width.value }
+		get() = modifiedWidth.orElseGet { lazyWidth.value }
 	val height: Int
-		get() = modifiedHeight.orElseGet { _height.value }
+		get() = modifiedHeight.orElseGet { lazyHeight.value }
 	val size
 		get() = Dimension2I(width, height)
+
+	protected abstract val contentWidth: Int
+	protected abstract val contentHeight: Int
 
 	internal var modifiedWidth = Optional.empty<Int>()
 	internal var modifiedHeight = Optional.empty<Int>()
 
-	private val _width = lazy { children.maxOf { it.width } }
-	private val _height = lazy { children.maxOf { it.height } }
-
-	internal fun compileChildren() {
-		this.children = WidgetCompiler.compileWidgets(this, childrenFn)
-	}
+	private val lazyWidth = lazy { contentWidth }
+	private val lazyHeight = lazy { contentHeight }
 }
