@@ -8,11 +8,10 @@ import dev.psygamer.wireframe.gui.modifier.Modifier
 import dev.psygamer.wireframe.gui.widget.*
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Color
-import dev.psygamer.wireframe.util.types.ref
 
 object TestGUI : GUI() {
 
-	val state = true.ref
+	val state = ref(true)
 
 	override fun setup() {
 //		TestButton {

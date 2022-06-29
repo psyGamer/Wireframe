@@ -1,10 +1,11 @@
 package dev.psygamer.wireframe.util.types
 
-class Reactive<T> {
+class Reactive<T : Any> {
 
-	interface Subscriber<T> {
+	interface Subscriber<T : Any> {
 
 		fun onValueChanged(oldValue: T, newValue: T)
+
 	}
 
 	var value: T
@@ -13,20 +14,17 @@ class Reactive<T> {
 			field = newValue
 		}
 
-	val subscribers = mutableListOf<Subscriber<T>>()
+	val subscribers = mutableListOf<Subscriber<in T>>()
 
 	constructor(value: T) {
 		this.value = value
 	}
 
-	fun subscribe(subscriber: Subscriber<T>) {
+	fun subscribe(subscriber: Subscriber<in T>) {
 		subscribers.add(subscriber)
 	}
 
-	fun unsubscribe(subscriber: Subscriber<T>) {
+	fun unsubscribe(subscriber: Subscriber<in T>) {
 		subscribers.remove(subscriber)
 	}
 }
-
-val <T> T.ref: Reactive<T>
-	get() = Reactive(this)
