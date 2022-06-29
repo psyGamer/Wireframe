@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.gui.widget
 
+import java.util.*
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.WidgetCompiler
 import dev.psygamer.wireframe.gui.modifier.Modifier
@@ -26,25 +27,19 @@ abstract class Widget(
 	abstract fun render(poseStack: PoseStack)
 
 	val width: Int
-		get() = _width.value
+		get() = modifiedWidth.orElseGet { _width.value }
 	val height: Int
-		get() = _height.value
+		get() = modifiedHeight.orElseGet { _height.value }
 	val size
 		get() = Dimension2I(width, height)
+
+	internal var modifiedWidth = Optional.empty<Int>()
+	internal var modifiedHeight = Optional.empty<Int>()
 
 	private val _width = lazy { children.maxOf { it.width } }
 	private val _height = lazy { children.maxOf { it.height } }
 
 	internal fun compileChildren() {
 		this.children = WidgetCompiler.compileWidgets(this, childrenFn)
-	}
-
-	internal fun applyModifiers(boxModelStack: BoxModelStack) {
-		boxModelStack.push()
-		boxModel = boxModelStack.last
-		boxModel.contentSize = size
-		modifiers?.applyAll(boxModel)
-		children.forEach { it.applyModifiers(boxModelStack) }
-		boxModelStack.pop()
 	}
 }

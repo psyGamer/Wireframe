@@ -1,20 +1,27 @@
 package dev.psygamer.wireframe.gui.modifier
 
-import dev.psygamer.wireframe.gui.BoxModelStack
+import java.util.*
+import dev.psygamer.wireframe.api.client.render.PoseStack
+import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
+import dev.psygamer.wireframe.gui.widget.Widget
 
 abstract class Modifier {
 
 	companion object : Modifier() {
 
-		private val modifierStack = mutableListOf<Modifier>()
-
-		override fun apply(boxModel: BoxModelStack.Entry) = Unit
+		override fun apply(context: Context) = Unit
 	}
+
+	data class Context(
+		val parentWidth: Int, val parentHeight: Int,
+		var widgetWidth: Int, var widgetHeight: Int,
+		val widgetPoseStack: PoseStack,
+	)
 
 	internal var parent: Modifier = Modifier
 		private set
 
-	abstract fun apply(boxModel: BoxModelStack.Entry)
+	abstract fun apply(context: Context)
 
 	fun and(other: Modifier): Modifier {
 		other.parent = this
@@ -22,10 +29,20 @@ abstract class Modifier {
 	}
 }
 
-fun Modifier.applyAll(boxModel: BoxModelStack.Entry) {
-	var current = this
+internal fun Widget.applyModifiers() {
+	val context = Modifier.Context(
+		this.parent?.width ?: ScreenRenderHelper.screenWidth,
+		this.parent?.height ?: ScreenRenderHelper.screenHeight,
+		this.width, this.height,
+		this.poseStack
+	)
+
+	var current = this.modifiers ?: return
 	while (current != Modifier) {
-		current.apply(boxModel)
+		current.apply(context)
 		current = current.parent
 	}
+
+	this.modifiedWidth = Optional.of(context.widgetWidth)
+	this.modifiedWidth = Optional.of(context.widgetHeight)
 }
