@@ -11,7 +11,7 @@ abstract class ParentWidget(
 	constructor(childrenFn: (() -> Unit)) : this(null, childrenFn)
 
 	var children = emptyList<Widget>()
-		private set
+		protected set
 
 	override val contentWidth = children.maxOf { it.width }
 	override val contentHeight = children.maxOf { it.height }
