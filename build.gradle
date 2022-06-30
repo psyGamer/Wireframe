@@ -105,7 +105,7 @@ repositories {
     }
 }
 dependencies {
-    minecraft "net.minecraftforge:forge:1.16.5-36.2.0"
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.26"
 
 //    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 //    shadow "org.jetbrains.kotlin:kotlin-reflect:$kotlin_reflect_version"
