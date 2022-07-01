@@ -7,8 +7,8 @@ import dev.psygamer.wireframe.util.*
 
 object ScreenRenderHelper {
 
-	val screenWidth = NativeScreenRenderHelper.screenWidth
-	val screenHeight = NativeScreenRenderHelper.screenHeight
+	val screenWidth get() = NativeScreenRenderHelper.screenWidth
+	val screenHeight get() = NativeScreenRenderHelper.screenHeight
 
 	fun drawQuad(minX: Int, minY: Int, maxX: Int, maxY: Int, color: Color = Color.WHITE) =
 		NativeScreenRenderHelper.drawRect(minX, minY, maxX, maxY, color)
