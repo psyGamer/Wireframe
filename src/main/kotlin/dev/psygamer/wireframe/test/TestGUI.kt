@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
 import dev.psygamer.wireframe.gui.GUI
-import dev.psygamer.wireframe.gui.modifier.Modifier
+import dev.psygamer.wireframe.gui.modifier.*
 import dev.psygamer.wireframe.gui.widget.*
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Color
@@ -63,20 +63,10 @@ private class Stack(
 private class Button(
 	onPressed: (() -> Unit)?,
 	modifier: Modifier? = null, children: () -> Unit,
-) : DeclarativeWidget(modifier, children) {
+) : ParentWidget(modifier, children) {
 
-	private class ButtonBackground : Widget({ }) {
-
-		override fun render(poseStack: PoseStack) {
-			ScreenRenderHelper.drawQuad(poseStack, this.width, this.height)
-		}
-	}
-
-	override fun setup() {
-		Stack {
-			ButtonBackground()
-			children()
-		}
+	override fun renderBackground(poseStack: PoseStack) {
+		ScreenRenderHelper.drawQuad(poseStack, this.width, this.height)
 	}
 }
 
@@ -109,7 +99,7 @@ private class Button(
 private class Text(val text: String, modifier: Modifier? = null) : Widget(modifier) {
 
 	override fun render(poseStack: PoseStack) {
-		Minecraft.getInstance().font.draw(poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)
+		Minecraft.getInstance().font.draw(this.poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)
 	}
 
 	override val contentWidth = Minecraft.getInstance().font.width(text)
