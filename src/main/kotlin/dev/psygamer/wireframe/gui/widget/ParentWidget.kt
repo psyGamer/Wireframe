@@ -19,6 +19,9 @@ abstract class ParentWidget(
 	override val contentWidth get() = if (children.isEmpty()) 0 else children.maxOf { it.width }
 	override val contentHeight get() = if (children.isEmpty()) 0 else children.maxOf { it.height }
 
+	// This is the only easy way to do this with our current architecture
+	fun markChanged() = compileChildren()
+
 	internal fun compileChildren() {
 		this.children = WidgetCompiler.compileWidgets(this, childrenFn)
 	}
