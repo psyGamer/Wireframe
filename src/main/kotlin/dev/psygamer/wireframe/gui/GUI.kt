@@ -6,11 +6,8 @@ import dev.psygamer.wireframe.gui.widget.Widget
 
 abstract class GUI {
 
-	internal var widgets = //emptyList<Widget>()
-		WidgetCompiler.compileWidgets(null, this::setup)
-			.onEach(Widget::applyModifiers)
+	internal var widgets = emptyList<Widget>()
 
-	// This must be constructed after all widgets have been compiled.
 	private val widgetObserver = WidgetObserver(this)
 
 	abstract fun setup()
