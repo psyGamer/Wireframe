@@ -5,11 +5,14 @@ import dev.psygamer.wireframe.gui.modifier.applyModifiers
 import dev.psygamer.wireframe.gui.widget.Widget
 import dev.psygamer.wireframe.util.types.Observable
 
-abstract class GUI : Observable.Subscriber<Any> {
+abstract class GUI {
 
-	private var widgets =
+	internal var widgets = //emptyList<Widget>()
 		WidgetCompiler.compileWidgets(null, this::setup)
 			.onEach(Widget::applyModifiers)
+
+	// This must be constructed after all widgets have been compiled.
+	private val widgetObserver = WidgetObserver(this)
 
 	abstract fun setup()
 
@@ -22,15 +25,8 @@ abstract class GUI : Observable.Subscriber<Any> {
 		}
 	}
 
-	protected fun <T : Any> reactive(value: T) =
-		Observable(value).also {
-			it.subscribe(this)
-		}
-
 	internal fun recompile() {
 		this.widgets = WidgetCompiler.compileWidgets(null, this::setup)
 			.onEach(Widget::applyModifiers)
 	}
-
-	final override fun onValueChanged(oldValue: Any, newValue: Any) = recompile()
 }
