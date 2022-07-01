@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.gui
 
 import dev.psygamer.wireframe.debug.debug
-import dev.psygamer.wireframe.gui.widget.Widget
+import dev.psygamer.wireframe.gui.widget.*
 
 internal object WidgetCompiler {
 
@@ -9,22 +9,24 @@ internal object WidgetCompiler {
 		private set
 
 	private var currentWidgets = mutableListOf<Widget>()
+	private var compiling = false
 
 	internal fun compileWidgets(parent: Widget?, widgetFn: () -> Unit): List<Widget> {
 		debug {
-			if (currentWidgets.isNotEmpty())
+			if (compiling)
 				throw IllegalStateException("Cannot compile widgets while other widgets are being compiled!")
 		}
+		currentWidgets.clear()
 
+		compiling = true
 		currentParent = parent
 		// In this call the constructors will be called, which than calls newWidgetCallback and adds the widgets.
 		widgetFn()
 		currentParent = null
+		compiling = false
 
-		val widgets = currentWidgets.toList() // Copy
-		widgets.forEach { it.compileChildren() }
-		currentWidgets.clear()
-		return widgets
+		return currentWidgets.toList()
+			.onEach { if (it is ParentWidget) it.compileChildren() }
 	}
 
 	internal fun newWidgetCallback(widget: Widget) {
