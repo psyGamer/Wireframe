@@ -44,5 +44,5 @@ internal fun Widget.applyModifiers() {
 	}
 
 	this.modifiedWidth = Optional.of(context.widgetWidth)
-	this.modifiedWidth = Optional.of(context.widgetHeight)
+	this.modifiedHeight = Optional.of(context.widgetHeight)
 }
