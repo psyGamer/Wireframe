@@ -27,8 +27,10 @@ abstract class GUI : Observable.Subscriber<Any> {
 			it.subscribe(this)
 		}
 
-	final override fun onValueChanged(oldValue: Any, newValue: Any) {
+	internal fun recompile() {
 		this.widgets = WidgetCompiler.compileWidgets(null, this::setup)
 			.onEach(Widget::applyModifiers)
 	}
+
+	final override fun onValueChanged(oldValue: Any, newValue: Any) = recompile()
 }

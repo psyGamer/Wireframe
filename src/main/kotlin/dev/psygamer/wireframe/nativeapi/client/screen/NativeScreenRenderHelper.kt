@@ -20,6 +20,8 @@ object NativeScreenRenderHelper {
 	val screenWidth get() = Minecraft.getInstance().window.width
 	val screenHeight get() = Minecraft.getInstance().window.height
 
+	val guiScale get() = Minecraft.getInstance().options.guiScale
+
 	fun getStringWidth(text: String): Int {
 		return font.width(text)
 	}

@@ -10,4 +10,4 @@ internal class GUIScreen(private val gui: GUI) : Screen() {
 	}
 }
 
-fun GUI.open() = GUIScreen(this).open()
+fun GUI.open() = GUIScreen(this.also { recompile() }).open()

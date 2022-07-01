@@ -10,6 +10,8 @@ object ScreenRenderHelper {
 	val screenWidth get() = NativeScreenRenderHelper.screenWidth
 	val screenHeight get() = NativeScreenRenderHelper.screenHeight
 
+	val guiScale get() = NativeScreenRenderHelper.guiScale
+
 	fun drawQuad(minX: Int, minY: Int, maxX: Int, maxY: Int, color: Color = Color.WHITE) =
 		NativeScreenRenderHelper.drawRect(minX, minY, maxX, maxY, color)
 
