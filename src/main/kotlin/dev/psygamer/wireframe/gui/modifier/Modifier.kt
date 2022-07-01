@@ -15,7 +15,7 @@ abstract class Modifier {
 	data class Context(
 		val parentWidth: Int, val parentHeight: Int,
 		var widgetWidth: Int, var widgetHeight: Int,
-		val widgetPoseStack: PoseStack,
+		val poseStack: PoseStack,
 	)
 
 	internal var parent: Modifier = Modifier
@@ -31,8 +31,8 @@ abstract class Modifier {
 
 internal fun Widget.applyModifiers() {
 	val context = Modifier.Context(
-		this.parent?.width ?: ScreenRenderHelper.screenWidth,
-		this.parent?.height ?: ScreenRenderHelper.screenHeight,
+		this.parent?.width ?: (ScreenRenderHelper.screenWidth / ScreenRenderHelper.guiScale),
+		this.parent?.height ?: (ScreenRenderHelper.screenHeight / ScreenRenderHelper.guiScale),
 		this.width, this.height,
 		this.poseStack
 	)
