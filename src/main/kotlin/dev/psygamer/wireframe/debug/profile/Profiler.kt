@@ -1,27 +1,18 @@
 package dev.psygamer.wireframe.debug.profile
 
 import net.minecraft.client.Minecraft
-import net.minecraft.profiler.*
+import net.minecraft.profiler.IProfiler
 import java.io.Closeable
 
 val PROFILER: Profiler
-	get() {
-		if (_profiler != null)
-			_profiler
-		if (Minecraft.getInstance().profiler != EmptyProfiler.INSTANCE) {
-			_profiler = Profiler(Minecraft.getInstance().profiler)
-			_profiler
-		}
-		throw UninitializedPropertyAccessException("Cannot use profiler before it is initialized!")
-	}
+	get() = Profiler(Minecraft.getInstance().profiler)
 
-private var _profiler: Profiler? = null
-
-inline fun profile(name: String, function: () -> Unit) {
+inline fun <T> profile(name: String, function: () -> T): T {
 	with(PROFILER) {
 		push(name)
-		function()
+		val returnValue = function()
 		pop()
+		return returnValue
 	}
 }
 
