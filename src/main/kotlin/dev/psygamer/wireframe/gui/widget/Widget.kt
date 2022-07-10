@@ -17,10 +17,10 @@ abstract class Widget(internal val modifiers: Modifier? = null) {
 		WidgetCompiler.newWidgetCallback(this)
 	}
 
-	abstract fun render(poseStack: PoseStack)
+	abstract fun render()
 
-	open fun renderForeground(poseStack: PoseStack) {}
-	open fun renderBackground(poseStack: PoseStack) {}
+	open fun renderForeground() {}
+	open fun renderBackground() {}
 
 	val width: Int
 		get() = modifiedWidth.orElseGet { lazyWidth.value }

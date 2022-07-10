@@ -44,29 +44,13 @@ object TestGUI : GUI() {
 	}
 }
 
-private class Stack(
-	modifier: Modifier? = null, children: () -> Unit,
-) : ParentWidget(modifier, children) {
-
-	override fun render(poseStack: PoseStack) {
-		children.forEach {
-			poseStack.push()
-			val posX = (this.width - it.width) / 2
-			val posY = (this.height - it.height) / 2
-			poseStack.translate(posX, posY, 0)
-			it.render(poseStack)
-			poseStack.pop()
-		}
-	}
-}
-
 private class Button(
 	onPressed: (() -> Unit)?,
 	modifier: Modifier? = null, children: () -> Unit,
 ) : ParentWidget(modifier, children) {
 
-	override fun renderBackground(poseStack: PoseStack) {
-		ScreenRenderHelper.drawQuad(poseStack, this.width, this.height)
+	override fun renderBackground() {
+		ScreenRenderHelper.drawQuad(this.poseStack, this.width, this.height)
 	}
 }
 
@@ -98,7 +82,7 @@ private class Button(
 //
 private class Text(val text: String, modifier: Modifier? = null) : Widget(modifier) {
 
-	override fun render(poseStack: PoseStack) {
+	override fun render() {
 		Minecraft.getInstance().font.draw(this.poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)
 	}
 

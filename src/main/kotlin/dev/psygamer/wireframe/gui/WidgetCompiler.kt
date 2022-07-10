@@ -11,6 +11,8 @@ internal object WidgetCompiler {
 	private var currentWidgets = mutableListOf<Widget>()
 	private var compiling = false
 
+	/* IMPORTANT: This is called multiple times per frame as long as a GUI is open!
+	 *            It is important to keep performance in mind when editing this function! */
 	internal fun compileWidgets(parent: Widget?, widgetFn: () -> Unit): List<Widget> {
 		debug {
 			if (compiling)
