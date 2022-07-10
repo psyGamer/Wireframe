@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.debug.profile
+package dev.psygamer.wireframe.debug.profiling
 
 import net.minecraft.client.Minecraft
 import net.minecraft.profiler.IProfiler

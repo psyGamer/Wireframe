@@ -9,7 +9,7 @@ import dev.psygamer.wireframe.api.item.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.api.network.PacketBuffer
 import dev.psygamer.wireframe.api.world.*
-import dev.psygamer.wireframe.debug.profile.Profiler
+import dev.psygamer.wireframe.debug.profiling.Profiler
 import dev.psygamer.wireframe.nativeapi.block.*
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.nativeapi.world.*
