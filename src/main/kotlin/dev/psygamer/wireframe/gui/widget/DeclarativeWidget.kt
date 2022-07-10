@@ -1,9 +1,10 @@
 package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.gui.WidgetCompiler
-import dev.psygamer.wireframe.gui.modifier.Modifier
+import dev.psygamer.wireframe.gui.modifier.ModifierBuilder
 
-abstract class DeclarativeWidget(modifiers: Modifier? = null, childrenFn: () -> Unit) : ParentWidget(modifiers, childrenFn) {
+abstract class DeclarativeWidget(modifier: ModifierBuilder? = null, childrenFn: () -> Unit) :
+	ParentWidget(modifier, childrenFn) {
 
 	abstract fun setup()
 

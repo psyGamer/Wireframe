@@ -8,6 +8,7 @@ import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
 import dev.psygamer.wireframe.event.nativeapi.NativeForgeEventBusSubscriber
 import dev.psygamer.wireframe.gui.*
 import dev.psygamer.wireframe.gui.modifier.*
+import dev.psygamer.wireframe.gui.util.Alignment
 import dev.psygamer.wireframe.gui.widget.*
 import dev.psygamer.wireframe.nativeapi.client.screen.NativeScreen
 import dev.psygamer.wireframe.nativeapi.mcNative
@@ -46,22 +47,22 @@ object TestGUI : GUI() {
 			backgroundColor = color,
 			modifier = Modifier.align(Alignment.CENTER).width(30)
 		) {
-			Text(text = "Hello, World", modifier = WidthModifier(20))
+			Text(text = "Hello, World", modifier = Modifier.width(20))
 		}
 	}
 }
 
 private class Button(
 	val backgroundColor: Color,
-	modifier: Modifier? = null, children: () -> Unit,
+	modifier: ModifierBuilder? = null, children: () -> Unit,
 ) : ParentWidget(modifier, children) {
 
 	override fun renderBackground() {
-		ScreenRenderHelper.drawQuad(this.poseStack, this.width, this.height, backgroundColor)
+		ScreenRenderHelper.drawQuad(this.poseStack, this.renderedWidth, this.renderedHeight, backgroundColor)
 	}
 }
 
-private class Text(val text: String, modifier: Modifier? = null) : Widget(modifier) {
+private class Text(val text: String, modifier: ModifierBuilder? = null) : Widget(modifier) {
 
 	override fun render() {
 		Minecraft.getInstance().font.draw(this.poseStack.mcNative, text, 0.0f, 0.0f, Color.WHITE.mcNative)

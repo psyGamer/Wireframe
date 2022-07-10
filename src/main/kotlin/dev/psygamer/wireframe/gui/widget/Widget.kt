@@ -1,17 +1,14 @@
 package dev.psygamer.wireframe.gui.widget
 
-import java.util.*
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.WidgetCompiler
-import dev.psygamer.wireframe.gui.modifier.Modifier
-import dev.psygamer.wireframe.util.math.Dimension2I
+import dev.psygamer.wireframe.gui.modifier.*
 
-abstract class Widget(internal val modifiers: Modifier? = null) {
+abstract class Widget(modifier: ModifierBuilder? = null) {
 
-	var parent: Widget? = WidgetCompiler.currentParent
-		private set
-
-	val poseStack: PoseStack = this.parent?.poseStack ?: PoseStack()
+	internal val modifierSettings = modifier?.build() ?: IDENTITY_MODIFIER_SETTINGS
+	internal val parent: Widget? = WidgetCompiler.currentParent
+	internal val poseStack: PoseStack = parent?.poseStack?.clone() ?: PoseStack()
 
 	init {
 		WidgetCompiler.newWidgetCallback(this)
@@ -22,19 +19,19 @@ abstract class Widget(internal val modifiers: Modifier? = null) {
 	open fun renderForeground() {}
 	open fun renderBackground() {}
 
-	val width: Int
-		get() = modifiedWidth.orElseGet { lazyWidth.value }
-	val height: Int
-		get() = modifiedHeight.orElseGet { lazyHeight.value }
-	val size
-		get() = Dimension2I(width, height)
+	var renderedWidth: Int = 0
+		internal set
+	var renderedHeight: Int = 0
+		internal set
+
+	var elementWidth: Int = 0
+		internal set
+	var elementHeight: Int = 0
+		internal set
 
 	protected abstract val contentWidth: Int
 	protected abstract val contentHeight: Int
 
-	internal var modifiedWidth = Optional.empty<Int>()
-	internal var modifiedHeight = Optional.empty<Int>()
-
-	private val lazyWidth = lazy { contentWidth }
-	private val lazyHeight = lazy { contentHeight }
+	internal val lazyContentWidth = lazy { contentWidth }
+	internal val lazyContentHeight = lazy { contentHeight }
 }

@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.gui
 
 import dev.psygamer.wireframe.debug.profiling.profile
-import dev.psygamer.wireframe.gui.modifier.applyModifiers
+import dev.psygamer.wireframe.gui.modifier.applyModifierSettings
 import dev.psygamer.wireframe.gui.widget.Widget
 
 abstract class GUI {
@@ -22,6 +22,6 @@ abstract class GUI {
 
 	internal fun recompile() {
 		profile("compileWidgets") { this.widgets = WidgetCompiler.compileWidgets(null, this::setup) }
-		profile("applyModifiers") { this.widgets.onEach(Widget::applyModifiers) }
+		profile("applyModifiers") { this.widgets.onEach(Widget::applyModifierSettings) }
 	}
 }
