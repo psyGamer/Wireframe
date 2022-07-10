@@ -70,8 +70,8 @@ internal fun Widget.applyModifierSettings() {
 	this.renderedHeight = this.elementHeight
 
 	if (this.modifierSettings.alignment != Alignment.TOP_LEFT) {
-		val parentWidth = this.parent?.lazyContentWidth?.value ?: ScreenRenderHelper.screenWidth
-		val parentHeight = this.parent?.lazyContentHeight?.value ?: ScreenRenderHelper.screenHeight
+		val parentWidth = this.parent?.lazyContentWidth?.value ?: (ScreenRenderHelper.screenWidth / ScreenRenderHelper.guiScale)
+		val parentHeight = this.parent?.lazyContentHeight?.value ?: (ScreenRenderHelper.screenHeight / ScreenRenderHelper.guiScale)
 
 		val centerX = parentWidth / 2 - this.lazyContentWidth.value / 2
 		val centerY = parentHeight / 2 - this.lazyContentHeight.value / 2
