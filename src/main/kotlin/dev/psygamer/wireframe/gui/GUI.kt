@@ -8,8 +8,6 @@ abstract class GUI {
 
 	internal var widgets = emptyList<Widget>()
 
-	private val widgetObserver = WidgetObserver(this)
-
 	abstract fun setup()
 
 	fun render() {

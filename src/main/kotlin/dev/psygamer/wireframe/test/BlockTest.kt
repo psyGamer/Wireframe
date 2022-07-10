@@ -10,12 +10,13 @@ import dev.psygamer.wireframe.api.network.PacketHandler
 import dev.psygamer.wireframe.api.world.World
 import dev.psygamer.wireframe.gui.open
 import dev.psygamer.wireframe.util.*
+import dev.psygamer.wireframe.util.helper.onlyOnLogicalClient
 
 class BlockTest : Block(
 	Identifier("wireframe", "block_test"),
 
 	BlockAttributes(Material.WOOD)
-			.harvestLevel(HarvestLevel.STONE),
+		.harvestLevel(HarvestLevel.STONE),
 	ItemAttributes()
 		.maxStackSize(15),
 
@@ -39,7 +40,7 @@ class BlockTest : Block(
 				TestPacket("Moin, Client, Moin!")
 			)
 		}
-		
+
 		runCatching {
 			TestScreen.open()
 		}
@@ -50,6 +51,8 @@ class BlockTest : Block(
 	override fun onBlockRemovedByPlayer(
 		world: World, blockPosition: BlockPosition, oldBlockState: BlockState, newBlockState: BlockState, player: Player,
 	) {
-		TestGUI.open()
+		onlyOnLogicalClient(world) {
+			runCatching { TestGUI.open() }
+		}
 	}
 }

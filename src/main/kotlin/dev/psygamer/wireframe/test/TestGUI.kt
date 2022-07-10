@@ -1,85 +1,66 @@
 package dev.psygamer.wireframe.test
 
 import net.minecraft.client.Minecraft
-import dev.psygamer.wireframe.api.client.render.PoseStack
+import net.minecraftforge.event.TickEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import kotlin.random.Random
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
-import dev.psygamer.wireframe.gui.GUI
+import dev.psygamer.wireframe.event.nativeapi.NativeForgeEventBusSubscriber
+import dev.psygamer.wireframe.gui.*
 import dev.psygamer.wireframe.gui.modifier.*
 import dev.psygamer.wireframe.gui.widget.*
+import dev.psygamer.wireframe.nativeapi.client.screen.NativeScreen
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.Color
 
+@NativeForgeEventBusSubscriber
 object TestGUI : GUI() {
 
-	val state = true
+	var countDown = 20
+	var color: Color = Color.WHITE
+
+	@JvmStatic
+	@SubscribeEvent
+	fun onTick(event: TickEvent.ClientTickEvent) {
+		if (Minecraft.getInstance().screen !is NativeScreen ||
+			(Minecraft.getInstance().screen as NativeScreen).screen !is GUIScreen
+		) return
+		if (--countDown <= 0) {
+			countDown = 20
+			color = Color(Random.Default.nextFloat(), Random.Default.nextFloat(), Random.Default.nextFloat(), 1.0f)
+		}
+	}
 
 	override fun setup() {
-//		TestButton {
-//			TestButton(
-//				color = Color.DARK_GRAY,
-//				modifier = Modifier
-////				.align(Alignment.CENTER)
-//					.margin(5)
-//					.width(100)
-//			) {
-//				TestText(
-//					text = "Abc",
-//					modifier = Modifier//.align(Alignment.TOP_RIGHT)
-//						.margin(10)
-//				)
-//			}
-//		}
-//		TestButton(
-//			text = "Click me!",
-//			modifier = Modifier
-//				.align(Alignment.CENTER)
-//				.padding(3)
-//		)
-		Button(onPressed = { state.value = !state.value }) {
-			if (state.value)
-				Text("Hello, world!")
-			else
-				Text("Moin, Servus, Moin!")
+		Text(modifier = Modifier.align(Alignment.TOP), text = "T")
+		Text(modifier = Modifier.align(Alignment.BOTTOM), text = "B")
+		Text(modifier = Modifier.align(Alignment.RIGHT), text = "R")
+		Text(modifier = Modifier.align(Alignment.LEFT), text = "L")
+
+		Text(modifier = Modifier.align(Alignment.TOP_RIGHT), text = "TR")
+		Text(modifier = Modifier.align(Alignment.TOP_LEFT), text = "TL")
+		Text(modifier = Modifier.align(Alignment.BOTTOM_RIGHT), text = "BR")
+		Text(modifier = Modifier.align(Alignment.BOTTOM_LEFT), text = "BL")
+
+		Button(
+			backgroundColor = color,
+			modifier = Modifier.align(Alignment.CENTER).width(30)
+		) {
+			Text(text = "Hello, World", modifier = WidthModifier(20))
 		}
 	}
 }
 
 private class Button(
-	onPressed: (() -> Unit)?,
+	val backgroundColor: Color,
 	modifier: Modifier? = null, children: () -> Unit,
 ) : ParentWidget(modifier, children) {
 
 	override fun renderBackground() {
-		ScreenRenderHelper.drawQuad(this.poseStack, this.width, this.height)
+		ScreenRenderHelper.drawQuad(this.poseStack, this.width, this.height, backgroundColor)
 	}
 }
 
-//private class TestButton(
-//	private val color: Color = Color.DARK_RED,
-//	modifier: Modifier? = null, children: () -> Unit,
-//) : Widget(modifier, children) {
-//
-//	override fun render() {
-//		ScreenRenderHelper.drawQuad(poseStack, children.width, children.height, color)
-//		children.render()
-//	}
-//
-//	override val contentWidth: Int
-//		get() = children.width
-//	override val contentHeight: Int
-//		get() = children.height
-//}
-
-//private class TestButton(
-//	private val color: Color = Color.DARK_RED,
-//	private val text: String, modifier: Modifier? = null,
-//) : Widget(modifier) {
-//
-//	override fun setup() {
-//		TestText(text = text)
-//	}
-//}
-//
 private class Text(val text: String, modifier: Modifier? = null) : Widget(modifier) {
 
 	override fun render() {
