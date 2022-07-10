@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.gui
 
-import dev.psygamer.wireframe.api.client.render.PoseStack
+import dev.psygamer.wireframe.debug.profiling.profile
 import dev.psygamer.wireframe.gui.modifier.applyModifiers
 import dev.psygamer.wireframe.gui.widget.Widget
 
@@ -13,7 +13,7 @@ abstract class GUI {
 	abstract fun setup()
 
 	fun render() {
-		this.recompile()
+		profile("recompileGUI", this::recompile)
 
 		this.widgets.forEach {
 			it.renderBackground()
@@ -23,7 +23,7 @@ abstract class GUI {
 	}
 
 	internal fun recompile() {
-		this.widgets = WidgetCompiler.compileWidgets(null, this::setup)
-			.onEach(Widget::applyModifiers)
+		profile("compileWidgets") { this.widgets = WidgetCompiler.compileWidgets(null, this::setup) }
+		profile("applyModifiers") { this.widgets.onEach(Widget::applyModifiers) }
 	}
 }
