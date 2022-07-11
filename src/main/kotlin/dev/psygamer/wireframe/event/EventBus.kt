@@ -38,6 +38,25 @@ class EventBus @JvmOverloads constructor(
 		return event.isCancelable && event.isCanceled
 	}
 
+	override fun postToTarget(target: Any, event: Event): Boolean {
+		val isClass = target.javaClass == Class::class.java
+		val eventListeners = mutableListOf<IEventListener>()
+
+		getEventMethodsFromClass(if (isClass) target as Class<*> else target.javaClass)
+			.filter { it.parameterTypes.size == 1 && it.parameterTypes[0] == event.javaClass }
+			.forEach { method ->
+				val priority = method.getAnnotation(EventSubscriber::class.java).priority
+				val listener = MethodEventListener(if (isClass) null else target, method, priority, this)
+				eventListeners.add(listener)
+			}
+
+		eventListeners
+			.sortedWith(Comparator.comparing(IEventListener::priority))
+			.forEach { it(event) }
+
+		return event.isCancelable && event.isCanceled
+	}
+
 	override fun <T : Event> addListener(consumer: (T) -> Unit) {
 		addListener(consumer, EventPriority.NORMAL)
 	}
@@ -74,18 +93,28 @@ class EventBus @JvmOverloads constructor(
 		listeners[eventClass]!!.add(listener)
 	}
 
-	private fun registerClass(clazz: Class<*>) {
-		clazz.methods
+	private fun getEventMethodsFromClass(clazz: Class<*>): List<Method> {
+		return clazz.methods
 			.filter { Modifier.isStatic(it.modifiers) }
 			.filter { it.isAnnotationPresent(EventSubscriber::class.java) }
-			.forEach { addListener(null, it, it.getAnnotation(EventSubscriber::class.java).priority) }
+	}
+
+	private fun getEventMethodsFromObject(clazz: Class<*>): List<Method> {
+		return clazz.methods
+			.filter { Modifier.isStatic(it.modifiers) }
+			.filter { it.isAnnotationPresent(EventSubscriber::class.java) }
+	}
+
+	private fun registerClass(clazz: Class<*>) {
+		getEventMethodsFromClass(clazz).forEach {
+			addListener(null, it, it.getAnnotation(EventSubscriber::class.java).priority)
+		}
 	}
 
 	private fun registerObject(obj: Any) {
-		obj.javaClass.methods
-			.filter { Modifier.isStatic(it.modifiers) }
-			.filter { it.isAnnotationPresent(EventSubscriber::class.java) }
-			.forEach { addListener(obj, it, it.getAnnotation(EventSubscriber::class.java).priority) }
+		getEventMethodsFromClass(obj.javaClass).forEach {
+			addListener(obj, it, it.getAnnotation(EventSubscriber::class.java).priority)
+		}
 	}
 
 	private fun <T : Event> getEventClass(consumer: (T) -> Unit): Class<T> {
