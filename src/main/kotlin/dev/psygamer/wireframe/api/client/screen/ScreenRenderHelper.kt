@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.api.client.screen
 
+import java.io.Closeable
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.nativeapi.client.screen.NativeScreenRenderHelper
 import dev.psygamer.wireframe.util.*
@@ -50,6 +51,13 @@ object ScreenRenderHelper {
 
 	fun drawColoredQuad(poseStack: PoseStack = PoseStack(), position: Vector2i = Vector2i.ZERO, size: Vector2i, color: Color = Color.WHITE) =
 		NativeScreenRenderHelper.drawColoredQuad(poseStack, position.x, position.y, size.x, size.y, color)
+
+	fun startRenderingBatch(): Closeable {
+		NativeScreenRenderHelper.startBatch()
+		return Closeable { NativeScreenRenderHelper.endBatch() }
+	}
+
+	fun endRenderingBatch() = NativeScreenRenderHelper.startBatch()
 
 	// The following 16 methods are all variations with two Int parameters / [Vector2i]
 

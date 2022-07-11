@@ -20,6 +20,34 @@ object NativeScreenRenderHelper {
 	private val font = Minecraft.getInstance().font
 	private val textureSizeCache: MutableMap<Identifier, Pair<Int, Int>> = mutableMapOf()
 
+	private var batchRendering = false
+	private val renderBatchStack = mutableMapOf<Int, MutableList<RenderEntry>>()
+
+	fun startBatch() {
+		renderBatchStack.clear()
+		batchRendering = true
+	}
+
+	fun endBatch() {
+		batchRendering = false
+		using(OpenGL.enable(GL_BLEND)) {
+			renderBatchStack.values.forEach { entries ->
+				val (textureWidth, textureHeight) = getTextureSize(entries[0].texture)
+				using(
+					OpenGL.color(entries[0].color),
+					OpenGL.texture(entries[0].texture)
+				) {
+					entries.forEach {
+						AbstractGui.blit(
+							it.poseStack.mcNative, it.xPos, it.yPos, it.width, it.height,
+							it.uPos.toFloat(), it.vPos.toFloat(), it.uWidth, it.vHeight, textureWidth, textureHeight
+						)
+					}
+				}
+			}
+		}
+	}
+
 	fun drawColoredQuad(poseStack: PoseStack, xPos: Int, yPos: Int, width: Int, height: Int, color: Color) {
 		AbstractGui.fill(poseStack.mcNative, xPos, yPos, xPos + width, yPos + height, color.mcNative)
 	}
@@ -29,6 +57,17 @@ object NativeScreenRenderHelper {
 		xPos: Int, yPos: Int, width: Int, height: Int,
 		uPos: Int, vPos: Int, uWidth: Int, vHeight: Int,
 	) {
+		if (batchRendering) {
+			val hashCode = 31 * texture.hashCode() + color.hashCode()
+			val entry = RenderEntry(poseStack, texture, color, xPos, yPos, width, height, uPos, vPos, uWidth, vHeight)
+
+			if (!renderBatchStack.containsKey(hashCode))
+				renderBatchStack[hashCode] = mutableListOf(entry)
+			else
+				renderBatchStack[hashCode]!!.add(entry)
+			return
+		}
+
 		using(
 			OpenGL.color(color),
 			OpenGL.texture(texture),
@@ -69,3 +108,11 @@ object NativeScreenRenderHelper {
 		return size
 	}
 }
+
+private data class RenderEntry(
+	val poseStack: PoseStack,
+	val texture: Identifier,
+	val color: Color,
+	val xPos: Int, val yPos: Int, val width: Int, val height: Int,
+	val uPos: Int, val vPos: Int, val uWidth: Int, val vHeight: Int,
+)
