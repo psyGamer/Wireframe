@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.util.math.vector
 
+import net.minecraft.util.math.vector.*
 import kotlin.math.*
 
 open class Vector3i(val x: Int, val y: Int, val z: Int) {
@@ -79,4 +80,10 @@ open class Vector3i(val x: Int, val y: Int, val z: Int) {
 
 	val inverted
 		get() = Vector3i(-this.x, -this.y, -this.z)
+
+	fun transform(matrix: Matrix4f): Vector3i {
+		val vector = Vector4f(this.x.toFloat(), this.y.toFloat(), this.z.toFloat(), 1.0f)
+		vector.transform(matrix)
+		return Vector3i(vector.x().toInt(), vector.y().toInt(), vector.z().toInt())
+	}
 }
