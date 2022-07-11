@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.gui.modifier
+package dev.psygamer.wireframe.gui
 
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
 import dev.psygamer.wireframe.gui.util.Alignment
@@ -65,8 +65,8 @@ internal data class ModifierSettings(
 )
 
 internal fun Widget.applyModifierSettings() {
-	val width = maxOf(this.modifierSettings.width ?: this.lazyContentWidth.value, this.minModifierSettings.width ?: 0)
-	val height = maxOf(this.modifierSettings.height ?: this.lazyContentHeight.value, this.minModifierSettings.height ?: 0)
+	val width = maxOf(this.modifierSettings.width ?: this.contentWidth, this.minModifierSettings.width ?: 0)
+	val height = maxOf(this.modifierSettings.height ?: this.contentHeight, this.minModifierSettings.height ?: 0)
 	val margin = maxOf(this.modifierSettings.margin, this.minModifierSettings.margin)
 	val padding = maxOf(this.modifierSettings.padding, this.minModifierSettings.padding)
 

@@ -8,7 +8,6 @@ import dev.psygamer.wireframe.api.item.ItemAttributes
 import dev.psygamer.wireframe.api.item.util.ClickResult
 import dev.psygamer.wireframe.api.network.PacketHandler
 import dev.psygamer.wireframe.api.world.World
-import dev.psygamer.wireframe.gui.open
 import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.helper.onlyOnLogicalClient
 

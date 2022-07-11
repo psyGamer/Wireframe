@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.gui.widget
 
 import net.minecraft.client.Minecraft
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
-import dev.psygamer.wireframe.gui.modifier.ModifierBuilder
+import dev.psygamer.wireframe.gui.ModifierBuilder
 
 class Text(val text: String, modifier: ModifierBuilder? = null) : Widget(modifier) {
 

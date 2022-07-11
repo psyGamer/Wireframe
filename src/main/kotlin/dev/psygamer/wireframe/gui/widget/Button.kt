@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
-import dev.psygamer.wireframe.gui.modifier.ModifierBuilder
+import dev.psygamer.wireframe.gui.ModifierBuilder
 import dev.psygamer.wireframe.util.Identifier
 
 private val WIDGET_TEXTURE_LOCATION = Identifier("textures/gui/widgets.png")
