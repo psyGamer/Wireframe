@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.gui.modifier
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
 import dev.psygamer.wireframe.gui.util.Alignment
 import dev.psygamer.wireframe.gui.widget.*
+import dev.psygamer.wireframe.util.math.vector.*
 
 object Modifier {
 
@@ -68,37 +69,59 @@ internal fun Widget.applyModifierSettings() {
 	this.elementHeight = this.modifierSettings.height ?: this.lazyContentHeight.value
 	this.renderedWidth = this.elementWidth
 	this.renderedHeight = this.elementHeight
+	this.childContainerWidth = this.elementWidth
+	this.childContainerHeight = this.elementHeight
+
+	var xTranslation = 0
+	var yTranslation = 0
+
+	fun translate(x: Int, y: Int) {
+		this.poseStack.translate(x, y, 0)
+		xTranslation += x
+		yTranslation += y
+	}
+
+	translate(this.modifierSettings.margin, this.modifierSettings.margin)
+	this.elementWidth += 2 * this.modifierSettings.margin
+	this.elementHeight += 2 * this.modifierSettings.margin
+
+	if (this is ParentWidget) {
+		this.childrenPoseStacks.forEach { it.translate(this.modifierSettings.padding, this.modifierSettings.padding, 0) }
+		this.elementWidth += 2 * this.modifierSettings.padding
+		this.elementHeight += 2 * this.modifierSettings.padding
+		this.renderedWidth += 2 * this.modifierSettings.padding
+		this.renderedHeight += 2 * this.modifierSettings.padding
+	}
+
+	val vector = Vector3i.ZERO.transform(poseStack.mcNative.last().pose())
+	this.topLeft = Vector2i(vector.x, vector.y)
+
+	if (this is ParentWidget)
+		this.children.forEach { it.applyModifierSettings() }
 
 	if (this.modifierSettings.alignment != Alignment.TOP_LEFT) {
-		val parentWidth = this.parent?.lazyContentWidth?.value ?: (ScreenRenderHelper.screenWidth / ScreenRenderHelper.guiScale)
-		val parentHeight = this.parent?.lazyContentHeight?.value ?: (ScreenRenderHelper.screenHeight / ScreenRenderHelper.guiScale)
+		val parentWidth = this.parent?.childContainerWidth ?: (ScreenRenderHelper.screenWidth / ScreenRenderHelper.guiScale)
+		val parentHeight = this.parent?.childContainerHeight ?: (ScreenRenderHelper.screenHeight / ScreenRenderHelper.guiScale)
 
-		val centerX = parentWidth / 2 - this.lazyContentWidth.value / 2
-		val centerY = parentHeight / 2 - this.lazyContentHeight.value / 2
+		val centerX = parentWidth / 2 - this.elementWidth / 2
+		val centerY = parentHeight / 2 - this.elementHeight / 2
 
-		val right = parentWidth - this.lazyContentWidth.value
-		val bottom = parentHeight - this.lazyContentHeight.value
+		val right = parentWidth - this.elementWidth
+		val bottom = parentHeight - this.elementHeight
 
 		when (this.modifierSettings.alignment) {
-			Alignment.CENTER -> this.poseStack.translate(centerX, centerY, 0)
-			Alignment.LEFT -> this.poseStack.translate(0, centerY, 0)
-			Alignment.RIGHT -> this.poseStack.translate(right, centerY, 0)
-			Alignment.TOP -> this.poseStack.translate(centerX, 0, 0)
-			Alignment.BOTTOM -> this.poseStack.translate(centerX, bottom, 0)
-			Alignment.TOP_RIGHT -> this.poseStack.translate(right, 0, 0)
-			Alignment.BOTTOM_LEFT -> this.poseStack.translate(0, bottom, 0)
-			Alignment.BOTTOM_RIGHT -> this.poseStack.translate(right, bottom, 0)
+			Alignment.CENTER -> translate(centerX, centerY)
+			Alignment.LEFT -> translate(0, centerY)
+			Alignment.RIGHT -> translate(right, centerY)
+			Alignment.TOP -> translate(centerX, 0)
+			Alignment.BOTTOM -> translate(centerX, bottom)
+			Alignment.TOP_RIGHT -> translate(right, 0)
+			Alignment.BOTTOM_LEFT -> translate(0, bottom)
+			Alignment.BOTTOM_RIGHT -> translate(right, bottom)
 			else -> {} // Unreachable
 		}
 	}
 
-	this.poseStack.translate(this.modifierSettings.margin, this.modifierSettings.margin, 0)
-	this.elementWidth += 2 * this.modifierSettings.margin
-	this.elementHeight += 2 * this.modifierSettings.margin
-
-	if (this !is ParentWidget) return
-
-	this.childrenPoseStacks.forEach { it.translate(this.modifierSettings.padding, this.modifierSettings.padding, 0) }
-	this.elementWidth += 2 * this.modifierSettings.padding
-	this.elementHeight += 2 * this.modifierSettings.padding
+	if (this is ParentWidget)
+		this.childrenPoseStacks.forEach { it.translate(xTranslation, yTranslation, 0) }
 }

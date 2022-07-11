@@ -29,6 +29,11 @@ abstract class Widget(modifier: ModifierBuilder? = null) {
 	var elementHeight: Int = 0
 		internal set
 
+	var childContainerWidth: Int = 0
+		internal set
+	var childContainerHeight: Int = 0
+		internal set
+
 	protected abstract val contentWidth: Int
 	protected abstract val contentHeight: Int
 
