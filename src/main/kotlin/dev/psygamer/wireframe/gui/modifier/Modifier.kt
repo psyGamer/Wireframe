@@ -65,12 +65,17 @@ internal data class ModifierSettings(
 )
 
 internal fun Widget.applyModifierSettings() {
-	this.elementWidth = this.modifierSettings.width ?: this.lazyContentWidth.value
-	this.elementHeight = this.modifierSettings.height ?: this.lazyContentHeight.value
-	this.renderedWidth = this.elementWidth
-	this.renderedHeight = this.elementHeight
-	this.childContainerWidth = this.elementWidth
-	this.childContainerHeight = this.elementHeight
+	val width = maxOf(this.modifierSettings.width ?: this.lazyContentWidth.value, this.minModifierSettings.width ?: 0)
+	val height = maxOf(this.modifierSettings.height ?: this.lazyContentHeight.value, this.minModifierSettings.height ?: 0)
+	val margin = maxOf(this.modifierSettings.margin, this.minModifierSettings.margin)
+	val padding = maxOf(this.modifierSettings.padding, this.minModifierSettings.padding)
+
+	this.elementWidth = width
+	this.elementHeight = height
+	this.renderedWidth = width
+	this.renderedHeight = height
+	this.childContainerWidth = width
+	this.childContainerHeight = height
 
 	var xTranslation = 0
 	var yTranslation = 0
@@ -81,16 +86,16 @@ internal fun Widget.applyModifierSettings() {
 		yTranslation += y
 	}
 
-	translate(this.modifierSettings.margin, this.modifierSettings.margin)
-	this.elementWidth += 2 * this.modifierSettings.margin
-	this.elementHeight += 2 * this.modifierSettings.margin
+	translate(margin, margin)
+	this.elementWidth += 2 * margin
+	this.elementHeight += 2 * margin
 
 	if (this is ParentWidget) {
-		this.childrenPoseStacks.forEach { it.translate(this.modifierSettings.padding, this.modifierSettings.padding, 0) }
-		this.elementWidth += 2 * this.modifierSettings.padding
-		this.elementHeight += 2 * this.modifierSettings.padding
-		this.renderedWidth += 2 * this.modifierSettings.padding
-		this.renderedHeight += 2 * this.modifierSettings.padding
+		this.childrenPoseStacks.forEach { it.translate(padding, padding, 0) }
+		this.elementWidth += 2 * padding
+		this.elementHeight += 2 * padding
+		this.renderedWidth += 2 * padding
+		this.renderedHeight += 2 * padding
 	}
 
 	val vector = Vector3i.ZERO.transform(poseStack.mcNative.last().pose())

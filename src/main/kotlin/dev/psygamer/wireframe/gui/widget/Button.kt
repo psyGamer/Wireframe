@@ -37,6 +37,10 @@ class Button(
 	modifier: ModifierBuilder? = null, children: () -> Unit,
 ) : ParentWidget(modifier, children) {
 
+	init {
+		minModifier.padding(5)
+	}
+
 	override fun renderBackground() {
 		// The minimum expected size is 8x8 (CORNER_SIZE * 2)
 		if (this.renderedWidth < CORNER_SIZE * 2 || this.renderedHeight < CORNER_SIZE * 2) {
