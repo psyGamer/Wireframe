@@ -13,8 +13,8 @@ open class Screen {
 	open fun tick() {}
 	open fun render() {}
 
-	open fun onOpen(oldScreen: Screen?) {}
-	open fun onClose(newScreen: Screen?) {}
+	open fun onOpen() {}
+	open fun onClose() {}
 
 	open fun onMouseMoved(mouseX: Double, mouseY: Double) {}
 	open fun onMousePressed(mouseX: Double, mouseY: Double, mouseButton: Int) {}

@@ -7,15 +7,10 @@ object NativeScreenManager {
 
 	fun openScreen(screen: Screen) {
 		val oldScreen = Minecraft.getInstance().screen
-
 		if (oldScreen is NativeScreen)
-			oldScreen.screen.onClose(screen)
+			oldScreen.screen.onClose()
 
 		Minecraft.getInstance().setScreen(screen.mcNative)
-
-		if (oldScreen is NativeScreen)
-			screen.onOpen(oldScreen.screen)
-		else
-			screen.onOpen(null)
+		screen.onOpen()
 	}
 }
