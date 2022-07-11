@@ -1,8 +1,5 @@
 package dev.psygamer.wireframe.gui.event
 
-import dev.psygamer.wireframe.event.api.Event
+import dev.psygamer.wireframe.event.api.ConsumableEvent
 
-abstract class GUIEvent : Event() {
-
-	override val isCancelable = false
-}
+abstract class GUIEvent : ConsumableEvent()

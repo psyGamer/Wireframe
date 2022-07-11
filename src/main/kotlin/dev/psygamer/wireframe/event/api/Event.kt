@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.event.api
 
 abstract class Event {
 
-	var isCanceled = false
+	open var isCanceled = false
 		set(canceled) {
 			if (!isCancelable) {
 				throw UnsupportedOperationException(
