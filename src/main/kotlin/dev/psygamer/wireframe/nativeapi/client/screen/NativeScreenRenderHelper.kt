@@ -55,6 +55,7 @@ object NativeScreenRenderHelper {
 	}
 
 	fun getStringWidth(text: String) = font.width(text)
+	fun getLineHeight() = font.lineHeight
 
 	private fun getTextureSize(texture: Identifier): Pair<Int, Int> {
 		if (textureSizeCache.containsKey(texture))

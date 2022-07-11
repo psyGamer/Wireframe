@@ -6,11 +6,11 @@ import dev.psygamer.wireframe.util.*
 object TestScreen : Screen() {
 
 	override fun render() {
-		ScreenRenderHelper.drawQuad(0, 0, 100, 100, Color.DARK_RED)
+		ScreenRenderHelper.drawColoredQuad(xPos = 0, yPos = 0, width = 100, height = 100, color = Color.DARK_RED)
 		ScreenRenderHelper.drawTexturedQuad(
-			Identifier(path = "textures/block/stone.png"),
-			100, 0, 100, 100,
-			0, 0, 16, 16
+			texture = Identifier(path = "textures/block/stone.png"),
+			xPos = 100, yPos = 0, width = 100, height = 100,
+			uPos = 0, vPos = 0, uWidth = 16, vHeight = 16
 		)
 
 		ScreenRenderHelper.drawText("Text", 150, 150, Color.WHITE)
