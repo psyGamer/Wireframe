@@ -1,23 +1,27 @@
 package dev.psygamer.wireframe.nativeapi.reflection
 
 import com.mojang.blaze3d.matrix.MatrixStack
-import java.lang.reflect.Field
+import net.minecraft.util.math.vector.*
 import java.util.*
 
 @Suppress("UNCHECKED_CAST")
 object MatrixStackReflection {
 
-	private val cls = MatrixStack::class.java
+	private val poseStack_field = MatrixStack::class.java.getDeclaredField("poseStack")
 
-	private val poseStack_field: Field = cls.getDeclaredField("poseStack")
+	private val MatrixStackEntry_constructor =
+		MatrixStack.Entry::class.java.getDeclaredConstructor(Matrix4f::class.java, Matrix3f::class.java)
 
 	init {
 		poseStack_field.isAccessible = true
+
+		MatrixStackEntry_constructor.isAccessible = true
 	}
 
-	fun getPoseStack(instance: MatrixStack): Deque<MatrixStack.Entry> =
-		poseStack_field.get(instance) as Deque<MatrixStack.Entry>
+	var MatrixStack.poseStack: Deque<MatrixStack.Entry>
+		set(value) = poseStack_field.set(this, value)
+		get() = poseStack_field.get(this) as Deque<MatrixStack.Entry>
 
-	fun setPoseStack(instance: MatrixStack, value: Deque<MatrixStack.Entry>) =
-		poseStack_field.set(instance, value)
+	fun newEntry(pose: Matrix4f, normal: Matrix3f): MatrixStack.Entry =
+		MatrixStackEntry_constructor.newInstance(pose, normal)
 }
