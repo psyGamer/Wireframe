@@ -1,22 +1,24 @@
 package dev.psygamer.wireframe.api.client.render
 
 import com.google.common.collect.Queues
+import com.mojang.blaze3d.matrix.MatrixStack
 import java.io.Closeable
 import dev.psygamer.wireframe.nativeapi.*
 import dev.psygamer.wireframe.nativeapi.reflection.MatrixStackReflection
+import dev.psygamer.wireframe.nativeapi.reflection.MatrixStackReflection.poseStack
 import dev.psygamer.wireframe.util.math.vector.*
 import dev.psygamer.wireframe.util.math.vector.VectorUtil.asQuaternion
 
 class PoseStack : Cloneable {
 
-	internal val mcNative: com.mojang.blaze3d.matrix.MatrixStack
+	internal val mcNative: MatrixStack
 
-	internal constructor(mcNative: com.mojang.blaze3d.matrix.MatrixStack) {
+	internal constructor(mcNative: MatrixStack) {
 		this.mcNative = mcNative
 	}
 
 	constructor() {
-		this.mcNative = com.mojang.blaze3d.matrix.MatrixStack()
+		this.mcNative = MatrixStack()
 	}
 
 	fun push(): Closeable {
@@ -115,12 +117,10 @@ class PoseStack : Cloneable {
 		return Closeable { this.mcNative.scale(-scale.x.toFloat(), -scale.y.toFloat(), -scale.z.toFloat()) }
 	}
 
-	override public fun clone(): PoseStack {
-		val poseStackDeque = MatrixStackReflection.getPoseStack(mcNative)
-
-		val newMatrixStack = com.mojang.blaze3d.matrix.MatrixStack()
-		MatrixStackReflection.setPoseStack(newMatrixStack, Queues.newArrayDeque(poseStackDeque))
-
-		return newMatrixStack.wfWrapped
+	public override fun clone(): PoseStack {
+		val newPoseStackQueue = Queues.newArrayDeque(
+			mcNative.poseStack.map { MatrixStackReflection.newEntry(it.pose().copy(), it.normal().copy()) }
+		)
+		return MatrixStack().also { it.poseStack = newPoseStackQueue }.wfWrapped
 	}
 }
