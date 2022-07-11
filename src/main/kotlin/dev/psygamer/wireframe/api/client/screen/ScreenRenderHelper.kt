@@ -2,7 +2,6 @@ package dev.psygamer.wireframe.api.client.screen
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.nativeapi.client.screen.NativeScreenRenderHelper
-import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.*
 
 object ScreenRenderHelper {
@@ -12,27 +11,37 @@ object ScreenRenderHelper {
 
 	val guiScale get() = NativeScreenRenderHelper.guiScale
 
-	fun drawQuad(minX: Int, minY: Int, maxX: Int, maxY: Int, color: Color = Color.WHITE) =
-		NativeScreenRenderHelper.drawRect(minX, minY, maxX, maxY, color)
+	fun drawQuad(xPos: Int, yPos: Int, width: Int, height: Int, color: Color = Color.WHITE) =
+		NativeScreenRenderHelper.drawColoredQuad(PoseStack(), xPos, yPos, width, height, color)
 
 	fun drawQuad(poseStack: PoseStack, width: Int, height: Int, color: Color = Color.WHITE) =
-		NativeScreenRenderHelper.drawRect(poseStack, width, height, color)
+		NativeScreenRenderHelper.drawColoredQuad(poseStack, 0, 0, width, height, color)
 
 	fun drawTexturedQuad(
-		minX: Int, minY: Int, maxX: Int, maxY: Int,
-		minU: Int, minV: Int, maxU: Int, maxV: Int,
-		texture: Identifier, color: Color = Color.WHITE,
-	) = NativeScreenRenderHelper.drawTexturedRect(minX, minY, maxX, maxY, minU, minV, maxU, maxV, texture, color)
+		texture: Identifier,
+		xPos: Int, yPos: Int, width: Int, height: Int,
+		uPos: Int, vPos: Int, uWidth: Int, vHeight: Int,
+		color: Color = Color.WHITE,
+	) = NativeScreenRenderHelper.drawTexturedQuad(PoseStack(), texture, color, xPos, yPos, width, height, uPos, vPos, uWidth, vHeight)
 
-	fun drawText(text: String, x: Int, y: Int, color: Color = Color.WHITE) =
-		NativeScreenRenderHelper.drawText(text, x, y, color.mcNative)
+	fun drawTexturedQuad(
+		poseStack: PoseStack, texture: Identifier,
+		width: Int, height: Int,
+		uPos: Int, vPos: Int, uWidth: Int, vHeight: Int,
+		color: Color = Color.WHITE,
+	) = NativeScreenRenderHelper.drawTexturedQuad(poseStack, texture, color, 0, 0, width, height, uPos, vPos, uWidth, vHeight)
 
-	fun drawCenteredText(text: String, x: Int, y: Int, color: Color = Color.WHITE) =
-		NativeScreenRenderHelper.drawCenteredText(text, x, y, color.mcNative)
+	fun drawText(text: String, x: Number, y: Number, color: Color = Color.WHITE) =
+		NativeScreenRenderHelper.drawText(PoseStack(), text, x.toFloat(), y.toFloat(), color, shadow = false)
+
+	fun drawCenteredText(text: String, x: Number, y: Number, color: Color = Color.WHITE) =
+		NativeScreenRenderHelper.drawText(PoseStack(), text, x.toFloat() - getStringWidth(text) / 2.0f, y.toFloat(), color, shadow = false)
 
 	fun drawTextWithShadow(text: String, x: Int, y: Int, color: Color = Color.WHITE) =
-		NativeScreenRenderHelper.drawTextWithShadow(text, x, y, color.mcNative)
+		NativeScreenRenderHelper.drawText(PoseStack(), text, x.toFloat(), y.toFloat(), color, shadow = true)
 
 	fun drawCenteredTextWithShadow(text: String, x: Int, y: Int, color: Color = Color.WHITE) =
-		NativeScreenRenderHelper.drawCenteredTextWithShadow(text, x, y, color.mcNative)
+		NativeScreenRenderHelper.drawText(PoseStack(), text, x.toFloat() - getStringWidth(text) / 2.0f, y.toFloat(), color, shadow = true)
+
+	fun getStringWidth(text: String) = NativeScreenRenderHelper.getStringWidth(text)
 }

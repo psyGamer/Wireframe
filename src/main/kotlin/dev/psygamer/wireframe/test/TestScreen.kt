@@ -7,7 +7,11 @@ object TestScreen : Screen() {
 
 	override fun render() {
 		ScreenRenderHelper.drawQuad(0, 0, 100, 100, Color.DARK_RED)
-		ScreenRenderHelper.drawTexturedQuad(100, 0, 200, 100, 0, 0, 16, 16, Identifier(path = "textures/block/stone.png"))
+		ScreenRenderHelper.drawTexturedQuad(
+			Identifier(path = "textures/block/stone.png"),
+			100, 0, 100, 100,
+			0, 0, 16, 16
+		)
 
 		ScreenRenderHelper.drawText("Text", 150, 150, Color.WHITE)
 		ScreenRenderHelper.drawCenteredText("Centered Text", 150, 175, Color.BLACK)
