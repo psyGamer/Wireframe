@@ -3,6 +3,7 @@ package dev.psygamer.wireframe.gui.widget
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.WidgetCompiler
 import dev.psygamer.wireframe.gui.modifier.*
+import dev.psygamer.wireframe.util.math.vector.Vector2i
 
 abstract class Widget(modifier: ModifierBuilder? = null) {
 
@@ -18,6 +19,9 @@ abstract class Widget(modifier: ModifierBuilder? = null) {
 
 	open fun renderForeground() {}
 	open fun renderBackground() {}
+
+	var topLeft = Vector2i.ZERO
+		internal set
 
 	var renderedWidth: Int = 0
 		internal set
