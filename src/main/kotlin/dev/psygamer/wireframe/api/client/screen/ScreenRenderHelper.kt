@@ -57,7 +57,7 @@ object ScreenRenderHelper {
 		return Closeable { NativeScreenRenderHelper.endBatch() }
 	}
 
-	fun endRenderingBatch() = NativeScreenRenderHelper.startBatch()
+	fun endRenderingBatch() = NativeScreenRenderHelper.endBatch()
 
 	// The following 16 methods are all variations with two Int parameters / [Vector2i]
 
