@@ -1,8 +1,7 @@
 package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
-import dev.psygamer.wireframe.gui.WidgetCompiler
-import dev.psygamer.wireframe.gui.modifier.ModifierBuilder
+import dev.psygamer.wireframe.gui.*
 
 abstract class ParentWidget(
 	modifier: ModifierBuilder? = null,
@@ -18,8 +17,8 @@ abstract class ParentWidget(
 
 	override fun render() = children.forEach { it.render() }
 
-	override val contentWidth get() = if (children.isEmpty()) 0 else children.maxOf { it.lazyContentWidth.value }
-	override val contentHeight get() = if (children.isEmpty()) 0 else children.maxOf { it.lazyContentHeight.value }
+	override val contentWidth get() = if (children.isEmpty()) 0 else children.maxOf { it.contentWidth }
+	override val contentHeight get() = if (children.isEmpty()) 0 else children.maxOf { it.contentHeight }
 
 	internal fun compileChildren() {
 		this.children = WidgetCompiler.compileWidgets(this, childrenFn)

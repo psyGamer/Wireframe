@@ -1,8 +1,7 @@
 package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.api.client.render.PoseStack
-import dev.psygamer.wireframe.gui.WidgetCompiler
-import dev.psygamer.wireframe.gui.modifier.*
+import dev.psygamer.wireframe.gui.*
 import dev.psygamer.wireframe.util.math.vector.Vector2i
 
 abstract class Widget(modifier: ModifierBuilder? = null) {
@@ -27,24 +26,21 @@ abstract class Widget(modifier: ModifierBuilder? = null) {
 	var topLeft = Vector2i.ZERO
 		internal set
 
-	var renderedWidth: Int = 0
+	var renderedWidth = 0
 		internal set
-	var renderedHeight: Int = 0
-		internal set
-
-	var elementWidth: Int = 0
-		internal set
-	var elementHeight: Int = 0
+	var renderedHeight = 0
 		internal set
 
-	var childContainerWidth: Int = 0
+	var elementWidth = 0
 		internal set
-	var childContainerHeight: Int = 0
+	var elementHeight = 0
 		internal set
 
-	protected abstract val contentWidth: Int
-	protected abstract val contentHeight: Int
+	var childContainerWidth = 0
+		internal set
+	var childContainerHeight = 0
+		internal set
 
-	internal val lazyContentWidth = lazy { contentWidth }
-	internal val lazyContentHeight = lazy { contentHeight }
+	abstract val contentWidth: Int
+	abstract val contentHeight: Int
 }
