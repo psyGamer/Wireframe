@@ -7,6 +7,6 @@ class BlockHitResult(
 	location: Vector3d, val direction: Direction, val blockPosition: BlockPosition,
 	miss: Boolean = false, val isInside: Boolean,
 ) : HitResult(location) {
-	
+
 	val type: Type = if (miss) Type.MISS else Type.BLOCK
 }

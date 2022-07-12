@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.util
 import dev.psygamer.wireframe.util.math.vector.Vector3i
 
 class BlockPosition(x: Int, y: Int, z: Int) : Vector3i(x, y, z) {
-	
+
 	@JvmOverloads
 	fun offset(direction: Direction, distance: Int = 1): BlockPosition {
 		return offset(
@@ -12,7 +12,7 @@ class BlockPosition(x: Int, y: Int, z: Int) : Vector3i(x, y, z) {
 			direction.unitVector.z * distance
 		)
 	}
-	
+
 	fun offset(xOffset: Int, yOffset: Int, zOffset: Int): BlockPosition {
 		return BlockPosition(
 			x + xOffset,

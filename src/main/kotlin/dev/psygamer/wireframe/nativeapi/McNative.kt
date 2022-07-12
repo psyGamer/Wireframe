@@ -80,14 +80,14 @@ internal val Direction.mcNative: net.minecraft.util.Direction
 internal val Color.mcNative: Int
 	get() {
 		// Minecraft's Format: ARGB
-		
+
 		var color = 0x00000000
-		
+
 		color = color shl 0 or (alpha * 255).roundToInt().clamp(max = 255)
 		color = color shl 8 or (red * 255).roundToInt().clamp(max = 255)
 		color = color shl 8 or (green * 255).roundToInt().clamp(max = 255)
 		color = color shl 8 or (blue * 255).roundToInt().clamp(max = 255)
-		
+
 		return color
 	}
 

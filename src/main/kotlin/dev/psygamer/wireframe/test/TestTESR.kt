@@ -8,38 +8,38 @@ import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.client.model.*
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
-import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 import dev.psygamer.wireframe.nativeapi.wfWrapped
 import dev.psygamer.wireframe.util.helper.using
 
 class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<NativeBlockEntity>(dispatcher) {
-	
+
 	var quadMesh = Mesh.Builder()
-			.add(Vertex(0.0f, 0.0f))
-			.add(Vertex(0.0f, 1.0f))
-			.add(Vertex(1.0f, 0.0f))
-			
-			.add(Vertex(1.0f, 0.0f))
-			.add(Vertex(0.0f, 1.0f))
-			.add(Vertex(1.0f, 1.0f))
-			.build()
-	
+		.add(Vertex(0.0f, 0.0f))
+		.add(Vertex(0.0f, 1.0f))
+		.add(Vertex(1.0f, 0.0f))
+
+		.add(Vertex(1.0f, 0.0f))
+		.add(Vertex(0.0f, 1.0f))
+		.add(Vertex(1.0f, 1.0f))
+		.build()
+
 	fun rend(blockEntity: BlockEntity, poseStack: PoseStack, partialTicks: Float) {
 		using(poseStack.translate(0, 1, 0)) {
 			quadMesh.render()
 		}
 	}
-	
+
 	override fun render(
 		// MatrixStack Location = Block Location
 		pBlockEntity: NativeBlockEntity, pPartialTicks: Float, pMatrixStack: MatrixStack, pBuffer: IRenderTypeBuffer,
 		pCombinedLight: Int, pCombinedOverlay: Int,
 	) {
 		val poseStack = pMatrixStack.wfWrapped
-		RenderManager.startBatch(poseStack, pBuffer)
-		rend(pBlockEntity.blockEntity, poseStack, pPartialTicks)
-		RenderManager.endBatch()
-		
+
+//		RenderManager.startContext(poseStack, pBuffer)
+//		rend(pBlockEntity.blockEntity, poseStack, pPartialTicks)
+//		RenderManager.endBatch()
+
 		return
 //		glPushMatrix()
 //
@@ -90,16 +90,16 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //		glTranslated(-5.0, -5.0, -5.0)
 //		glTranslatef(0.0f, 1.0f, 0.0f)
 //		val builder = Tessellator.getInstance().builder
-		
+
 		val builder = pBuffer.getBuffer(RenderType.solid())
 		fun vertex(x: Float, y: Float, z: Float, r: Float, g: Float, b: Float, a: Float) {
 			builder.vertex(pMatrixStack.last().pose(), x, y, z)
-					.color(r, g, b, a)
-					.uv(x, y)
-					.uv2(pCombinedLight)
-					.overlayCoords(pCombinedOverlay)
-					.normal(pMatrixStack.last().normal(), 1f, 0f, 0f)
-					.endVertex()
+				.color(r, g, b, a)
+				.uv(x, y)
+				.uv2(pCombinedLight)
+				.overlayCoords(pCombinedOverlay)
+				.normal(pMatrixStack.last().normal(), 1f, 0f, 0f)
+				.endVertex()
 		}
 		pMatrixStack.translate(0.0, 1.0, 0.0)
 		Minecraft.getInstance().player?.chat("Render: $pPartialTicks")
@@ -123,7 +123,7 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //
 //		glEnd()
 //		glEnable(GL_CULL_FACE)
-		
+
 		/*run {
 			glTranslatef(0.0f, 1.0f, 0.0f)
 			// Quad with solid color
@@ -176,7 +176,7 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //		RenderSystem.disableBlend()
 //		RenderSystem.disableDepthTest()
 //		glPopMatrix()
-		RenderManager.endBatch()
+//		RenderManager.endBatch()
 	}
 
 //	private fun oldRenderFunc() {

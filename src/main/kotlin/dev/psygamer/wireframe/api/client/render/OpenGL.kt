@@ -12,7 +12,7 @@ import dev.psygamer.wireframe.util.math.vector.Vector3d
  * "Inspired" by Christian Mesh / cam72cam: [Source](https://github.com/TeamOpenIndustry/UniversalModCore/blob/972a4289113315b4e56c6982d3681ee08237dade/src/main/java/cam72cam/mod/render/OpenGL.java)
  */
 object OpenGL {
-	
+
 	/**
 	 * Pushes a new matrix onto the current matrix stack.
 	 *
@@ -20,7 +20,7 @@ object OpenGL {
 	 */
 	fun matrix(): Closeable =
 		NativeOpenGL.matrix()
-	
+
 	/**
 	 * Translates the current position by the specified [offset].
 	 *
@@ -28,7 +28,7 @@ object OpenGL {
 	 */
 	fun translate(offset: Vector3d): Closeable =
 		NativeOpenGL.translate(offset.x, offset.y, offset.z)
-	
+
 	/**
 	 * Translates the current position by the specified [x], [y] and [z] components.
 	 *
@@ -36,7 +36,7 @@ object OpenGL {
 	 */
 	fun translate(x: Double, y: Double, z: Double): Closeable =
 		NativeOpenGL.translate(x, y, z)
-	
+
 	/**
 	 * Translates the current position by the specified [rotation].
 	 *
@@ -44,7 +44,7 @@ object OpenGL {
 	 */
 	fun rotate(rotation: Vector3d): Closeable =
 		NativeOpenGL.rotate(rotation.x, rotation.y, rotation.z)
-	
+
 	/**
 	 * Translates the current position by the specified [x], [y] and [z] components.
 	 *
@@ -52,7 +52,7 @@ object OpenGL {
 	 */
 	fun rotate(x: Double, y: Double, z: Double): Closeable =
 		NativeOpenGL.rotate(x, y, z)
-	
+
 	/**
 	 * Translates the current position by the specified [scale].
 	 *
@@ -60,7 +60,7 @@ object OpenGL {
 	 */
 	fun scale(scale: Vector3d): Closeable =
 		NativeOpenGL.scale(scale.x, scale.y, scale.z)
-	
+
 	/**
 	 * Translates the current position by the specified [x], [y] and [z] components.
 	 *
@@ -68,7 +68,7 @@ object OpenGL {
 	 */
 	fun scale(x: Double, y: Double, z: Double): Closeable =
 		NativeOpenGL.scale(x, y, z)
-	
+
 	/**
 	 * Enables the specified OpenGL [operation].
 	 *
@@ -76,7 +76,7 @@ object OpenGL {
 	 */
 	fun enable(operation: Int): Closeable =
 		NativeOpenGL.bool(operation, true)
-	
+
 	/**
 	 * Disabled the specified OpenGL [operation].
 	 *
@@ -84,7 +84,7 @@ object OpenGL {
 	 */
 	fun disable(operation: Int): Closeable =
 		NativeOpenGL.bool(operation, false)
-	
+
 	/**
 	 * Set the [state] of the specified OpenGL [operation].
 	 *
@@ -92,7 +92,7 @@ object OpenGL {
 	 */
 	fun bool(operation: Int, state: Boolean): Closeable =
 		NativeOpenGL.bool(operation, state)
-	
+
 	/**
 	 * * Changes the current [color]
 	 * * Enables [GL_COLOR_MATERIAL]
@@ -101,7 +101,7 @@ object OpenGL {
 	 */
 	fun color(color: Color): Closeable =
 		NativeOpenGL.color(color.red, color.green, color.blue, color.alpha)
-	
+
 	/**
 	 * * Changes the current color's [red], [green], [blue] and [alpha] channels
 	 * * Enables [GL_COLOR_MATERIAL]
@@ -110,7 +110,7 @@ object OpenGL {
 	 */
 	fun color(red: Float, green: Float, blue: Float, alpha: Float = 1.0f): Closeable =
 		NativeOpenGL.color(red, green, blue, alpha)
-	
+
 	/**
 	 * * Changes the current color's [red], [green], [blue] and [alpha] channels
 	 * * Enables [GL_COLOR_MATERIAL]
@@ -119,7 +119,7 @@ object OpenGL {
 	 */
 	fun color(red: Double, green: Double, blue: Double, alpha: Double = 1.0): Closeable =
 		NativeOpenGL.color(red, green, blue, alpha)
-	
+
 	/**
 	 * * Changes the OpenGL blending-function
 	 * * Enables [GL_BLEND]
@@ -128,7 +128,7 @@ object OpenGL {
 	 */
 	fun blend(source: Int, destination: Int): Closeable =
 		NativeOpenGL.blend(source, destination)
-	
+
 	/**
 	 * * Binds the texture located at the specified [identifier]
 	 * * Enables [GL_TEXTURE_2D]
@@ -137,7 +137,7 @@ object OpenGL {
 	 */
 	fun texture(identifier: Identifier): Closeable =
 		NativeOpenGL.texture(identifier)
-	
+
 	/**
 	 * * Binds the texture with the corresponding [id]
 	 * * Enables [GL_TEXTURE_2D]
@@ -146,7 +146,7 @@ object OpenGL {
 	 */
 	fun texture(id: Int): Closeable =
 		NativeOpenGL.texture(id)
-	
+
 	// move to native
 	fun createTexture(): Closeable {
 		val texture = glGenTextures()
