@@ -49,11 +49,7 @@ class ModifierBuilder internal constructor() {
 		return this
 	}
 
-	internal fun build() = ModifierSettings(
-		width, height,
-		margin, padding,
-		alignment
-	)
+	internal fun build() = ModifierSettings(width, height, margin, padding, alignment)
 }
 
 internal val IDENTITY_MODIFIER_SETTINGS = ModifierSettings(null, null, 0, 0, Alignment.TOP_LEFT)

@@ -7,8 +7,8 @@ import dev.psygamer.wireframe.util.math.vector.Vector2i
 
 abstract class Widget(modifier: ModifierBuilder? = null) {
 
-	internal val modifierSettings = modifier?.build() ?: IDENTITY_MODIFIER_SETTINGS
-	internal val minModifierSettings = minModifier.build()
+	internal val modifierSettings: ModifierSettings = modifier?.build() ?: IDENTITY_MODIFIER_SETTINGS
+	internal val minModifierSettings: ModifierSettings get() = this.minModifier.build()
 	internal val parent: Widget? = WidgetCompiler.currentParent
 	internal val poseStack: PoseStack = parent?.poseStack?.clone() ?: PoseStack()
 
@@ -21,8 +21,7 @@ abstract class Widget(modifier: ModifierBuilder? = null) {
 	open fun renderForeground() {}
 	open fun renderBackground() {}
 
-	protected val minModifier: ModifierBuilder
-		get() = ModifierBuilder()
+	protected val minModifier = ModifierBuilder()
 
 	var topLeft = Vector2i.ZERO
 		internal set
