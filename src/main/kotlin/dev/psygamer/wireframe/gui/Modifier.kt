@@ -98,12 +98,6 @@ internal fun Widget.applyModifierSettings() {
 		this.renderedHeight += 2 * padding
 	}
 
-	val vector = Vector3i.ZERO.transform(poseStack.mcNative.last().pose())
-	this.topLeft = Vector2i(vector.x, vector.y)
-
-	if (this is ParentWidget)
-		this.children.forEach { it.applyModifierSettings() }
-
 	if (this.modifierSettings.alignment != Alignment.TOP_LEFT) {
 		val parentWidth = this.parent?.childContainerWidth ?: (ScreenRenderHelper.screenWidth / ScreenRenderHelper.guiScale)
 		val parentHeight = this.parent?.childContainerHeight ?: (ScreenRenderHelper.screenHeight / ScreenRenderHelper.guiScale)
@@ -128,5 +122,11 @@ internal fun Widget.applyModifierSettings() {
 	}
 
 	if (this is ParentWidget)
-		this.childrenPoseStacks.forEach { it.translate(xTranslation, yTranslation, 0) }
+		this.children.forEach {
+			it.poseStack.translate(xTranslation, yTranslation, 0)
+			it.applyModifierSettings()
+		}
+
+	val vector = Vector3i.ZERO.transform(poseStack.mcNative.last().pose())
+	this.topLeft = Vector2i(vector.x, vector.y)
 }
