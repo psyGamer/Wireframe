@@ -3,7 +3,7 @@ package dev.psygamer.wireframe.gui
 import java.nio.file.Path
 import java.util.*
 import dev.psygamer.wireframe.Wireframe
-import dev.psygamer.wireframe.api.client.screen.*
+import dev.psygamer.wireframe.api.client.screen.Screen
 import dev.psygamer.wireframe.api.client.screen.ScreenManager.open
 import dev.psygamer.wireframe.debug.profiling.profile
 import dev.psygamer.wireframe.event.*
@@ -19,26 +19,30 @@ abstract class GUI {
 	fun open() = GUIScreen(this).open()
 
 	fun render() {
-		profile("recompileGUI", this::recompile)
+		profile("recompile", this::recompile)
 
 		this.widgets.forEach {
-			it.renderBackground()
-			it.render()
-			it.renderForeground()
+			profile("render") {
+				it.renderBackground()
+				it.render()
+				it.renderForeground()
+			}
 		}
 	}
 
 	internal fun recompile() {
-		profile("compileWidgets") { this.widgets = WidgetCompiler.compileWidgets(null, this::setup) }
-		profile("applyModifiers") { this.widgets.onEach(Widget::applyModifierSettings) }
+		profile("widgets") { this.widgets = WidgetCompiler.compileWidgets(null, this::setup) }
+		profile("modifiers") { this.widgets.onEach(Widget::applyModifierSettings) }
 	}
 }
 
 private class GUIScreen(private val gui: GUI) : Screen() {
 
 	override fun render() {
-		runCatching { gui.render() }.onFailure { ex ->
-			Wireframe.LOGGER.error("Failed compiling widgets!", ex)
+		profile("wireframeGUI") {
+			runCatching { gui.render() }.onFailure { ex ->
+				Wireframe.LOGGER.error("Failed compiling widgets!", ex)
+			}
 		}
 	}
 

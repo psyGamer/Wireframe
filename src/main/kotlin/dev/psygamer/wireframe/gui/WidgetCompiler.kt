@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.gui
 
+import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.debug.debug
 import dev.psygamer.wireframe.gui.widget.*
 
@@ -23,7 +24,8 @@ internal object WidgetCompiler {
 		compiling = true
 		currentParent = parent
 		// In this call the constructors will be called, which than calls newWidgetCallback and adds the widgets.
-		widgetFn()
+		runCatching(widgetFn).onFailure { Wireframe.LOGGER.error("Failed executing widget function of $parent", it) }
+
 		currentParent = null
 		compiling = false
 
