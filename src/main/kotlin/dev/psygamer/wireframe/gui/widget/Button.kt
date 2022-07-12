@@ -2,7 +2,9 @@ package dev.psygamer.wireframe.gui.widget
 
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.client.screen.ScreenRenderHelper
+import dev.psygamer.wireframe.event.api.EventSubscriber
 import dev.psygamer.wireframe.gui.ModifierBuilder
+import dev.psygamer.wireframe.gui.event.MouseClickedEvent
 import dev.psygamer.wireframe.util.Identifier
 
 private val WIDGET_TEXTURE_LOCATION = Identifier("textures/gui/widgets.png")
@@ -34,12 +36,16 @@ private const val BR_CORNER_U = B_EDGE_U + HORIZONTAL_EDGE_LENGTH
 private const val BR_CORNER_V = B_EDGE_V
 
 class Button(
+	val onClick: (MouseClickedEvent) -> Unit = { },
 	modifier: ModifierBuilder? = null, children: () -> Unit,
 ) : ParentWidget(modifier, children) {
 
 	init {
 		minModifier.padding(5)
 	}
+
+	@EventSubscriber
+	fun onMouseClicked(event: MouseClickedEvent) = this.onClick(event)
 
 	override fun renderBackground() {
 		// The minimum expected size is 8x8 (CORNER_SIZE * 2)
@@ -48,9 +54,13 @@ class Button(
 			return
 		}
 
-		ScreenRenderHelper.startRenderingBatch()
+		val vOffset = when {
+			this.isMousePressed -> 0
+			this.isMouseOver -> 40
+			else -> 20
+		}
 
-		val vOffset = 20
+		ScreenRenderHelper.startRenderingBatch()
 
 		// Top left corner
 		ScreenRenderHelper.drawTexturedQuad(
