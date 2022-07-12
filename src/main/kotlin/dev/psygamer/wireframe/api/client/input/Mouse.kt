@@ -33,7 +33,7 @@ object Mouse {
 	@JvmStatic
 	@SubscribeEvent
 	fun onRawMouseClicked(event: InputEvent.RawMouseEvent) {
-		if (event.action != GLFW_PRESS || event.action == GLFW_RELEASE) return
+		if (event.action != GLFW_PRESS && event.action != GLFW_RELEASE) return
 
 		when (event.button) {
 			GLFW_MOUSE_BUTTON_LEFT -> this.isLeftButtonPressed = event.action == GLFW_PRESS
