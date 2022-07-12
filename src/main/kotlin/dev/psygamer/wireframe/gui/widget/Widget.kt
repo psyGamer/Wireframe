@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.gui.widget
 
+import dev.psygamer.wireframe.api.client.input.Mouse
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.gui.*
 import dev.psygamer.wireframe.util.math.vector.Vector2i
@@ -40,6 +41,11 @@ abstract class Widget(modifier: ModifierBuilder? = null) {
 		internal set
 	var childContainerHeight = 0
 		internal set
+
+	val isMouseOver: Boolean
+		get() = Mouse.isInArea(this.topLeft.x, this.topLeft.y, this.renderedWidth, this.renderedHeight)
+	val isMousePressed: Boolean
+		get() = Mouse.isLeftButtonPressed && this.isMouseOver
 
 	abstract val contentWidth: Int
 	abstract val contentHeight: Int
