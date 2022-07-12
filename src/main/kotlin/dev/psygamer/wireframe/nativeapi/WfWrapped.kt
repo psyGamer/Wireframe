@@ -1,5 +1,6 @@
 package dev.psygamer.wireframe.nativeapi
 
+import net.minecraft.profiler.IProfiler
 import net.minecraft.util.math.RayTraceResult
 import dev.psygamer.wireframe.api.block.*
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
@@ -9,6 +10,7 @@ import dev.psygamer.wireframe.api.item.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.api.network.PacketBuffer
 import dev.psygamer.wireframe.api.world.*
+import dev.psygamer.wireframe.debug.profiling.Profiler
 import dev.psygamer.wireframe.nativeapi.block.*
 import dev.psygamer.wireframe.nativeapi.client.render.RenderBuffer
 import dev.psygamer.wireframe.nativeapi.entity.*
@@ -135,3 +137,7 @@ val net.minecraft.util.math.vector.Vector3i.wfWrapped: Vector3i
 
 val net.minecraft.util.math.vector.Quaternion.wfWrapped: Quaternion
 	get() = Quaternion(this.i(), this.j(), this.k(), this.r())
+
+// Debug
+internal val IProfiler.wfWrapped: Profiler
+	get() = Profiler(this)
