@@ -14,6 +14,11 @@ class MeshBuilder(val renderType: RenderType) {
 
 	private val vertices = mutableListOf<Vertex>()
 
-	fun add(vertex: Vertex) = this.also { vertices.add(vertex) }
+	fun add(vertex: Vertex): MeshBuilder {
+		val transform = RenderManager.currentContext.poseStack.mcNative.last()
+		vertices.add(vertex.transform(transform))
+		return this
+	}
+
 	fun build() = Mesh(vertices, renderType)
 }
