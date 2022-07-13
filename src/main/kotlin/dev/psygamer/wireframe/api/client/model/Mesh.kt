@@ -22,27 +22,41 @@ class Mesh(data: FloatArray?, val size: Int, val hasNormals: Boolean, val hasTex
 	val colorOffset: Int = if (hasColors) texCoordOffset + 3 else texCoordOffset
 
 	fun render() {
+		// Buffer layout: 3x Float(Position), 4x UByte(Vertex Color), 2x Float(UV), 2x Short(Lightmap UV), 3x Byte(Normal)
 		val renderBuffer = RenderManager.currentContext.getRenderBuffer(RenderBuffer.Type.SOLID)
-		for (i in 0..this.data.size step stride) {
+		for (i in 0 until this.data.size step stride) {
 			val vertexBuilder = renderBuffer.vertex(
 				this.data[vertexOffset + i + 0],
 				this.data[vertexOffset + i + 1],
 				this.data[vertexOffset + i + 2],
 			)
-			if (hasNormals) vertexBuilder.normal(
-				this.data[normalOffset + i + 0],
-				this.data[normalOffset + i + 1],
-				this.data[normalOffset + i + 2],
-			)
-			if (hasTexCoords) vertexBuilder.uv(
-				this.data[texCoordOffset + i + 0],
-				this.data[texCoordOffset + i + 1],
-			)
-			if (hasColors) vertexBuilder.color(
-				this.data[colorOffset + i + 0],
-				this.data[colorOffset + i + 1],
-				this.data[colorOffset + i + 2],
-			)
+			if (hasColors)
+				vertexBuilder.color(
+					this.data[colorOffset + i + 0],
+					this.data[colorOffset + i + 1],
+					this.data[colorOffset + i + 2],
+				)
+			else
+				vertexBuilder.color(1.0f, 1.0f, 1.0f)
+
+			if (hasTexCoords)
+				vertexBuilder.uv(
+					this.data[texCoordOffset + i + 0],
+					this.data[texCoordOffset + i + 1],
+				)
+			else
+				vertexBuilder.uv(0.0f, 0.0f)
+
+			renderBuffer.mcNative.uv2(RenderManager.currentContext.packedLightmap)
+
+			if (hasNormals)
+				vertexBuilder.normal(
+					this.data[normalOffset + i + 0],
+					this.data[normalOffset + i + 1],
+					this.data[normalOffset + i + 2],
+				)
+			else
+				vertexBuilder.normal(0.0f, 1.0f, 0.0f)
 		}
 	}
 
