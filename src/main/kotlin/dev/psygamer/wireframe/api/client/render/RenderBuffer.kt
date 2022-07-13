@@ -1,7 +1,8 @@
-package dev.psygamer.wireframe.nativeapi.client.render
+package dev.psygamer.wireframe.api.client.render
 
 import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.renderer.*
+import dev.psygamer.wireframe.nativeapi.client.render.*
 
 class RenderBuffer(internal val mcNative: IVertexBuilder) {
 

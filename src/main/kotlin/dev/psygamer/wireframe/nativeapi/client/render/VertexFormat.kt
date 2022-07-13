@@ -2,6 +2,7 @@ package dev.psygamer.wireframe.nativeapi.client.render
 
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import dev.psygamer.wireframe.api.client.model.Vertex
+import dev.psygamer.wireframe.api.client.render.RenderBuffer
 
 enum class VertexFormat(
 	internal val mcNative: net.minecraft.client.renderer.vertex.VertexFormat,

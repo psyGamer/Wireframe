@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.api.client.model
 
-import dev.psygamer.wireframe.nativeapi.client.render.*
+import dev.psygamer.wireframe.api.client.render.RenderBuffer
+import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 
 class Mesh(data: FloatArray?, val size: Int, val hasNormals: Boolean, val hasTexCoords: Boolean, val hasColors: Boolean) {
 
