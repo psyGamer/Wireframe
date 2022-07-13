@@ -1,54 +1,30 @@
 package dev.psygamer.wireframe.nativeapi.client.render
 
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.RenderType
-import dev.psygamer.wireframe.Wireframe
-import dev.psygamer.wireframe.debug.*
+import net.minecraft.client.renderer.*
 
 class RenderBuffer(internal val mcNative: IVertexBuilder) {
-	
-	private var currentVertex: VertexBuilder? = null
-	
-	fun vertex(x: Float, y: Float, z: Float = 0.0f) =
-		vertex(x.toDouble(), y.toDouble(), z.toDouble())
-	
-	fun vertex(x: Double, y: Double, z: Double = 0.0): VertexBuilder {
-		if (currentVertex?.done == false) {
-			val ex = IllegalStateException("Must finish previous vertex before starting next!")
-			debug { currentVertex!!.finish(); Wireframe.LOGGER.warn(ex) }
-			nonDebug { throw ex }
-		}
-		
-		this.mcNative.vertex(x, y, z)
-		return VertexBuilder()
-	}
-	
-	inner class VertexBuilder {
-		
-		var done = false
-			private set
-		
-		fun color(r: Float, g: Float, b: Float, a: Float = 1.0f): VertexBuilder {
-			mcNative.color(r, g, b, a)
-			return this
-		}
-		
-		fun uv(u: Float, v: Float): VertexBuilder {
-			mcNative.uv(u, v)
-			return this
-		}
-		
-		fun normal(x: Float, y: Float, z: Float): VertexBuilder {
-			mcNative.normal(x, y, z)
-			return this
-		}
-		
-		fun finish() {
-			mcNative.endVertex()
-		}
-	}
-	
-	enum class Type(internal val mcNative: RenderType) {
-		SOLID(RenderType.solid())
+
+	fun vertex(x: Float, y: Float, z: Float = 0.0f) = this.also { mcNative.vertex(x.toDouble(), y.toDouble(), z.toDouble()) }
+	fun vertex(x: Double, y: Double, z: Double = 0.0) =
+		this.also { mcNative.vertex(RenderManager.currentContext.poseStack.mcNative.last().pose(), x.toFloat(), y.toFloat(), z.toFloat()) }
+
+	fun color(r: Float, g: Float, b: Float, a: Float = 1.0f) = this.also { mcNative.color(r, g, b, a) }
+
+	fun uv(u: Float, v: Float) = this.also { mcNative.uv(u, v) }
+
+	fun lightmapUV(packedLight: Int) = this.also { mcNative.uv2(packedLight) }
+	fun lightmapUV(u: Int, v: Int) = this.also { mcNative.uv2(u, v) }
+
+	fun overlayUV(packedOverlay: Int) = this.also { mcNative.overlayCoords(packedOverlay) }
+	fun overlayUV(u: Int, v: Int) = this.also { mcNative.overlayCoords(u, v) }
+
+	fun normal(x: Float, y: Float, z: Float) = this.also { mcNative.normal(x, y, z) }
+
+	fun finish() = mcNative.endVertex()
+
+	enum class Type(internal val mcNative: RenderType, val format: VertexFormat) {
+		SOLID_QUADS(Atlases.solidBlockSheet(), VertexFormat.ENTITY),
+		TRANSLUCENT_LINES(RenderType.lines(), VertexFormat.ENTITY)
 	}
 }

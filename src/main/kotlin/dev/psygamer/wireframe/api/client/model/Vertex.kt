@@ -1,9 +1,11 @@
 package dev.psygamer.wireframe.api.client.model
 
 class Vertex internal constructor(
-	val x: Float, val y: Float, val z: Float = 0.0f,
+	val x: Double, val y: Double, val z: Double = 0.0,
 ) {
-	
+
+	constructor(x: Float, y: Float, z: Float = 0.0f) : this(x.toDouble(), y.toDouble(), z.toDouble())
+
 	var hasNormal = false
 		private set
 	var nx = 0.0f
@@ -12,14 +14,14 @@ class Vertex internal constructor(
 		private set
 	var nz = 0.0f
 		private set
-	
+
 	var hasTexCoord = false
 		private set
 	var u = 0.0f
 		private set
 	var v = 0.0f
 		private set
-	
+
 	var hasColor = false
 		private set
 	var r = 0.0f
@@ -28,7 +30,7 @@ class Vertex internal constructor(
 		private set
 	var b = 0.0f
 		private set
-	
+
 	fun withNormal(x: Float, y: Float, z: Float): Vertex {
 		this.hasNormal = true
 		this.nx = x
@@ -36,14 +38,14 @@ class Vertex internal constructor(
 		this.nz = z
 		return this
 	}
-	
+
 	fun withTexCoord(u: Float, v: Float): Vertex {
 		this.hasTexCoord = true
 		this.u = u
 		this.v = v
 		return this
 	}
-	
+
 	fun withColor(r: Float, g: Float, b: Float): Vertex {
 		this.hasColor = true
 		this.r = r
