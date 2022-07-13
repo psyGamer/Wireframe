@@ -1,13 +1,19 @@
 package dev.psygamer.wireframe.test
 
 import com.mojang.blaze3d.matrix.MatrixStack
-import net.minecraft.client.Minecraft
+import com.mojang.blaze3d.vertex.IVertexBuilder
 import net.minecraft.client.renderer.*
 import net.minecraft.client.renderer.tileentity.*
+import net.minecraft.util.ResourceLocation
+import net.minecraftforge.client.ForgeRenderTypes
+import org.lwjgl.opengl.GL11.*
+import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.client.model.*
 import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
+import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
+import dev.psygamer.wireframe.nativeapi.client.render.context.BlockEntityRenderingContext
 import dev.psygamer.wireframe.nativeapi.wfWrapped
 import dev.psygamer.wireframe.util.helper.using
 
@@ -25,7 +31,7 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 
 	fun rend(blockEntity: BlockEntity, poseStack: PoseStack, partialTicks: Float) {
 		using(poseStack.translate(0, 1, 0)) {
-			quadMesh.render()
+			runCatching { quadMesh.render() }.onFailure { Wireframe.LOGGER.error("Failed rendering quad!", it) }
 		}
 	}
 
@@ -34,13 +40,22 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 		pBlockEntity: NativeBlockEntity, pPartialTicks: Float, pMatrixStack: MatrixStack, pBuffer: IRenderTypeBuffer,
 		pCombinedLight: Int, pCombinedOverlay: Int,
 	) {
-		val poseStack = pMatrixStack.wfWrapped
+		try {
+			val poseStack = pMatrixStack.wfWrapped
 
-//		RenderManager.startContext(poseStack, pBuffer)
-//		rend(pBlockEntity.blockEntity, poseStack, pPartialTicks)
+			RenderManager.startContext(
+				BlockEntityRenderingContext(
+					poseStack = poseStack, renderTypeBuffer = pBuffer,
+					packedLightmap = pCombinedLight, packedOverlay = pCombinedOverlay
+				)
+			)
+
+			rend(pBlockEntity.blockEntity, poseStack, pPartialTicks)
+
+			RenderManager.endContext()
+
 //		RenderManager.endBatch()
 
-		return
 //		glPushMatrix()
 //
 //		RenderSystem.enableDepthTest()
@@ -86,27 +101,120 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //
 //		pMatrixStack.popPose()
 
-//		glDisable(GL_CULL_FACE)
+			glDisable(GL_CULL_FACE)
 //		glTranslated(-5.0, -5.0, -5.0)
 //		glTranslatef(0.0f, 1.0f, 0.0f)
 //		val builder = Tessellator.getInstance().builder
+//			Minecraft.getInstance().font.drawInBatch(
+//				StringTextComponent("moin"), 0.0f, 0.0f, 2830397,
+//				false, pMatrixStack.last().pose(), pBuffer,
+//				false, 0x00000000, pCombinedLight
+//			)
+			val debug = ForgeRenderTypes.getItemLayeredSolid(ResourceLocation("textures/block/debug.png"))
+			val debug2 = ForgeRenderTypes.getItemLayeredSolid(ResourceLocation("textures/block/debug2.png"))
+			val builder = pBuffer.getBuffer(debug)
 
-		val builder = pBuffer.getBuffer(RenderType.solid())
-		fun vertex(x: Float, y: Float, z: Float, r: Float, g: Float, b: Float, a: Float) {
-			builder.vertex(pMatrixStack.last().pose(), x, y, z)
-				.color(r, g, b, a)
-				.uv(x, y)
-				.uv2(pCombinedLight)
+			fun vertex(x: Float, y: Float, z: Float, u: Float, v: Float) {
+				builder.vertex(pMatrixStack.last().pose(), x, y, z)
+					.color(1f, 1f, 1f, 1f)
+					.uv(u, v)
+					.overlayCoords(pCombinedOverlay)
+					.uv2(pCombinedLight)
+					.normal(0f, 0f, -1f)
+					.endVertex()
+			}
+			pMatrixStack.translate(0.0, 3.0, 0.0)
+			pMatrixStack.translate(0.0, 0.0, 1.0)
+			pMatrixStack.scale(-1 / 16.0f, -1 / 16.0f, -1 / 16.0f)
+//		vertex(0f, 1f, 0f, 1f, 0f, 1f, 0.25f)
+//		vertex(1f, 1f, 0f, 0f, 0f, 1f, 0.50f)
+//		vertex(1f, 0f, 0f, 0f, 1f, 1f, 0.75f)
+//		vertex(0f, 0f, 0f, 1f, 1f, 1f, 1.00f)
+			vertex(0f, 0f, 0f, 0f, 0f)
+			vertex(0f, 8f, 0f, 0f, 1f)
+			vertex(8f, 8f, 0f, 1f, 1f)
+			vertex(8f, 0f, 0f, 1f, 0f)
+
+			pMatrixStack.translate(0.0, 0.0, 1.0)
+
+			pMatrixStack.translate(0.0, 16.0, 0.0)
+			val italic = 0.0f
+
+			val ivertexbuilder2: IVertexBuilder = pBuffer.getBuffer(debug2)
+			pMatrixStack.translate(8.0, 0.0, 0.0)
+			ivertexbuilder2.vertex(pMatrixStack.last().pose(), 0.0f, 0.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.0f, 0.0f)
 				.overlayCoords(pCombinedOverlay)
-				.normal(pMatrixStack.last().normal(), 1f, 0f, 0f)
+				.uv2(pCombinedLight)
+				.normal(0f, 0f, -1f)
 				.endVertex()
-		}
-		pMatrixStack.translate(0.0, 1.0, 0.0)
-		Minecraft.getInstance().player?.chat("Render: $pPartialTicks")
-		vertex(0f, 1f, 0f, 1f, 0f, 1f, 0.25f)
-		vertex(1f, 1f, 0f, 0f, 0f, 1f, 0.50f)
-		vertex(1f, 0f, 0f, 0f, 1f, 1f, 0.75f)
-		vertex(0f, 0f, 0f, 1f, 1f, 1f, 1.00f)
+			ivertexbuilder2.vertex(pMatrixStack.last().pose(), 0.0f - italic, 8.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.0f, 1.0f)
+				.overlayCoords(pCombinedOverlay)
+				.uv2(pCombinedLight)
+				.normal(0f, 0f, -1f)
+				.endVertex()
+			ivertexbuilder2.vertex(pMatrixStack.last().pose(), 8.0f, 8.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(1.0f, 1.0f)
+				.overlayCoords(pCombinedOverlay)
+				.uv2(pCombinedLight)
+				.normal(0f, 0f, -1f)
+				.endVertex()
+			ivertexbuilder2.vertex(pMatrixStack.last().pose(), 8.0f + italic, 0.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(1.0f, 0.0f)
+				.overlayCoords(pCombinedOverlay)
+				.uv2(pCombinedLight)
+				.normal(0f, 0f, -1f)
+				.endVertex()
+
+			val ivertexbuilder: IVertexBuilder = pBuffer.getBuffer(RenderType.text(ResourceLocation("minecraft:default/0")))
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 0.0f, 0.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.51566404f, 3.90625E-5f)
+				.uv2(pCombinedLight)
+				.endVertex()
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 0.0f - italic, 8.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.51566404f, 0.031210937f)
+				.uv2(pCombinedLight)
+				.endVertex()
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 8.0f, 8.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.54683596f, 0.031210937f)
+				.uv2(pCombinedLight)
+				.endVertex()
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 8.0f + italic, 0.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.54683596f, 3.90625E-5f)
+				.uv2(pCombinedLight)
+				.endVertex()
+
+			pMatrixStack.translate(8.0, 0.0, 0.0)
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 0.0f, 0.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.0f, 0.0f)
+				.uv2(pCombinedLight)
+				.endVertex()
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 0.0f - italic, 8.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(0.0f, 1.0f)
+				.uv2(pCombinedLight)
+				.endVertex()
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 8.0f, 8.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(1.0f, 1.0f)
+				.uv2(pCombinedLight)
+				.endVertex()
+			ivertexbuilder.vertex(pMatrixStack.last().pose(), 8.0f + italic, 0.0f, 0.0f)
+				.color(1.0f, 1.0f, 1.0f, 1.0f)
+				.uv(1.0f, 0.0f)
+				.uv2(pCombinedLight)
+				.endVertex()
+
 //		builder.vertex(a.x().toDouble(), a.y().toDouble(), a.z().toDouble()).color(0xFF, 0x00, 0x00, 0xFF)
 //		builder.vertex(b.x().toDouble(), b.y().toDouble(), b.z().toDouble()).color(0x00, 0xFF, 0x00, 0xFF)
 //		builder.vertex(c.x().toDouble(), c.y().toDouble(), c.z().toDouble()).color(0x00, 0x00, 0xFF, 0xFF)
@@ -122,9 +230,9 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //		glVertex2f(0.0f, 1.0f)
 //
 //		glEnd()
-//		glEnable(GL_CULL_FACE)
+			glEnable(GL_CULL_FACE)
 
-		/*run {
+			/*run {
 			glTranslatef(0.0f, 1.0f, 0.0f)
 			// Quad with solid color
 			run {
@@ -176,7 +284,9 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 //		RenderSystem.disableBlend()
 //		RenderSystem.disableDepthTest()
 //		glPopMatrix()
-//		RenderManager.endBatch()
+		} catch (t: Throwable) {
+			Wireframe.LOGGER.error("Failed rendering TestBlock!", t)
+		}
 	}
 
 //	private fun oldRenderFunc() {
