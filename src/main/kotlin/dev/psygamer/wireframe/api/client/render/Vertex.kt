@@ -1,6 +1,5 @@
 package dev.psygamer.wireframe.api.client.render
 
-import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.util.math.vector.*
 
 class Vertex internal constructor(
@@ -63,7 +62,9 @@ class Vertex internal constructor(
 		return this
 	}
 
-	internal fun transform(transform: MatrixStack.Entry): Vertex {
+	internal fun transform(poseStack: PoseStack): Vertex {
+		val transform = poseStack.mcNative.last()
+
 		val position = Vector4f(x, y, z, 1.0f)
 		val normal = Vector3f(nx, ny, nz)
 		position.transform(transform.pose())
