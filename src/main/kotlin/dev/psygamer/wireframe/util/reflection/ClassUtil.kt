@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.util.reflection
 
 import javax.tools.*
+import dev.psygamer.wireframe.Wireframe
 
 object ClassUtil {
 
@@ -32,6 +33,11 @@ object ClassUtil {
 
 			fullName = fullName.replace("/".toRegex(), ".")
 			fullName = fullName.substring(0, fullName.length - ".class".length)
+
+			if (fullName.contains("mixin")) {
+				Wireframe.LOGGER.info("Skipping mixin class: $fullName")
+				continue
+			}
 
 			val clazz =
 				if (initializeClass)
