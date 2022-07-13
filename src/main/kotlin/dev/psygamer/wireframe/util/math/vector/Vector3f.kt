@@ -1,8 +1,18 @@
 package dev.psygamer.wireframe.util.math.vector
 
+import net.minecraft.util.math.vector.*
 import kotlin.math.*
 
 open class Vector3f(val x: Float, val y: Float, val z: Float) {
+
+	companion object {
+
+		@JvmStatic
+		val ZERO = Vector3f(0.0f, 0.0f, 0.0f)
+
+		@JvmStatic
+		val ONE = Vector3f(1.0f, 1.0f, 1.0f)
+	}
 
 	operator fun plus(other: Vector3f): Vector3f {
 		return Vector3f(this.x + other.x, this.y + other.y, this.z + other.z)
@@ -58,5 +68,14 @@ open class Vector3f(val x: Float, val y: Float, val z: Float) {
 
 	fun angleBetween(other: Vector3f): Float {
 		return acos(this dot other / (this.magnitude * other.magnitude))
+	}
+
+	val inverted
+		get() = Vector3f(-this.x, -this.y, -this.z)
+
+	fun transform(matrix: Matrix4f): Vector3f {
+		val vector = Vector4f(this.x, this.y, this.z, 1.0f)
+		vector.transform(matrix)
+		return Vector3f(vector.x(), vector.y(), vector.z())
 	}
 }

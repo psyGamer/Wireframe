@@ -6,6 +6,8 @@ data class Color(
 
 	companion object {
 
+		val TRANSPARENT = Color(0x000000, 0x00)
+
 		val BLACK = Color(0x000000, 0xFF)
 
 		val DARK_RED = Color(0xAA0000, 0xFF)

@@ -1,76 +1,71 @@
 package dev.psygamer.wireframe.nativeapi.client.screen
 
-import com.mojang.blaze3d.matrix.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.AbstractGui
 import org.lwjgl.opengl.GL11.*
 import javax.imageio.ImageIO
-import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.client.OpenGL
-import dev.psygamer.wireframe.debug.debug
+import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.*
+import dev.psygamer.wireframe.util.helper.using
 
 object NativeScreenRenderHelper {
 
-	internal val IDENTITY_MATRIX = MatrixStack()
+	val screenWidth get() = Minecraft.getInstance().window.width
+	val screenHeight get() = Minecraft.getInstance().window.height
 
-	val screenWidth: Int = Minecraft.getInstance().screen!!.width
-	val screenHeight: Int = Minecraft.getInstance().screen!!.height
-
-	fun getStringWidth(text: String): Int {
-		return font.width(text)
-	}
-
-	private val textureSizeCache: MutableMap<Identifier, Pair<Int, Int>> = mutableMapOf()
+	val guiScale get() = Minecraft.getInstance().options.guiScale
 
 	private val font = Minecraft.getInstance().font
+	private val textureSizeCache: MutableMap<Identifier, Pair<Int, Int>> = mutableMapOf()
 
-	fun drawRect(minX: Int, minY: Int, maxX: Int, maxY: Int, color: Color) {
-		debug {
-			if (maxX < minX)
-				Wireframe.LOGGER.warn("Calling ScreenRenderHelper.drawRect with maxY($maxY) > minY($minY)")
+	private var batchRendering = false
+	private val renderBatchStack = mutableMapOf<Int, MutableList<RenderEntry>>()
 
-			if (maxY < minY)
-				Wireframe.LOGGER.warn("Calling ScreenRenderHelper.drawRect with maxY($maxY) > minY($minY)")
-
-			if (maxX < minX || maxY < minY) {
-				val stackTrace = Throwable().stackTrace
-				val stackTraceLength = 5
-
-				for (i in 0 until stackTraceLength)
-					Wireframe.LOGGER.warn("\t$stackTrace[i]")
-			}
-		}
-
-		AbstractGui.fill(IDENTITY_MATRIX, minX, minY, maxX, maxY, color.mcNative)
+	fun startBatch() {
+		renderBatchStack.clear()
+		batchRendering = true
 	}
 
-	fun drawTexturedRect(
-		minX: Int, minY: Int, maxX: Int, maxY: Int,
-		minU: Int, minV: Int, maxU: Int, maxV: Int,
-		texture: Identifier, color: Color,
-	) {
-		debug {
-			if (maxX < minX)
-				Wireframe.LOGGER.warn("Calling ScreenRenderHelper.drawTexturedRect with maxY($maxY) > minY($minY)")
-
-			if (maxY < minY)
-				Wireframe.LOGGER.warn("Calling ScreenRenderHelper.drawTexturedRect with maxY($maxY) > minY($minY)")
-
-			if (maxU < minU)
-				Wireframe.LOGGER.warn("Calling ScreenRenderHelper.drawTexturedRect with maxU($maxU) > minY($minU)")
-
-			if (maxV < minV)
-				Wireframe.LOGGER.warn("Calling ScreenRenderHelper.drawTexturedRect with maxV($maxV) > minV($minV)")
-
-			if (maxX < minX || maxY < minY || maxU < minU || maxV < minV) {
-				val stackTrace = Throwable().stackTrace
-				val stackTraceLength = 5
-
-				for (i in 0 until stackTraceLength)
-					Wireframe.LOGGER.warn("\t$stackTrace[i]")
+	fun endBatch() {
+		batchRendering = false
+		using(OpenGL.enable(GL_BLEND)) {
+			renderBatchStack.values.forEach { entries ->
+				val (textureWidth, textureHeight) = getTextureSize(entries[0].texture)
+				using(
+					OpenGL.color(entries[0].color),
+					OpenGL.texture(entries[0].texture)
+				) {
+					entries.forEach {
+						AbstractGui.blit(
+							it.poseStack.mcNative, it.xPos, it.yPos, it.width, it.height,
+							it.uPos.toFloat(), it.vPos.toFloat(), it.uWidth, it.vHeight, textureWidth, textureHeight
+						)
+					}
+				}
 			}
+		}
+	}
+
+	fun drawColoredQuad(poseStack: PoseStack, xPos: Int, yPos: Int, width: Int, height: Int, color: Color) {
+		AbstractGui.fill(poseStack.mcNative, xPos, yPos, xPos + width, yPos + height, color.mcNative)
+	}
+
+	fun drawTexturedQuad(
+		poseStack: PoseStack, texture: Identifier, color: Color,
+		xPos: Int, yPos: Int, width: Int, height: Int,
+		uPos: Int, vPos: Int, uWidth: Int, vHeight: Int,
+	) {
+		if (batchRendering) {
+			val hashCode = 31 * texture.hashCode() + color.hashCode()
+			val entry = RenderEntry(poseStack, texture, color, xPos, yPos, width, height, uPos, vPos, uWidth, vHeight)
+
+			if (!renderBatchStack.containsKey(hashCode))
+				renderBatchStack[hashCode] = mutableListOf(entry)
+			else
+				renderBatchStack[hashCode]!!.add(entry)
+			return
 		}
 
 		using(
@@ -78,57 +73,46 @@ object NativeScreenRenderHelper {
 			OpenGL.texture(texture),
 			OpenGL.enable(GL_BLEND)
 		) {
-			fun getTextureSize(): Pair<Int, Int> {
-				val input = Minecraft.getInstance().resourceManager.getResource(texture.mcNative).inputStream
-				val image = ImageIO.read(input)
-
-				val pair = image.width to image.height
-
-				textureSizeCache[texture] = pair
-				return pair
-			}
-
-			val (textureWidth: Int, textureHeight: Int) =
-				if (textureSizeCache.containsKey(texture))
-					textureSizeCache[texture]!!
-				else
-					getTextureSize()
-
+			val (textureWidth, textureHeight) = getTextureSize(texture)
 			AbstractGui.blit(
-				MatrixStack(), minX, minY, maxX - minX, maxY - minY,
-				minU.toFloat(), minV.toFloat(), maxU - minU, maxV - minV, textureWidth, textureHeight
+				poseStack.mcNative, xPos, yPos, width, height,
+				uPos.toFloat(), vPos.toFloat(), uWidth, vHeight, textureWidth, textureHeight
 			)
 		}
 	}
 
-	fun drawText(text: String, x: Int, y: Int, color: Int) {
-		drawText(text, x.toFloat(), y.toFloat(), 1.0f, 1.0f, color, false)
-	}
-
-	fun drawCenteredText(text: String, x: Int, y: Int, color: Int) {
-		drawText(text, x - getStringWidth(text).toFloat() / 2, y.toFloat(), 1.0f, 1.0f, color, false)
-	}
-
-	fun drawTextWithShadow(text: String, x: Int, y: Int, color: Int) {
-		drawText(text, x.toFloat(), y.toFloat(), 1.0f, 1.0f, color, true)
-	}
-
-	fun drawCenteredTextWithShadow(text: String, x: Int, y: Int, color: Int) {
-		drawText(text, x - getStringWidth(text).toFloat() / 2, y.toFloat(), 1.0f, 1.0f, color, true)
-	}
-
-	private fun drawText(text: String, x: Float, y: Float, scaleX: Float, scaleY: Float, color: Int, shadow: Boolean) {
+	fun drawText(poseStack: PoseStack, text: String, x: Float, y: Float, color: Color, shadow: Boolean) {
 		using(
 			OpenGL.enable(GL_TEXTURE_2D),
 			OpenGL.enable(GL_BLEND)
 		) {
-			val matrix = MatrixStack()
-			matrix.scale(scaleX, scaleY, 1.0f)
-
 			if (shadow)
-				font.drawShadow(matrix, text, x, y, color)
+				font.drawShadow(poseStack.mcNative, text, x, y, color.mcNative)
 			else
-				font.draw(matrix, text, x, y, color)
+				font.draw(poseStack.mcNative, text, x, y, color.mcNative)
 		}
 	}
+
+	fun getStringWidth(text: String) = font.width(text)
+	fun getLineHeight() = font.lineHeight
+
+	private fun getTextureSize(texture: Identifier): Pair<Int, Int> {
+		if (textureSizeCache.containsKey(texture))
+			return textureSizeCache[texture]!!
+
+		val inputStream = Minecraft.getInstance().resourceManager.getResource(texture.mcNative).inputStream
+		val image = ImageIO.read(inputStream)
+
+		val size = image.width to image.height
+		textureSizeCache[texture] = size
+		return size
+	}
 }
+
+private data class RenderEntry(
+	val poseStack: PoseStack,
+	val texture: Identifier,
+	val color: Color,
+	val xPos: Int, val yPos: Int, val width: Int, val height: Int,
+	val uPos: Int, val vPos: Int, val uWidth: Int, val vHeight: Int,
+)

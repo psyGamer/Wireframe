@@ -19,12 +19,7 @@ class EventBus @JvmOverloads constructor(
 			return
 
 		registeredListeners.add(target)
-
-		if (target.javaClass == Class::class.java) {
-			registerClass(target as Class<*>)
-		} else {
-			registerObject(target)
-		}
+		registerTarget(target)
 	}
 
 	override fun post(event: Event): Boolean {
@@ -38,10 +33,6 @@ class EventBus @JvmOverloads constructor(
 		return event.isCancelable && event.isCanceled
 	}
 
-	override fun <T : Event> addListener(consumer: (T) -> Unit) {
-		addListener(consumer, EventPriority.NORMAL)
-	}
-
 	override fun <T : Event> addListener(consumer: (T) -> Unit, priority: EventPriority) {
 		val eventClass = getEventClass(consumer)
 		require(eventClass.isAssignableFrom(eventMarkerClass)) { "Event must inherit: $eventMarkerClass!" }
@@ -49,13 +40,11 @@ class EventBus @JvmOverloads constructor(
 		addListener(eventClass, ConsumerEventListener(consumer, priority, this))
 	}
 
-	override fun addListener(instance: Any?, method: Method) {
-		addListener(instance, method, EventPriority.NORMAL)
-	}
-
 	override fun addListener(instance: Any?, method: Method, priority: EventPriority) {
 		require(method.parameterTypes.size == 1) { "Event method must have exactly 1 argument!" }
 		require(method.parameterTypes[0].isAssignableFrom(Event::class.java)) { "Event method's argument must inherit Event!" }
+		require(!(instance != null && !Modifier.isStatic(method.modifiers))) { "Class event listeners can only register static methods" }
+		require(!(instance == null && Modifier.isStatic(method.modifiers))) { "Instance event listeners can only register member methods" }
 
 		@Suppress("UNCHECKED_CAST") // It's checked...
 		val eventClass = method.parameterTypes[0] as Class<out Event>
@@ -70,22 +59,13 @@ class EventBus @JvmOverloads constructor(
 
 		if (!listeners.containsKey(eventClass))
 			listeners[eventClass] = ArrayList()
-
 		listeners[eventClass]!!.add(listener)
 	}
 
-	private fun registerClass(clazz: Class<*>) {
-		clazz.methods
-			.filter { Modifier.isStatic(it.modifiers) }
-			.filter { it.isAnnotationPresent(EventSubscriber::class.java) }
-			.forEach { addListener(null, it, it.getAnnotation(EventSubscriber::class.java).priority) }
-	}
-
-	private fun registerObject(obj: Any) {
-		obj.javaClass.methods
-			.filter { Modifier.isStatic(it.modifiers) }
-			.filter { it.isAnnotationPresent(EventSubscriber::class.java) }
-			.forEach { addListener(obj, it, it.getAnnotation(EventSubscriber::class.java).priority) }
+	private fun registerTarget(target: Any) {
+		getEventMethodsFromTarget(target).forEach {
+			addListener(if (target.javaClass == Class::class.java) null else target, it, it.getAnnotation(EventSubscriber::class.java).priority)
+		}
 	}
 
 	private fun <T : Event> getEventClass(consumer: (T) -> Unit): Class<T> {

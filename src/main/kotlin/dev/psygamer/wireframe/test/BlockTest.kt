@@ -9,6 +9,7 @@ import dev.psygamer.wireframe.api.item.util.ClickResult
 import dev.psygamer.wireframe.api.network.PacketHandler
 import dev.psygamer.wireframe.api.world.World
 import dev.psygamer.wireframe.util.*
+import dev.psygamer.wireframe.util.helper.onlyOnLogicalClient
 
 class BlockTest : Block(
 	Identifier("wireframe", "block_test"),
@@ -44,5 +45,13 @@ class BlockTest : Block(
 		}
 
 		return ClickResult.ACCEPTED
+	}
+
+	override fun onBlockRemovedByPlayer(
+		world: World, blockPosition: BlockPosition, oldBlockState: BlockState, newBlockState: BlockState, player: Player,
+	) {
+		onlyOnLogicalClient(world) {
+			runCatching { TestGUI.open() }
+		}
 	}
 }
