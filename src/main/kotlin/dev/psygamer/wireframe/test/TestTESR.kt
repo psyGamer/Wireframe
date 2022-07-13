@@ -19,11 +19,8 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 	var quadMesh = Mesh(RenderType.SOLID_QUADS)
 		.add(Vertex(0.0f, 0.0f))
 		.add(Vertex(0.0f, 1.0f))
-		.add(Vertex(1.0f, 0.0f))
-
-		.add(Vertex(1.0f, 0.0f))
-		.add(Vertex(0.0f, 1.0f))
 		.add(Vertex(1.0f, 1.0f))
+		.add(Vertex(1.0f, 0.0f))
 
 	override fun render(
 		// MatrixStack Location = Block Location
@@ -32,7 +29,6 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 	) {
 		try {
 			val poseStack = pMatrixStack.wfWrapped
-
 			RenderManager.startContext(
 				BlockEntityRenderingContext(
 					poseStack = poseStack, renderTypeBuffer = pBuffer,
@@ -40,9 +36,8 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 				)
 			)
 
+			poseStack.translate(0, 1, 0)
 			quadMesh.render(poseStack)
-
-			RenderManager.endContext()
 
 			glDisable(GL_CULL_FACE)
 			val debug = RenderType.solidQuadsWithTexture(Identifier("textures/block/debug.png"))
@@ -70,6 +65,7 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 				.add(Vertex(0.0f - italic, 8.0f, 0.0f).uv(0.0f, 1.0f).normal(0f, 0f, -1f))
 				.add(Vertex(8.0f, 8.0f, 0.0f).uv(1.0f, 1.0f).normal(0f, 0f, -1f))
 				.add(Vertex(8.0f + italic, 0.0f, 0.0f).uv(1.0f, 0.0f).normal(0f, 0f, -1f))
+				.render(poseStack)
 
 			val builder = Mesh(
 				RenderType(ForgeRenderTypes.getText(ResourceLocation("minecraft:default/0")), VertexFormat.POSITION_COLOR_UV_LIGHTMAP)
@@ -94,6 +90,8 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 			glEnable(GL_CULL_FACE)
 		} catch (t: Throwable) {
 			Wireframe.LOGGER.error("Failed rendering TestBlock!", t)
+		} finally {
+			RenderManager.endContext()
 		}
 	}
 }

@@ -1,8 +1,7 @@
 package dev.psygamer.wireframe.nativeapi.client.render
 
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import dev.psygamer.wireframe.api.client.render.Vertex
-import dev.psygamer.wireframe.api.client.render.RenderBuffer
+import dev.psygamer.wireframe.api.client.render.*
 
 enum class VertexFormat(
 	internal val mcNative: net.minecraft.client.renderer.vertex.VertexFormat,
@@ -49,6 +48,7 @@ private fun renderEntity(renderBuffer: RenderBuffer, vertices: Iterable<Vertex>)
 private fun renderPosition(renderBuffer: RenderBuffer, vertices: Iterable<Vertex>) {
 	vertices.forEach {
 		renderBuffer.vertex(it.x, it.y, it.z)
+			.finish()
 	}
 }
 
@@ -56,6 +56,7 @@ private fun renderPositionUV(renderBuffer: RenderBuffer, vertices: Iterable<Vert
 	vertices.forEach {
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.uv(it.u, it.v)
+			.finish()
 	}
 }
 
@@ -63,6 +64,7 @@ private fun renderPositionColor(renderBuffer: RenderBuffer, vertices: Iterable<V
 	vertices.forEach {
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
+			.finish()
 	}
 }
 
@@ -71,6 +73,7 @@ private fun renderPositionColorUV(renderBuffer: RenderBuffer, vertices: Iterable
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
 			.uv(it.u, it.v)
+			.finish()
 	}
 }
 
@@ -79,6 +82,7 @@ private fun renderPositionColorLightmap(renderBuffer: RenderBuffer, vertices: It
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
 			.lightmapUV(packedLightmap)
+			.finish()
 	}
 }
 
@@ -88,5 +92,6 @@ private fun renderPositionColorUVLightmap(renderBuffer: RenderBuffer, vertices: 
 			.color(it.r, it.g, it.b, 1.0f)
 			.uv(it.u, it.v)
 			.lightmapUV(packedLightmap)
+			.finish()
 	}
 }
