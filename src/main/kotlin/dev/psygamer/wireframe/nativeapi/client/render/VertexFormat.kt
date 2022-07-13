@@ -20,12 +20,15 @@ enum class VertexFormat(
 	POSITION_COLOR_UV_LIGHTMAP(DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP, ::renderPositionColorUVLightmap),
 }
 
+private val packedLightmap: Int get() = RenderManager.currentContext.packedLightmap
+private val packedOverlay: Int get() = RenderManager.currentContext.packedOverlay
+
 private fun renderBlock(renderBuffer: RenderBuffer, vertices: Iterable<Vertex>) {
 	vertices.forEach {
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
 			.uv(it.u, it.v)
-			.lightmapUV(RenderManager.currentContext.packedLightmap)
+			.lightmapUV(packedLightmap)
 			.normal(it.nx, it.ny, it.nz)
 			.finish()
 	}
@@ -36,8 +39,8 @@ private fun renderEntity(renderBuffer: RenderBuffer, vertices: Iterable<Vertex>)
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
 			.uv(it.u, it.v)
-			.overlayUV(RenderManager.currentContext.packedOverlay)
-			.lightmapUV(RenderManager.currentContext.packedLightmap)
+			.overlayUV(packedOverlay)
+			.lightmapUV(packedLightmap)
 			.normal(it.nx, it.ny, it.nz)
 			.finish()
 	}
@@ -75,7 +78,7 @@ private fun renderPositionColorLightmap(renderBuffer: RenderBuffer, vertices: It
 	vertices.forEach {
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
-			.lightmapUV(RenderManager.currentContext.packedLightmap)
+			.lightmapUV(packedLightmap)
 	}
 }
 
@@ -84,6 +87,6 @@ private fun renderPositionColorUVLightmap(renderBuffer: RenderBuffer, vertices: 
 		renderBuffer.vertex(it.x, it.y, it.z)
 			.color(it.r, it.g, it.b, 1.0f)
 			.uv(it.u, it.v)
-			.lightmapUV(RenderManager.currentContext.packedLightmap)
+			.lightmapUV(packedLightmap)
 	}
 }

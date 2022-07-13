@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11.*
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.client.model.*
-import dev.psygamer.wireframe.api.client.render.PoseStack
+import dev.psygamer.wireframe.api.client.render.*
 import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
 import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 import dev.psygamer.wireframe.nativeapi.client.render.context.BlockEntityRenderingContext
@@ -19,7 +19,7 @@ import dev.psygamer.wireframe.util.helper.using
 
 class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<NativeBlockEntity>(dispatcher) {
 
-	var quadMesh = Mesh.Builder()
+	var quadMesh = MeshBuilder(RenderBuffer.Type.SOLID_QUADS)
 		.add(Vertex(0.0f, 0.0f))
 		.add(Vertex(0.0f, 1.0f))
 		.add(Vertex(1.0f, 0.0f))
