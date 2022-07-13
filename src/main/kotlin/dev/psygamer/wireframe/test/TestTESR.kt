@@ -16,7 +16,7 @@ import dev.psygamer.wireframe.util.Identifier
 
 class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<NativeBlockEntity>(dispatcher) {
 
-	var quadMesh = MeshBuilder(RenderType.SOLID_QUADS)
+	var quadMesh = Mesh(RenderType.SOLID_QUADS)
 		.add(Vertex(0.0f, 0.0f))
 		.add(Vertex(0.0f, 1.0f))
 		.add(Vertex(1.0f, 0.0f))
@@ -24,7 +24,6 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 		.add(Vertex(1.0f, 0.0f))
 		.add(Vertex(0.0f, 1.0f))
 		.add(Vertex(1.0f, 1.0f))
-		.build()
 
 	override fun render(
 		// MatrixStack Location = Block Location
@@ -53,12 +52,11 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 			poseStack.translate(0.0, 0.0, 1.0)
 			poseStack.scale(-1 / 16.0f, -1 / 16.0f, -1 / 16.0f)
 
-			MeshBuilder(debug)
+			Mesh(debug)
 				.add(Vertex(0f, 0f, 0f).uv(0f, 0f))
 				.add(Vertex(0f, 8f, 0f).uv(0f, 1f))
 				.add(Vertex(8f, 8f, 0f).uv(1f, 1f))
 				.add(Vertex(8f, 0f, 0f).uv(1f, 0f))
-				.build()
 				.render()
 
 			poseStack.translate(0.0, 0.0, 1.0)
@@ -67,13 +65,13 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 
 			val italic = 0.0f
 
-			MeshBuilder(debug2)
+			Mesh(debug2)
 				.add(Vertex(0.0f, 0.0f, 0.0f).uv(0.0f, 0.0f).normal(0f, 0f, -1f))
 				.add(Vertex(0.0f - italic, 8.0f, 0.0f).uv(0.0f, 1.0f).normal(0f, 0f, -1f))
 				.add(Vertex(8.0f, 8.0f, 0.0f).uv(1.0f, 1.0f).normal(0f, 0f, -1f))
 				.add(Vertex(8.0f + italic, 0.0f, 0.0f).uv(1.0f, 0.0f).normal(0f, 0f, -1f))
 
-			val builder = MeshBuilder(
+			val builder = Mesh(
 				RenderType(ForgeRenderTypes.getText(ResourceLocation("minecraft:default/0")), VertexFormat.POSITION_COLOR_UV_LIGHTMAP)
 			)
 				.add(Vertex(0.0f, 0.0f, 0.0f).uv(0.51566404f, 3.90625E-5f))
@@ -87,6 +85,7 @@ class TestTESR(dispatcher: TileEntityRendererDispatcher) : TileEntityRenderer<Na
 				.add(Vertex(0.0f - italic, 8.0f, 0.0f).uv(0.0f, 1.0f))
 				.add(Vertex(8.0f, 8.0f, 0.0f).uv(1.0f, 1.0f))
 				.add(Vertex(8.0f + italic, 0.0f, 0.0f).uv(1.0f, 0.0f))
+				.render()
 
 			glEnable(GL_CULL_FACE)
 		} catch (t: Throwable) {
