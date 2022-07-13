@@ -9,6 +9,42 @@ import dev.psygamer.wireframe.util.Identifier
 /** [Source](https://github.com/TeamOpenIndustry/UniversalModCore/blob/972a4289113315b4e56c6982d3681ee08237dade/src/main/java/cam72cam/mod/render/OpenGL.java)*/
 object NativeOpenGL {
 
+	fun matrix(): Closeable {
+		glPushMatrix()
+
+		return Closeable {
+			glPopMatrix()
+		}
+	}
+
+	fun translate(x: Double, y: Double, z: Double): Closeable {
+		glTranslated(x, y, z)
+
+		return Closeable {
+			glTranslated(-x, -y, -z)
+		}
+	}
+
+	fun rotate(x: Double, y: Double, z: Double): Closeable {
+		glRotated(x, 1.0, 0.0, 0.0)
+		glRotated(y, 0.0, 1.0, 0.0)
+		glRotated(z, 0.0, 0.0, 1.0)
+
+		return Closeable {
+			glRotated(-x, 1.0, 0.0, 0.0)
+			glRotated(-y, 0.0, 1.0, 0.0)
+			glRotated(-z, 0.0, 0.0, 1.0)
+		}
+	}
+
+	fun scale(x: Double, y: Double, z: Double): Closeable {
+		glScaled(x, y, z)
+
+		return Closeable {
+			glScaled(-x, -y, -z)
+		}
+	}
+
 	fun bool(operation: Int, newState: Boolean): Closeable {
 		val oldState = glIsEnabled(operation)
 
@@ -23,7 +59,8 @@ object NativeOpenGL {
 		return Closeable {
 			if (oldState)
 				glEnable(operation)
-			else glDisable(operation)
+			else
+				glDisable(operation)
 		}
 	}
 

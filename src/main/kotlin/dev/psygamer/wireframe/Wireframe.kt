@@ -3,6 +3,7 @@ package dev.psygamer.wireframe
 import org.apache.logging.log4j.*
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import dev.psygamer.wireframe.api.registry.PacketRegistry
+import dev.psygamer.wireframe.api.registry.client.BlockEntityRendererRegistry
 import dev.psygamer.wireframe.debug.WireframeDebugger
 import dev.psygamer.wireframe.debug.logging.*
 import dev.psygamer.wireframe.event.*
@@ -61,7 +62,10 @@ object Wireframe {
 			 * TODO Do this automatically
 			 */ WireframeMod
 
+
 			BlockTest()
+			BlockEntityRendererRegistry.register(TestRenderer)
+
 			EventBusRegistrator.register()
 			PacketRegistry.register(TestPacket::class.java, TestPacketDecoder)
 		}

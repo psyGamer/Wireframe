@@ -4,6 +4,15 @@ import kotlin.math.*
 
 open class Vector3d(val x: Double, val y: Double, val z: Double) {
 
+	companion object {
+
+		@JvmStatic
+		val ZERO = Vector3d(0.0, 0.0, 0.0)
+
+		@JvmStatic
+		val ONE = Vector3d(1.0, 1.0, 1.0)
+	}
+
 	operator fun plus(other: Vector3d): Vector3d {
 		return Vector3d(this.x + other.x, this.y + other.y, this.z + other.z)
 	}
@@ -59,4 +68,7 @@ open class Vector3d(val x: Double, val y: Double, val z: Double) {
 	fun angleBetween(other: Vector3d): Double {
 		return acos(this dot other / (this.magnitude * other.magnitude))
 	}
+
+	val inverted
+		get() = Vector3d(-this.x, -this.y, -this.z)
 }

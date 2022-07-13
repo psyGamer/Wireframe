@@ -3,7 +3,16 @@ package dev.psygamer.wireframe.util.math.vector
 import kotlin.math.*
 
 open class Vector2d(val x: Double, val y: Double) {
-
+	
+	companion object {
+		
+		@JvmStatic
+		val ZERO = Vector2d(0.0, 0.0)
+		
+		@JvmStatic
+		val ONE = Vector2d(1.0, 1.0)
+	}
+	
 	operator fun plus(other: Vector2d): Vector2d {
 		return Vector2d(this.x + other.x, this.y + other.y)
 	}
@@ -59,4 +68,7 @@ open class Vector2d(val x: Double, val y: Double) {
 	fun angleBetween(other: Vector2d): Double {
 		return acos(this dot other / (this.magnitude * other.magnitude))
 	}
+	
+	val inverted
+		get() = Vector2d(-this.x, -this.y)
 }

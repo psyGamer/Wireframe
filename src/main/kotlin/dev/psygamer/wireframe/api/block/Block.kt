@@ -28,7 +28,7 @@ open class Block {
 	val stateDefinition: BlockStateDefinition
 	val defaultBlockState: BlockState
 
-	private var blockEntityDefinition: Definition? = null
+	protected var blockEntityDefinition: Definition? = null
 
 	constructor(mcNative: net.minecraft.block.Block) {
 		this.identifier = mcNative.registryName!!.wfWrapped
@@ -82,11 +82,11 @@ open class Block {
 			mcNative.setDefaultBlockState(blockState)
 	}
 
-	protected fun <T : BlockEntity> registerBlockEntity(blockEntityCreator: () -> T) {
+	protected inline fun <reified T : BlockEntity> registerBlockEntity(noinline blockEntityCreator: () -> T) {
 		if (blockEntityDefinition != null)
 			return
 
-		blockEntityDefinition = Definition(identifier, blockEntityCreator, arrayOf(this))
+		blockEntityDefinition = Definition(identifier, blockEntityCreator, arrayOf(this), T::class.java)
 		BlockEntityRegistry.register(blockEntityDefinition!!)
 	}
 

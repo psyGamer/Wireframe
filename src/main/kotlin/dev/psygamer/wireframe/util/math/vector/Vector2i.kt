@@ -4,6 +4,15 @@ import kotlin.math.*
 
 open class Vector2i(val x: Int, val y: Int) {
 
+	companion object {
+
+		@JvmStatic
+		val ZERO = Vector2i(0, 0)
+
+		@JvmStatic
+		val ONE = Vector2i(1, 1)
+	}
+
 	operator fun plus(other: Vector2i): Vector2i {
 		return Vector2i(this.x + other.x, this.y + other.y)
 	}
@@ -67,4 +76,7 @@ open class Vector2i(val x: Int, val y: Int) {
 	fun angleBetween(other: Vector2i): Float {
 		return acos((this dot other / (this.magnitude * other.magnitude).toInt()).toFloat())
 	}
+
+	val inverted
+		get() = Vector2i(-this.x, -this.y)
 }

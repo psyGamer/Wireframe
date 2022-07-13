@@ -6,10 +6,11 @@ import net.minecraft.client.gui.AbstractGui
 import org.lwjgl.opengl.GL11.*
 import javax.imageio.ImageIO
 import dev.psygamer.wireframe.Wireframe
-import dev.psygamer.wireframe.api.client.OpenGL
+import dev.psygamer.wireframe.api.client.render.OpenGL
 import dev.psygamer.wireframe.debug.debug
 import dev.psygamer.wireframe.nativeapi.mcNative
 import dev.psygamer.wireframe.util.*
+import dev.psygamer.wireframe.util.helper.using
 
 object NativeScreenRenderHelper {
 
