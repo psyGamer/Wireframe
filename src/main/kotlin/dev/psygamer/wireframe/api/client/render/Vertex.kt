@@ -1,4 +1,4 @@
-package dev.psygamer.wireframe.api.client.model
+package dev.psygamer.wireframe.api.client.render
 
 class Vertex internal constructor(
 	val x: Double, val y: Double, val z: Double = 0.0,

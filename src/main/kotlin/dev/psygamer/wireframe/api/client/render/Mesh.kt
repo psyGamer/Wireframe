@@ -1,6 +1,5 @@
-package dev.psygamer.wireframe.api.client.model
+package dev.psygamer.wireframe.api.client.render
 
-import dev.psygamer.wireframe.api.client.render.RenderBuffer
 import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 
 class Mesh(private val vertices: Collection<Vertex>, private val renderType: RenderBuffer.Type) {

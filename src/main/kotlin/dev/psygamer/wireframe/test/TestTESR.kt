@@ -9,7 +9,6 @@ import net.minecraftforge.client.ForgeRenderTypes
 import org.lwjgl.opengl.GL11.*
 import dev.psygamer.wireframe.Wireframe
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
-import dev.psygamer.wireframe.api.client.model.*
 import dev.psygamer.wireframe.api.client.render.*
 import dev.psygamer.wireframe.nativeapi.block.entity.NativeBlockEntity
 import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
