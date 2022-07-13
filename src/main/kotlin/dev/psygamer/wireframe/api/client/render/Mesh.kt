@@ -2,7 +2,7 @@ package dev.psygamer.wireframe.api.client.render
 
 import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 
-class Mesh(private val vertices: Collection<Vertex>, private val renderType: RenderBuffer.Type) {
+class Mesh(private val vertices: Collection<Vertex>, private val renderType: RenderType) {
 
 	fun render() {
 		val renderBuffer = RenderManager.currentContext.getRenderBuffer(renderType)
@@ -10,7 +10,7 @@ class Mesh(private val vertices: Collection<Vertex>, private val renderType: Ren
 	}
 }
 
-class MeshBuilder(val renderType: RenderBuffer.Type) {
+class MeshBuilder(val renderType: RenderType) {
 
 	private val vertices = mutableListOf<Vertex>()
 

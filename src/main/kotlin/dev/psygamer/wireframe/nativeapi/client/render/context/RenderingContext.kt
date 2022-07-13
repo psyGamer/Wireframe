@@ -22,7 +22,7 @@ abstract class RenderingContext {
 	val overlayV
 		get() = this.packedOverlay shr 16 and 0xffff
 
-	fun getRenderBuffer(type: RenderBuffer.Type): RenderBuffer {
+	fun getRenderBuffer(type: RenderType): RenderBuffer {
 		return renderTypeBuffer.getBuffer(type.mcNative).wfWrapped
 	}
 }

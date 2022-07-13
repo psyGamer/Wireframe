@@ -1,8 +1,7 @@
 package dev.psygamer.wireframe.api.client.render
 
 import com.mojang.blaze3d.vertex.IVertexBuilder
-import net.minecraft.client.renderer.*
-import dev.psygamer.wireframe.nativeapi.client.render.*
+import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 
 class RenderBuffer(internal val mcNative: IVertexBuilder) {
 
@@ -23,9 +22,4 @@ class RenderBuffer(internal val mcNative: IVertexBuilder) {
 	fun normal(x: Float, y: Float, z: Float) = this.also { mcNative.normal(x, y, z) }
 
 	fun finish() = mcNative.endVertex()
-
-	enum class Type(internal val mcNative: RenderType, val format: VertexFormat) {
-		SOLID_QUADS(Atlases.solidBlockSheet(), VertexFormat.ENTITY),
-		TRANSLUCENT_LINES(RenderType.lines(), VertexFormat.ENTITY)
-	}
 }
