@@ -7,6 +7,7 @@ import dev.psygamer.wireframe.api.client.render.PoseStack
 import dev.psygamer.wireframe.api.item.ItemStack
 import dev.psygamer.wireframe.nativeapi.client.render.RenderManager
 import dev.psygamer.wireframe.nativeapi.mcNative
+import dev.psygamer.wireframe.nativeapi.patches.PatchedFontRenderer
 import dev.psygamer.wireframe.util.Color
 
 object NativeRenderHelper3D {
@@ -20,7 +21,7 @@ object NativeRenderHelper3D {
 		val transparent = color.alpha < 1.0f
 		val xOffset = if (centered) font.width(text) / -2.0f else 0.0f
 
-		font.drawInBatch(
+		(font as PatchedFontRenderer).drawInBatchWithShadowFix(
 			text, xOffset, 0.0f, color.mcNative, dropShadow, poseStack.mcNative.last().pose(),
 			RenderManager.currentContext.renderTypeBuffer, transparent, backgroundColor.mcNative, RenderManager.currentContext.packedLightmap,
 			rightToLeft
