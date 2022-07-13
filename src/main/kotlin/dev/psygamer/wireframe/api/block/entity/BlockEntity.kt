@@ -13,6 +13,8 @@ open class BlockEntity {
 
 		val blockEntitySupplier: () -> BlockEntity,
 		val blockEntityHolders: Array<Block>,
+
+		val blockEntityClass: Class<out BlockEntity>,
 	)
 
 	val identifier: Identifier

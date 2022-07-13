@@ -1,6 +1,13 @@
 package dev.psygamer.wireframe.test
 
-object TestRenderer {
+import dev.psygamer.wireframe.api.client.render.PoseStack
+import dev.psygamer.wireframe.api.client.render.blockentity.BlockEntityRenderer
+
+object TestRenderer : BlockEntityRenderer<TestBlockEntity> {
+
+	override fun render(blockEntity: TestBlockEntity, poseStack: PoseStack) {
+		println("render")
+	}
 
 //	fun render(te: NativeBlockEntity, buf: IRenderTypeBuffer, ms: PoseStack) {
 //
