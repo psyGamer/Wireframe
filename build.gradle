@@ -11,19 +11,17 @@ buildscript {
     }
     dependencies {
         classpath group: "org.jetbrains.kotlin", name: "kotlin-gradle-plugin", version: kotlin_version
-        classpath group: "com.github.jengelman.gradle.plugins", name: "shadow", version: "6.1.0"
         classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "5.1.23", changing: true
-        classpath group: "org.spongepowered", name: "mixingradle", version: "0.7-SNAPSHOT"
         classpath group: "org.parchmentmc", name: "librarian", version: "1.+"
+        classpath group: "org.spongepowered", name: "mixingradle", version: "0.7-SNAPSHOT"
     }
 }
 
 apply plugin: "kotlin"
 apply plugin: "maven-publish"
-apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "net.minecraftforge.gradle"
-apply plugin: "org.spongepowered.mixin"
 apply plugin: "org.parchmentmc.librarian.forgegradle"
+apply plugin: "org.spongepowered.mixin"
 
 group = "dev.psygamer"
 archivesBaseName = "wireframe"
@@ -89,17 +87,10 @@ minecraft {
 
 mixin {
     add sourceSets.main, "wireframe.refmap.json"
-
     config "wireframe.mixins.json"
 }
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
-
-configurations {
-    shadow
-
-    compile.extendsFrom shadow
-}
 
 repositories {
     mavenCentral()
@@ -116,32 +107,11 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.16.5-36.2.26"
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
-//    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-//    shadow "org.jetbrains.kotlin:kotlin-reflect:$kotlin_reflect_version"
-
     // Is probably going to become part of Wireframe
     implementation("thedarkcolour:kotlinforforge:1.16.0")
 }
 
-shadowJar {
-    configurations = [project.configurations.shadow]
-
-    classifier ""
-    finalizedBy "reobfJar"
-
-    manifest {
-        attributes([
-                "Specification-Title"     : project.archivesBaseName,
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.version,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
 jar {
-    classifier "standalone"
     finalizedBy "reobfJar"
 
     manifest {
@@ -154,9 +124,18 @@ jar {
         ])
     }
 }
+task devJar(type: Jar) {
+    from(sourceSets.main.java)
+    from(sourceSets.main.kotlin)
+    from(sourceSets.main.output)
 
-reobf {
-    shadowJar {}
+    duplicatesStrategy "exclude"
+
+    classifier = "dev"
+}
+
+artifacts {
+    archives devJar
 }
 
 compileKotlin {
