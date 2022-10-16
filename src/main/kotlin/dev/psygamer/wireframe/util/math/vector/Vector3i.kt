@@ -4,67 +4,60 @@ import kotlin.math.*
 
 open class Vector3i(val x: Int, val y: Int, val z: Int) {
 
-	operator fun plus(other: Vector3i): Vector3i {
-		return Vector3i(this.x + other.x, this.y + other.y, this.z + other.z)
-	}
+	operator fun plus(scalar: Int) = Vector3i(this.x + scalar, this.y + scalar, this.z + scalar)
+	operator fun plus(scalar: Float) = Vector3f(this.x + scalar, this.y + scalar, this.z + scalar)
+	operator fun plus(scalar: Double) = Vector3d(this.x + scalar, this.y + scalar, this.z + scalar)
 
-	operator fun minus(other: Vector3i): Vector3i {
-		return Vector3i(this.x - other.x, this.y - other.y, this.z + other.z)
-	}
+	operator fun plus(other: Vector3i) = Vector3i(this.x + other.x, this.y + other.y, this.z + other.z)
+	operator fun plus(other: Vector3f) = Vector3f(this.x + other.x, this.y + other.y, this.z + other.z)
+	operator fun plus(other: Vector3d) = Vector3d(this.x + other.x, this.y + other.y, this.z + other.z)
 
-	operator fun times(other: Vector3i): Vector3i {
-		return Vector3i(this.x * other.x, this.y * other.y, this.z + other.z)
-	}
+	operator fun minus(scalar: Int) = Vector3i(this.x - scalar, this.y - scalar, this.z - scalar)
+	operator fun minus(scalar: Float) = Vector3f(this.x - scalar, this.y - scalar, this.z - scalar)
+	operator fun minus(scalar: Double) = Vector3d(this.x - scalar, this.y - scalar, this.z - scalar)
 
-	operator fun times(scalar: Int): Vector3i {
-		return Vector3i((this.x * scalar), (this.y * scalar), (this.z * scalar))
-	}
+	operator fun minus(other: Vector3i) = Vector3i(this.x - other.x, this.y - other.y, this.z - other.z)
+	operator fun minus(other: Vector3f) = Vector3f(this.x - other.x, this.y - other.y, this.z - other.z)
+	operator fun minus(other: Vector3d) = Vector3d(this.x - other.x, this.y - other.y, this.z - other.z)
 
-	operator fun times(scalar: Float): Vector3i {
-		return Vector3i((this.x * scalar).toInt(), (this.y * scalar).toInt(), (this.z * scalar).toInt())
-	}
+	operator fun times(scalar: Int) = Vector3i(this.x * scalar, this.y * scalar, this.z * scalar)
+	operator fun times(scalar: Float) = Vector3f(this.x * scalar, this.y * scalar, this.z * scalar)
+	operator fun times(scalar: Double) = Vector3d(this.x * scalar, this.y * scalar, this.z * scalar)
 
-	operator fun div(other: Vector3i): Vector3i {
-		return Vector3i(this.x / other.x, this.y / other.y, this.z / other.z)
-	}
+	operator fun times(other: Vector3i) = Vector3i(this.x * other.x, this.y * other.y, this.z * other.z)
+	operator fun times(other: Vector3f) = Vector3f(this.x * other.x, this.y * other.y, this.z * other.z)
+	operator fun times(other: Vector3d) = Vector3d(this.x * other.x, this.y * other.y, this.z * other.z)
 
-	operator fun div(scalar: Int): Vector3i {
-		return Vector3i((this.x / scalar), (this.y / scalar), (this.z / scalar))
-	}
+	operator fun div(other: Vector3i) = Vector3i(this.x / other.x, this.y / other.y, this.z / other.z)
+	operator fun div(other: Vector3f) = Vector3f(this.x / other.x, this.y / other.y, this.z / other.z)
+	operator fun div(other: Vector3d) = Vector3d(this.x / other.x, this.y / other.y, this.z / other.z)
 
-	operator fun div(scalar: Float): Vector3i {
-		return Vector3i((this.x / scalar).toInt(), (this.y / scalar).toInt(), (this.z / scalar).toInt())
-	}
+	operator fun div(scalar: Int) = Vector3i(this.x / scalar, this.y / scalar, this.z / scalar)
+	operator fun div(scalar: Float) = Vector3f(this.x / scalar, this.y / scalar, this.z / scalar)
+	operator fun div(scalar: Double) = Vector3d(this.x / scalar, this.y / scalar, this.z / scalar)
 
-	infix fun cross(other: Vector3i): Vector3i {
-		return Vector3i(this.x * other.y, this.y * other.x, this.z * other.z)
-	}
+	infix fun cross(other: Vector3i) = Vector3i(this.x * other.y, this.y * other.x, this.z * other.z)
+	infix fun cross(other: Vector3f) = Vector3f(this.x * other.y, this.y * other.x, this.z * other.z)
+	infix fun cross(other: Vector3d) = Vector3d(this.x * other.y, this.y * other.x, this.z * other.z)
 
-	infix fun dot(other: Vector3i): Int {
-		return (this.x * other.x + this.y * other.y + this.z * other.z)
-	}
+	infix fun dot(other: Vector3i) = (this.x * other.x + this.y * other.y + this.z * other.z)
+	infix fun dot(other: Vector3f) = (this.x * other.x + this.y * other.y + this.z * other.z)
+	infix fun dot(other: Vector3d) = (this.x * other.x + this.y * other.y + this.z * other.z)
 
-	val magnitude: Float
-		get() = sqrt((this.x * this.x + this.y * this.y + this.z * this.z).toFloat())
+	fun distance(other: Vector3i) = (this - other).magnitude
+	fun distance(other: Vector3f) = (this - other).magnitude
+	fun distance(other: Vector3d) = (this - other).magnitude
+	fun distanceSquared(other: Vector3i) = (this - other).magnitudeSquared
+	fun distanceSquared(other: Vector3f) = (this - other).magnitudeSquared
+	fun distanceSquared(other: Vector3d) = (this - other).magnitudeSquared
 
-	val magnitudeSquared: Float
-		get() = (this.x * this.x + this.y * this.y + this.z * this.z).toFloat()
+	fun angleBetween(other: Vector3i) = acos(((this dot other) / (this.magnitude * other.magnitude).toInt()).toFloat())
+	fun angleBetween(other: Vector3f) = acos(((this dot other) / (this.magnitude * other.magnitude).toInt()))
+	fun angleBetween(other: Vector3d) = acos(((this dot other) / (this.magnitude * other.magnitude).toInt()).toFloat())
 
-	fun distance(other: Vector3i): Float {
-		return (this - other).magnitude
-	}
+	val magnitude get() = sqrt((this.x * this.x + this.y * this.y).toFloat())
+	val magnitudeSquared get() = (this.x * this.x + this.y * this.y).toFloat()
 
-	fun distanceSquared(other: Vector3i): Float {
-		return (this - other).magnitudeSquared
-	}
-
-	val normalized: Vector3i
-		get() = this / this.magnitude
-
-	val angle: Float
-		get() = atan2(this.x.toFloat(), this.y.toFloat())
-
-	fun angleBetween(other: Vector3i): Float {
-		return acos((this dot other / (this.magnitude * other.magnitude).toInt()).toFloat())
-	}
+	val normalized get() = this / this.magnitude
+	val angle get() = atan2(this.x.toFloat(), this.y.toFloat())
 }

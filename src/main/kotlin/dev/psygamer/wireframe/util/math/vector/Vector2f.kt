@@ -4,103 +4,60 @@ import kotlin.math.*
 
 open class Vector2f(val x: Float, val y: Float) {
 
-	operator fun plus(other: Vector2i): Vector2f {
-		return Vector2f(this.x + other.x, this.y + other.y)
-	}
+	operator fun plus(scalar: Int) = Vector2f(this.x + scalar, this.y + scalar)
+	operator fun plus(scalar: Float) = Vector2f(this.x + scalar, this.y + scalar)
+	operator fun plus(scalar: Double) = Vector2d(this.x + scalar, this.y + scalar)
 
-	operator fun plus(other: Vector2f): Vector2f {
-		return Vector2f(this.x + other.x, this.y + other.y)
-	}
+	operator fun plus(other: Vector2i) = Vector2f(this.x + other.x, this.y + other.y)
+	operator fun plus(other: Vector2f) = Vector2f(this.x + other.x, this.y + other.y)
+	operator fun plus(other: Vector2d) = Vector2d(this.x + other.x, this.y + other.y)
 
-	operator fun minus(other: Vector2i): Vector2f {
-		return Vector2f(this.x - other.x, this.y - other.y)
-	}
+	operator fun minus(scalar: Int) = Vector2f(this.x - scalar, this.y - scalar)
+	operator fun minus(scalar: Float) = Vector2f(this.x - scalar, this.y - scalar)
+	operator fun minus(scalar: Double) = Vector2d(this.x - scalar, this.y - scalar)
 
-	operator fun minus(other: Vector2f): Vector2f {
-		return Vector2f(this.x - other.x, this.y - other.y)
-	}
+	operator fun minus(other: Vector2i) = Vector2f(this.x - other.x, this.y - other.y)
+	operator fun minus(other: Vector2f) = Vector2f(this.x - other.x, this.y - other.y)
+	operator fun minus(other: Vector2d) = Vector2d(this.x - other.x, this.y - other.y)
 
-	operator fun times(other: Vector2i): Vector2f {
-		return Vector2f(this.x * other.x, this.y * other.y)
-	}
+	operator fun times(scalar: Int) = Vector2f((this.x * scalar), (this.y * scalar))
+	operator fun times(scalar: Float) = Vector2f(this.x * scalar, this.y * scalar)
+	operator fun times(scalar: Double) = Vector2d(this.x * scalar, this.y * scalar)
 
-	operator fun times(other: Vector2f): Vector2f {
-		return Vector2f(this.x * other.x, this.y * other.y)
-	}
+	operator fun times(other: Vector2i) = Vector2f(this.x * other.x, this.y * other.y)
+	operator fun times(other: Vector2f) = Vector2f(this.x * other.x, this.y * other.y)
+	operator fun times(other: Vector2d) = Vector2d(this.x * other.x, this.y * other.y)
 
-	operator fun times(scalar: Int): Vector2f {
-		return Vector2f((this.x * scalar), (this.y * scalar))
-	}
+	operator fun div(other: Vector2i) = Vector2f(this.x / other.x, this.y / other.y)
+	operator fun div(other: Vector2f) = Vector2f(this.x / other.x, this.y / other.y)
+	operator fun div(other: Vector2d) = Vector2d(this.x / other.x, this.y / other.y)
 
-	operator fun times(scalar: Float): Vector2f {
-		return Vector2f((this.x * scalar), (this.y * scalar))
-	}
+	operator fun div(scalar: Int) = Vector2f((this.x / scalar), (this.y / scalar))
+	operator fun div(scalar: Float) = Vector2f(this.x / scalar, this.y / scalar)
+	operator fun div(scalar: Double) = Vector2d(this.x / scalar, this.y / scalar)
 
-	operator fun div(other: Vector2i): Vector2f {
-		return Vector2f(this.x / other.x, y / other.y)
-	}
+	infix fun cross(other: Vector2i) = Vector2f(this.x * other.y, this.y * other.x)
+	infix fun cross(other: Vector2f) = Vector2f(this.x * other.y, this.y * other.x)
+	infix fun cross(other: Vector2d) = Vector2d(this.x * other.y, this.y * other.x)
 
-	operator fun div(other: Vector2f): Vector2f {
-		return Vector2f(this.x / other.x, y / other.y)
-	}
+	infix fun dot(other: Vector2i) = (this.x * other.x + this.y * other.y)
+	infix fun dot(other: Vector2f) = (this.x * other.x + this.y * other.y)
+	infix fun dot(other: Vector2d) = (this.x * other.x + this.y * other.y)
 
-	operator fun div(scalar: Int): Vector2f {
-		return Vector2f((this.x / scalar), (this.y / scalar))
-	}
+	fun distance(other: Vector2i) = (this - other).magnitude
+	fun distance(other: Vector2f) = (this - other).magnitude
+	fun distance(other: Vector2d) = (this - other).magnitude
+	fun distanceSquared(other: Vector2i) = (this - other).magnitudeSquared
+	fun distanceSquared(other: Vector2f) = (this - other).magnitudeSquared
+	fun distanceSquared(other: Vector2d) = (this - other).magnitudeSquared
 
-	operator fun div(scalar: Float): Vector2f {
-		return Vector2f((this.x / scalar), (this.y / scalar))
-	}
+	fun angleBetween(other: Vector2i) = acos((this dot other / (this.magnitude * other.magnitude).toInt()))
+	fun angleBetween(other: Vector2f) = acos((this dot other / (this.magnitude * other.magnitude).toInt()))
+	fun angleBetween(other: Vector2d) = acos((this dot other / (this.magnitude * other.magnitude).toInt()).toFloat())
 
-	infix fun cross(other: Vector2i): Vector2f {
-		return Vector2f(this.x * other.y, this.y * other.x)
-	}
+	val magnitude get() = sqrt((this.x * this.x + this.y * this.y))
+	val magnitudeSquared get() = (this.x * this.x + this.y * this.y)
 
-	infix fun cross(other: Vector2f): Vector2f {
-		return Vector2f(this.x * other.y, this.y * other.x)
-	}
-
-	infix fun dot(other: Vector2i): Float {
-		return (this.x * other.x + this.y * other.y)
-	}
-
-	infix fun dot(other: Vector2f): Float {
-		return (this.x * other.x + this.y * other.y)
-	}
-
-	val magnitude: Float
-		get() = sqrt(this.x * this.x + this.y * this.y)
-
-	val magnitudeSquared: Float
-		get() = this.x * this.x + this.y * this.y
-
-	fun distance(other: Vector2i): Float {
-		return (this - other).magnitude
-	}
-
-	fun distance(other: Vector2f): Float {
-		return (this - other).magnitude
-	}
-
-	fun distanceSquared(other: Vector2i): Float {
-		return (this - other).magnitudeSquared
-	}
-
-	fun distanceSquared(other: Vector2f): Float {
-		return (this - other).magnitudeSquared
-	}
-
-	val normalized: Vector2f
-		get() = this / this.magnitude
-
-	val angle: Float
-		get() = atan2(this.x, this.y)
-
-	fun angleBetween(other: Vector2i): Float {
-		return acos((this dot other) / (this.magnitude * other.magnitude))
-	}
-
-	fun angleBetween(other: Vector2f): Float {
-		return acos((this dot other) / (this.magnitude * other.magnitude))
-	}
+	val normalized get() = this / this.magnitude
+	val angle get() = atan2(this.x, this.y)
 }
