@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.util
 
-import dev.psygamer.wireframe.util.math.vector.Vector3i
+import org.joml.Vector3i
 
 enum class Direction(val unitVector: Vector3i) {
 	SOUTH(Vector3i(0, 0, +1)), // Positive Z

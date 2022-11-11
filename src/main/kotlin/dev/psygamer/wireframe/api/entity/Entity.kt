@@ -1,9 +1,9 @@
 package dev.psygamer.wireframe.api.entity
 
+import org.joml.Vector3d
 import java.util.*
 import dev.psygamer.wireframe.api.world.World
 import dev.psygamer.wireframe.util.BlockPosition
-import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 interface Entity {
 

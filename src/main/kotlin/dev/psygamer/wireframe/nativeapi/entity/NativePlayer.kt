@@ -1,11 +1,11 @@
 package dev.psygamer.wireframe.nativeapi.entity
 
 import net.minecraft.entity.player.PlayerEntity
+import org.joml.Vector3d
 import dev.psygamer.wireframe.api.entity.Player
 import dev.psygamer.wireframe.api.item.ItemStack
 import dev.psygamer.wireframe.api.item.util.Hand
 import dev.psygamer.wireframe.nativeapi.*
-import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 class NativePlayer(override val mcNative: PlayerEntity) : NativeLivingEntity(mcNative), Player {
 

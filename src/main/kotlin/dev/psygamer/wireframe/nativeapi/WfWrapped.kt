@@ -1,6 +1,7 @@
 package dev.psygamer.wireframe.nativeapi
 
 import net.minecraft.util.math.RayTraceResult
+import org.joml.*
 import dev.psygamer.wireframe.api.block.*
 import dev.psygamer.wireframe.api.block.entity.BlockEntity
 import dev.psygamer.wireframe.api.entity.*
@@ -13,7 +14,6 @@ import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.nativeapi.world.*
 import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.BlockHitResult
-import dev.psygamer.wireframe.util.math.vector.*
 
 // Block
 internal val net.minecraft.block.Block.wfWrapped: Block

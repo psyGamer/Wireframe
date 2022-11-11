@@ -1,6 +1,6 @@
 package dev.psygamer.wireframe.util
 
-import dev.psygamer.wireframe.util.math.vector.Vector3i
+import org.joml.Vector3i
 
 class BlockPosition(x: Int, y: Int, z: Int) : Vector3i(x, y, z) {
 

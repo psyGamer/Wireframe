@@ -1,12 +1,12 @@
 package dev.psygamer.wireframe.nativeapi.entity
 
 import net.minecraft.util.DamageSource
+import org.joml.Vector3d
 import java.util.*
 import dev.psygamer.wireframe.api.entity.Entity
 import dev.psygamer.wireframe.api.world.World
 import dev.psygamer.wireframe.nativeapi.*
 import dev.psygamer.wireframe.util.BlockPosition
-import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 open class NativeEntity(protected open val mcNative: net.minecraft.entity.Entity) : Entity {
 

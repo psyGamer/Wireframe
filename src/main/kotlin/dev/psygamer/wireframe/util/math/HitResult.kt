@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.math
 
+import org.joml.Vector3d
 import kotlin.math.sqrt
-import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 abstract class HitResult protected constructor(val location: Vector3d) {
 	enum class Type {

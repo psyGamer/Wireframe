@@ -1,12 +1,12 @@
 package dev.psygamer.wireframe.nativeapi
 
+import org.joml.*
 import kotlin.math.roundToInt
 import dev.psygamer.wireframe.api.entity.*
 import dev.psygamer.wireframe.api.item.util.*
 import dev.psygamer.wireframe.nativeapi.entity.*
 import dev.psygamer.wireframe.util.*
 import dev.psygamer.wireframe.util.math.clamp
-import dev.psygamer.wireframe.util.math.vector.*
 
 // Item
 internal val ClickResult.mcNative: net.minecraft.util.ActionResultType
@@ -19,6 +19,7 @@ internal fun ClickResult.getNative(clientSide: Boolean): net.minecraft.util.Acti
 				net.minecraft.util.ActionResultType.SUCCESS
 			else
 				net.minecraft.util.ActionResultType.CONSUME
+
 		ClickResult.REJECTED -> net.minecraft.util.ActionResultType.FAIL
 		ClickResult.PASS -> net.minecraft.util.ActionResultType.PASS
 	}

@@ -3,12 +3,12 @@ package dev.psygamer.wireframe.api.network
 import io.netty.buffer.Unpooled
 import io.netty.handler.codec.DecoderException
 import net.minecraft.network.PacketBuffer
+import org.joml.*
 import java.time.Instant
 import java.util.*
 import dev.psygamer.wireframe.api.item.ItemStack
 import dev.psygamer.wireframe.nativeapi.*
 import dev.psygamer.wireframe.util.*
-import dev.psygamer.wireframe.util.math.vector.*
 
 class PacketBuffer(val mcNative: PacketBuffer = PacketBuffer(Unpooled.buffer())) {
 

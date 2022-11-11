@@ -1,8 +1,8 @@
 package dev.psygamer.wireframe.api.entity
 
+import org.joml.Vector3d
 import dev.psygamer.wireframe.api.item.ItemStack
 import dev.psygamer.wireframe.api.item.util.Hand
-import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 interface Player : LivingEntity {
 

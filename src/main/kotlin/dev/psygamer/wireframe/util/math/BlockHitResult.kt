@@ -1,7 +1,7 @@
 package dev.psygamer.wireframe.util.math
 
+import org.joml.Vector3d
 import dev.psygamer.wireframe.util.*
-import dev.psygamer.wireframe.util.math.vector.Vector3d
 
 class BlockHitResult(
 	location: Vector3d, val direction: Direction, val blockPosition: BlockPosition,
