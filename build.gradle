@@ -113,7 +113,8 @@ dependencies {
     // Is probably going to become part of Wireframe
     implementation("thedarkcolour:kotlinforforge:1.16.0")
 
-    implementation "org.joml:joml:1.10.5"
+    // TODO: Use stable version once 1.10.6 releases
+    implementation "org.joml:joml:1.10.6-SNAPSHOT"
 }
 
 jar {
