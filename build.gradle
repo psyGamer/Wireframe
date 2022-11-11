@@ -102,6 +102,9 @@ repositories {
         name = "FabricMC"
         url = "https://maven.fabricmc.net"
     }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 dependencies {
     minecraft "net.minecraftforge:forge:1.16.5-36.2.26"
@@ -109,6 +112,8 @@ dependencies {
 
     // Is probably going to become part of Wireframe
     implementation("thedarkcolour:kotlinforforge:1.16.0")
+
+    implementation "org.joml:joml:1.10.5"
 }
 
 jar {
