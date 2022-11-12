@@ -34,6 +34,11 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(8)
 }
 
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
 minecraft {
     mappings channel: "parchment", version: "2022.03.06-1.16.5"
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -114,7 +119,7 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:1.16.0")
 
     // TODO: Use stable version once 1.10.6 releases
-    implementation "org.joml:joml:1.10.6-SNAPSHOT"
+    shade "org.joml:joml:1.10.6-SNAPSHOT"
 }
 
 jar {
@@ -129,11 +134,35 @@ jar {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    configurations.shade.each { dep ->
+        // For some reason kotlin-stdlib is included in shade
+        // Even though kotlin-stdlib should be shipped with Wireframe in the future,
+        // for now it only inflates the JAR size which is why it's excluded
+        if (dep.getAbsolutePath().containsIgnoreCase("org.jetbrains")) {
+            return
+        }
+
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
 }
 task devJar(type: Jar) {
     from(sourceSets.main.java)
     from(sourceSets.main.kotlin)
     from(sourceSets.main.output)
+
+    configurations.shade.each { dep ->
+        // See above
+        if (dep.getAbsolutePath().containsIgnoreCase("org.jetbrains")) {
+            return
+        }
+
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
 
     duplicatesStrategy "exclude"
 
