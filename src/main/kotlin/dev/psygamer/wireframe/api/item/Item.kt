@@ -30,6 +30,7 @@ open class Item {
 
 		this.mcNative = NativeItem(this, itemAttributes)
 
+		// TODO: Only register automatically if the user requests it
 		ItemRegistry.register(this)
 	}
 
